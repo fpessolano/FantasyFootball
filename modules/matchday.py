@@ -1,10 +1,25 @@
 import random
 
 
-# TODO temporary match resolution method
+def finalScore():
+    maxShots = random.randint(0, 10)
+    homeAttacks = random.randint(0, maxShots)
+    awayAttacks = random.randint(0, maxShots)
+    homeGoals = 0
+    awayGoals = 0
+    for _ in range(homeAttacks):
+        if random.randint(0, 10) > random.randint(0, 10):
+            homeGoals += 1
+    for _ in range(awayAttacks):
+        if random.randint(0, 10) > random.randint(0, 10):
+            awayGoals += 1
+    return homeGoals, awayGoals
+
+
 def matchResult(home, away):
-    homeGoals = random.randint(0, 5)
-    awayGoals = random.randint(0, 5)
+    # homeGoals = random.randint(0, 5)
+    # awayGoals = random.randint(0, 5)
+    homeGoals, awayGoals = finalScore()
     home["GF"] += homeGoals
     home["GA"] += awayGoals
     home["GD"] += (homeGoals - awayGoals)
