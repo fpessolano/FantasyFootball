@@ -1,11 +1,11 @@
 # Fantasy Football  
-About:      a father and son project  
+About:      a simple football manager game in python3  
 Author:     F.Pessolano  
 Licence:    MIT  
 
 **Description**  
-This is a python3 project to try to teach python in a fun way with increasing difficulty.  
-It is a text-base football manager game and it is not meant to be a complex game.
+This is a python project used to try and teach python to ym son in a fun way and with increasing difficulty.  
+It is meant to be a simple text-base football manager game.  
 
 **Usage**  
 Just run "python3 main.py" after having installed the required modules (see requirements.txt)  
@@ -15,12 +15,11 @@ Just run "python3 main.py" after having installed the required modules (see requ
 
 **What's next**  
  - Complete scheduling for any number of teams.  
- - Save and load a game  
- - Support for randomised leagues from existing teams (provided as a file)  
- - A more realistic (probabilistic) algorithm using player statistics for determining the match result  
- - A trained neural network to calculate the match result  
- - More than one league  
  - Proper commenting  
+ - A more realistic (probabilistic) algorithm using player statistics for determining the match result  
+ - Support for randomised leagues from existing teams (provided as a file)  
+ - More than one league  
+ - A trained neural network to calculate the match result  
 
 
 

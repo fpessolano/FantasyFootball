@@ -7,9 +7,12 @@ def defineRoster(numberTeams):
     print("Please provide the teams names:")
     numTeam = 0
     while len(teamNames) < numberTeams:
-        numTeam += 1
         msg = "team " + str(numTeam) + " name? "
         name = input(msg)
+        if name == "":
+            print("!!! Error: empty names are not allowed !!!")
+            continue
+        numTeam += 1
         teamNames.append(name)
         if len(teamNames) == len(set(teamNames)) or len(teamNames) == 1:
             teams.append({
@@ -26,6 +29,7 @@ def defineRoster(numberTeams):
         else:
             print("Team already present")
             teamNames = list(set(teamNames))
+    random.shuffle(teams)
     return teams
 
 
@@ -36,16 +40,18 @@ def updateRoster(teams, relegationZone):
         print("The following teams have relegated:")
         for i in range(relegationZone):
             print("\tPlace", len(teams) - i, ":", teams[len(teams) - 1 - i]["NAME"])
-        for i in range(relegationZone):
-            accepted = False
-            while not accepted:
-                msg = "New team " + str(i + 1) + " name? "
-                newName = input(msg)
-                if newName not in currentTeams:
-                    teams[len(teams) - 1 - i]["NAME"] = newName
-                    accepted = True
-                else:
-                    print("Team already present or being relegated")
+        if input("Do you want to replace them (yes or anything else for no)? ").lower() == "y":
+            print("Name the team that have been promoted:")
+            for i in range(relegationZone):
+                accepted = False
+                while not accepted:
+                    msg = "\tNew team " + str(i + 1) + " name? "
+                    newName = input(msg)
+                    if newName not in currentTeams:
+                        teams[len(teams) - 1 - i]["NAME"] = newName
+                        accepted = True
+                    else:
+                        print("Team already present or being relegated")
     for team in teams:
         roster.append({
             "NAME": team["NAME"],
@@ -62,11 +68,11 @@ def updateRoster(teams, relegationZone):
     return roster
 
 
-def calenderCorrectness(cal):
+def calendarCorrectness(cal):
     if len(cal) == 0:
         return False
     ok = True
-    cal = defineCalender(16, 100000)
+    cal = definecalendar(16, 100000)
     for team in cal:
         if len(team) != len(set(team)):
             ok = False
@@ -79,7 +85,7 @@ def calenderCorrectness(cal):
     return ok
 
 # above 16 teams brute force repetition does not work, we need to use step backs also
-def defineCalender(numberTeams, maximumTries):
+def definecalendar(numberTeams, maximumTries):
     allSchedules = []
     while True:
         if maximumTries <= 0:
