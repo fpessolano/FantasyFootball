@@ -8,7 +8,7 @@ if __name__ == '__main__':
     relegationZone = 0
     calendar = []
     spare = False
-    startDay = 0
+    startWeek = 0
     teams = []
     print("Welcome to Football Manager Matteo 2021")
     print("Version 0.1\n")
@@ -21,14 +21,14 @@ if __name__ == '__main__':
         filename = input("Provide the save game name (enter for default)? ")
         if filename == "":
             filename = "default.save"
-        startDay, teams, calendar, relegationZone, spare = load(filename)
-        if startDay > (len(teams) - 1) * 2 or \
+        startWeek, teams, calendar, relegationZone, spare = loadGame(filename)
+        if startWeek > (len(teams) - 1) * 2 or \
                 len(teams) != len(calendar) and not spare or \
                 len(teams) != (len(calendar)-1) and spare or \
                 relegationZone > len(teams):
             print("Save file is corrupted. Exiting game")
             quit()
-        startDay += 1
+        startWeek += 1
         numberTeams = len(teams)
     else:
         valid = False
@@ -63,9 +63,9 @@ if __name__ == '__main__':
             command = input("(F)ull season or (C)ontinue to a single game? ").upper()
             if command != "F" and command != "C":
                 print("!!! ERROR: please write a valid command !!!")
-        for day in range(startDay, 2 * (numberTeams - 1)):
+        for week in range(startWeek, 2 * (numberTeams - 1)):
             print()
-            if not matchDay(day + 1, calendar, teams, spare):
+            if not matchDay(week + 1, calendar, teams, spare):
                 print("error")
                 quit()
             # standings = orderStanding(teams)
@@ -76,7 +76,7 @@ if __name__ == '__main__':
                         print("Invalid Command")
                     elif command == "Q":
                         if input("Do you want to save the game (yes or anything else for no)? ").lower() == "y":
-                            save(day, teams, calendar, relegationZone, spare)
+                            saveGame(week, teams, calendar, relegationZone, spare)
                         print("Thanks for playing")
                         quit()
                     elif command == "S":
@@ -86,12 +86,12 @@ if __name__ == '__main__':
                     command = input("(F)inish season, (C)ontinue, (S)tandings or (Q)uit? ").upper()
         print("\nThe season has finished. The final standings are:")
         orderStanding(teams)
-        startDay = 0
+        startWeek = 0
         teams = updateRoster(teams, relegationZone)
         again = input("\nPlay again with the same teams (y/n)? ").lower()
         if again != "y":
             if input("Do you want to save the game (yes or anything else for no)? ").lower() == "y":
-                save(-1, teams, calendar, relegationZone, spare)
+                saveGame(-1, teams, calendar, relegationZone, spare)
             print("\nThanks for playing!")
             quit()
         print()

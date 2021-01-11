@@ -1,10 +1,10 @@
 import tabulate
 import pickle
-import pprint
 
+# orderStanding prints the standings considering points, goald difference, goals made and goals conceived
 def orderStanding(teams):
     print()
-    teamsWeigth = {i: teams[i]["PT"] + teams[i]["GD"] / 100 + teams[i]["GF"] / 1000 + teams[i]["GA"] / 1000000 for i in
+    teamsWeigth = {i: teams[i]["PT"] + teams[i]["GD"] / 100 + teams[i]["GF"] / 1000 - teams[i]["GA"] / 1000000 for i in
                    range(len(teams))}
     teamsWeigth = sorted(teamsWeigth.items(), key=lambda x: x[1], reverse=True)
     orderedTeams = []
@@ -16,22 +16,23 @@ def orderStanding(teams):
     print()
     return orderedTeams
 
-def load(filename):
+# loadGame loads a saved game
+def loadGame(filename):
     try:
         infile = open(filename, 'rb')
         savedState = pickle.load(infile)
         infile.close()
-        return savedState["day"], savedState["teams"],savedState["calendar"],savedState["relegationZone"],savedState["spare"]
+        return savedState["week"], savedState["teams"],savedState["calendar"],savedState["relegationZone"],savedState["spare"]
     except:
         return None, None, None, None
 
-
-def save(day, teams, calendar, relegationZone, spare):
+# saveGame saves a game
+def saveGame(week, teams, calendar, relegationZone, spare):
     filename = input("Please give me the save name (enter for default)? ")
     if filename == "":
         filename = "default.save"
     saveData = {
-        "day": day,
+        "week": week,
         "teams" : teams,
         "calendar" : calendar,
         "relegationZone": relegationZone,

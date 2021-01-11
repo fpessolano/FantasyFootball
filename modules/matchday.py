@@ -1,6 +1,7 @@
 import random
 
-
+# finalScore determines the final match result
+# currently it is purely random based
 def finalScore():
     maxShots = random.randint(0, 10)
     homeAttacks = random.randint(0, maxShots)
@@ -15,7 +16,7 @@ def finalScore():
             awayGoals += 1
     return homeGoals, awayGoals
 
-
+# matchResult takes care of updating all stats based on the match result
 def matchResult(home, away):
     # homeGoals = random.randint(0, 5)
     # awayGoals = random.randint(0, 5)
@@ -44,8 +45,8 @@ def matchResult(home, away):
         # away team wins
     return [homeGoals, awayGoals, home, away]
 
-
-def matchDay(day, calendar, teams, spare):
+# matchDay sets the correct match or rest day for every team for a given season week
+def matchDay(week, calendar, teams, spare):
     if calendar == None or teams == None:
         print(1)
         return False
@@ -56,43 +57,43 @@ def matchDay(day, calendar, teams, spare):
         print(3)
         return False
     halfSeason = len(calendar[0])
-    if day > 2 * halfSeason:
+    if week > 2 * halfSeason:
         return False
     rested = -1
     if spare:
         rested = len(calendar) - 1
-    print("Week " + str(day) + " match results:")
+    print("Week " + str(week) + " match results:")
     playingTeams = []
     for team in range(len(calendar)):
         if team not in playingTeams:
-            if day <= halfSeason:
+            if week <= halfSeason:
                 if team == rested:
-                    print("\t" + teams[calendar[team][day - 1]]["NAME"] + " rests ")
-                elif calendar[team][day - 1] == rested:
+                    print("\t" + teams[calendar[team][week - 1]]["NAME"] + " rests ")
+                elif calendar[team][week - 1] == rested:
                     print("\t" + teams[team]["NAME"] + " rests ")
                 else:
                     homeTeam = team
-                    awayTeam = calendar[team][day - 1]
+                    awayTeam = calendar[team][week - 1]
                     print("\t" + teams[homeTeam]["NAME"] + " vs " + teams[awayTeam]["NAME"], end=" ")
                     result = matchResult(teams[homeTeam], teams[awayTeam])
                     print(result[0], "-", result[1])
                     teams[homeTeam] = result[2]
                     teams[awayTeam] = result[3]
-                playingTeams.append(calendar[team][day - 1])
+                playingTeams.append(calendar[team][week - 1])
             else:
                 if team == rested:
-                    print("\t" + teams[calendar[team][day - halfSeason - 1]]["NAME"] + " rests ")
-                elif calendar[team][day - halfSeason - 1] == rested:
+                    print("\t" + teams[calendar[team][week - halfSeason - 1]]["NAME"] + " rests ")
+                elif calendar[team][week - halfSeason - 1] == rested:
                     print("\t" + teams[team]["NAME"] + " rests ")
                 else:
-                    homeTeam = calendar[team][day - halfSeason - 1]
+                    homeTeam = calendar[team][week - halfSeason - 1]
                     awayTeam = team
                     print("\t" + teams[homeTeam]["NAME"] + " vs " + teams[awayTeam]["NAME"], end=" ")
                     result = matchResult(teams[homeTeam], teams[awayTeam])
                     print(result[0], "-", result[1])
                     teams[homeTeam] = result[2]
                     teams[awayTeam] = result[3]
-                playingTeams.append(calendar[team][day - halfSeason - 1])
+                playingTeams.append(calendar[team][week - halfSeason - 1])
             playingTeams.append(team)
     print()
     return True

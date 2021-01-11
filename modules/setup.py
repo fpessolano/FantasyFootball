@@ -1,13 +1,13 @@
 import random
 
-
+# defineRoster creates a team roster for a league composed by numberTeams teams
 def defineRoster(numberTeams):
     teams = []
     teamNames = []
     print("Please provide the teams names:")
     numTeam = 0
     while len(teamNames) < numberTeams:
-        msg = "team " + str(numTeam) + " name? "
+        msg = "team " + str(numTeam+1) + " name? "
         name = input(msg)
         if name == "":
             print("!!! Error: empty names are not allowed !!!")
@@ -32,7 +32,8 @@ def defineRoster(numberTeams):
     random.shuffle(teams)
     return teams
 
-
+# updateRosterupdate the roster of the league with relegation (if necessary)
+# it also cleans all statistics and reshuffle the teams
 def updateRoster(teams, relegationZone):
     roster = []
     if relegationZone > 0:
@@ -67,7 +68,7 @@ def updateRoster(teams, relegationZone):
     random.shuffle(roster)
     return roster
 
-
+# calendarCorrectness verifies that the calendar contains no errors
 def calendarCorrectness(cal):
     if len(cal) == 0:
         return False
@@ -84,6 +85,8 @@ def calendarCorrectness(cal):
             break
     return ok
 
+# calculate the initial reference calendar for the given number of teams
+# it tries to solve the problem for a limited number of tries (maximumTries) before giving up
 # above 16 teams brute force repetition does not work, we need to use step backs also
 def definecalendar(numberTeams, maximumTries):
     allSchedules = []
@@ -99,28 +102,27 @@ def definecalendar(numberTeams, maximumTries):
             random.shuffle(remainingOpponents)
             if currentTeam == 0:
                 allSchedules[currentTeam] = remainingOpponents
-                for day, opponent in enumerate(allSchedules[currentTeam]):
-                    allSchedules[opponent][day] = currentTeam
+                for week, opponent in enumerate(allSchedules[currentTeam]):
+                    allSchedules[opponent][week] = currentTeam
             else:
                 try:
                     lastTwoSwapped = False
                     while True:
-                        unassignedDay = allSchedules[currentTeam].index(-1)
+                        unassignedWeek = allSchedules[currentTeam].index(-1)
                         availableOpponents = remainingOpponents.copy()
                         if len(availableOpponents) > 2:
                             found = False
                             while len(availableOpponents) > 0:
                                 opponent = availableOpponents.pop(0)
-                                # print(opponent, availableOpponents)
                                 busy = False
                                 for team, schedule in enumerate(allSchedules):
                                     if team != currentTeam:
-                                        if schedule[unassignedDay] == opponent:
+                                        if schedule[unassignedWeek] == opponent:
                                             busy = True
                                             break
                                 if not busy:
-                                    allSchedules[currentTeam][unassignedDay] = opponent
-                                    allSchedules[opponent][unassignedDay] = currentTeam
+                                    allSchedules[currentTeam][unassignedWeek] = opponent
+                                    allSchedules[opponent][unassignedWeek] = currentTeam
                                     remainingOpponents.remove(opponent)
                                     found = True
                                     break
@@ -132,7 +134,7 @@ def definecalendar(numberTeams, maximumTries):
                             busy = False
                             for team, schedule in enumerate(allSchedules):
                                 if team != currentTeam:
-                                    if schedule[unassignedDay] == availableOpponents[0]:
+                                    if schedule[unassignedWeek] == availableOpponents[0]:
                                         busy = True
                                         break
                             if busy:
@@ -142,12 +144,13 @@ def definecalendar(numberTeams, maximumTries):
                                 if not lastTwoSwapped:
                                     lastTwoSwapped = True
                                 else:
+                                    # instead of breaking our and restart, we should just step back in week
                                     success = False
                                     break
                             else:
                                 opponent = availableOpponents.pop(0)
-                                allSchedules[currentTeam][unassignedDay] = opponent
-                                allSchedules[opponent][unassignedDay] = currentTeam
+                                allSchedules[currentTeam][unassignedWeek] = opponent
+                                allSchedules[opponent][unassignedWeek] = currentTeam
                                 remainingOpponents.remove(opponent)
                         else:
                             # last team we just check
@@ -155,14 +158,14 @@ def definecalendar(numberTeams, maximumTries):
                             busy = False
                             for team, schedule in enumerate(allSchedules):
                                 if team != currentTeam:
-                                    if schedule[unassignedDay] == opponent:
+                                    if schedule[unassignedWeek] == opponent:
                                         busy = True
                                         break
                             if busy:
                                 success = False
                             else:
-                                allSchedules[currentTeam][unassignedDay] = opponent
-                                allSchedules[opponent][unassignedDay] = currentTeam
+                                allSchedules[currentTeam][unassignedWeek] = opponent
+                                allSchedules[opponent][unassignedWeek] = currentTeam
                             break
                 except:
                     pass
@@ -172,5 +175,7 @@ def definecalendar(numberTeams, maximumTries):
         if success:
             break
         else:
+            # currently we use brute force to try another cycle, in reality we should step back
+            # at the very minimum we shouls try to keep the starting point as the problem is finite
             allSchedules = []
     return allSchedules
