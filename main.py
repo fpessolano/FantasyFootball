@@ -85,9 +85,9 @@ if __name__ == '__main__':
                     print()
                     command = input("(F)inish season, (C)ontinue, (S)tandings or (Q)uit? ").upper()
         print("\nThe season has finished. The final standings are:")
-        orderStanding(teams)
+        orderedTeams = orderStanding(teams)
         startWeek = 0
-        teams = updateRoster(teams, relegationZone)
+        teams = updateRoster(orderedTeams, relegationZone)
         again = input("\nPlay again with the same teams (y/n)? ").lower()
         if again != "y":
             if input("Do you want to save the game (y for yes or anything else for no)? ").lower() == "y":
