@@ -126,6 +126,7 @@ def definecalendar(numberTeams, maximumTries):
                                     found = True
                                     break
                             if not found:
+                                # instead of breaking our and restart, we should just step back in week
                                 success = False
                                 break
                         elif len(availableOpponents) == 2:
@@ -175,6 +176,6 @@ def definecalendar(numberTeams, maximumTries):
             break
         else:
             # currently we use brute force to try another cycle, in reality we should step back
-            # at the very minimum we shouls try to keep the starting point as the problem is finite
+            # at the very minimum we should try to keep the starting point as the problem is finite
             allSchedules = []
     return allSchedules
