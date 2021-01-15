@@ -73,7 +73,6 @@ def calendarCorrectness(cal):
     if len(cal) == 0:
         return False
     ok = True
-    cal = definecalendar(16, 100000)
     for team in cal:
         if len(team) != len(set(team)):
             ok = False

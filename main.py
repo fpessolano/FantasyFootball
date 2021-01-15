@@ -54,6 +54,8 @@ if __name__ == '__main__':
             if again != "y":
                 print("bye bye\n")
                 quit()
+            else:
+                calendar = definecalendar(numberTeams, 100000)
         teams = defineRoster(nt)
     while True:
         print("\nCurrent division")

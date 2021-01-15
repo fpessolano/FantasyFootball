@@ -4,7 +4,7 @@ Author:     F.Pessolano
 Licence:    MIT  
 
 **Description**  
-This is a python project used to try and teach python to my son in a fun way and with increasing difficulty.  
+This is a python project used to try to teach python to my son in a fun way and with increasing difficulty.  
 It is meant to be a simple text-base football manager game.  
 
 **Usage**  
