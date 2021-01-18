@@ -10,7 +10,7 @@ if __name__ == '__main__':
     spare = False
     startWeek = 0
     teams = []
-    print("Welcome to Football Manager Matteo 2021")
+    print("Welcome to FMM2021")
     print("Version 0.1\n")
     command = ""
     while command != "n" and command != "l":
@@ -32,7 +32,8 @@ if __name__ == '__main__':
         numberTeams = len(teams)
     else:
         valid = False
-        while not valid or numberTeams > 16:
+        # while not valid or numberTeams > 30:
+        while not valid:
             try:
                 numberTeams = input("How many teams? ")
                 numberTeams = int(numberTeams)
@@ -47,7 +48,7 @@ if __name__ == '__main__':
         if numberTeams % 2 == 1:
             numberTeams += 1
             spare = True
-        calendar = definecalendar(numberTeams, 100000)
+        calendar = definecalendarV2(numberTeams)
         while not calendarCorrectness(calendar):
             print("Failed to create a calendar, sorry")
             again = input("Should i try again? ").lower()
@@ -55,7 +56,7 @@ if __name__ == '__main__':
                 print("bye bye\n")
                 quit()
             else:
-                calendar = definecalendar(numberTeams, 100000)
+                calendar = definecalendarV2(numberTeams)
         teams = defineRoster(nt)
     while True:
         print("\nCurrent division")

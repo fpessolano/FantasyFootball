@@ -11,14 +11,13 @@ It is meant to be a simple text-base football manager game.
 Just run "python3 main.py" after having installed the required modules (see requirements.txt)  
 
 **Known BUGS**  
-1. The scheduling algorithm is partially implemented. As a result it takes too long for more than 16 teams and this has been set as maximum number of teams (temporarily).  
 
 **What's next**  
- - Complete scheduling for any number of teams.  
- - A more realistic (probabilistic) algorithm using player statistics for determining the match result  
+ - Complete schedule v3 with full ste-back support  
+-  Cache in a file schedule results to reuse  
+ - Elo-based result calculation  
  - Support for randomised leagues from existing teams (provided as a file)  
  - More than one league  
- - Elo based match and rating system   
 
 
 
