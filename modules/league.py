@@ -13,9 +13,13 @@ class League:
     Object that define a league including all teams, calendar, and all related methods
     """
 
-    def __init__(self, numberTeams, relegationZone, loadfile=""):
-        if loadfile == "" and ((numberTeams == 0 and relegationZone == 0) or
-                               (numberTeams < 2) or (numberTeams < relegationZone)):
+    def __init__(self, name='My League', relegationZone=0, teamNames=None):
+        self.leagueName = name
+        if not teamNames:
+            self.valid = False
+            return
+        numberTeams = len(teamNames)
+        if (numberTeams < 2) or (numberTeams < relegationZone):
             self.valid = False
             return
         # number of teams is forced to be even internally for the schedule calculation
@@ -28,43 +32,22 @@ class League:
         self.__teams = []
         self.__relegationZone = relegationZone
         self.__currentWeek = 0
-        if loadfile != "":
-            # load from a saved file
-            try:
-                infile = open(loadfile, 'rb')
-                savedState = pickle.load(infile)
-                infile.close()
-                self.__currentWeek, self.__teams, self.__schedule, self.__relegationZone, self.__fakeTeam = \
-                    savedState["week"], savedState["teams"], savedState["calendar"], savedState["relegationZone"], \
-                    savedState["spare"]
-                self.__numberTeams = len(self.__teams)
-                self.valid = True
-            except:
-                self.valid = False
-        else:
-            # generate a new league
-            self.__generateSchedule()
-            self.valid = self.__calendarValid(self.__schedule)
-            if self.valid:
-                # the league is populated with teams
-                teamNames = []
-                print("Please provide the teams names.")
-                nt = self.__numberTeams
-                if self.__fakeTeam != -1:
-                    nt -= 1
-                for i in range(nt):
-                    name = input(f'  team {i + 1} name? ').lower().title()
-                    while name == "" or name in teamNames:
-                        print("!!! Error: a name must be unique and not empty !!!")
-                        name = input(f'  team {i + 1} name? ').lower().title()
-                    teamNames.append(name)
-                    self.__teams.append(Team(name=name))
+        self.__generateSchedule()
+        self.valid = self.__calendarValid(self.__schedule)
+        if self.valid:
+            # the league is populated with teams
+            for name in teamNames:
+                self.__teams.append(Team(name=name))
 
-    @classmethod
-    def generateRandom(cls):
-        ct = random.randint(0, 14)
-        rz = random.randint(1, 4)
-        return cls(ct + rz, rz)
+    def restore(self, savedState):
+        self.__currentWeek = savedState["week"]
+        self.__teams = savedState["teams"]
+        self.__schedule = savedState["calendar"]
+        self.__relegationZone = savedState["relegationZone"]
+        self.__fakeTeam = savedState["spare"]
+        self.leagueName = savedState["name"]
+        self.__numberTeams = len(self.__teams)
+        self.valid = self.__calendarValid(self.__schedule)
 
     # calendarCorrectness verifies that the calendar contains no errors
     @classmethod
@@ -253,23 +236,16 @@ class League:
                 break
         self.__schedule = allSchedules.copy()
 
-    # saveGame saves a game
-    def saveGame(self):
-        if self.valid:
-            filename = input("Please give me the save name (enter for default)? ")
-            if filename == "":
-                filename = "default.save"
-            saveData = {
-                "week": self.__currentWeek,
-                "teams": self.__teams,
-                "calendar": self.__schedule,
-                "relegationZone": self.__relegationZone,
-                "spare": self.__fakeTeam
-            }
-            outfile = open(filename, 'wb')
-            pickle.dump(saveData, outfile)
-            outfile.close()
-        return self.valid
+    # returns the league data in a readable DICT
+    def data(self):
+        return {
+            "week": self.__currentWeek,
+            "teams": self.__teams,
+            "calendar": self.__schedule,
+            "relegationZone": self.__relegationZone,
+            "spare": self.__fakeTeam,
+            "name": self.leagueName
+        }
 
     # return a ordered lost of teams representing the standings
     def __orderStandings(self):
@@ -382,4 +358,3 @@ class League:
 
     def teams(self):
         return [x.name for x in self.__teams]
-
