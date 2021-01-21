@@ -17,12 +17,11 @@ Just run "python3 play.py" after having installed the required modules (see requ
  - Schedule creation can be extremely slow with more than 16 teams  
 
 **What's next**  
- - Make a play class  
  - Cache in a file schedule results to reuse  
+ - Support for randomised leagues from existing teams (provided as a file)  
  - Make a Kivy app  
  - Complete schedule v3 with full ste-back support  
  - Elo-based result calculation  
- - Support for randomised leagues from existing teams (provided as a file)  
  - More than one league  
  - Friendly and team stats  
  - Player with stats  
