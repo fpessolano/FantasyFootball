@@ -1,12 +1,11 @@
 import math
-import pickle
 import random
 
 import tabulate
 
-from modules.diskstore import SaveFile
-from modules.simulator import Simulator
-from modules.team import Team
+from support.diskstore import SaveFile
+from game.simulator import Simulator
+from game.team import Team
 
 
 class League:
@@ -68,7 +67,7 @@ class League:
         self.leagueName = savedState["name"]
         self.__numberTeams = len(self.__teams)
         self.valid = (self.__numberTeams > 2) and (self.__numberTeams > self.__relegationZone) and \
-                     (self.__fakeTeam < self.__numberTeams) and self.__calendarValid(self.__schedule)
+                     (self.__fakeTeam == self.__numberTeams) and self.__calendarValid(self.__schedule)
 
     @classmethod
     def __calendarValid(cls, cal):
@@ -324,7 +323,7 @@ class League:
         """
 
         if not self.valid:
-            return ""
+            return "", []
         teamsWeight = {}
         zeros = 0
         for i in range(len(self.__teams)):
@@ -374,37 +373,9 @@ class League:
             for team in range(len(self.__schedule)):
                 if team not in playingTeams:
                     if self.__currentWeek < halfSeason:
-                        msg1 = ""
-                        if team == self.__fakeTeam:
-                            msg0 = self.__teams[self.__schedule[team][self.__currentWeek]].name + " rests"
-                        elif self.__schedule[team][self.__currentWeek] == self.__fakeTeam:
-                            msg0 = self.__teams[team].name + " rests"
-                        else:
-                            homeTeam = team
-                            awayTeam = self.__schedule[team][self.__currentWeek]
-                            msg0 = self.__teams[homeTeam].name + " vs " + self.__teams[awayTeam].name
-                            result = Simulator.playMatch(self.__teams[homeTeam], self.__teams[awayTeam])
-                            msg1 = str(result[0]) + " - " + str(result[1])
-                            self.__teams[homeTeam] = result[2]
-                            self.__teams[awayTeam] = result[3]
-                        playingTeams.append(self.__schedule[team][self.__currentWeek])
-                        matchResults.append([msg0, msg1])
+                        self._singleMatch(0, matchResults, playingTeams, team)
                     else:
-                        msg1 = ""
-                        if team == self.__fakeTeam:
-                            msg0 = self.__teams[self.__schedule[team][self.__currentWeek - halfSeason]].name + " rests "
-                        elif self.__schedule[team][self.__currentWeek - halfSeason] == self.__fakeTeam:
-                            msg0 = self.__teams[team].name + " rests"
-                        else:
-                            homeTeam = self.__schedule[team][self.__currentWeek - halfSeason]
-                            awayTeam = team
-                            msg0 = self.__teams[homeTeam].name + " vs " + self.__teams[awayTeam].name
-                            result = Simulator.playMatch(self.__teams[homeTeam], self.__teams[awayTeam])
-                            msg1 = str(result[0]) + " - " + str(result[1])
-                            self.__teams[homeTeam] = result[2]
-                            self.__teams[awayTeam] = result[3]
-                        playingTeams.append(self.__schedule[team][self.__currentWeek - halfSeason])
-                        matchResults.append([msg0, msg1])
+                        self._singleMatch(halfSeason, matchResults, playingTeams, team)
                     playingTeams.append(team)
             self.__currentWeek += 1
             header = ["WEEK " + str(self.__currentWeek), "RESULTS"]
@@ -412,6 +383,27 @@ class League:
             return tabulate.tabulate(rows, header)
         else:
             return ""
+
+    def _singleMatch(self, offset, matchResults, playingTeams, team):
+        msg1 = ""
+        if team == self.__fakeTeam:
+            msg0 = self.__teams[self.__schedule[team][self.__currentWeek - offset]].name + " rests "
+        elif self.__schedule[team][self.__currentWeek - offset] == self.__fakeTeam:
+            msg0 = self.__teams[team].name + " rests"
+        else:
+            if offset ==0:
+                homeTeam = team
+                awayTeam = self.__schedule[team][self.__currentWeek]
+            else:
+                homeTeam = self.__schedule[team][self.__currentWeek - offset]
+                awayTeam = team
+            msg0 = self.__teams[homeTeam].name + " vs " + self.__teams[awayTeam].name
+            result = Simulator.playMatch(self.__teams[homeTeam], self.__teams[awayTeam])
+            msg1 = str(result[0]) + " - " + str(result[1])
+            self.__teams[homeTeam] = result[2]
+            self.__teams[awayTeam] = result[3]
+        playingTeams.append(self.__schedule[team][self.__currentWeek - offset])
+        matchResults.append([msg0, msg1])
 
     def prepareNewSeason(self):
         """

@@ -1,6 +1,6 @@
 import random
 
-from modules.team import Team
+from game.team import Team
 
 
 class Simulator:

@@ -1,4 +1,4 @@
-from modules.ffm import FFM
+from game.ffm import FFM
 
 def playGame():
     print("Welcome to FMM2021")
@@ -13,8 +13,11 @@ def playGame():
             if command != "n" and command != "l":
                 print("!!! ERROR: please write a valid command !!!")
         if command == "l":
-            game.load()
-            break
+            if game.load():
+                break
+            else:
+                print('Failed to load the saved game')
+                command = ""
         else:
             while not game.new():
                 print('Failed to create league.', end=' ')
@@ -28,10 +31,8 @@ def playGame():
         game.playRound()
 
         if input("\nPlay again with the same teams (y/n)? ").lower() != "y":
-            game.end()
+            game.saveEnd()
             break
-
-    print("\nThanks for playing!")
 
 
 if __name__ == '__main__':

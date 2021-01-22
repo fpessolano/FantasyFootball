@@ -1,5 +1,5 @@
-from modules.league import League
-from modules.diskstore import SaveFile
+from game.league import League
+from support.diskstore import SaveFile
 
 
 class FFM:
@@ -22,6 +22,7 @@ class FFM:
         """
 
         leagueName = input('What is the name of new competition? ')
+        leagueName.replace('_', " ").strip()
         validInput = False
         numberTeams = 0
         relegationZone = 0
@@ -44,7 +45,7 @@ class FFM:
         teamNames = []
         print("Please provide the teams names.")
         for i in range(numberTeams):
-            name = input(f'  team {i + 1} name? ').lower().title()
+            name = input(f'  team {i + 1} name? ').lower().title().strip()
             while name == "" or name in teamNames:
                 print("!!! Error: a name must be unique and not empty !!!")
                 name = input(f'  team {i + 1} name? ').lower().title()
@@ -63,12 +64,18 @@ class FFM:
         saveGameName = input("Provide the save game name (enter for \'Autosave\')? ")
         if saveGameName == "":
             saveGameName = 'Autosave'
-        self.league.restore(self.saveFile.readState(saveGameName))
+        savedGame = self.saveFile.readState(saveGameName)
+        if not savedGame:
+            return False
+        self.league.restore(savedGame)
+        return True
 
     def playRound(self):
         """
         plays a game round or complete season
         """
+
+        print(self.league.leagueName)
 
         print(f'\nWelcome to league {self.league.leagueName}\n\n{self.league.orderStanding()}\n')
 
@@ -98,12 +105,7 @@ class FFM:
                 seasonCompleted = True
                 print()
             else:
-                if input("Do you want to save the game (y for yes or anything else for no)? ").lower() == "y":
-                    # league.saveGame()
-                    saveGameName = input("Please give me the save name (enter for default)? ")
-                    if saveGameName == "":
-                        saveGameName = 'Autosave'
-                    self.saveFile.writeState(saveGameName, self.league.data())
+                self.saveEnd()
                 quit()
         print(f"\nThe season has finished. The final standings are:\n\n{self.league.orderStanding()}\n")
         if self.league.relegationZone() > 0:
@@ -124,13 +126,16 @@ class FFM:
                 self.league.promoted(promotedTeams)
         self.league.prepareNewSeason()
 
-    def end(self):
+    def saveEnd(self):
         """
         ends the game
         """
 
         if input("Do you want to save the game (y for yes or anything else for no)? ").lower() == "y":
-            saveGameName = input("Please give me the save name (enter for \'Autosave\')? ")
+            saveGameName = input(f'Please give me the save name (enter for \'Autosave\')? ')
             if saveGameName == "":
-                saveGameName = f"Autosave {self.league.leagueName}"
+                saveGameName = f"Autosave"
+            else:
+                saveGameName.strip().replace(" ", "_")
             self.saveFile.writeState(saveGameName, self.league.data())
+        print("\nThanks for playing!")
