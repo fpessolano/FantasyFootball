@@ -4,6 +4,7 @@ import random
 
 import tabulate
 
+from modules.diskstore import SaveFile
 from modules.simulator import Simulator
 from modules.team import Team
 
@@ -14,7 +15,15 @@ class League:
     """
 
     def __init__(self, name='My League', relegationZone=0, teamNames=None):
+        """
+        initialises a new instance
+        :param name: league name
+        :param relegationZone: how many teams are relegated
+        :param teamNames: the league team names
+        """
+
         self.leagueName = name
+        self.__stateFile = SaveFile('data.dat')
         if not teamNames:
             self.valid = False
             return
@@ -32,7 +41,14 @@ class League:
         self.__teams = []
         self.__relegationZone = relegationZone
         self.__currentWeek = 0
-        self.__generateSchedule()
+        minimumSet = 5
+        if self.__numberTeams > 16:
+            minimumSet = 1
+        elif self.__numberTeams >10:
+            minimumSet = 3
+        if not self.__readSchedule(minimumSet):
+            self.__generateSchedule()
+            self.__saveSchedule()
         self.valid = self.__calendarValid(self.__schedule)
         if self.valid:
             # the league is populated with teams
@@ -40,6 +56,10 @@ class League:
                 self.__teams.append(Team(name=name))
 
     def restore(self, savedState):
+        """
+        restore the league from the provided data
+        :param savedState: dict conmtaning all necessary league data
+        """
         self.__currentWeek = savedState["week"]
         self.__teams = savedState["teams"]
         self.__schedule = savedState["calendar"]
@@ -47,11 +67,16 @@ class League:
         self.__fakeTeam = savedState["spare"]
         self.leagueName = savedState["name"]
         self.__numberTeams = len(self.__teams)
-        self.valid = self.__calendarValid(self.__schedule)
+        self.valid = (self.__numberTeams > 2) and (self.__numberTeams > self.__relegationZone) and \
+                     (self.__fakeTeam < self.__numberTeams) and self.__calendarValid(self.__schedule)
 
-    # calendarCorrectness verifies that the calendar contains no errors
     @classmethod
     def __calendarValid(cls, cal):
+        """
+        calendarCorrectness verifies that the calendar contains no errors
+        :param cal: schedule
+        :return: true if schedule is valid
+        """
         if len(cal) == 0:
             return False
         ok = True
@@ -66,11 +91,16 @@ class League:
                 break
         return ok
 
-    # calculate the initial reference calendar for a given even number of teams
-    # it tries to solve the completed problem for a limited number of tries (maximumTries) before giving up
-    # maximumTries set to -1 uses a predefined number of maximum cycles
-    # the current version does not step back at team level
     def __generateSchedule(self, maximumTries=-1):
+        """
+        calculate the initial reference calendar for a given even number of teams
+        it tries to solve the completed problem for a limited number of tries (maximumTries) before giving up
+        maximumTries set to -1 uses a predefined number of maximum cycles
+        the current version does not step back at team level
+        :param maximumTries: maximum numbers of tries
+        :return: a valid schedule or []
+        """
+
         if maximumTries == -1:
             maximumTries = 200 * (round(math.log(self.__numberTeams, 2)) + 1)
         while True:
@@ -236,8 +266,48 @@ class League:
                 break
         self.__schedule = allSchedules.copy()
 
-    # returns the league data in a readable DICT
+    def __readSchedule(self, minimumSet=5):
+        """
+        Read schedule from ones previously stored
+        :param minimumSet: if not 0 it will expect a 'randomize' number of schedules to pick one at random or fails
+        :return: a valid true if a valid schedule has been found and set
+        """
+
+        savedSchedules = self.__stateFile.readState(str(self.__numberTeams))
+        if not savedSchedules:
+            return False
+        elif len(savedSchedules) < minimumSet:
+            return False
+        else:
+            random.shuffle(savedSchedules)
+            self.__schedule = savedSchedules[0]
+            return True
+
+    def __saveSchedule(self):
+        """
+        Save a new schedule to file
+        """
+
+        savedSchedules = self.__stateFile.readState(str(self.__numberTeams))
+        if not savedSchedules:
+            savedSchedules = []
+        skip = False
+        rows, cols = len(self.__schedule), len(self.__schedule[0])
+        for el in savedSchedules:
+            skip = all([self.__schedule[i][j] == el[i][j] for j in range(cols) for i in range(rows)])
+            if skip:
+                print('skip')
+                break
+        if not skip:
+            savedSchedules.append(self.__schedule)
+        self.__stateFile.writeState(str(self.__numberTeams), savedSchedules)
+
     def data(self):
+        """
+        returns the league data in a readable DICT
+        :return: a dict of all league data
+        """
+
         return {
             "week": self.__currentWeek,
             "teams": self.__teams,
@@ -247,8 +317,12 @@ class League:
             "name": self.leagueName
         }
 
-    # return a ordered lost of teams representing the standings
     def __orderStandings(self):
+        """
+        Generate the standings based on the points and goal stats
+        :return: a ordered list
+        """
+
         if not self.valid:
             return ""
         teamsWeight = {}
@@ -274,15 +348,23 @@ class League:
             orderedTeamsIds.append(weight[0])
         return orderedTeams, orderedTeamsIds
 
-    # return a string with the current tabulated standings
     def orderStanding(self):
+        """
+        convert an ordered list of teams representing the standings into a tabulated string
+        :return:  a string with the tabulated standings
+        """
+
         orderedTeams, _ = self.__orderStandings()
         header = orderedTeams[0].keys()
         rows = [x.values() for x in orderedTeams]
         return tabulate.tabulate(rows, header)
 
-    # execute a match day returning the results in a string
     def matchDay(self):
+        """
+        Execute a match day with all matches and rested teams
+        :return: a tsbulated string with all match results
+        """
+
         if self.valid:
             halfSeason = len(self.__schedule[0])
             if self.__currentWeek >= 2 * halfSeason:
@@ -331,16 +413,23 @@ class League:
         else:
             return ""
 
-    # adjust team data for the next season
     def prepareNewSeason(self):
+        """
+        adjusts team data for the next season
+        """
+
         for i in range(len(self.__teams)):
             self.__teams[i].reset()
         random.shuffle(self.__teams)
         self.__currentWeek = 0
 
-    # replace relegated teams with promoted teams. If not enough promoted teams are given
-    #  it leave the relegated team in
     def promoted(self, teams):
+        """
+        replaces relegated teams with promoted teams. If not enough promoted teams are given
+        it leave the relegated team in
+        :param teams: the promoted teams
+        """
+
         _, orderedTeamsIds = self.__orderStandings()
         for i in range(self.__relegationZone):
             teamNumber = orderedTeamsIds[-1 - i]

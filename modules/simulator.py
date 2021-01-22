@@ -4,11 +4,22 @@ from modules.team import Team
 
 
 class Simulator:
+    """
+    This class takes care of simulating a match
+    """
+
     def __init__(self):
         pass
 
     @classmethod
     def playMatch(cls, home: Team, away: Team):
+        """
+        simulates a match
+        :param home: home team instance
+        :param away: away team instance
+        :return: a list with the updated home and away team instances and the home and away goals
+        """
+
         maxShots = random.randint(0, 10)
         homeAttacks = random.randint(0, maxShots)
         awayAttacks = random.randint(0, maxShots)

@@ -1,12 +1,17 @@
 from modules.league import League
-from modules.savefile import SaveFile
+from modules.diskstore import SaveFile
 
 
 class FFM:
+    """
+    Teh Fantasy Football Manager game class
+    """
+
     def __init__(self):
         """
         setting up the basic game variables
         """
+
         self.saveFile = SaveFile("saves.dat")
         self.league = League()
 
@@ -15,6 +20,7 @@ class FFM:
         creates a new game
         :return: False in case it fails
         """
+
         leagueName = input('What is the name of new competition? ')
         validInput = False
         numberTeams = 0
@@ -51,6 +57,7 @@ class FFM:
         """
         load a saved game
         """
+
         saves = ', '.join(self.saveFile.stateList())
         print(f'Available saved games: {saves}')
         saveGameName = input("Provide the save game name (enter for \'Autosave\')? ")
@@ -62,6 +69,7 @@ class FFM:
         """
         plays a game round or complete season
         """
+
         print(f'\nWelcome to league {self.league.leagueName}\n\n{self.league.orderStanding()}\n')
 
         seasonCompleted = False
@@ -120,6 +128,7 @@ class FFM:
         """
         ends the game
         """
+
         if input("Do you want to save the game (y for yes or anything else for no)? ").lower() == "y":
             saveGameName = input("Please give me the save name (enter for \'Autosave\')? ")
             if saveGameName == "":
