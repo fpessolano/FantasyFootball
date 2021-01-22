@@ -1,5 +1,6 @@
 from game.ffm import FFM
 
+
 def playGame():
     print("Welcome to FMM2021")
     print("Version 0.2.0\n")

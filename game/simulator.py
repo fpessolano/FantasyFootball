@@ -34,3 +34,4 @@ class Simulator:
         home.addMatch(homeGoals, awayGoals)
         away.addMatch(awayGoals, homeGoals)
         return [homeGoals, awayGoals, home, away]
+

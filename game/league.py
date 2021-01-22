@@ -22,6 +22,7 @@ class League:
         """
 
         self.leagueName = name
+        self.__schedule = []
         self.__stateFile = SaveFile('data.dat')
         if not teamNames:
             self.valid = False
@@ -43,7 +44,7 @@ class League:
         minimumSet = 5
         if self.__numberTeams > 16:
             minimumSet = 1
-        elif self.__numberTeams >10:
+        elif self.__numberTeams > 10:
             minimumSet = 3
         if not self.__readSchedule(minimumSet):
             self.__generateSchedule()
@@ -57,7 +58,7 @@ class League:
     def restore(self, savedState):
         """
         restore the league from the provided data
-        :param savedState: dict conmtaning all necessary league data
+        :param savedState: dict containing all necessary league data
         """
         self.__currentWeek = savedState["week"]
         self.__teams = savedState["teams"]
@@ -84,7 +85,7 @@ class League:
                 ok = False
                 break
         ts = [[cal[j][i] for j in range(len(cal))] for i in range(len(cal[0]))]
-        for team in cal:
+        for team in ts:
             if len(team) != len(set(team)):
                 ok = False
                 break
@@ -138,16 +139,10 @@ class League:
                                 failed = True
                                 break
                             else:
-                                opponent = allSchedules[currentTeam][lastAssignedWeek]
-                                allSchedules[opponent][lastAssignedWeek] = -1
-                                remainingOpponents.insert(len(remainingOpponents), opponent)
-                                cycles[unassignedWeek] = 0
-                                unassignedWeek = lastAssignedWeek
-                                lastAssignedWeek = -1
-                                for i in range(unassignedWeek - 1, -1, -1):
-                                    if allSchedules[currentTeam][i] > currentTeam:
-                                        lastAssignedWeek = i
-                                        break
+                                lastAssignedWeek, unassignedWeek = \
+                                    self.___updateWeekCursor(allSchedules, currentTeam,
+                                                             cycles, lastAssignedWeek, remainingOpponents,
+                                                             unassignedWeek)
                                 continue
 
                         cycles[unassignedWeek] += 1
@@ -187,17 +182,12 @@ class League:
                                     failed = True
                                     break
                                 else:
-                                    # step back and move previously assigned opponet to the tail of the queue
-                                    opponent = allSchedules[currentTeam][lastAssignedWeek]
-                                    allSchedules[opponent][lastAssignedWeek] = -1
-                                    remainingOpponents.insert(len(remainingOpponents), opponent)
-                                    cycles[unassignedWeek] = 0
-                                    unassignedWeek = lastAssignedWeek
-                                    lastAssignedWeek = -1
-                                    for i in range(unassignedWeek - 1, -1, -1):
-                                        if allSchedules[currentTeam][i] > currentTeam:
-                                            lastAssignedWeek = i
-                                            break
+                                    # step back and move previously assigned opponent to the tail of the queue
+                                    lastAssignedWeek, unassignedWeek = self.___updateWeekCursor(allSchedules,
+                                                                                                currentTeam, cycles,
+                                                                                                lastAssignedWeek,
+                                                                                                remainingOpponents,
+                                                                                                unassignedWeek)
                         elif len(availableOpponents) == 2:
                             # last two we try and swap once
                             opponentBusy = False
@@ -211,17 +201,12 @@ class League:
                                     # the current row is given up with its current predecessors
                                     failed = True
                                     break
-                                # step back and move previously assigned opponet to the tail of the queue
-                                opponent = allSchedules[currentTeam][lastAssignedWeek]
-                                allSchedules[opponent][lastAssignedWeek] = -1
-                                remainingOpponents.insert(len(remainingOpponents), opponent)
-                                cycles[unassignedWeek] = 0
-                                unassignedWeek = lastAssignedWeek
-                                lastAssignedWeek = -1
-                                for i in range(unassignedWeek - 1, -1, -1):
-                                    if allSchedules[currentTeam][i] > currentTeam:
-                                        lastAssignedWeek = i
-                                        break
+                                # step back and move previously assigned opponent to the tail of the queue
+                                lastAssignedWeek, unassignedWeek = self.___updateWeekCursor(allSchedules, currentTeam,
+                                                                                            cycles,
+                                                                                            lastAssignedWeek,
+                                                                                            remainingOpponents,
+                                                                                            unassignedWeek)
                             else:
                                 opponent = availableOpponents.pop(0)
                                 allSchedules[currentTeam][unassignedWeek] = opponent
@@ -243,7 +228,7 @@ class League:
                                     # the current row is given up with its current predecessors
                                     failed = True
                                     break
-                                # step back and move previously assigned opponet to the tail of the queue
+                                # step back and move previously assigned opponent to the tail of the queue
                                 opponent = allSchedules[currentTeam][lastAssignedWeek]
                                 allSchedules[opponent][lastAssignedWeek] = -1
                                 remainingOpponents.insert(len(remainingOpponents), opponent)
@@ -264,6 +249,30 @@ class League:
             if not failed:
                 break
         self.__schedule = allSchedules.copy()
+
+    @staticmethod
+    def ___updateWeekCursor(allSchedules, currentTeam, cycles, lastAssignedWeek, remainingOpponents, unassignedWeek):
+        """
+        helper method for __generateSchedule
+        :param allSchedules: current schedule (not fully assigned)
+        :param currentTeam: team cursor
+        :param cycles: cycles executed for the c=team cursor
+        :param lastAssignedWeek: last successful week cursor
+        :param remainingOpponents: unassigned opponents
+        :param unassignedWeek: current week cursor
+        :return: new weeks cursors
+        """
+        opponent = allSchedules[currentTeam][lastAssignedWeek]
+        allSchedules[opponent][lastAssignedWeek] = -1
+        remainingOpponents.insert(len(remainingOpponents), opponent)
+        cycles[unassignedWeek] = 0
+        unassignedWeek = lastAssignedWeek
+        lastAssignedWeek = -1
+        for i in range(unassignedWeek - 1, -1, -1):
+            if allSchedules[currentTeam][i] > currentTeam:
+                lastAssignedWeek = i
+                break
+        return lastAssignedWeek, unassignedWeek
 
     def __readSchedule(self, minimumSet=5):
         """
@@ -361,7 +370,7 @@ class League:
     def matchDay(self):
         """
         Execute a match day with all matches and rested teams
-        :return: a tsbulated string with all match results
+        :return: a tabulated string with all match results
         """
 
         if self.valid:
@@ -391,7 +400,7 @@ class League:
         elif self.__schedule[team][self.__currentWeek - offset] == self.__fakeTeam:
             msg0 = self.__teams[team].name + " rests"
         else:
-            if offset ==0:
+            if offset == 0:
                 homeTeam = team
                 awayTeam = self.__schedule[team][self.__currentWeek]
             else:

@@ -1,5 +1,6 @@
 from game.league import League
 from support.diskstore import SaveFile
+from support.teamUserInput import fullyCustomLeague
 
 
 class FFM:
@@ -11,7 +12,6 @@ class FFM:
         """
         setting up the basic game variables
         """
-
         self.saveFile = SaveFile("saves.dat")
         self.league = League()
 
@@ -20,36 +20,10 @@ class FFM:
         creates a new game
         :return: False in case it fails
         """
-
         leagueName = input('What is the name of new competition? ')
         leagueName.replace('_', " ").strip()
-        validInput = False
-        numberTeams = 0
-        relegationZone = 0
 
-        while not validInput:
-            try:
-                numberTeams = input("How many teams? ")
-                numberTeams = int(numberTeams)
-                relegationZone = input("How many teams relegate? ")
-                relegationZone = int(relegationZone)
-                if numberTeams > 0 and numberTeams > relegationZone:
-                    validInput = True
-                else:
-                    print(f'!!! ERROR: {numberTeams} and {relegationZone} are not valid values\n')
-            except:
-                print("!!! ERROR: please write valid numbers !!!")
-
-        print()
-        # user inout all team names
-        teamNames = []
-        print("Please provide the teams names.")
-        for i in range(numberTeams):
-            name = input(f'  team {i + 1} name? ').lower().title().strip()
-            while name == "" or name in teamNames:
-                print("!!! Error: a name must be unique and not empty !!!")
-                name = input(f'  team {i + 1} name? ').lower().title()
-            teamNames.append(name)
+        relegationZone, teamNames = fullyCustomLeague()
 
         self.league = League(name=leagueName, teamNames=teamNames, relegationZone=relegationZone)
         return self.league.valid
@@ -58,7 +32,6 @@ class FFM:
         """
         load a saved game
         """
-
         saves = ', '.join(self.saveFile.stateList())
         print(f'Available saved games: {saves}')
         saveGameName = input("Provide the save game name (enter for \'Autosave\')? ")
@@ -74,9 +47,6 @@ class FFM:
         """
         plays a game round or complete season
         """
-
-        print(self.league.leagueName)
-
         print(f'\nWelcome to league {self.league.leagueName}\n\n{self.league.orderStanding()}\n')
 
         seasonCompleted = False
@@ -110,7 +80,8 @@ class FFM:
         print(f"\nThe season has finished. The final standings are:\n\n{self.league.orderStanding()}\n")
         if self.league.relegationZone() > 0:
             if input(
-                    f'The last {self.league.relegationZone()} teams have relegated. Do you want to replace them (y for yes)? ').lower() == 'y':
+                    f'The last {self.league.relegationZone()}'
+                    f' teams have relegated. Do you want to replace them (y for yes)? ').lower() == 'y':
                 currentTeams = self.league.teams()
                 promotedTeams = []
                 numberTeams = self.league.teamNumber()
@@ -130,7 +101,6 @@ class FFM:
         """
         ends the game
         """
-
         if input("Do you want to save the game (y for yes or anything else for no)? ").lower() == "y":
             saveGameName = input(f'Please give me the save name (enter for \'Autosave\')? ')
             if saveGameName == "":
