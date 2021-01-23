@@ -1,4 +1,3 @@
-import math
 import random
 
 import tabulate
@@ -6,6 +5,7 @@ import tabulate
 from support.diskstore import SaveFile
 from game.simulator import Simulator
 from game.team import Team
+import support.scheduling as sc
 
 
 class League:
@@ -47,9 +47,10 @@ class League:
         elif self.__numberTeams > 10:
             minimumSet = 3
         if not self.__readSchedule(minimumSet):
-            self.__generateSchedule()
+            # self.__generateScheduleStepwise()
+            self.__schedule, _ = sc.bergerTableSchedule(self.__numberTeams)
             self.__saveSchedule()
-        self.valid = self.__calendarValid(self.__schedule)
+        self.valid = sc.calendarValid(self.__schedule)
         if self.valid:
             # the league is populated with teams
             for name in teamNames:
@@ -68,211 +69,7 @@ class League:
         self.leagueName = savedState["name"]
         self.__numberTeams = len(self.__teams)
         self.valid = (self.__numberTeams > 2) and (self.__numberTeams > self.__relegationZone) and \
-                     (self.__fakeTeam == self.__numberTeams) and self.__calendarValid(self.__schedule)
-
-    @classmethod
-    def __calendarValid(cls, cal):
-        """
-        calendarCorrectness verifies that the calendar contains no errors
-        :param cal: schedule
-        :return: true if schedule is valid
-        """
-        if len(cal) == 0:
-            return False
-        ok = True
-        for team in cal:
-            if len(team) != len(set(team)):
-                ok = False
-                break
-        ts = [[cal[j][i] for j in range(len(cal))] for i in range(len(cal[0]))]
-        for team in ts:
-            if len(team) != len(set(team)):
-                ok = False
-                break
-        return ok
-
-    def __generateSchedule(self, maximumTries=-1):
-        """
-        calculate the initial reference calendar for a given even number of teams
-        it tries to solve the completed problem for a limited number of tries (maximumTries) before giving up
-        maximumTries set to -1 uses a predefined number of maximum cycles
-        the current version does not step back at team level
-        :param maximumTries: maximum numbers of tries
-        :return: a valid schedule or []
-        """
-
-        if maximumTries == -1:
-            maximumTries = 200 * (round(math.log(self.__numberTeams, 2)) + 1)
-        while True:
-            # check the number of tries
-            if maximumTries < 0:
-                print('ops')
-                return []
-            maximumTries -= 1
-            failed = False
-            allSchedules = [[-1 for _ in range(self.__numberTeams - 1)] for _ in range(self.__numberTeams)]
-            currentTeam = 0
-            while currentTeam < self.__numberTeams:
-                remainingOpponents = [x for x in range(self.__numberTeams) if x > currentTeam]
-                random.shuffle(remainingOpponents)
-                if currentTeam == 0:
-                    allSchedules[currentTeam] = remainingOpponents
-                    for week, opponent in enumerate(allSchedules[currentTeam]):
-                        allSchedules[opponent][week] = currentTeam
-                else:
-                    lastAssignedWeek = -1
-                    unassignedWeek = 0
-                    # cycles is used to check on the cycle permutations
-                    cycles = [0 for _ in range(self.__numberTeams - 1)]
-
-                    while unassignedWeek + 1 < self.__numberTeams:
-                        # we skip assignments that are from previous rows
-                        if allSchedules[currentTeam][unassignedWeek] < currentTeam and \
-                                allSchedules[currentTeam][unassignedWeek] != -1:
-                            unassignedWeek += 1
-                            continue
-
-                        # checks if the number of iterations has covered all possible permutations
-                        if cycles[unassignedWeek] > self.__numberTeams - 1 - unassignedWeek:
-                            if lastAssignedWeek == -1:
-                                # the current row is given up with its current predecessors
-                                failed = True
-                                break
-                            else:
-                                lastAssignedWeek, unassignedWeek = \
-                                    self.___updateWeekCursor(allSchedules, currentTeam,
-                                                             cycles, lastAssignedWeek, remainingOpponents,
-                                                             unassignedWeek)
-                                continue
-
-                        cycles[unassignedWeek] += 1
-
-                        # this failsafe is redundant
-                        for c in cycles:
-                            if c > self.__numberTeams:
-                                return []
-
-                        availableOpponents = remainingOpponents.copy()
-
-                        # this failsafe is redundant
-                        if len(remainingOpponents) != len(list(set(remainingOpponents))):
-                            return []
-
-                        if len(availableOpponents) > 2:
-                            opponentFound = False
-                            while len(availableOpponents) > 0:
-                                opponent = availableOpponents.pop(0)
-                                opponentBusy = False
-                                for team, schedule in enumerate(allSchedules):
-                                    if team != currentTeam:
-                                        if schedule[unassignedWeek] == opponent:
-                                            opponentBusy = True
-                                            break
-                                if not opponentBusy:
-                                    allSchedules[currentTeam][unassignedWeek] = opponent
-                                    allSchedules[opponent][unassignedWeek] = currentTeam
-                                    remainingOpponents.remove(opponent)
-                                    lastAssignedWeek = unassignedWeek
-                                    unassignedWeek += 1
-                                    opponentFound = True
-                                    break
-                            if not opponentFound:
-                                if lastAssignedWeek == -1:
-                                    # the current row is given up with its current predecessors
-                                    failed = True
-                                    break
-                                else:
-                                    # step back and move previously assigned opponent to the tail of the queue
-                                    lastAssignedWeek, unassignedWeek = self.___updateWeekCursor(allSchedules,
-                                                                                                currentTeam, cycles,
-                                                                                                lastAssignedWeek,
-                                                                                                remainingOpponents,
-                                                                                                unassignedWeek)
-                        elif len(availableOpponents) == 2:
-                            # last two we try and swap once
-                            opponentBusy = False
-                            for team, schedule in enumerate(allSchedules):
-                                if team != currentTeam:
-                                    if schedule[unassignedWeek] == availableOpponents[0]:
-                                        opponentBusy = True
-                                        break
-                            if opponentBusy:
-                                if lastAssignedWeek == -1:
-                                    # the current row is given up with its current predecessors
-                                    failed = True
-                                    break
-                                # step back and move previously assigned opponent to the tail of the queue
-                                lastAssignedWeek, unassignedWeek = self.___updateWeekCursor(allSchedules, currentTeam,
-                                                                                            cycles,
-                                                                                            lastAssignedWeek,
-                                                                                            remainingOpponents,
-                                                                                            unassignedWeek)
-                            else:
-                                opponent = availableOpponents.pop(0)
-                                allSchedules[currentTeam][unassignedWeek] = opponent
-                                allSchedules[opponent][unassignedWeek] = currentTeam
-                                remainingOpponents.remove(opponent)
-                                lastAssignedWeek = unassignedWeek
-                                unassignedWeek += 1
-                        else:
-                            # last team we just check
-                            opponent = availableOpponents[0]
-                            opponentBusy = False
-                            for team, schedule in enumerate(allSchedules):
-                                if team != currentTeam:
-                                    if schedule[unassignedWeek] == opponent:
-                                        opponentBusy = True
-                                        break
-                            if opponentBusy:
-                                if lastAssignedWeek == -1:
-                                    # the current row is given up with its current predecessors
-                                    failed = True
-                                    break
-                                # step back and move previously assigned opponent to the tail of the queue
-                                opponent = allSchedules[currentTeam][lastAssignedWeek]
-                                allSchedules[opponent][lastAssignedWeek] = -1
-                                remainingOpponents.insert(len(remainingOpponents), opponent)
-                                cycles[unassignedWeek] += 0
-                                unassignedWeek = lastAssignedWeek
-                                lastAssignedWeek = -1
-                                for i in range(unassignedWeek - 1, -1, -1):
-                                    if allSchedules[currentTeam][i] > currentTeam:
-                                        lastAssignedWeek = i
-                                        break
-                            else:
-                                allSchedules[currentTeam][unassignedWeek] = opponent
-                                allSchedules[opponent][unassignedWeek] = currentTeam
-                                break
-                if failed:
-                    break
-                currentTeam += 1
-            if not failed:
-                break
-        self.__schedule = allSchedules.copy()
-
-    @staticmethod
-    def ___updateWeekCursor(allSchedules, currentTeam, cycles, lastAssignedWeek, remainingOpponents, unassignedWeek):
-        """
-        helper method for __generateSchedule
-        :param allSchedules: current schedule (not fully assigned)
-        :param currentTeam: team cursor
-        :param cycles: cycles executed for the c=team cursor
-        :param lastAssignedWeek: last successful week cursor
-        :param remainingOpponents: unassigned opponents
-        :param unassignedWeek: current week cursor
-        :return: new weeks cursors
-        """
-        opponent = allSchedules[currentTeam][lastAssignedWeek]
-        allSchedules[opponent][lastAssignedWeek] = -1
-        remainingOpponents.insert(len(remainingOpponents), opponent)
-        cycles[unassignedWeek] = 0
-        unassignedWeek = lastAssignedWeek
-        lastAssignedWeek = -1
-        for i in range(unassignedWeek - 1, -1, -1):
-            if allSchedules[currentTeam][i] > currentTeam:
-                lastAssignedWeek = i
-                break
-        return lastAssignedWeek, unassignedWeek
+                     (self.__fakeTeam == self.__numberTeams) and sc.calendarValid(self.__schedule)
 
     def __readSchedule(self, minimumSet=5):
         """

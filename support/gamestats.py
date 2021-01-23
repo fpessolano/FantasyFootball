@@ -94,7 +94,12 @@ class FootballStatistics:
                 for team in self.__data[country][level]:
                     try:
                         if int(level) <= lvl and self.__data[country][level][team]['Elo'] > elo:
-                            teams.append(team)
+                            teamStat = {
+                                'Club': team,
+                                'Rank': self.__data[country][level][team]['Rank'],
+                                'Elo': self.__data[country][level][team]['Elo']
+                            }
+                            teams.append(teamStat)
                     except:
                         pass
         return teams
@@ -109,7 +114,12 @@ class FootballStatistics:
                     try:
                         if self.__data[country][level][team]['Rank'] != -1 and self.__data[country][level][team][
                             'Rank'] <= bottom and self.__data[country][level][team]['Rank'] >= top:
-                            teams[self.__data[country][level][team]['Rank']] = team
+                            teamStat = {
+                                'Club': team,
+                                'Rank': self.__data[country][level][team]['Rank'],
+                                'Elo': self.__data[country][level][team]['Elo']
+                            }
+                            teams[self.__data[country][level][team]['Rank']] = teamStat
                     except:
                         pass
         return {k: v for k, v in sorted(teams.items(), key=lambda item: item[0])}
