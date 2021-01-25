@@ -1,4 +1,5 @@
 import csv
+import sys
 
 from support.diskstore import SaveFile
 
@@ -9,25 +10,31 @@ class FootballStatistics:
     currently supporting elo ratings data from clubelo.com
     """
 
-    def __init__(self, codefile='countrycodes.csv', datafile='leagues.dat'):
+    def __init__(self, codefile='countrycodes.csv', datafile='leagues.dat', elo_csv = 'elo.csv'):
         """
         Initialise the instance reading the leagues data and updating the data file if a file called elo.csv is present
         """
 
         newData = {}
         countryCodes = {}
+        self.__relegationZones = {}
         with open(codefile, 'r') as file:
             Lines = file.readlines()
         for line in Lines:
-            code, country = line.strip().split(',')
+            code, country, relegationZone = line.strip().split(',')
             countryCodes[code.strip()] = country.strip().title()
+            try:
+                if relegationZone != '-1':
+                    self.__relegationZones[country.strip().title()] = int(relegationZone)
+            except:
+                pass
         self.__datafile = SaveFile(datafile)
         self.__data = self.__datafile.readState('__leagues')
         if not self.__data:
             self.__data = {}
         try:
             # read the new data and merge it (not in this block)
-            with open('elo.csv', 'r') as file:
+            with open(elo_csv, 'r') as file:
                 reader = csv.DictReader(file)
                 for row in reader:
                     if row:
@@ -86,6 +93,12 @@ class FootballStatistics:
             return self.__data[country][level]
         except:
             return None
+
+    def relegation(self, country):
+        try:
+            return self.__relegationZones[country]
+        except:
+            return 0
 
     def getTeams(self, lvl=10, elo=0):
         teams = []

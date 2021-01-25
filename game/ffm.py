@@ -1,6 +1,8 @@
 from game.league import League
+from game.team import Team
+from game.teamUserInput import promotionAndRelegation
 from support.diskstore import SaveFile
-from support.teamUserInput import fullyCustomLeague
+import game.teamUserInput as ti
 
 
 class FFM:
@@ -13,19 +15,26 @@ class FFM:
         setting up the basic game variables
         """
         self.saveFile = SaveFile("saves.dat")
-        self.league = League()
+        self.league = League([])
 
     def new(self):
         """
         creates a new game
         :return: False in case it fails
         """
-        leagueName = input('What is the name of new competition? ')
-        leagueName.replace('_', " ").strip()
+        while True:
+            command = input("(E)xisting, (R)andomize or (C)ustom league?  ").lower()
+            if command == 'e':
+                leagueName, relegationZone, teams = ti.existingLeague()
+                break
+            elif command == 'r':
+                leagueName, relegationZone, teams = ti.randomTeams()
+                break
+            elif command == 'c':
+                leagueName, relegationZone, teams = ti.fullyCustomLeague()
+                break
 
-        relegationZone, teamNames = fullyCustomLeague()
-
-        self.league = League(name=leagueName, teamNames=teamNames, relegationZone=relegationZone)
+        self.league = League(team=leagueName, teams=teams, relegationZone=relegationZone)
         return self.league.valid
 
     def load(self):
@@ -47,7 +56,7 @@ class FFM:
         """
         plays a game round or complete season
         """
-        print(f'\nWelcome to league {self.league.leagueName}\n\n{self.league.orderStanding()}\n')
+        print(f'\nWelcome to league {self.league.leagueName}\n\n{self.league.orderStanding(True)}\n')
 
         seasonCompleted = False
         while not seasonCompleted:
@@ -76,26 +85,14 @@ class FFM:
                 print()
             else:
                 self.saveEnd()
-                quit()
+                return False
         print(f"\nThe season has finished. The final standings are:\n\n{self.league.orderStanding()}\n")
         if self.league.relegationZone() > 0:
-            if input(
-                    f'The last {self.league.relegationZone()}'
-                    f' teams have relegated. Do you want to replace them (y for yes)? ').lower() == 'y':
-                currentTeams = self.league.teams()
-                promotedTeams = []
-                numberTeams = self.league.teamNumber()
-                for i in range(self.league.relegationZone()):
-                    accepted = False
-                    while not accepted:
-                        newName = input(f'  New team for position {numberTeams - i}/{numberTeams}? ').title()
-                        if newName not in currentTeams and newName != '':
-                            promotedTeams.append(newName)
-                            accepted = True
-                        else:
-                            print("!!! ERROR: please provide another name")
+            promotedTeams = promotionAndRelegation(self.league)
+            if len(promotedTeams) > 0:
                 self.league.promoted(promotedTeams)
         self.league.prepareNewSeason()
+        return True
 
     def saveEnd(self):
         """
@@ -109,3 +106,4 @@ class FFM:
                 saveGameName.strip().replace(" ", "_")
             self.saveFile.writeState(saveGameName, self.league.data())
         print("\nThanks for playing!")
+

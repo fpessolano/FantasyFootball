@@ -37,7 +37,8 @@ def bergerTableSchedule(number):
         row = []
         offset = 0
         for j in range(1, number):
-            value = (i + j) % number + int((i + j) / number)
+            # value = (i + j) % number + int((i + j) / number)
+            value = (i + j) % number + ((i + j) // number)
             row.append(value)
         bergerTable.append(row)
     # unroll table

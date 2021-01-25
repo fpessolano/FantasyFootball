@@ -1,6 +1,7 @@
 # Fantasy Football  
 About:      a simple football manager game in python3  
 Author:     F. & M. Pessolano  
+Version:    0.2.x
 Licence:    MIT  
 
 **Description**  
@@ -17,15 +18,22 @@ Just run "python3 play.py" after having installed the required modules (see requ
 **Known BUGS**  
  -n/a  
 
-**What's next**  
- - Support for real leagues  
- - Make a Kivy app  
- - Elo-based result calculation  
+**What's next**
+***v0.3.0***
+ - Graphical Interface  
+ - Improve commenting  
+
+***v0.4.0***
+ - Improve match simulator (winning streak result, better injuries' randomness, etc.)  
+ - Add match type to league information  
+
+***v0.5.0***
  - More than one league  
  - Friendly and team stats  
- - Player with stats  
- - Editor  
- - Transfer market  
+
+***v0.6.0***
+ - Add team players with stats  
+ - Transfer market by the user for all teams  
 
 
 

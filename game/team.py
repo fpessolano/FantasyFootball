@@ -1,20 +1,29 @@
 import random
 
 
+# TODO add injury and injury tracking
+#  hide elo (call it rating)
+#  re-order anc clean methids
+
 class Team:
     """
     Objects describing a team by means of name, statistics and playing characteristics
     """
 
+    __minElo = 1000
+    __eloHalfStep = 100
+
     def __init__(self, name, elo=1500):
         self.name = name
-        self.elo = elo
+        self.__elo = elo
+        self.__oldEdo = elo
         self.played = 0
         self.goals = [0, 0, 0]
         self.stats = [0, 0, 0]
+        self.stars = 0
 
-    def data(self):
-        return {
+    def data(self, showStars=False):
+        data = {
             "NAME": self.name,
             "MP": self.played,
             "W": self.stats[0],
@@ -25,6 +34,9 @@ class Team:
             "GD": self.goals[2],
             "PT": self.stats[0] * 3 + self.stats[1],
         }
+        if showStars:
+            data["STARS"] = self.stars
+        return data
 
     def addMatch(self, scored, conceived):
         self.played += 1
@@ -42,12 +54,60 @@ class Team:
         self.played = 0
         self.goals = [0, 0, 0]
         self.stats = [0, 0, 0]
+        self.adjustRating()
 
-    def attackScore(self):
-        return random.randint(0, 10)
+    @classmethod
+    def calculateStars(cls, teamList):
+        eloList = []
+        for el in teamList:
+            eloList.append(el.__elo)
+        maxElo = max(eloList)
+        cls.__eloHalfStep = (maxElo - cls.__minElo) / 10
+        for el in teamList:
+            el.stars = max(((el.__elo - cls.__minElo) // cls.__eloHalfStep) / 2, 0.5)
 
-    def defenceScore(self):
-        return random.randint(0, 10)
+    # @classmethod
+    # def eloFromStars(cls, stars, team):
+    #     team.__oldEdo = team.__elo
+    #     team.__elo = cls.__minElo + 2.05 * stars * cls.__eloHalfStep
+    #     team.stars = stars
 
-    def middlefieldScore(self):
-        return random.randint(0, 10)
+    def eloFromStars(self, stars):
+        self.__oldEdo = self.__elo
+        self.__elo = Team.__minElo + 2.05 * stars * Team.__eloHalfStep
+        self.stars = stars
+
+    # todo use to adjust elo at the end of the season
+    #  test
+    def adjustRating(self):
+        elo = self.__elo
+        self.__elo = self.__oldEdo + (self.__elo - self.__oldEdo) / 3
+        self.__oldEdo = elo
+
+    def rating(self):
+        return self.__elo
+
+    def __injuries(self):
+        # TODO make a proper model
+        return random.uniform(0.85, 1)
+
+    @classmethod
+    def winningProbability(cls, homeTeam, awayTeam, homeOffset):
+        deltaElo = (homeTeam.__elo + homeOffset) * homeTeam.__injuries() - awayTeam.__elo
+        return float(1 / (10 ** (deltaElo / -400) + 1))
+
+    def newRating(self, matchModifier, goalDifference, winProbability):
+        if goalDifference > 0:
+            result = 1
+        elif goalDifference == 0:
+            result = 0.5
+        else:
+            result = 0
+        if goalDifference < 2:
+            modifier = 1
+        elif goalDifference == 2:
+            modifier = 1.5
+        else:
+            modifier = 1 + (3 / 4 + (goalDifference - 3) / 8)
+        self.__elo = float(self.__elo + matchModifier * modifier *
+                           (result - winProbability))

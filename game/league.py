@@ -2,10 +2,10 @@ import random
 
 import tabulate
 
-from support.diskstore import SaveFile
-from game.simulator import Simulator
+import game.simulator as elo
 from game.team import Team
-import support.scheduling as sc
+from support.diskstore import SaveFile
+import game.scheduling as sc
 
 
 class League:
@@ -13,21 +13,21 @@ class League:
     Object that define a league including all teams, calendar, and all related methods
     """
 
-    def __init__(self, name='My League', relegationZone=0, teamNames=None):
+    def __init__(self, teams, team='My League', relegationZone=0):
         """
         initialises a new instance
-        :param name: league name
+        :param team: league name
         :param relegationZone: how many teams are relegated
-        :param teamNames: the league team names
+        :param teams: the league team names
         """
 
-        self.leagueName = name
+        self.leagueName = team
         self.__schedule = []
         self.__stateFile = SaveFile('data.dat')
-        if not teamNames:
+        if not teams:
             self.valid = False
             return
-        numberTeams = len(teamNames)
+        numberTeams = len(teams)
         if (numberTeams < 2) or (numberTeams < relegationZone):
             self.valid = False
             return
@@ -53,8 +53,8 @@ class League:
         self.valid = sc.calendarValid(self.__schedule)
         if self.valid:
             # the league is populated with teams
-            for name in teamNames:
-                self.__teams.append(Team(name=name))
+            for team in teams:
+                self.__teams.append(team)
 
     def restore(self, savedState):
         """
@@ -122,7 +122,7 @@ class League:
             "name": self.leagueName
         }
 
-    def __orderStandings(self):
+    def __orderStandings(self, showStars=False):
         """
         Generate the standings based on the points and goal stats
         :return: a ordered list
@@ -149,19 +149,22 @@ class League:
         orderedTeamsIds = []
         weight: tuple
         for weight in teamsWeight:
-            orderedTeams.append(self.__teams[weight[0]].data())
+            orderedTeams.append(self.__teams[weight[0]].data(showStars))
             orderedTeamsIds.append(weight[0])
         return orderedTeams, orderedTeamsIds
 
-    def orderStanding(self):
+    def orderStanding(self, showStars=False):
         """
         convert an ordered list of teams representing the standings into a tabulated string
         :return:  a string with the tabulated standings
         """
 
-        orderedTeams, _ = self.__orderStandings()
-        header = orderedTeams[0].keys()
+        orderedTeams, _ = self.__orderStandings(showStars)
+        header = ['Position']
+        header += orderedTeams[0].keys()
         rows = [x.values() for x in orderedTeams]
+        for i in range(len(rows)):
+            rows[i] = [i + 1] + list(rows[i])
         return tabulate.tabulate(rows, header)
 
     def matchDay(self):
@@ -204,10 +207,11 @@ class League:
                 homeTeam = self.__schedule[team][self.__currentWeek - offset]
                 awayTeam = team
             msg0 = self.__teams[homeTeam].name + " vs " + self.__teams[awayTeam].name
-            result = Simulator.playMatch(self.__teams[homeTeam], self.__teams[awayTeam])
+            # result = Simulator.playMatch(self.__teams[homeTeam], self.__teams[awayTeam])
+            result = elo.playMatch(self.__teams[homeTeam], self.__teams[awayTeam])
             msg1 = str(result[0]) + " - " + str(result[1])
-            self.__teams[homeTeam] = result[2]
-            self.__teams[awayTeam] = result[3]
+            # self.__teams[homeTeam] = result[2]
+            # self.__teams[awayTeam] = result[3]
         playingTeams.append(self.__schedule[team][self.__currentWeek - offset])
         matchResults.append([msg0, msg1])
 
@@ -218,6 +222,7 @@ class League:
 
         for i in range(len(self.__teams)):
             self.__teams[i].reset()
+        Team.calculateStars(self.__teams)
         random.shuffle(self.__teams)
         self.__currentWeek = 0
 
@@ -233,7 +238,8 @@ class League:
             teamNumber = orderedTeamsIds[-1 - i]
             if len(teams) > 0:
                 newTeam = teams.pop()
-                self.__teams[teamNumber].name = newTeam
+                # self.__teams[teamNumber].name = newTeam
+                self.__teams[teamNumber] = newTeam
             else:
                 break
 

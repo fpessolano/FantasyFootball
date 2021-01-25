@@ -29,7 +29,8 @@ def playGame():
             break
 
     while True:
-        game.playRound()
+        if not game.playRound():
+            break
 
         if input("\nPlay again with the same teams (y/n)? ").lower() != "y":
             game.saveEnd()
