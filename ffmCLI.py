@@ -1,4 +1,4 @@
-from game.ffm import FFM
+from cligaming.ffm import FFM
 
 
 def playGame():

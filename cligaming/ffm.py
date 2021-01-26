@@ -1,8 +1,7 @@
 from game.league import League
-from game.team import Team
-from game.teamUserInput import promotionAndRelegation
+from cligaming.teamUserInput import promotionAndRelegation
 from support.diskstore import SaveFile
-import game.teamUserInput as ti
+import cligaming.teamUserInput as ti
 
 
 class FFM:

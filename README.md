@@ -13,7 +13,7 @@ The goal is to make a game my eldest son loves in a way that basic and more adva
 See requirements.txt  
 
 **Usage**  
-Just run "python3 play.py" after having installed the required modules (see requirements.txt)  
+Just run "python3 ffmCLI.py" after having installed the required modules (see requirements.txt)  
 
 **Known BUGS**  
  -n/a  
@@ -22,6 +22,8 @@ Just run "python3 play.py" after having installed the required modules (see requ
 ***v0.3.0***
  - Graphical Interface  
  - Improve commenting  
+ - Split CLI and GUI  
+ - Move support files to assets  
 
 ***v0.4.0***
  - Improve match simulator (winning streak result, better injuries' randomness, etc.)  
