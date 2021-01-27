@@ -6,16 +6,30 @@
         BoxLayout:
             orientation: 'vertical'
             Label:
-                size_hint_y: 0.45
+                size_hint_y: 0.35
             Button:
-                text: 'New Game'
+                text: 'Start Existing League'
+                font_size: 18
+                size_hint_y: 0.1
+                pos_hint: {'center_x': 0.5}
+                size_hint_x: 0.5
+                on_press: root.newGame()
+            Button:
+                text: 'Start Random League'
+                font_size: 18
+                size_hint_y: 0.1
+                pos_hint: {'center_x': 0.5}
+                size_hint_x: 0.5
+                on_press: root.newGame()
+            Button:
+                text: 'Start Custom League'
                 font_size: 18
                 size_hint_y: 0.1
                 pos_hint: {'center_x': 0.5}
                 size_hint_x: 0.5
                 on_press: root.newGame()
             Label:
-                size_hint_y: 0.45
+                size_hint_y: 0.35
         BoxLayout:
             id: saveGame
             orientation: 'vertical'
