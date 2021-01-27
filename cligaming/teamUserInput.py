@@ -141,7 +141,7 @@ def customise(teams):
                         stars = float(input(f'Please provide the numbers of stars for team {newName} (0 to 5)? '))
                         names.append(newName)
                         teams[teamId].name = newName
-                        teams[teamId].eloFromStars(stars)
+                        teams[teamId].eloFromStars(stars, True)
                         print()
                         names = printTeamList(headers, teams, False)
                         print()
@@ -182,7 +182,7 @@ def promotionAndRelegation(league):
                                             f' for team {newName} (0 to 5)? '))
                         currentTeams.append(newName)
                         newTeam = Team(name=newName)
-                        newTeam.eloFromStars(stars)
+                        newTeam.eloFromStars(stars, False)
                         promotedTeams.append(newTeam)
                         accepted = True
                     except:

@@ -72,9 +72,13 @@ class Team:
     #     team.__elo = cls.__minElo + 2.05 * stars * cls.__eloHalfStep
     #     team.stars = stars
 
-    def eloFromStars(self, stars):
-        self.__oldEdo = self.__elo
-        self.__elo = Team.__minElo + 2.05 * stars * Team.__eloHalfStep
+    def eloFromStars(self, stars, reset):
+        newElo = Team.__minElo + 2.05 * stars * Team.__eloHalfStep
+        if reset:
+            self.__oldEdo = newElo
+        else:
+            self.__oldEdo = self.__elo
+        self.__elo = newElo
         self.stars = stars
 
     # todo use to adjust elo at the end of the season
