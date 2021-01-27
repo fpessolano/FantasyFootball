@@ -1,0 +1,21 @@
+<StartGame>
+    GridLayout:
+        cols: 2
+        padding: 5
+        spacing: 5
+        BoxLayout:
+            orientation: 'vertical'
+            Label:
+                size_hint_y: 0.45
+            Button:
+                text: 'New Game'
+                font_size: 18
+                size_hint_y: 0.1
+                pos_hint: {'center_x': 0.5}
+                size_hint_x: 0.5
+                on_press: root.newGame()
+            Label:
+                size_hint_y: 0.45
+        BoxLayout:
+            id: saveGame
+            orientation: 'vertical'

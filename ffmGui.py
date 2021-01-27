@@ -1,40 +1,24 @@
 from kivy.app import App
+from kivy.config import Config
 from kivy.lang import Builder
-from kivy.clock import Clock
-from kivy.uix.button import Button
-from kivy.uix.screenmanager import ScreenManager, Screen, SwapTransition
+from gui.startgame import *
+from gui.newgame import *
+from gui.season import *
 
-Builder.load_file('frontend.kv')
-
-
-class SeasonPlay(Screen):
-    def quit(self):
-        quit()
+Builder.load_file('kyvy_templates/ffm.kv')
 
 
-# for some reason layout is not working, takes only a small part of the screen !!!
-class CreateNewGame(Screen):
-    def createGame(self):
-        self.manager.current = 'season_screen'
+Config.set('graphics','width','1600')
+Config.set('graphics','height','1080')
 
-    def goBack(self):
+from kivy.uix.screenmanager import ScreenManager, SwapTransition
+
+class SplashScreen(Screen):
+    def switch(self, *args):
         self.manager.current = 'start_screen'
 
-
-class StartGame(Screen):
-    def __init__(self, **kwargs):
-        super(StartGame, self).__init__(**kwargs)
-        Clock.schedule_once(self.addButton, 1)
-
-    def addButton(self, *args):
-        for i in range(5):
-            # see how toi add on_press and/or id
-            # set font size to 18
-            self.ids.saveGame.add_widget(Button(text=f'SaveGame{i}'))
-
-    def newGame(self):
-        self.manager.current = 'new_screen'
-
+    def on_enter(self, *args):
+        Clock.schedule_once(self.switch, 5)
 
 class FantasyManager(ScreenManager):
     pass
