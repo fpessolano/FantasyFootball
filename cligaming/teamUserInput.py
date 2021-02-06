@@ -182,7 +182,7 @@ def promotionAndRelegation(league):
                                             f' for team {newName} (0 to 5)? '))
                         currentTeams.append(newName)
                         newTeam = Team(name=newName)
-                        newTeam.eloFromStars(stars, False)
+                        newTeam.eloFromStars(stars, True)
                         promotedTeams.append(newTeam)
                         accepted = True
                     except:

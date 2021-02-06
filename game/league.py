@@ -69,7 +69,7 @@ class League:
         self.leagueName = savedState["name"]
         self.__numberTeams = len(self.__teams)
         self.valid = (self.__numberTeams > 2) and (self.__numberTeams > self.__relegationZone) and \
-                     (self.__fakeTeam == self.__numberTeams) and sc.calendarValid(self.__schedule)
+                     sc.calendarValid(self.__schedule)
 
     def __readSchedule(self, minimumSet=5):
         """

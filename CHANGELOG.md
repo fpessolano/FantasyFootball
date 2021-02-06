@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## [0.2.1]
 #### Change 
+ - fixed bug that does not allow loading saved games with even number of teams  
+ - fixed but altering stars for promoted teams  
  - fixed bug that causes custom teams stars not to propagate correctly to the next season  
 
 ## [0.2.0]

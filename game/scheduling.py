@@ -54,4 +54,4 @@ def bergerTableSchedule(number):
 
 
 if __name__ == '__main__':
-    print(bergerTableSchedule(15))
+    print(bergerTableSchedule(5))

@@ -16,7 +16,7 @@ See requirements.txt
 Just run "python3 ffmCLI.py" after having installed the required modules (see requirements.txt)  
 
 **Known BUGS**  
- -n/a  
+ - n/a  
 
 **What's next**
 ***v0.3.0***
