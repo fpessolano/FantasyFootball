@@ -5,7 +5,7 @@ Author:     F. Pessolano
 
 **Description**  
 This is a python project initially started to teach Python to my kids in a fun way and with increasing difficulty.  
-It is meant to be a simple football manager game starting from a CLI app to a graphical one.   
+It was meant to be a simple CLI football manager game. Currently it is a free time fun project used to explore ideas or new libraries while building something fun for my kids.     
 
 **Dependencies**  
 See requirements.txt  
