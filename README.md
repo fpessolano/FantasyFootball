@@ -11,7 +11,7 @@ It was meant to be a simple CLI football manager game. Currently it is a free ti
 See requirements.txt  
 
 **Usage**  
-Just run "python3 ffmCLI.py" after having installed the required modules (see requirements.txt)  
+CLI Game: Just run "python3 ffmCLI.py" after having installed the required modules (see requirements.txt)  
 
 **Known BUGS**  
  - n/a  
