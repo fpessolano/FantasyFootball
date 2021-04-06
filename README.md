@@ -1,13 +1,11 @@
 # Fantasy Football  
 About:      a simple football manager game in python3  
-Author:     F. & M. Pessolano  
-Version:    0.2.x
-Licence:    MIT  
+Author:     F. Pessolano  
+
 
 **Description**  
-This is a python project used to try to teach Python to my son in a fun way and with increasing difficulty.  
-It is meant to be a simple football manager game starting from a CLI app to a graphical one.  
-The goal is to make a game my eldest son loves in a way that basic and more advanced programming principles are exposed.  
+This is a python project initially started to teach Python to my kids in a fun way and with increasing difficulty.  
+It is meant to be a simple football manager game starting from a CLI app to a graphical one.   
 
 **Dependencies**  
 See requirements.txt  
