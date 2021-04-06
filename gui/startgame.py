@@ -13,8 +13,12 @@ class StartGame(Screen):
         self.saveFile = SaveFile("saves.dat")
         Clock.schedule_once(self.addButton, 1)
 
-    def callback(self, instance):
-        print(f'My button {instance.text}')
+    def callback(self, savedGame):
+        savedGame = self.saveFile.readState(savedGame.text)
+        if not savedGame:
+            return
+        self.manager.screens[3].loadGameData(savedGame)
+        self.manager.current = 'season_screen'
 
     def addButton(self, *args):
         savedGames = self.saveFile.stateList()
@@ -28,5 +32,4 @@ class StartGame(Screen):
                 self.ids.saveGame.add_widget(btn)
 
     def newGame(self):
-        # todo in progress
         self.manager.current = 'new_screen'
