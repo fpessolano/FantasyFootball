@@ -1,4 +1,4 @@
-def calendarValid(cal):
+def calendar_valid(cal):
     """
     calendarCorrectness verifies that the calendar contains no errors
     :param cal: schedule
@@ -19,19 +19,19 @@ def calendarValid(cal):
     return ok
 
 
-def bergerTableSchedule(number):
+def berger_table_schedule(number):
     """
     Generate a schedule using Berger tables
-    :param number: number of partecipating teams
+    :param number: number of participating teams
     :return: schedule array and a flag indicating if a team was added (in case the original number was odd)
     """
     if number < 2:
         return [], False
-    bergerTable = []
-    addedOne = False
+    berger_table = []
+    added_one = False
     if number % 2 != 0:
         number += 1
-        addedOne = True
+        added_one = True
     # generate Bergen table
     for i in range(0, number - 1):
         row = []
@@ -40,18 +40,18 @@ def bergerTableSchedule(number):
             # value = (i + j) % number + int((i + j) / number)
             value = (i + j) % number + ((i + j) // number)
             row.append(value)
-        bergerTable.append(row)
+        berger_table.append(row)
     # unroll table
     schedule = [[0 for _ in range(number - 1)] for _ in range(number)]
     for team in range(0, number - 1):
         for opponent in range(0, number - 1):
             if team == opponent:
-                schedule[team][bergerTable[team][opponent] - 1] = number - 1
-                schedule[number - 1][bergerTable[team][opponent] - 1] = team
+                schedule[team][berger_table[team][opponent] - 1] = number - 1
+                schedule[number - 1][berger_table[team][opponent] - 1] = team
             else:
-                schedule[team][bergerTable[team][opponent] - 1] = opponent
-    return schedule, addedOne
+                schedule[team][berger_table[team][opponent] - 1] = opponent
+    return schedule, added_one
 
 
 if __name__ == '__main__':
-    print(bergerTableSchedule(5))
+    print(berger_table_schedule(5))

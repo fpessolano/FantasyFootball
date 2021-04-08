@@ -5,8 +5,8 @@ Builder.load_file('kyvy_templates/newgame.kv')
 
 
 class CreateNewGame(Screen):
-    def createGame(self):
+    def create_game(self):
         self.manager.current = 'season_screen'
 
-    def goBack(self):
+    def go_back(self):
         self.manager.current = 'start_screen'

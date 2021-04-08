@@ -8,26 +8,26 @@ from game.gamestats import FootballStatistics
 
 
 # TODO add stars
-def fullyCustomLeague():
+def fully_custom_l_eague():
     """
     generates a full custom league
     :return:  number of teams to be relegates and list of teamNames
     """
-    validInput = False
-    numberTeams = 0
-    relegationZone = 0
-    leagueName = input('What is the name of new competition? ')
-    leagueName.replace('_', " ").strip()
-    while not validInput:
+    valid_input = False
+    number_teams = 0
+    relegation_zone = 0
+    league_name = input('What is the name of new competition? ')
+    league_name.replace('_', " ").strip()
+    while not valid_input:
         try:
-            numberTeams = input("How many teams? ")
-            numberTeams = int(numberTeams)
-            relegationZone = input("How many teams relegate? ")
-            relegationZone = int(relegationZone)
-            if numberTeams > 0 and numberTeams > relegationZone:
-                validInput = True
+            number_teams = input("How many teams? ")
+            number_teams = int(number_teams)
+            relegation_zone = input("How many teams relegate? ")
+            relegation_zone = int(relegation_zone)
+            if number_teams > 0 and number_teams > relegation_zone:
+                valid_input = True
             else:
-                print(f'!!! ERROR: {numberTeams} and {relegationZone} are not valid values\n')
+                print(f'!!! ERROR: {number_teams} and {relegation_zone} are not valid values\n')
         except:
             print("!!! ERROR: please write valid numbers !!!")
     print()
@@ -35,7 +35,7 @@ def fullyCustomLeague():
     teams = []
     names = []
     print("Please provide the teams names.")
-    for i in range(numberTeams):
+    for i in range(number_teams):
         name = input(f'  team {i + 1} name? ').lower().title().strip()
         while name == "" or name in names:
             print("!!! Error: a name must be unique and not empty !!!")
@@ -46,83 +46,83 @@ def fullyCustomLeague():
             teams.append(Team(name=name, elo=1000+200*stars))
         except:
             print('Number of stars is not valid')
-    Team.calculateStars(teams)
-    return leagueName, relegationZone, teams
+    Team.calculate_stars(teams)
+    return league_name, relegation_zone, teams
 
 
-def existingLeague(skipTeams=False):
+def existing_league(skip_teams=False):
     """
     generates a league from an existing one
     :return:  number of teams to be relegates and list of teams
     """
     stats = FootballStatistics()
-    availableLeagues = []
+    available_leagues = []
     for country in stats.countries():
         for league in stats.leagues(country):
-            teamsInLeague = stats.teams(country, league)
-            if len(teamsInLeague) > 10:
-                availableLeagues.append({
+            teams_in_league = stats.teams(country, league)
+            if len(teams_in_league) > 10:
+                available_leagues.append({
                     'country': country,
                     'league': league,
-                    'teams': teamsInLeague
+                    'teams': teams_in_league
                 })
-    if not skipTeams:
+    if not skip_teams:
         print('Available leagues:\n')
-        [print(f'({i}) {availableLeagues[i]["country"]}-{availableLeagues[i]["league"]}') for i in
-         range(len(availableLeagues))]
+        [print(f'({i}) {available_leagues[i]["country"]}-{available_leagues[i]["league"]}') for i in
+         range(len(available_leagues))]
     try:
         selected = int(input('\nWhich league di you want to play? '))
-        while selected < 0 or selected > len(availableLeagues) - 1:
+        while selected < 0 or selected > len(available_leagues) - 1:
             print(f'League number {selected} is not available!')
             selected = int(input('\nWhich league di you want to play? '))
-        teamsList = [Team(name=x, elo=availableLeagues[selected]['teams'][x]['Elo']) for x in
-                     availableLeagues[selected]['teams']]
-        leagueName = f'{availableLeagues[selected]["country"]}-{availableLeagues[selected]["league"]}'
-        teamsList = customise(teamsList)
-        return leagueName, stats.relegation(availableLeagues[selected]['country']), teamsList
+        teams_list = [Team(name=x, elo=available_leagues[selected]['teams'][x]['Elo']) for x in
+                     available_leagues[selected]['teams']]
+        league_name = f'{available_leagues[selected]["country"]}-{available_leagues[selected]["league"]}'
+        teams_list = customise(teams_list)
+        return league_name, stats.relegation(available_leagues[selected]['country']), teams_list
     except:
         print(f'Please type a valid number!')
-        return existingLeague(True)
+        return existing_league(True)
 
 
-def randomTeams():
+def random_teams():
     """
     generates a random league from exiting teams
     :return:  number of teams to be relegates and list of teams
     """
-    validInput = False
-    numberTeams = 0
-    relegationZone = 0
+    valid_input = False
+    number_teams = 0
+    relegation_zone = 0
     top100 = False
-    leagueName = input('What is the name of new competition? ')
-    leagueName.replace('_', " ").strip()
-    while not validInput:
+    league_name = input('What is the name of new competition? ')
+    league_name.replace('_', " ").strip()
+    while not valid_input:
         try:
-            numberTeams = input("How many teams? ")
-            numberTeams = int(numberTeams)
-            relegationZone = input("How many teams relegate? ")
-            relegationZone = int(relegationZone)
-            if numberTeams > 0 and numberTeams > relegationZone:
-                validInput = True
+            number_teams = input("How many teams? ")
+            number_teams = int(number_teams)
+            relegation_zone = input("How many teams relegate? ")
+            relegation_zone = int(relegation_zone)
+            if number_teams > 0 and number_teams > relegation_zone:
+                valid_input = True
             else:
-                print(f'!!! ERROR: {numberTeams} must be positive and greater than {relegationZone}\n')
+                print(f'!!! ERROR: {number_teams} must be positive and greater than {relegation_zone}\n')
                 continue
             top100 = input('Do you want random teams only from the best 100 (y for yes)? ').lower() == 'y'
         except:
             print("!!! ERROR: please write valid numbers !!!")
     print()
     if top100:
-        teams = [Team(name=y['Club'], elo=y['Elo']) for _, y in FootballStatistics().getTopTeams().items()]
+        teams = [Team(name=y['Club'], elo=y['Elo']) for _, y in FootballStatistics().get_top_teams().items()]
     else:
-        teams = [Team(name=y['Club'], elo=y['Elo']) for y in FootballStatistics().getTeams()]
+        teams = [Team(name=y['Club'], elo=y['Elo']) for y in FootballStatistics().get_teams()]
     random.shuffle(teams)
-    teams = customise(teams[:numberTeams])
-    return leagueName, relegationZone, teams
+    teams = customise(teams[:number_teams])
+    return league_name, relegation_zone, teams
 
 
 def customise(teams):
     headers = ['ID', 'Team', 'Stars']
-    names = printTeamList(headers, teams)
+    names = print_team_list(headers, teams)
     print()
     if input('Do you want to replace a team (y for yes)? ').lower() == 'y':
         art = 'the'
@@ -132,18 +132,18 @@ def customise(teams):
                 if ids == 'c':
                     break
                 else:
-                    teamId = int(ids)
-                    newName = input('Please provide the new team name? ')
+                    team_id = int(ids)
+                    new_name = input('Please provide the new team name? ')
                     if names in names:
                         print('The name cannot be used, because it is already present or has been removed.')
                         continue
                     try:
-                        stars = float(input(f'Please provide the numbers of stars for team {newName} (0 to 5)? '))
-                        names.append(newName)
-                        teams[teamId].name = newName
-                        teams[teamId].eloFromStars(stars, True)
+                        stars = float(input(f'Please provide the numbers of stars for team {new_name} (0 to 5)? '))
+                        names.append(new_name)
+                        teams[team_id].name = new_name
+                        teams[team_id].elo_from_stars(stars, True)
                         print()
-                        names = printTeamList(headers, teams, False)
+                        names = print_team_list(headers, teams, False)
                         print()
                     except:
                         print('Number of stars is not valid')
@@ -153,9 +153,9 @@ def customise(teams):
     return teams
 
 
-def printTeamList(headers, teams, calculateStars=True):
-    if calculateStars:
-        Team.calculateStars(teams)
+def print_team_list(headers, teams, calculate_stars=True):
+    if calculate_stars:
+        Team.calculate_stars(teams)
     table = []
     names = []
     for i in range(len(teams)):
@@ -165,37 +165,37 @@ def printTeamList(headers, teams, calculateStars=True):
     return names
 
 
-def promotionAndRelegation(league):
-    promotedTeams = []
+def promotion_and_relegation(league):
+    promoted_teams = []
     if input(
-            f'The last {league.relegationZone()}'
+            f'The last {league.relegation_zone()}'
             f' teams have relegated. Do you want to replace them (y for yes)? ').lower() == 'y':
-        currentTeams = league.teams()
-        numberTeams = league.teamNumber()
-        for i in range(league.relegationZone()):
+        current_teams = league.teams()
+        number_teams = league.team_number()
+        for i in range(league.relegation_zone()):
             accepted = False
             while not accepted:
-                newName = input(f'  New team for position {numberTeams - i}/{numberTeams}? ').title()
-                if newName not in currentTeams and newName != '':
+                new_name = input(f'  New team for position {number_teams - i}/{number_teams}? ').title()
+                if new_name not in current_teams and new_name != '':
                     try:
                         stars = float(input(f'  Please provide the ideal numbers of stars'
-                                            f' for team {newName} (0 to 5)? '))
-                        currentTeams.append(newName)
-                        newTeam = Team(name=newName)
-                        newTeam.eloFromStars(stars, True)
-                        promotedTeams.append(newTeam)
+                                            f' for team {new_name} (0 to 5)? '))
+                        current_teams.append(new_name)
+                        new_team = Team(name=new_name)
+                        new_team.elo_from_stars(stars, True)
+                        promoted_teams.append(new_team)
                         accepted = True
                     except:
                         print('Number of stars is not valid')
                 else:
                     print("!!! ERROR: please provide another name")
-    return promotedTeams
+    return promoted_teams
 
 
 if __name__ == '__main__':
     # ln, rz, teams = randomTeams()
     # ln, rz, teams = fullyCustomLeague()
-    ln, rz, teams = existingLeague()
+    ln, rz, teams = existing_league()
     # existingLeague()
     # [print(x.name, x.elo) for x in teams]
     # print(ln, rz)

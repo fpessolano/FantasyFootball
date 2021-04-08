@@ -10,7 +10,7 @@ class SeasonPlay(Screen):
     def __init__(self, **kwargs):
         super(SeasonPlay, self).__init__(**kwargs)
 
-    def loadGameData(self, data):
+    def load_game_data(self, data):
         # TODO
         print(data)
 

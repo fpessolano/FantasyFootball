@@ -10,7 +10,7 @@ import random
 from game.team import Team
 
 
-class MatchType():
+class MatchType:
     """
     Constants for match types
     """
@@ -19,61 +19,61 @@ class MatchType():
         pass
 
     @classmethod
-    def WorldCupFinal(cls):
+    def world_cup_final(cls):
         return 60
 
     @classmethod
-    def Finals(cls):
+    def finals(cls):
         return 50
 
     @classmethod
-    def MajorTournaments(cls):
+    def major_tournaments(cls):
         return 40
 
     @classmethod
-    def MinorDivision(cls):
+    def minor_division(cls):
         return 30
 
     @classmethod
-    def Friendly(cls):
+    def friendly(cls):
         return 20
 
 
-def matchResult(homeWinProbability, awayWinProbability):
-    homeShoots = round(random.randint(0, 5) * homeWinProbability)
-    awayShoots = round(random.randint(0, 5) * awayWinProbability)
+def match_result(home_win_probability, away_win_probability):
+    home_shoots = round(random.randint(0, 5) * home_win_probability)
+    away_shoots = round(random.randint(0, 5) * away_win_probability)
 
-    if homeWinProbability < awayWinProbability / 4 and homeShoots == 0:
-        homeShoots += 1
+    if home_win_probability < away_win_probability / 4 and home_shoots == 0:
+        home_shoots += 1
 
-    if awayWinProbability < homeWinProbability / 4 and awayShoots == 0:
-        awayShoots += 1
+    if away_win_probability < home_win_probability / 4 and away_shoots == 0:
+        away_shoots += 1
 
-    homeGoals = 0
-    awayGoals = 0
+    home_goals = 0
+    away_goals = 0
 
-    for _ in range(homeShoots):
-        attack = 5 * random.random() + 5 * homeWinProbability * random.random()
-        defence = 5 * random.random() + 5 * awayWinProbability * random.random(
+    for _ in range(home_shoots):
+        attack = 5 * random.random() + 5 * home_win_probability * random.random()
+        defence = 5 * random.random() + 5 * away_win_probability * random.random(
         )
         if attack > defence:
-            homeGoals += 1
+            home_goals += 1
 
-    for _ in range(awayShoots):
-        attack = 10 * random.random() + awayWinProbability
-        defence = 10 * random.random() + homeWinProbability
+    for _ in range(away_shoots):
+        attack = 10 * random.random() + away_win_probability
+        defence = 10 * random.random() + home_win_probability
         if attack > defence:
-            awayGoals += 1
+            away_goals += 1
 
-    return homeGoals, awayGoals
+    return home_goals, away_goals
 
 
-def playMatch(homeTeam: Team, awayTeam: Team, matchModifier=40, homeOffset=50):
-    homeWinningProbability = Team.winningProbability(homeTeam, awayTeam, homeOffset)
-    awayWiningProbability = Team.winningProbability(awayTeam, homeTeam, 0)
-    homeGoals, awayGoals = matchResult(homeWinningProbability, awayWiningProbability)
-    homeTeam.newRating(matchModifier, homeGoals - awayGoals, homeWinningProbability)
-    awayTeam.newRating(matchModifier, awayGoals - homeGoals, awayWiningProbability)
-    homeTeam.addMatch(homeGoals, awayGoals)
-    awayTeam.addMatch(awayGoals, homeGoals)
-    return homeGoals, awayGoals
+def play_match(home_team: Team, away_team: Team, match_modifier=40, home_offset=50):
+    home_winning_probability = Team.winning_probability(home_team, away_team, home_offset)
+    away_wining_probability = Team.winning_probability(away_team, home_team, 0)
+    home_goals, away_goals = match_result(home_winning_probability, away_wining_probability)
+    home_team.new_rating(match_modifier, home_goals - away_goals, home_winning_probability)
+    away_team.new_rating(match_modifier, away_goals - home_goals, away_wining_probability)
+    home_team.add_match(home_goals, away_goals)
+    away_team.add_match(away_goals, home_goals)
+    return home_goals, away_goals

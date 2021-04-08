@@ -1,7 +1,7 @@
 from cligaming.ffm import FFM
 
 
-def playGame():
+def play_game():
     print("Welcome to FMM2021")
     print("Version 0.2.0\n")
 
@@ -22,20 +22,20 @@ def playGame():
         else:
             while not game.new():
                 print('Failed to create league.', end=' ')
-                tryAgain = input("Try again (y for yes)? ").lower()
-                if tryAgain != 'y':
+                try_again = input("Try again (y for yes)? ").lower()
+                if try_again != 'y':
                     print("Bye Bye!")
                     quit()
             break
 
     while True:
-        if not game.playRound():
+        if not game.play_round():
             break
 
         if input("\nPlay again with the same teams (y/n)? ").lower() != "y":
-            game.saveEnd()
+            game.save_end()
             break
 
 
 if __name__ == '__main__':
-    playGame()
+    play_game()

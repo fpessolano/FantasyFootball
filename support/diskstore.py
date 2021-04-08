@@ -10,38 +10,38 @@ class SaveFile:
         self.__filename = filename
         try:
             infile = open(self.__filename, 'rb')
-            self.__savedState = pickle.load(infile)
+            self.__saved_state = pickle.load(infile)
             infile.close()
         except:
-            self.__savedState = {}
+            self.__saved_state = {}
 
-    def writeState(self, nameState, state):
-        self.__savedState[nameState] = state
+    def write_state(self, nameState, state):
+        self.__saved_state[nameState] = state
         outfile = open(self.__filename, 'wb')
-        pickle.dump(self.__savedState, outfile)
+        pickle.dump(self.__saved_state, outfile)
         outfile.close()
         return True
 
-    def readState(self, nameState):
+    def read_state(self, nameState):
         try:
-            if len(self.__savedState) == 0:
+            if len(self.__saved_state) == 0:
                 infile = open(self.__filename, 'rb')
-                self.__savedState = pickle.load(infile)
+                self.__saved_state = pickle.load(infile)
                 infile.close()
-                return self.__savedState[nameState]
+                return self.__saved_state[nameState]
             else:
-                return self.__savedState[nameState]
+                return self.__saved_state[nameState]
         except:
             return None
 
     def stateList(self):
-        return self.__savedState.keys()
+        return self.__saved_state.keys()
 
     def deleteState(self, nameState):
         try:
-            del self.__savedState[nameState]
+            del self.__saved_state[nameState]
             outfile = open(self.__filename, 'wb')
-            pickle.dump(self.__savedState, outfile)
+            pickle.dump(self.__saved_state, outfile)
             outfile.close()
         except:
             return False

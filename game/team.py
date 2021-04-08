@@ -10,19 +10,19 @@ class Team:
     Objects describing a team by means of name, statistics and playing characteristics
     """
 
-    __minElo = 1000
-    __eloHalfStep = 100
+    __min_elo = 1000
+    __elo_half_step = 100
 
     def __init__(self, name, elo=1500):
         self.name = name
         self.__elo = elo
-        self.__oldEdo = elo
+        self.__old_edo = elo
         self.played = 0
         self.goals = [0, 0, 0]
         self.stats = [0, 0, 0]
         self.stars = 0
 
-    def data(self, showStars=False):
+    def data(self, show_stars=False):
         data = {
             "NAME": self.name,
             "MP": self.played,
@@ -34,11 +34,11 @@ class Team:
             "GD": self.goals[2],
             "PT": self.stats[0] * 3 + self.stats[1],
         }
-        if showStars:
+        if show_stars:
             data["STARS"] = self.stars
         return data
 
-    def addMatch(self, scored, conceived):
+    def add_match(self, scored, conceived):
         self.played += 1
         if scored > conceived:
             self.stats[0] += 1
@@ -54,17 +54,17 @@ class Team:
         self.played = 0
         self.goals = [0, 0, 0]
         self.stats = [0, 0, 0]
-        self.adjustRating()
+        self.adjust_rating()
 
     @classmethod
-    def calculateStars(cls, teamList):
-        eloList = []
-        for el in teamList:
-            eloList.append(el.__elo)
-        maxElo = max(eloList)
-        cls.__eloHalfStep = (maxElo - cls.__minElo) / 10
-        for el in teamList:
-            el.stars = max(((el.__elo - cls.__minElo) // cls.__eloHalfStep) / 2, 0.5)
+    def calculate_stars(cls, team_list):
+        elo_list = []
+        for el in team_list:
+            elo_list.append(el.__elo)
+        maxElo = max(elo_list)
+        cls.__elo_half_step = (maxElo - cls.__min_elo) / 10
+        for el in team_list:
+            el.stars = max(((el.__elo - cls.__min_elo) // cls.__elo_half_step) / 2, 0.5)
 
     # @classmethod
     # def eloFromStars(cls, stars, team):
@@ -72,21 +72,21 @@ class Team:
     #     team.__elo = cls.__minElo + 2.05 * stars * cls.__eloHalfStep
     #     team.stars = stars
 
-    def eloFromStars(self, stars, reset):
-        newElo = Team.__minElo + 2.05 * stars * Team.__eloHalfStep
+    def elo_from_stars(self, stars, reset):
+        new_elo = Team.__min_elo + 2.05 * stars * Team.__elo_half_step
         if reset:
-            self.__oldEdo = newElo
+            self.__old_edo = new_elo
         else:
-            self.__oldEdo = self.__elo
-        self.__elo = newElo
+            self.__old_edo = self.__elo
+        self.__elo = new_elo
         self.stars = stars
 
     # todo use to adjust elo at the end of the season
     #  test
-    def adjustRating(self):
+    def adjust_rating(self):
         elo = self.__elo
-        self.__elo = self.__oldEdo + (self.__elo - self.__oldEdo) / 3
-        self.__oldEdo = elo
+        self.__elo = self.__old_edo + (self.__elo - self.__old_edo) / 3
+        self.__old_edo = elo
 
     def rating(self):
         return self.__elo
@@ -96,22 +96,22 @@ class Team:
         return random.uniform(0.85, 1)
 
     @classmethod
-    def winningProbability(cls, homeTeam, awayTeam, homeOffset):
-        deltaElo = (homeTeam.__elo + homeOffset) * homeTeam.__injuries() - awayTeam.__elo
+    def winning_probability(cls, home_team, away_team, home_offset):
+        deltaElo = (home_team.__elo + home_offset) * home_team.__injuries() - away_team.__elo
         return float(1 / (10 ** (deltaElo / -400) + 1))
 
-    def newRating(self, matchModifier, goalDifference, winProbability):
-        if goalDifference > 0:
+    def new_rating(self, match_modifier, goal_difference, win_probability):
+        if goal_difference > 0:
             result = 1
-        elif goalDifference == 0:
+        elif goal_difference == 0:
             result = 0.5
         else:
             result = 0
-        if goalDifference < 2:
+        if goal_difference < 2:
             modifier = 1
-        elif goalDifference == 2:
+        elif goal_difference == 2:
             modifier = 1.5
         else:
-            modifier = 1 + (3 / 4 + (goalDifference - 3) / 8)
-        self.__elo = float(self.__elo + matchModifier * modifier *
-                           (result - winProbability))
+            modifier = 1 + (3 / 4 + (goal_difference - 3) / 8)
+        self.__elo = float(self.__elo + match_modifier * modifier *
+                           (result - win_probability))
