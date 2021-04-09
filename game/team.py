@@ -38,6 +38,10 @@ class Team:
             data["STARS"] = self.stars
         return data
 
+    def print(self):
+        print(f'Team {self.name} with current ELO of {self.__elo} has played {self.played}'
+              f' matches with stats {self.stats} and goal stats {self.goals}')
+
     def add_match(self, scored, conceived):
         self.played += 1
         if scored > conceived:

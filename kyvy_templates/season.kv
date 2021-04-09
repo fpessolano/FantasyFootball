@@ -1,3 +1,49 @@
+<StandingsRowCell@Label>:
+    text_size: self.size
+    padding_x: 0
+    halign: 'center'
+    valign: 'middle'
+    color: 255, 255, 255, 1
+
+<StandingsRowNameCell@Label>:
+    text_size: self.size
+    halign: 'left'
+    valign: 'middle'
+    color: 255, 255, 255, 1
+
+<StandingsRow>:
+    GridLayout:
+        cols: 12
+        spacing: (0,0)
+        StandingsRowNameCell:
+            id: name
+            text: "NAME"
+            size_hint_x: 4
+        StandingsRowCell:
+            id: mp
+            text: "MP"
+        StandingsRowCell:
+            id: w
+            text: "W"
+        StandingsRowCell:
+            id: d
+            text: "D"
+        StandingsRowCell:
+            id: l
+            text: "L"
+        StandingsRowCell:
+            id: gf
+            text: "GF"
+        StandingsRowCell:
+            id: ga
+            text: "GA"
+        StandingsRowCell:
+            id: gd
+            text: "GD"
+        StandingsRowCell:
+            id: pt
+            text: "PT"
+
 <SeasonPlay>:
     GridLayout:
         cols: 1
@@ -6,20 +52,22 @@
         BoxLayout:
             size_hint_y: 0.9
             padding: 10
-            Label:
-                id: matches
-                text_size: self.size
-                halign: 'left'
-                valign: 'middle'
-                text: 'match results'
-                color: 255, 255, 255, 1
-            Label:
-                id: standings
-                text_size: self.size
-                halign: 'left'
-                valign: 'middle'
-                text: 'standings'
-                color: 255, 255, 255, 1
+            ScrollView:
+                Label:
+                    id: matches
+                    text_size: self.size
+                    halign: 'left'
+                    valign: 'middle'
+                    text: 'match results'
+                    color: 255, 255, 255, 1
+            ScrollView:
+                GridLayout:
+                    id: standings
+                    cols: 1
+                    size_hint_y: None
+                    height: self.minimum_height
+                    row_force_default: True
+                    row_default_height: dp(26)
         BoxLayout:
             size_hint_y: 0.1
             Button:
