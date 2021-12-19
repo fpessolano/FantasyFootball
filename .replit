@@ -1,2 +1,2 @@
-run="python main.py"
+run="python ffmCLI.py"
 language="python3"

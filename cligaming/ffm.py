@@ -59,6 +59,7 @@ class FFM:
         """
         plays a game round or complete season
         """
+        clear()
         print(
             f'\nWelcome to league {self.league.league_name}\n\n{self.league.order_standing(True)}\n'
         )
@@ -66,6 +67,9 @@ class FFM:
         season_completed = False
         while not season_completed:
             command = ""
+            # print(
+            #     f"\nCurrent standings are:\n\n{self.league.order_standing()}\n"
+            # )
             while command != "F" and command != "C" and command != "Q":
                 command = input(
                     "(F)inalise season, (C)ontinue to a single game or (Q)uit? "
@@ -79,11 +83,14 @@ class FFM:
                     season_completed = True
                 else:
                     print(f'\n{match_day}\n')
-                if input("Do you want to see the standings (y for yes)? "
-                         ).lower() == 'y':
-                    print(
-                        f"\nCurrent standings are:\n\n{self.league.order_standing()}\n"
-                    )
+                # if input("Do you want to see the standings (y for yes)? "
+                #          ).lower() == 'y':
+                #     print(
+                #         f"\nCurrent standings are:\n\n{self.league.order_standing()}\n"
+                #     )
+                print(
+                    f"\nCurrent standings are:\n\n{self.league.order_standing()}\n"
+                )
             elif command == "F":
                 # finish to run the season
                 show_matches = input(

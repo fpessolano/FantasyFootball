@@ -19,7 +19,8 @@ CLI Game: Just run "python3 ffmCLI.py" after having installed the required modul
 **What's next**
 
 ***v0.3.0***
- - Make all code replit deployable  
+ - Make all code replit deployable, libs included run buttion starts the comoplete one (CLI first, GUI afterwards)    
+ - Make sure CLI does not scroll (and shows matches first without results)
 
 ***v0.4.0***
  - Graphical Interface  
