@@ -17,21 +17,25 @@ CLI Game: Just run "python3 ffmCLI.py" after having installed the required modul
  - n/a  
 
 **What's next**
+
 ***v0.3.0***
+ - Make all code replit deployable  
+
+***v0.4.0***
  - Graphical Interface  
  - Improve commenting  
  - Split CLI and GUI  
  - Move support files to assets  
 
-***v0.4.0***
+***v0.5.0***
  - Improve match simulator (winning streak result, better injuries' randomness, etc.)  
  - Add match type to league information  
 
-***v0.5.0***
+***v0.6.0***
  - More than one league  
  - Friendly and team stats  
 
-***v0.6.0***
+***v0.7.0***
  - Add team players with stats  
  - Transfer market by the user for all teams  
 
