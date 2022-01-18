@@ -1,3 +1,11 @@
+"""
+ffmCLI.py: command line game
+"""
+
+__author__ = "Francesco Pessolano"
+__copyright__ = "2021"
+__version__ = "0.5.0"
+
 from cligaming.ffm import FFM
 from support.screen_utils import clear
 

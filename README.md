@@ -22,7 +22,8 @@ NOTE: the game is being moved for deployment on replit.
 ***v0.3.0***
  - Make all code replit deployable, libs included run buttion starts the comoplete one (CLI first, GUI afterwards)    
  - Make sure CLI does not scroll (and shows matches first without results)  
- - checl schedule as it seems a team first plays mostly home always  
+ - check schedule as it seems a team first plays mostly home always 
+ - find way to use shared savefile  
 
 ***v0.4.0***
  - Graphical Interface  

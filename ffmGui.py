@@ -1,3 +1,11 @@
+"""
+ffmGUI.py: GUI game
+"""
+
+__author__ = "Francesco Pessolano"
+__copyright__ = "2021"
+__version__ = "0.1.0"
+
 from kivy.app import App
 from kivy.config import Config
 from kivy.lang import Builder
