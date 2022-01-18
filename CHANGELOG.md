@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.3.1]
+#### Change 
+ - replit compatible
+ - cli game interface does not scrolls  
+ 
 ## [0.2.1]
 #### Change 
  - fixed bug that does not allow loading saved games with even number of teams  

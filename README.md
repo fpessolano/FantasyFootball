@@ -1,6 +1,7 @@
 # Fantasy Football  
 About:      a simple football manager game in python3  
 Author:     F. Pessolano  
+Version:    0.3.0
 
 
 **Description**  
@@ -11,24 +12,22 @@ It was meant to be a simple CLI football manager game. Currently it is a free ti
 See requirements.txt  
 
 **Usage**  
-CLI Game: Just run "python3 ffmCLI.py" after having installed the required modules (see requirements.txt)  
-NOTE: the game is being moved for deployment on replit.  
+Run main.py
 
 **Known BUGS**  
- - n/a  
+ - teams play first always home and then away  
 
 **What's next**
 
 ***v0.3.0***
- - Make all code replit deployable, libs included run buttion starts the comoplete one (CLI first, GUI afterwards)    
- - Make sure CLI does not scroll (and shows matches first without results)  
- - check schedule as it seems a team first plays mostly home always 
- - find way to use shared savefile  
+ - Migrate to replit    
+ - Proper CLI interface  
+ - fix home game first bug  
+ - solved shared savefile issue    
 
 ***v0.4.0***
  - Graphical Interface  
  - Improve commenting  
- - Split CLI and GUI  
  - Move support files to assets  
 
 ***v0.5.0***
