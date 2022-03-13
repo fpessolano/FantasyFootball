@@ -3,8 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [0.3.1]
 #### Change 
- - replit compatible
- - cli game interface does not scrolls  
+ - replit compatible  
+ - several bugs fixed  
+
+#### Add
+ - tbc  
  
 ## [0.2.1]
 #### Change 

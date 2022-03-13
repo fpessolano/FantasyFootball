@@ -1,3 +1,5 @@
+import random
+
 def calendar_valid(cal):
     """
     calendarCorrectness verifies that the calendar contains no errors
@@ -35,7 +37,7 @@ def berger_table_schedule(number):
     # generate Bergen table
     for i in range(0, number - 1):
         row = []
-        offset = 0
+        # offset = 0
         for j in range(1, number):
             # value = (i + j) % number + int((i + j) / number)
             value = (i + j) % number + ((i + j) // number)
@@ -53,5 +55,31 @@ def berger_table_schedule(number):
     return schedule, added_one
 
 
+def generate_calendar(schedule):
+    """
+    Generate a true calendar from a berger schedule
+    :param schedule: number of participating teams
+    :return: true calendar
+    """
+    calendar = []
+    calendar_return = []
+    for day in range(len(schedule[0])):
+        match_day = []
+        match_day_return = []
+        for team in range(len(schedule)):
+            match = [team, schedule[team][day]]
+            match_reversed =  [schedule[team][day], team]
+            if match not in match_day and match_reversed not in match_day:
+              if bool(random.getrandbits(1)):
+                match_day.append(match)
+                match_day_return.append(match_reversed)
+              else:
+                match_day.append(match_reversed)
+                match_day_return.append(match)
+        calendar.append(match_day)
+        calendar_return.append(match_day_return)
+    return calendar + calendar_return
+
+
 if __name__ == '__main__':
-    print(berger_table_schedule(5))
+    print(generate_calendar(berger_table_schedule(4)[0]))

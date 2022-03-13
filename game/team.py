@@ -3,7 +3,7 @@ import random
 
 # TODO add injury and injury tracking
 #  hide elo (call it rating)
-#  re-order anc clean methids
+#  re-order and clean methids
 
 class Team:
     """

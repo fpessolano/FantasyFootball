@@ -15,7 +15,6 @@ See requirements.txt
 Run main.py
 
 **Known BUGS**  
- - teams play first always home and then away
  - issues with saved games on shared replit file  
 
 **What's next**
@@ -23,8 +22,8 @@ Run main.py
 ***v0.3.0***
  - Migrate to replit    
  - Proper CLI interface  
- - fix home game first bug  
- - solve shared savefile issue    
+ - solve shared savefile issue
+ - add option update elo data  
 
 ***v0.4.0***
  - Graphical Interface  

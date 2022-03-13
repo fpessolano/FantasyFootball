@@ -12,17 +12,22 @@ class League:
     """
     Object that define a league including all teams, calendar, and all related methods
     """
-
-    def __init__(self, teams, team='My League', relegation_zone=0):
+    def __init__(self,
+                 teams,
+                 team='My League',
+                 relegation_zone=0,
+                 schedule_recovery_params=[5, 1, 3]):
         """
         initialises a new instance
         :param team: league name
         :param relegation_zone: how many teams are relegated
         :param teams: the league team names
+        :patam schedule_recovery_params: regulates the usage of saved generated schedules
         """
 
         self.league_name = team
-        self.__schedule = []
+        self.__berger_schedule = []
+        self.__calendar = []
         self.__state_file = SaveFile('data.dat')
         if not teams:
             self.valid = False
@@ -41,16 +46,19 @@ class League:
         self.__teams = []
         self.__relegation_zone = relegation_zone
         self.__current_week = 0
-        minimum_set = 5
+        minimum_set = schedule_recovery_params[0]
         if self.__number_teams > 16:
-            minimum_set = 1
+            minimum_set = schedule_recovery_params[1]
         elif self.__number_teams > 10:
-            minimum_set = 3
-        if not self.__read_schedule(minimum_set):
+            minimum_set = schedule_recovery_params[2]
+        if not self.__read_berger_schedule(minimum_set):
             # self.__generateScheduleStepwise()
-            self.__schedule, _ = sc.berger_table_schedule(self.__number_teams)
+            self.__berger_schedule, _ = sc.berger_table_schedule(
+                self.__number_teams)
             self.__save_schedule()
-        self.valid = sc.calendar_valid(self.__schedule)
+        self.__calendar = sc.generate_calendar(self.__berger_schedule)
+        self.valid = sc.calendar_valid(self.__berger_schedule)
+        # TODO we need to generate a real schedule form tje matrix !!!
         if self.valid:
             # the league is populated with teams
             for team in teams:
@@ -63,29 +71,31 @@ class League:
         """
         self.__current_week = savedState["week"]
         self.__teams = savedState["teams"]
-        self.__schedule = savedState["calendar"]
+        self.__berger_schedule = savedState["calendar"]
+        self.__calendar = sc.generate_calendar(self.__berger_schedule)
         self.__relegation_zone = savedState["relegationZone"]
         self.__fakeTeam = savedState["spare"]
         self.league_name = savedState["name"]
         self.__number_teams = len(self.__teams)
         self.valid = (self.__number_teams > 2) and (self.__number_teams > self.__relegation_zone) and \
-                     sc.calendar_valid(self.__schedule)
+                     sc.calendar_valid(self.__berger_schedule)
 
-    def __read_schedule(self, minimum_set=5):
+    def __read_berger_schedule(self, minimum_set=5):
         """
         Read schedule from ones previously stored
         :param minimum_set: if not 0 it will expect a 'randomize' number of schedules to pick one at random or fails
         :return: a valid true if a valid schedule has been found and set
         """
 
-        saved_schedules = self.__state_file.read_state(str(self.__number_teams))
+        saved_schedules = self.__state_file.read_state(str(
+            self.__number_teams))
         if not saved_schedules:
             return False
         elif len(saved_schedules) < minimum_set:
             return False
         else:
             random.shuffle(saved_schedules)
-            self.__schedule = saved_schedules[0]
+            self.__berger_schedule = saved_schedules[0]
             return True
 
     def __save_schedule(self):
@@ -93,19 +103,25 @@ class League:
         Save a new schedule to file
         """
 
-        saved_schedules = self.__state_file.read_state(str(self.__number_teams))
+        saved_schedules = self.__state_file.read_state(str(
+            self.__number_teams))
         if not saved_schedules:
             saved_schedules = []
         skip = False
-        rows, cols = len(self.__schedule), len(self.__schedule[0])
+        rows, cols = len(self.__berger_schedule), len(
+            self.__berger_schedule[0])
         for el in saved_schedules:
-            skip = all([self.__schedule[i][j] == el[i][j] for j in range(cols) for i in range(rows)])
+            skip = all([
+                self.__berger_schedule[i][j] == el[i][j] for j in range(cols)
+                for i in range(rows)
+            ])
             if skip:
                 print('skip')
                 break
         if not skip:
-            saved_schedules.append(self.__schedule)
-        self.__state_file.write_state(str(self.__number_teams), saved_schedules)
+            saved_schedules.append(self.__berger_schedule)
+        self.__state_file.write_state(str(self.__number_teams),
+                                      saved_schedules)
 
     def data(self):
         """
@@ -116,7 +132,7 @@ class League:
         return {
             "week": self.__current_week,
             "teams": self.__teams,
-            "calendar": self.__schedule,
+            "calendar": self.__berger_schedule,
             "relegationZone": self.__relegation_zone,
             "spare": self.__fakeTeam,
             "name": self.league_name
@@ -134,7 +150,8 @@ class League:
         zeros = 0
         for i in range(len(self.__teams)):
             team = self.__teams[i].data()
-            teams_weight[i] = team["PT"] + team["GD"] / 100 + team["GF"] / 1000 - team["GA"] / 1000000
+            teams_weight[i] = team["PT"] + team["GD"] / 100 + team[
+                "GF"] / 1000 - team["GA"] / 1000000
             if teams_weight[i] == 0:
                 zeros += 1
         if len(self.__teams) == zeros:
@@ -144,7 +161,9 @@ class League:
             reverse = False
         else:
             reverse = True
-        teams_weight = sorted(teams_weight.items(), key=lambda x: x[1], reverse=reverse)
+        teams_weight = sorted(teams_weight.items(),
+                              key=lambda x: x[1],
+                              reverse=reverse)
         ordered_teams = []
         ordered_teams_ids = []
         weight: tuple
@@ -174,18 +193,12 @@ class League:
         """
 
         if self.valid:
-            half_season = len(self.__schedule[0])
+            half_season = len(self.__berger_schedule[0])
             if self.__current_week >= 2 * half_season:
                 return ""
-            playing_teams = []
             match_results = []
-            for team in range(len(self.__schedule)):
-                if team not in playing_teams:
-                    if self.__current_week < half_season:
-                        self._single_match(0, match_results, playing_teams, team)
-                    else:
-                        self._single_match(half_season, match_results, playing_teams, team)
-                    playing_teams.append(team)
+            for match in self.__calendar[self.__current_week]:
+                self._single_match(match_results, match)
             self.__current_week += 1
             header = ["WEEK " + str(self.__current_week), "RESULTS"]
             rows = [x for x in match_results]
@@ -193,27 +206,15 @@ class League:
         else:
             return ""
 
-    def _single_match(self, offset, match_results, playing_teams, team):
-        msg1 = ""
-        if team == self.__fakeTeam:
-            msg0 = self.__teams[self.__schedule[team][self.__current_week - offset]].name + " rests "
-        elif self.__schedule[team][self.__current_week - offset] == self.__fakeTeam:
-            msg0 = self.__teams[team].name + " rests"
-        else:
-            if offset == 0:
-                home_team = team
-                away_team = self.__schedule[team][self.__current_week]
-            else:
-                home_team = self.__schedule[team][self.__current_week - offset]
-                away_team = team
-            msg0 = self.__teams[home_team].name + " vs " + self.__teams[away_team].name
-            # result = Simulator.playMatch(self.__teams[homeTeam], self.__teams[away_team])
-            result = elo.play_match(self.__teams[home_team], self.__teams[away_team])
-            msg1 = str(result[0]) + " - " + str(result[1])
-            # self.__teams[homeTeam] = result[2]
-            # self.__teams[away_team] = result[3]
-        playing_teams.append(self.__schedule[team][self.__current_week - offset])
+    def _single_match(self, match_results, match):
+        if self.__fakeTeam in match:
+            return
+        msg0 = self.__teams[match[0]].name + " vs " + self.__teams[
+            match[1]].name
+        result = elo.play_match(self.__teams[match[0]], self.__teams[match[1]])
+        msg1 = str(result[0]) + " - " + str(result[1])
         match_results.append([msg0, msg1])
+        return
 
     def prepare_new_season(self):
         """
