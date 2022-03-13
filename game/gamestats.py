@@ -1,8 +1,12 @@
 import csv
-import sys
+# import sys
+import requests
+import os
+from datetime import date
 
 from support.diskstore import SaveFile
 
+# TODO test is get_new_data works !
 
 class FootballStatistics:
     """
@@ -10,7 +14,7 @@ class FootballStatistics:
     currently supporting elo ratings data from clubelo.com
     """
 
-    def __init__(self, code_file='countrycodes.csv', data_file='leagues.dat', elo_csv='elo.csv'):
+    def __init__(self, code_file='countrycodes.csv', data_file='leagues.dat', elo_csv='elo.csv', get_new_data=False):
         """
         Initialise the instance reading the leagues data and updating the data file if a file called elo.csv is present
         """
@@ -18,6 +22,13 @@ class FootballStatistics:
         new_data = {}
         country_codes = {}
         self.__relegation_zones = {}
+      
+        if get_new_data:
+            url = 'http://api.clubelo.com/' + str(date.today())
+            r = requests.get(url)
+            with open(elo_csv,'wb') as output_file:
+                output_file.write(r.content)
+          
         with open(code_file, 'r') as file:
             Lines = file.readlines()
         for line in Lines:
@@ -64,6 +75,8 @@ class FootballStatistics:
         except:
             # no updated data is available
             pass
+        if get_new_data:
+          os.remove(elo_csv)
         if len(new_data) > 0:
             for country in new_data:
                 try:
