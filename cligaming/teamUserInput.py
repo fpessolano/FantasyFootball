@@ -59,7 +59,7 @@ def existing_league(skip_teams=False):
     :return:  number of teams to be relegates and list of teams
     """
     update_ratings = input(
-        'Download latest ratings (y for yes)?').lower() != 'y'
+        'Download latest ratings (y for yes)?').lower() == 'y'
     stats = FootballStatistics(get_new_data=update_ratings)
     available_leagues = []
     for country in stats.countries():
@@ -106,7 +106,7 @@ def random_teams():
     relegation_zone = 0
     top100 = False
     update_ratings = input(
-        'Download latest ratings (y for yes)?').lower() != 'y'
+        'Download latest ratings (y for yes)?').lower() == 'y'
     league_name = input('What is the name of new competition? ')
     league_name.replace('_', " ").strip()
     while not valid_input:

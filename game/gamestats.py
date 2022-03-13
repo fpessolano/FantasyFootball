@@ -78,10 +78,7 @@ class FootballStatistics:
           os.remove(elo_csv)
         if len(new_data) > 0:
             for country in new_data:
-                try:
-                    _ = self.__data[country]
-                except:
-                    self.__data[country] = {}
+                self.__data[country] = {}
                 for level in new_data[country]:
                     try:
                         _ = self.__data[country][level]
