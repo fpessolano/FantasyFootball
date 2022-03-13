@@ -4,10 +4,11 @@ All notable changes to this project will be documented in this file.
 ## [0.3.1]
 #### Change 
  - replit compatible  
- - several bugs fixed  
+ - several bugs fixed
+ - improved CLI interface  
 
 #### Add
- - tbc  
+ - option to update ratings  
  
 ## [0.2.1]
 #### Change 

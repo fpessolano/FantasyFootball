@@ -31,10 +31,10 @@ class FFM:
                 league_name, relegation_zone, teams = ti.random_teams()
                 break
             elif command == 'c':
-                league_name, relegation_zone, teams = ti.fully_custom_l_eague()
+                league_name, relegation_zone, teams = ti.fully_custom_league()
                 break
 
-        self.league = League(team=league_name,
+        self.league = League(league_name=league_name,
                              teams=teams,
                              relegation_zone=relegation_zone)
         return self.league.valid

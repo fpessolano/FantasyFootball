@@ -20,10 +20,9 @@ Run main.py
 **What's next**
 
 ***v0.3.0***
- - Migrate to replit    
- - Proper CLI interface  
+ - Migrate to replit   
  - solve shared savefile issue
- - add option update elo data  
+ - Improve match simulator (winning streak resulty, better injuries' randomness, etc.)  
 
 ***v0.4.0***
  - Graphical Interface  
@@ -31,7 +30,6 @@ Run main.py
  - Move support files to assets  
 
 ***v0.5.0***
- - Improve match simulator (winning streak result, better injuries' randomness, etc.)  
  - Add match type to league information  
 
 ***v0.6.0***

@@ -14,18 +14,18 @@ class League:
     """
     def __init__(self,
                  teams,
-                 team='My League',
+                 league_name='My League',
                  relegation_zone=0,
                  schedule_recovery_params=[5, 1, 3]):
         """
         initialises a new instance
-        :param team: league name
+        :param league_name: league name
         :param relegation_zone: how many teams are relegated
         :param teams: the league team names
         :patam schedule_recovery_params: regulates the usage of saved generated schedules
         """
 
-        self.league_name = team
+        self.league_name = league_name
         self.__berger_schedule = []
         self.__calendar = []
         self.__state_file = SaveFile('data.dat')

@@ -6,7 +6,6 @@ from datetime import date
 
 from support.diskstore import SaveFile
 
-# TODO test is get_new_data works !
 
 class FootballStatistics:
     """
