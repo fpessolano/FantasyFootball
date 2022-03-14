@@ -22,7 +22,7 @@ Run main.py
 ***v0.3.0***
  - Migrate to replit   
  - solve shared savefile issue
- - Improve match simulator (winning streak resulty, better injuries' randomness, etc.)  
+ - Improve match simulator (better injuries, etc.)  
 
 ***v0.4.0***
  - Graphical Interface  

@@ -1,9 +1,10 @@
 import random
 
-
 # TODO add injury and injury tracking
 #  hide elo (call it rating)
-#  re-order and clean methids
+#  re-order and clean methods
+#  use result consistency as modofier
+
 
 class Team:
     """
@@ -21,6 +22,7 @@ class Team:
         self.goals = [0, 0, 0]
         self.stats = [0, 0, 0]
         self.stars = 0
+        self.result_streak = 0
 
     def data(self, show_stars=False):
         data = {
@@ -39,17 +41,27 @@ class Team:
         return data
 
     def print(self):
-        print(f'Team {self.name} with current ELO of {self.__elo} has played {self.played}'
-              f' matches with stats {self.stats} and goal stats {self.goals}')
+        print(
+            f'Team {self.name} with current ELO of {self.__elo} has played {self.played}'
+            f' matches with stats {self.stats} and goal stats {self.goals}')
 
     def add_match(self, scored, conceived):
         self.played += 1
         if scored > conceived:
             self.stats[0] += 1
+            if self.result_streak < 0:
+                self.result_streak = 1
+            else:
+                self.result_streak += 1
         elif scored == conceived:
             self.stats[1] += 1
+            self.result_streak = 0
         else:
             self.stats[2] += 1
+            if self.result_streak > 0:
+                self.result_streak = -1
+            else:
+                self.result_streak -= 1
         self.goals[0] += scored
         self.goals[1] += conceived
         self.goals[2] += scored - conceived
@@ -68,7 +80,8 @@ class Team:
         maxElo = max(elo_list)
         cls.__elo_half_step = (maxElo - cls.__min_elo) / 10
         for el in team_list:
-            el.stars = max(((el.__elo - cls.__min_elo) // cls.__elo_half_step) / 2, 0.5)
+            el.stars = max(
+                ((el.__elo - cls.__min_elo) // cls.__elo_half_step) / 2, 0.5)
 
     # @classmethod
     # def eloFromStars(cls, stars, team):
@@ -99,10 +112,30 @@ class Team:
         # TODO make a proper model
         return random.uniform(0.85, 1)
 
+    def __form_modifier(self,
+                        thresholds=[3, 15],
+                        out_of_range_boosters=[0.1, -0.15]):
+        # todo - use self.result_streak
+        if self.result_streak > thresholds[1]:
+            return 1 + out_of_range_boosters[0]
+        elif self.result_streak < -1 * thresholds[1]:
+            return 1 + out_of_range_boosters[1]
+        elif self.result_streak < -1 * thresholds[0]:
+            return random.uniform(
+                1 + (thresholds[0] + self.result_streak) / 100, 1)
+        elif self.result_streak < 0:
+            return 1
+        elif self.result_streak < thresholds[0]:
+            return random.uniform(1, 1 + self.result_streak / 100)
+        else:
+            return random.uniform(1 - self.result_streak / 100,
+                                  1 + thresholds[0] / 100)
+
     @classmethod
     def winning_probability(cls, home_team, away_team, home_offset):
-        deltaElo = (home_team.__elo + home_offset) * home_team.__injuries() - away_team.__elo
-        return float(1 / (10 ** (deltaElo / -400) + 1))
+        deltaElo = (home_team.__elo + home_offset) * home_team.__injuries(
+        ) * home_team.__form_modifier() - away_team.__elo
+        return float(1 / (10**(deltaElo / -400) + 1))
 
     def new_rating(self, match_modifier, goal_difference, win_probability):
         if goal_difference > 0:

@@ -8,7 +8,8 @@ All notable changes to this project will be documented in this file.
  - improved CLI interface  
 
 #### Add
- - option to update ratings  
+ - option to update ratings
+ - form modifier based in result streaks
  
 ## [0.2.1]
 #### Change 
