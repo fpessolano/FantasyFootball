@@ -108,9 +108,9 @@ class Team:
     def rating(self):
         return self.__elo
 
-    def __injuries(self):
+    def __injuries(self, lower_modifier=0.85):
         # TODO make a proper model
-        return random.uniform(0.85, 1)
+        return random.uniform(lower_modifier, 1)
 
     def __form_modifier(self,
                         thresholds=[3, 15],

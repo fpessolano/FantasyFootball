@@ -22,7 +22,6 @@ Run main.py
 ***v0.3.0***
  - Migrate to replit   
  - solve shared savefile issue
- - Improve match simulator (better injuries, etc.)  
 
 ***v0.4.0***
  - Graphical Interface  
@@ -30,7 +29,8 @@ Run main.py
  - Move support files to assets  
 
 ***v0.5.0***
- - Add match type to league information  
+ - Add match type to league information
+ - Improve match simulator (better injuries, etc.)  
 
 ***v0.6.0***
  - More than one league  
