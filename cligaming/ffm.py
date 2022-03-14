@@ -39,9 +39,10 @@ class FFM:
                              relegation_zone=relegation_zone)
         return self.league.valid
 
-    def load(self):
+    def load(self, user_id):
         """
         load a saved game
+        :param user_id: used id for using the correct user data slot
         """
         saves = ', '.join(self.save_file.stateList())
         print(f'Available saved games: {saves}')
@@ -107,9 +108,10 @@ class FFM:
         self.league.prepare_new_season()
         return True
 
-    def save_end(self):
+    def save_end(self, user_id):
         """
         ends the game
+        :param user_id: used id for using the correct user data slot
         """
         if input(
                 "Do you want to save the game (y for yes or anything else for no)? "

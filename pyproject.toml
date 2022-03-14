@@ -8,6 +8,7 @@ authors = ["francesco@fralke.com"]
 python = "^3.8"
 Kivy = "^2.0.0"
 tabulate = "^0.8.9"
+replit = "^3.2.4"
 
 [tool.poetry.dev-dependencies]
 

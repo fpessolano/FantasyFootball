@@ -3,6 +3,8 @@ About:      a simple football manager game in python3
 Author:     F. Pessolano  
 Version:    0.3.0
 
+NOTE:       As of version 0.3.0 is adaped to run as a repl and uses replit database   
+
 
 **Description**  
 This is a python project initially started to teach Python to my kids in a fun way and with increasing difficulty.  
@@ -21,7 +23,7 @@ Run main.py
 
 ***v0.3.0***
  - Migrate to replit   
- - solve shared savefile issue
+ - solve shared savefile issue by moving to replit database
 
 ***v0.4.0***
  - Graphical Interface  

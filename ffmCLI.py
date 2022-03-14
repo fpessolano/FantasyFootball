@@ -6,28 +6,34 @@ from cligaming.ffm import FFM
 from support.screen_utils import clear
 
 
-def play_game():
+def play_game(user_id=""):
     clear()
-    print("Welcome to FMM2021")
-    print("Version 0.2.0\n")
+    if not user_id:
+      print("Welcome to FantasyManager")
+    else:
+      print("Welcome", user_id, "to FantasyManager")
+    print("Version 0.3.0\n")
 
     game = FFM()
 
     command = ""
     while True:
-        while command != "n" and command != "l":
-            command = input("(N)ew game or (L)oad game? ").lower()
-            if command != "n" and command != "l":
-                print("!!! ERROR: please write a valid command !!!")
+        if user_id:
+          while command != "n" and command != "l":
+              command = input("(N)ew game or (L)oad game? ").lower()
+              if command != "n" and command != "l":
+                  print("!!! ERROR: please write a valid command !!!")
+        else:
+          command = "n"
         if command == "l":
-            if game.load():
+            if game.load(user_id):
                 break
             else:
-                print('Failed to load the saved game')
+                print("Failed to load the saved game")
                 command = ""
         else:
             while not game.new():
-                print('Failed to create league.', end=' ')
+                print("Failed to create league.", end=' ')
                 try_again = input("Try again (y for yes)? ").lower()
                 if try_again != 'y':
                     print("Bye Bye!")
