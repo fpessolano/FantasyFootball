@@ -3,17 +3,23 @@ from cligaming.teamUserInput import promotion_and_relegation
 from support.diskstore import SaveFile
 import cligaming.teamUserInput as ti
 from support.screen_utils import clear
+from support.replit_db_store import GameData
+import json
 
 
 class FFM:
     """
-    Teh Fantasy Football Manager game class
+    The Fantasy Football Manager game class
     """
-    def __init__(self):
+    def __init__(self, user_id):
         """
         setting up the basic game variables
         """
         self.save_file = SaveFile("saves.dat")
+        if user_id:
+            self.user_data = GameData(user_id)
+        else:
+            self.user_data = None
         self.league = League([])
 
     def new(self):
@@ -39,20 +45,23 @@ class FFM:
                              relegation_zone=relegation_zone)
         return self.league.valid
 
-    def load(self, user_id):
+    def load(self):
         """
         load a saved game
-        :param user_id: used id for using the correct user data slot
         """
-        saves = ', '.join(self.save_file.stateList())
+        #saves = ', '.join(self.save_file.stateList())
+        saves = ', '.join(self.user_data.saved_game_list())
         print(f'Available saved games: {saves}')
-        save_game_name = input(
-            "Provide the save game name (enter for \'Autosave\')? ")
+        save_game_name = input("Provide the save game name please? ")
         if save_game_name == "":
-            save_game_name = 'Autosave'
-        saved_game = self.save_file.read_state(save_game_name)
+            return False
+        saved_game = self.user_data.read_game(save_game_name)
         if not saved_game:
             return False
+        try:
+          saved_game = json.loads(saved_game)
+        except:
+          return False
         self.league.restore(saved_game)
         return True
 
@@ -108,11 +117,13 @@ class FFM:
         self.league.prepare_new_season()
         return True
 
-    def save_end(self, user_id):
+    def save_end(self):
         """
         ends the game
-        :param user_id: used id for using the correct user data slot
         """
+        if not self.user_data:
+          print("\nThanks for playing!")
+          return
         if input(
                 "Do you want to save the game (y for yes or anything else for no)? "
         ).lower() == "y":
@@ -122,5 +133,5 @@ class FFM:
                 save_game_name = f"Autosave"
             else:
                 save_game_name.strip().replace(" ", "_")
-            self.save_file.write_state(save_game_name, self.league.data())
+            self.user_data.save_game(save_game_name, self.league.data())
         print("\nThanks for playing!")

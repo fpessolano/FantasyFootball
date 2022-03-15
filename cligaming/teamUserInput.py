@@ -7,7 +7,7 @@ from game.team import Team
 from game.gamestats import FootballStatistics
 
 
-# TODO support fir fractional stars
+# TODO support for fractional stars
 def fully_custom_league():
     """
     generates a full custom league

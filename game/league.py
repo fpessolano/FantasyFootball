@@ -1,5 +1,4 @@
 import random
-
 import tabulate
 
 import game.simulator as elo
@@ -63,22 +62,6 @@ class League:
             # the league is populated with teams
             for team in teams:
                 self.__teams.append(team)
-
-    def restore(self, savedState):
-        """
-        restore the league from the provided data
-        :param savedState: dict containing all necessary league data
-        """
-        self.__current_week = savedState["week"]
-        self.__teams = savedState["teams"]
-        self.__berger_schedule = savedState["calendar"]
-        self.__calendar = sc.generate_calendar(self.__berger_schedule)
-        self.__relegation_zone = savedState["relegationZone"]
-        self.__fakeTeam = savedState["spare"]
-        self.league_name = savedState["name"]
-        self.__number_teams = len(self.__teams)
-        self.valid = (self.__number_teams > 2) and (self.__number_teams > self.__relegation_zone) and \
-                     sc.calendar_valid(self.__berger_schedule)
 
     def __read_berger_schedule(self, minimum_set=5):
         """
@@ -252,3 +235,24 @@ class League:
 
     def teams(self):
         return [x.name for x in self.__teams]
+
+    def restore(self, savedState):
+        """
+        restore the league from the provided data
+        :param savedState: dict containing all necessary league data
+        """
+
+        self.__current_week = savedState["week"]
+        self.__berger_schedule = savedState["calendar"]
+        self.__calendar = sc.generate_calendar(self.__berger_schedule)
+        self.__relegation_zone = savedState["relegationZone"]
+        self.__fakeTeam = savedState["spare"]
+        self.league_name = savedState["name"]
+
+        self.__teams = []
+        for team in savedState["teams"]:
+            self.__teams.append(Team(full_definition=team))
+
+        self.__number_teams = len(self.__teams)
+        self.valid = (self.__number_teams > 2) and (self.__number_teams > self.__relegation_zone) and \
+                        sc.calendar_valid(self.__berger_schedule)

@@ -5,6 +5,8 @@ ffmCLI.py: command line game
 from cligaming.ffm import FFM
 from support.screen_utils import clear
 
+# TODO save crashes ...
+
 
 def play_game(user_id=""):
     clear()
@@ -14,7 +16,7 @@ def play_game(user_id=""):
       print("Welcome", user_id, "to FantasyManager")
     print("Version 0.3.0\n")
 
-    game = FFM()
+    game = FFM(user_id)
 
     command = ""
     while True:
@@ -26,7 +28,7 @@ def play_game(user_id=""):
         else:
           command = "n"
         if command == "l":
-            if game.load(user_id):
+            if game.load():
                 break
             else:
                 print("Failed to load the saved game")

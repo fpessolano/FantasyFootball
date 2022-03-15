@@ -1,7 +1,11 @@
 from replit import db
 import time
+from json import JSONEncoder
 
-# TODO move from a file to the database, need separation between save games and generic game data
+
+class JsonEncoder(JSONEncoder):
+    def default(self, obj):
+        return obj.__dict__
 
 
 class GameData:
@@ -18,6 +22,7 @@ class GameData:
     def save_game(self, name, state, force=True):
         if not self.__id:
             return False
+        state = JsonEncoder().encode(state)
         if not force and name in db[self.__id]['saved_games']:
             return False
         db[self.__id]['saved_games'][name] = state
@@ -81,14 +86,14 @@ class GameData:
 
 
 if __name__ == '__main__':
-    test = GameData('ciao')
-    print(db.keys())
-    test.save_game('test', 1)
-    print(test.read_game('test'))
-    print(test.saved_game_list())
-    test.save_state('test', 1)
-    print(test.state_list())
-    print(test.read_state('last_login'))
-    test.kill()
+    for user in db.keys():
+        game = GameData(user)
+        print("user", user, "last login was", game.read_state('last_login'))
+        print()
+        for saved_game in game.saved_game_list():
+            print(saved_game, ":")
+            print(game.read_game(saved_game))
+            print()
+        print("*******\n")
+        game.kill()
 
-    print(db.keys())

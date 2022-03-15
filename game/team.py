@@ -1,4 +1,5 @@
 import random
+import json
 
 # TODO add injury and injury tracking
 #  hide elo (call it rating)
@@ -14,7 +15,21 @@ class Team:
     __min_elo = 1000
     __elo_half_step = 100
 
-    def __init__(self, name, elo=1500):
+    def __init__(self, name="", elo=1500, full_definition=None):
+        try:
+            if full_definition:
+                self.name = full_definition["name"]
+                self.__elo = full_definition["_Team__elo"]
+                self.__old_edo = full_definition[
+                    "_Team__old_edo"]  # BUG need to fix typo
+                self.played = full_definition["played"]
+                self.goals = full_definition["goals"]
+                self.stats = full_definition["stats"]
+                self.stars = full_definition["stars"]
+                self.result_streak = full_definition["result_streak"]
+            return
+        except:
+            pass
         self.name = name
         self.__elo = elo
         self.__old_edo = elo
@@ -152,3 +167,20 @@ class Team:
             modifier = 1 + (3 / 4 + (goal_difference - 3) / 8)
         self.__elo = float(self.__elo + match_modifier * modifier *
                            (result - win_probability))
+
+    def __iter__(self):
+        yield from {
+            "name": self.name,
+            "elo": self.__elo,
+            "old_elo": self.__old_edo,
+            "goals": self.goals,
+            "stats": self.stats,
+            "stars": self.stars,
+            "result_streak": self.result_streak
+        }.items()
+
+    def __str__(self):
+        return json.dumps(dict(self), ensure_ascii=False)
+
+    def __repr__(self):
+        return self.__str__()

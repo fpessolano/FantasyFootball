@@ -23,7 +23,7 @@ Run main.py
 
 ***v0.3.0***
  - Migrate to replit   
- - solve shared savefile issue by moving to replit database
+ - clean code  
 
 ***v0.4.0***
  - Graphical Interface  
