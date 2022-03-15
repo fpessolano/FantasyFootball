@@ -1,10 +1,6 @@
 import random
 import json
 
-# TODO add injury and injury tracking
-#  hide elo (call it rating)
-#  re-order and clean methods
-#  use result consistency as modofier
 
 
 class Team:
@@ -20,19 +16,18 @@ class Team:
             if full_definition:
                 self.name = full_definition["name"]
                 self.__elo = full_definition["_Team__elo"]
-                self.__old_edo = full_definition[
-                    "_Team__old_edo"]  # BUG need to fix typo
+                self.__old_elo = full_definition["_Team__old_elo"]
                 self.played = full_definition["played"]
                 self.goals = full_definition["goals"]
                 self.stats = full_definition["stats"]
                 self.stars = full_definition["stars"]
                 self.result_streak = full_definition["result_streak"]
-            return
+                return
         except:
             pass
         self.name = name
         self.__elo = elo
-        self.__old_edo = elo
+        self.__old_elo = elo
         self.played = 0
         self.goals = [0, 0, 0]
         self.stats = [0, 0, 0]
@@ -107,9 +102,9 @@ class Team:
     def elo_from_stars(self, stars, reset):
         new_elo = Team.__min_elo + 2.05 * stars * Team.__elo_half_step
         if reset:
-            self.__old_edo = new_elo
+            self.__old_elo = new_elo
         else:
-            self.__old_edo = self.__elo
+            self.__old_elo = self.__elo
         self.__elo = new_elo
         self.stars = stars
 
@@ -117,8 +112,8 @@ class Team:
     #  test
     def adjust_rating(self):
         elo = self.__elo
-        self.__elo = self.__old_edo + (self.__elo - self.__old_edo) / 3
-        self.__old_edo = elo
+        self.__elo = self.__old_elo + (self.__elo - self.__old_elo) / 3
+        self.__old_elo = elo
 
     def rating(self):
         return self.__elo
@@ -172,7 +167,7 @@ class Team:
         yield from {
             "name": self.name,
             "elo": self.__elo,
-            "old_elo": self.__old_edo,
+            "old_elo": self.__old_elo,
             "goals": self.goals,
             "stats": self.stats,
             "stars": self.stars,
