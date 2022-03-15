@@ -23,7 +23,10 @@ Run main.py
 
 ***v0.3.0***
  - Migrate to replit   
- - clean code  
+ - clean code
+ - fix edo typo (should be elo in saved game)
+ - make automatic download of new elo every tot days (remove question)
+ - streamline interface a bit  
 
 ***v0.4.0***
  - Graphical Interface  
