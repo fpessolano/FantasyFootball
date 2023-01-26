@@ -1,7 +1,7 @@
 # Fantasy Football  
 About:      a simple football manager game in python3  
 Author:     F. Pessolano  
-Version:    0.3.0
+Version:    0.3.1
 
 NOTE:       As of version 0.3.0 is adaped to run as a repl and uses replit database   
 
@@ -28,7 +28,7 @@ Run main.py
  - streamline interface a bit  
 
 ***v0.4.x***
- - Graphical Interface  
+ - Graphical Interface (if alternative to kivy is found) 
  - Improve commenting  
  - Move support files to assets  
 
