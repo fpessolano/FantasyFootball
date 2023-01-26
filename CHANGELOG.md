@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 
 #### Add
  - option to update ratings
- - form modifier based in result streaks
+ - form modifier based on result streaks
  
 ## [0.2.1]
 #### Change 

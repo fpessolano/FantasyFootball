@@ -21,26 +21,26 @@ Run main.py
 
 **What's next**
 
-***v0.3.0***
+***v0.3.x***
  - Migrate to replit   
  - clean code
  - make automatic download of new elo every tot days (remove question)
  - streamline interface a bit  
 
-***v0.4.0***
+***v0.4.x***
  - Graphical Interface  
  - Improve commenting  
  - Move support files to assets  
 
-***v0.5.0***
+***v0.5.x***
  - Add match type to league information
  - Improve match simulator (better injuries, etc.)  
 
-***v0.6.0***
+***v0.6.x***
  - More than one league  
  - Friendly and team stats  
 
-***v0.7.0***
+***v0.7.x***
  - Add team players with stats  
  - Transfer market by the user for all teams  
 
