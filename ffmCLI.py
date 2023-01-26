@@ -14,7 +14,7 @@ def play_game(user_id=""):
       print("Welcome to FantasyManager")
     else:
       print("Welcome", user_id, "to FantasyManager")
-    print("Version 0.3.1\n")
+    print("Version 0.3.1_nighly\n")
 
     game = FFM(user_id)
 
