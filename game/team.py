@@ -125,7 +125,6 @@ class Team:
     def __form_modifier(self,
                         thresholds=[3, 15],
                         out_of_range_boosters=[0.1, -0.15]):
-        # todo - use self.result_streak
         if self.result_streak > thresholds[1]:
             return 1 + out_of_range_boosters[0]
         elif self.result_streak < -1 * thresholds[1]:

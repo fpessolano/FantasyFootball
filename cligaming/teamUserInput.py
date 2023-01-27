@@ -6,7 +6,6 @@ from tabulate import tabulate
 from game.team import Team
 from game.gamestats import FootballStatistics
 
-
 # TODO support for fractional stars
 def fully_custom_league():
     """
@@ -92,7 +91,7 @@ def existing_league(skip_teams=False):
         return league_name, stats.relegation(
             available_leagues[selected]['country']), teams_list
     except:
-        print(f'Please type a valid number!')
+        print('Please type a valid number!')
         return existing_league(True)
 
 

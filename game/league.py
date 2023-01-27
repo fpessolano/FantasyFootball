@@ -1,10 +1,12 @@
 import random
 import tabulate
 
-import game.simulator as elo
+import game.simulator as game_simulator
 from game.team import Team
 from support.diskstore import SaveFile
 import game.scheduling as sc
+
+# TODO: using disk based file saving, concurrent access an issue. 
 
 
 class League:
@@ -45,23 +47,23 @@ class League:
         self.__teams = []
         self.__relegation_zone = relegation_zone
         self.__current_week = 0
+        # TODO review schedule building algo
         minimum_set = schedule_recovery_params[0]
         if self.__number_teams > 16:
             minimum_set = schedule_recovery_params[1]
         elif self.__number_teams > 10:
             minimum_set = schedule_recovery_params[2]
         if not self.__read_berger_schedule(minimum_set):
-            # self.__generateScheduleStepwise()
             self.__berger_schedule, _ = sc.berger_table_schedule(
                 self.__number_teams)
             self.__save_schedule()
         self.__calendar = sc.generate_calendar(self.__berger_schedule)
         self.valid = sc.calendar_valid(self.__berger_schedule)
-        # TODO we need to generate a real schedule form tje matrix !!!
         if self.valid:
             # the league is populated with teams
             for team in teams:
                 self.__teams.append(team)
+            #random.shuffle(self.__teams)
 
     def __read_berger_schedule(self, minimum_set=5):
         """
@@ -194,7 +196,7 @@ class League:
             return
         msg0 = self.__teams[match[0]].name + " vs " + self.__teams[
             match[1]].name
-        result = elo.play_match(self.__teams[match[0]], self.__teams[match[1]])
+        result = game_simulator.play_match(self.__teams[match[0]], self.__teams[match[1]])
         msg1 = str(result[0]) + " - " + str(result[1])
         match_results.append([msg0, msg1])
         return

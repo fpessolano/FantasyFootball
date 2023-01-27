@@ -1,6 +1,6 @@
 from game.league import League
 from cligaming.teamUserInput import promotion_and_relegation
-from support.diskstore import SaveFile
+# from support.diskstore import SaveFile
 import cligaming.teamUserInput as ti
 from support.screen_utils import clear
 from support.replit_db_store import GameData
@@ -15,7 +15,7 @@ class FFM:
         """
         setting up the basic game variables
         """
-        self.save_file = SaveFile("saves.dat")
+        # self.save_file = SaveFile("saves.dat")
         if user_id:
             self.user_data = GameData(user_id)
         else:
@@ -52,9 +52,10 @@ class FFM:
         #saves = ', '.join(self.save_file.stateList())
         saves = ', '.join(self.user_data.saved_game_list())
         print(f'Available saved games: {saves}')
-        save_game_name = input("Provide the save game name please? ")
+        save_game_name = input("Provide the save game name please (enter for \'Autosave\')? ")
         if save_game_name == "":
-            return False
+            saved_game = "Autosave"
+            # return False
         saved_game = self.user_data.read_game(save_game_name)
         if not saved_game:
             return False
@@ -128,9 +129,9 @@ class FFM:
                 "Do you want to save the game (y for yes or anything else for no)? "
         ).lower() == "y":
             save_game_name = input(
-                f'Please give me the save name (enter for \'Autosave\')? ')
+                "Please give me the save name (enter for \'Autosave\')? ")
             if save_game_name == "":
-                save_game_name = f"Autosave"
+                save_game_name = "Autosave"
             else:
                 save_game_name.strip().replace(" ", "_")
             self.user_data.save_game(save_game_name, self.league.data())
