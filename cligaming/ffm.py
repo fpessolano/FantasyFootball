@@ -15,7 +15,6 @@ class FFM:
         """
         setting up the basic game variables
         """
-        # self.save_file = SaveFile("saves.dat")
         if user_id:
             self.user_data = GameData(user_id)
         else:
@@ -49,7 +48,6 @@ class FFM:
         """
         load a saved game
         """
-        #saves = ', '.join(self.save_file.stateList())
         saves = ', '.join(self.user_data.saved_game_list())
         print(f'Available saved games: {saves}')
         save_game_name = input("Provide the save game name please (enter for \'Autosave\')? ")

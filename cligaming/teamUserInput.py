@@ -57,9 +57,8 @@ def existing_league(skip_teams=False):
     generates a league from an existing one
     :return:  number of teams to be relegates and list of teams
     """
-    update_ratings = input(
-        'Download latest ratings (y for yes)?').lower() == 'y'
-    stats = FootballStatistics(get_new_data=update_ratings)
+
+    stats = FootballStatistics()
     available_leagues = []
     for country in stats.countries():
         for league in stats.leagues(country):
@@ -104,8 +103,6 @@ def random_teams():
     number_teams = 0
     relegation_zone = 0
     top100 = False
-    update_ratings = input(
-        'Download latest ratings (y for yes)?').lower() == 'y'
     league_name = input('What is the name of new competition? ')
     league_name.replace('_', " ").strip()
     while not valid_input:
@@ -129,13 +126,11 @@ def random_teams():
     print()
     if top100:
         teams = [
-            Team(name=y['Club'], elo=y['Elo']) for _, y in FootballStatistics(
-                get_new_data=update_ratings).get_top_teams().items()
+            Team(name=y['Club'], elo=y['Elo']) for _, y in FootballStatistics().get_top_teams().items()
         ]
     else:
         teams = [
-            Team(name=y['Club'], elo=y['Elo']) for y in FootballStatistics(
-                get_new_data=update_ratings).get_teams()
+            Team(name=y['Club'], elo=y['Elo']) for y in FootballStatistics().get_teams()
         ]
     random.shuffle(teams)
     teams = customise(teams[:number_teams])

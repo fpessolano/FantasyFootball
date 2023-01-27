@@ -8,7 +8,6 @@ import game.scheduling as sc
 
 # TODO: using disk based file saving, concurrent access an issue. 
 
-
 class League:
     """
     Object that define a league including all teams, calendar, and all related methods
@@ -63,7 +62,7 @@ class League:
             # the league is populated with teams
             for team in teams:
                 self.__teams.append(team)
-            #random.shuffle(self.__teams)
+            random.shuffle(self.__teams)
 
     def __read_berger_schedule(self, minimum_set=5):
         """

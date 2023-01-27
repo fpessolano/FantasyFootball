@@ -6,12 +6,10 @@ All notable changes to this project will be documented in this file.
  - replit compatible
  - several bugs fixed
  - improved CLI interface  
+ - automatic download of new stats every week (modifiable)
 
 #### Add
- - move all save files to replit DB store instead of a local file
- - option to update ratings
- - clean code (including remove any gui element)
- - automatic download of new stats every tot days (remove question)
+ - clean code 
  - improve commenting
  
 ## [0.2.1]
