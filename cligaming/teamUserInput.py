@@ -1,10 +1,12 @@
 import random
 # import sys
+import support.screen_utils as su
 
 from tabulate import tabulate
 
 from game.team import Team
 from game.gamestats import FootballStatistics
+
 
 # TODO support for fractional stars
 def fully_custom_league():
@@ -49,7 +51,8 @@ def fully_custom_league():
         except:
             print('Number of stars is not valid')
     Team.calculate_stars(teams)
-    return league_name, relegation_zone, teams
+    my_team = select_my_team(teams)
+    return league_name, relegation_zone, teams, my_team
 
 
 def existing_league(skip_teams=False):
@@ -77,18 +80,19 @@ def existing_league(skip_teams=False):
             ) for i in range(len(available_leagues))
         ]
     try:
-        selected = int(input('\nWhich league di you want to play? '))
+        selected = int(input('\nWhich league do you want to play? '))
         while selected < 0 or selected > len(available_leagues) - 1:
             print(f'League number {selected} is not available!')
-            selected = int(input('\nWhich league di you want to play? '))
+            selected = int(input('\nWhich league do you want to play? '))
         teams_list = [
             Team(name=x, elo=available_leagues[selected]['teams'][x]['Elo'])
             for x in available_leagues[selected]['teams']
         ]
         league_name = f'{available_leagues[selected]["country"]}-{available_leagues[selected]["league"]}'
         teams_list = customise(teams_list)
+        my_team = select_my_team(teams_list)
         return league_name, stats.relegation(
-            available_leagues[selected]['country']), teams_list
+            available_leagues[selected]['country']), teams_list, my_team
     except:
         print('Please type a valid number!')
         return existing_league(True)
@@ -133,11 +137,25 @@ def random_teams():
             Team(name=y['Club'], elo=y['Elo']) for y in FootballStatistics().get_teams()
         ]
     random.shuffle(teams)
-    teams = customise(teams[:number_teams])
-    return league_name, relegation_zone, teams
+    teams_list = customise(teams[:number_teams])
+    my_team = select_my_team(teams_list)
+    return league_name, relegation_zone, teams_list, my_team
 
+def select_my_team(teams):
+    su.clear()
+    headers = ['ID', 'Team', 'Stars']
+    names = print_team_list(headers, teams)
+    print()
+    while True:
+      my_team = int(input('Select your team (type the id)? '))
+      if my_team < len(names):
+        input(f'Your team is {names[my_team]}. Press enter to continue.')
+        return my_team
+      else:
+        print('Please selet an existing team')
 
 def customise(teams):
+    su.clear()
     headers = ['ID', 'Team', 'Stars']
     names = print_team_list(headers, teams)
     print()

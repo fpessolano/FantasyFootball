@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
  - several bugs fixed
  - improved CLI interface  
  - automatic download of new stats every week (modifiable)
+ - allow selection of a team and introduce focus mode
 
 #### Add
  - clean code 

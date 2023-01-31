@@ -30,17 +30,18 @@ class FFM:
             command = input(
                 "(E)xisting, (R)andomize or (C)ustom league?  ").lower()
             if command == 'e':
-                league_name, relegation_zone, teams = ti.existing_league()
+                league_name, relegation_zone, teams, my_team = ti.existing_league()
                 break
             elif command == 'r':
-                league_name, relegation_zone, teams = ti.random_teams()
+                league_name, relegation_zone, teams, my_team = ti.random_teams()
                 break
             elif command == 'c':
-                league_name, relegation_zone, teams = ti.fully_custom_league()
+                league_name, relegation_zone, teams, my_team = ti.fully_custom_league()
                 break
 
         self.league = League(league_name=league_name,
                              teams=teams,
+                             my_team=my_team,
                              relegation_zone=relegation_zone)
         return self.league.valid
 

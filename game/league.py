@@ -4,6 +4,7 @@ import tabulate
 import game.simulator as game_simulator
 from game.team import Team
 from support.diskstore import SaveFile
+from support.screen_utils import highlight_table_row
 import game.scheduling as sc
 
 # TODO: using disk based file saving, concurrent access an issue. 
@@ -15,6 +16,7 @@ class League:
     def __init__(self,
                  teams,
                  league_name='My League',
+                 my_team=None,
                  relegation_zone=0,
                  schedule_recovery_params=[5, 1, 3]):
         """
@@ -26,6 +28,11 @@ class League:
         """
 
         self.league_name = league_name
+        if my_team:
+          self.my_team = teams[my_team].name
+        else:
+          self.my_team = None
+        self.my_team_position = 0
         self.__berger_schedule = []
         self.__calendar = []
         self.__state_file = SaveFile('data.dat')
@@ -46,7 +53,7 @@ class League:
         self.__teams = []
         self.__relegation_zone = relegation_zone
         self.__current_week = 0
-        # TODO review schedule building algo
+        
         minimum_set = schedule_recovery_params[0]
         if self.__number_teams > 16:
             minimum_set = schedule_recovery_params[1]
@@ -119,7 +126,8 @@ class League:
             "calendar": self.__berger_schedule,
             "relegationZone": self.__relegation_zone,
             "spare": self.__fakeTeam,
-            "name": self.league_name
+            "name": self.league_name,
+            "myteam": self.my_team
         }
 
     def __order_standings(self, showStars=False):
@@ -154,6 +162,7 @@ class League:
         for weight in teams_weight:
             ordered_teams.append(self.__teams[weight[0]].data(showStars))
             ordered_teams_ids.append(weight[0])
+
         return ordered_teams, ordered_teams_ids
 
     def order_standing(self, showStars=False):
@@ -168,7 +177,11 @@ class League:
         rows = [x.values() for x in ordered_teams]
         for i in range(len(rows)):
             rows[i] = [i + 1] + list(rows[i])
-        return tabulate.tabulate(rows, header)
+            if rows[i][1] == self.my_team:
+             self.my_team_position = rows[i][0]
+        table = tabulate.tabulate(rows, header)
+        table = highlight_table_row(table, self.my_team_position-1)
+        return table
 
     def match_day(self):
         """
@@ -186,7 +199,15 @@ class League:
             self.__current_week += 1
             header = ["WEEK " + str(self.__current_week), "RESULTS"]
             rows = [x for x in match_results]
-            return tabulate.tabulate(rows, header)
+            highlight_row = -1
+            for ids, row in enumerate(rows):
+              if self.my_team in row[0]:
+                highlight_row = ids
+                break
+            table = tabulate.tabulate(rows, header)
+            if highlight_row >= 0:
+              table = highlight_table_row(table, highlight_row)
+            return table
         else:
             return ""
 
@@ -249,6 +270,7 @@ class League:
         self.__relegation_zone = savedState["relegationZone"]
         self.__fakeTeam = savedState["spare"]
         self.league_name = savedState["name"]
+        self.my_team = savedState["myteam"]
 
         self.__teams = []
         for team in savedState["teams"]:

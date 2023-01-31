@@ -25,7 +25,8 @@ Run main.py (simply RUN in replit)
  - clean code and remove all KIVY elements for the GUI
  - automatic download of new stats every tot days (remove question)
  - streamline interface for CLI (no more scrolling)
- - improve commenting  
+ - improve commenting
+ - focus mode, select my team and highlight its results
 
 ***v0.5.x***
  - Improve match simulator (better injuries, streaks, etc.)
