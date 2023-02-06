@@ -3,15 +3,15 @@ All notable changes to this project will be documented in this file.
 
 ## [0.3.1]
 #### Change 
- - replit compatible
+ - clean code 
+ - improved commenting
  - several bugs fixed
  - improved CLI interface  
- - automatic download of new stats every week (modifiable)
- - allow selection of a team and introduce focus mode
 
 #### Add
- - clean code 
- - improve commenting
+ - replit compatible
+ - automatic download of new stats every week (modifiable)
+ - allow selection of a team and introduce focus mode
  
 ## [0.2.1]
 #### Change 

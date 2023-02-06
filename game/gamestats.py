@@ -6,14 +6,12 @@ import time
 
 from support.diskstore import SaveFile
 
-# TODO: automatic update based on age of stats (every week)
-
 
 class FootballStatistics:
   """
-    retrieve official team data (when needed) from online sources
-    currently supporting elo ratings data from clubelo.com
-    """
+  retrieve official team data (when needed) from online sources
+  currently supporting elo ratings data from clubelo.com
+  """
 
   def __init__(self,
                code_file='countrycodes.csv',
@@ -21,8 +19,8 @@ class FootballStatistics:
                elo_csv='elo.csv',
                maximum_data_age_seconds=604800):
     """
-        Initialise the instance reading the leagues data and updating the data file if a file called elo.csv is present
-        """
+    Initialise the instance reading the leagues data and updating the data file if a file called elo.csv is present
+    """
 
     new_data = {}
     country_codes = {}
@@ -118,6 +116,10 @@ class FootballStatistics:
       return 0
 
   def get_teams(self, lvl=10, elo=0):
+    """
+    Extract teams form the retrieved elo database
+    lvl and elo ate the threshold used to select the teams
+    """
     teams = []
     for country in self.__data:
       for level in self.__data[country]:
@@ -136,6 +138,9 @@ class FootballStatistics:
     return teams
 
   def get_top_teams(self, top=1, bottom=100):
+    """
+    Extract the teams between the top and bottom rankings
+    """
     teams = {}
     if top < 1:
       top = 1

@@ -12,6 +12,12 @@ def clear():
         _ = system('clear')
 
 def highlight_table_row(table, row_number, color="green", format=["bold"]):
+  """
+  given a tabulated string it highlights a given row
+  :param row number: row to be highlighted
+  "param color: highlight color
+  :param format: a termcolor list formatting the highlighted row
+  """
   complete_table =""
   for ids, line in enumerate(table.split('\n')):
     if ids == row_number+2:

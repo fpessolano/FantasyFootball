@@ -13,6 +13,7 @@ from game.team import Team
 class MatchType:
     """
     Constants for match types
+    Currently not used
     """
 
     def __init__(self):

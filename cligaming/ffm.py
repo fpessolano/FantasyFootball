@@ -1,6 +1,5 @@
 from game.league import League
 from cligaming.teamUserInput import promotion_and_relegation
-# from support.diskstore import SaveFile
 import cligaming.teamUserInput as ti
 from support.screen_utils import clear
 from support.replit_db_store import GameData
@@ -14,6 +13,7 @@ class FFM:
     def __init__(self, user_id):
         """
         setting up the basic game variables
+        :param user_id: needed for save and load operations only
         """
         if user_id:
             self.user_data = GameData(user_id)

@@ -2,11 +2,15 @@
 ffmCLI.py: command line game
 """
 
-VERSION = "0.3.1_nighly"
+VERSION = "0.3.1"
 
 from cligaming.ffm import FFM
 from support.screen_utils import clear
 
+"""
+This is he main loop of the game.
+The used name is required to save and load games, but it is not necessary for playing.
+"""
 
 def play_game(user_id=""):
   clear()

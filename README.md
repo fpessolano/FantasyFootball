@@ -1,7 +1,7 @@
 # Fantasy Football  
 About:      a simple football manager game in python3  
 Author:     F. Pessolano  
-Version:    0.3.1_nighly
+Version:    0.3.1
 
 NOTE:       As of version 0.3.0 is adaped to run as a repl and uses replit database   
 
@@ -22,21 +22,13 @@ Run main.py (simply RUN in replit)
 **What's next**
 
 ***v0.4.x***
- - clean code and remove all KIVY elements for the GUI
- - automatic download of new stats every tot days (remove question)
- - streamline interface for CLI (no more scrolling)
- - improve commenting
- - focus mode, select my team and highlight its results
+ - Improve match simulator (better injuries, streaks, statistics plus elo, etc.)
 
 ***v0.5.x***
- - Improve match simulator (better injuries, streaks, etc.)
-
-***v0.6.x***
  - All leagues from one nation including automatic relegation and promotion
- - Multiple seasons 
  - Friendly
 
-***v0.7.x***
+***v0.6.x***
  - Add team players with stats  
  - Transfer market by the user for all teams  
 

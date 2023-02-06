@@ -24,7 +24,7 @@ class League:
         :param league_name: league name
         :param relegation_zone: how many teams are relegated
         :param teams: the league team names
-        :patam schedule_recovery_params: regulates the usage of saved generated schedules
+        :param schedule_recovery_params: regulates the usage of saved generated schedules
         """
 
         self.league_name = league_name
@@ -33,6 +33,7 @@ class League:
         else:
           self.my_team = None
         self.my_team_position = 0
+        self.__result_color = "green"
         self.__berger_schedule = []
         self.__calendar = []
         self.__state_file = SaveFile('data.dat')
@@ -194,6 +195,7 @@ class League:
             if self.__current_week >= 2 * half_season:
                 return ""
             match_results = []
+            self.__result_color = "green"
             for match in self.__calendar[self.__current_week]:
                 self._single_match(match_results, match)
             self.__current_week += 1
@@ -206,20 +208,31 @@ class League:
                 break
             table = tabulate.tabulate(rows, header)
             if highlight_row >= 0:
-              table = highlight_table_row(table, highlight_row)
+
+              table = highlight_table_row(table=table, row_number=highlight_row, color=self.__result_color)
             return table
         else:
             return ""
 
     def _single_match(self, match_results, match):
         if self.__fakeTeam in match:
-            return
+            return 
         msg0 = self.__teams[match[0]].name + " vs " + self.__teams[
             match[1]].name
         result = game_simulator.play_match(self.__teams[match[0]], self.__teams[match[1]])
         msg1 = str(result[0]) + " - " + str(result[1])
         match_results.append([msg0, msg1])
-        return
+        if self.__teams[match[0]].name == self.my_team:
+          if result[0] == result[1]:
+            self.__result_color = "yellow"
+          elif result[0] < result[1]:
+            self.__result_color = "red"
+        elif self.__teams[match[1]].name == self.my_team:
+          if result[0] == result[1]:
+            self.__result_color = "yellow"
+          elif result[0] > result[1]:
+            self.__result_color = "red"
+        return 
 
     def prepare_new_season(self):
         """
@@ -244,7 +257,6 @@ class League:
             team_number = ordered_teams_ids[-1 - i]
             if len(teams) > 0:
                 new_team = teams.pop()
-                # self.__teams[team_number].name = new_team
                 self.__teams[team_number] = new_team
             else:
                 break
