@@ -3,7 +3,9 @@ main.py: game launcher
 """
 
 import ffmCLI
+import os
 
-print("Thanks for playing Fantasy Manager.\n")
-user_name = input("What is your user name (enter to skip)? ")
-ffmCLI.play_game(user_name)
+user_name = os.environ['REPL_OWNER']
+version = "0.4.1_nightly"
+
+ffmCLI.play_game(user_name, version)

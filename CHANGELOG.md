@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.4.1]
+#### Change 
+ - Extract user name from replit
+ - Limit to one league temporarily for development (to be started)
+
+#### Add
+ - Proper title screen
+ - Add players with stats (in progress)
+ - Add new similation mechanism using real-world form (ELO), FIFA-like players stats and a new simulation engine 
+   
 ## [0.3.1]
 #### Change 
  - clean code 
