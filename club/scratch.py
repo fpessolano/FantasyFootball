@@ -12,7 +12,7 @@ remove_columns = ["Photo", "Flag", "Club Logo", "Body Type", "Real Face", "Posit
 unicode_translation = ["Name", "Club"]
 
 chelsea = pd.DataFrame(fifa_data.loc[fifa_data["Club"] == "Chelsea"]).sort_values('Jersey Number', ascending=True)
-chelsea['Growth'] = chelsea['Potential'] - chelsea['Overall']
+# chelsea['Growth'] = chelsea['Potential'] - chelsea['Overall']
 
 team = {}
 for _, player in chelsea.iterrows():
@@ -25,7 +25,12 @@ for _, player in chelsea.iterrows():
       player_redux[col] = value
   team[int(player["Jersey Number"])] = player_redux
 
-print(team)
+print(team[1].keys())
+
+# dict_keys(['ID', 'Name', 'Age', 'Nationality', 'Overall', 'Potential', 'Club', 'Value', 'Wage', 'Special', 'Preferred Foot', 'International Reputation', 'Weak Foot', 'Skill Moves', 'Work Rate', 'Jersey Number', 'Joined', 'Loaned From', 'Contract Valid Until', 'Height', 'Weight', 'Crossing', 'Finishing', 'HeadingAccuracy', 'ShortPassing', 'Volleys', 'Dribbling', 'Curve', 'FKAccuracy', 'LongPassing', 'BallControl', 'Acceleration', 'SprintSpeed', 'Agility', 'Reactions', 'Balance', 'ShotPower', 'Jumping', 'Stamina', 'Strength', 'LongShots', 'Aggression', 'Interceptions', 'Positioning', 'Vision', 'Penalties', 'Composure', 'Marking', 'StandingTackle', 'SlidingTackle', 'GKDiving', 'GKHandling', 'GKKicking', 'GKPositioning', 'GKReflexes', 'Best Position', 'Best Overall Rating', 'Release Clause', 'DefensiveAwareness'])
+  
+# for jnum in team.keys():
+#   print(jnum, team[jnum]["Best Position"])
 
 # above extraction is useless. best use df instead of dict
 
