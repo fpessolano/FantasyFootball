@@ -2,6 +2,7 @@
 
 import pandas as pd
 import unidecode
+import player as pl
 
 fifa_data = pd.read_csv('../assets/FIFA21_official_data.csv')
 # print(fifa_data.info())
@@ -25,7 +26,8 @@ for _, player in chelsea.iterrows():
       player_redux[col] = value
   team[int(player["Jersey Number"])] = player_redux
 
-print(team[1].keys())
+Kepa = pl.Player(team[1])
+print(Kepa.basics())
 
 # dict_keys(['ID', 'Name', 'Age', 'Nationality', 'Overall', 'Potential', 'Club', 'Value', 'Wage', 'Special', 'Preferred Foot', 'International Reputation', 'Weak Foot', 'Skill Moves', 'Work Rate', 'Jersey Number', 'Joined', 'Loaned From', 'Contract Valid Until', 'Height', 'Weight', 'Crossing', 'Finishing', 'HeadingAccuracy', 'ShortPassing', 'Volleys', 'Dribbling', 'Curve', 'FKAccuracy', 'LongPassing', 'BallControl', 'Acceleration', 'SprintSpeed', 'Agility', 'Reactions', 'Balance', 'ShotPower', 'Jumping', 'Stamina', 'Strength', 'LongShots', 'Aggression', 'Interceptions', 'Positioning', 'Vision', 'Penalties', 'Composure', 'Marking', 'StandingTackle', 'SlidingTackle', 'GKDiving', 'GKHandling', 'GKKicking', 'GKPositioning', 'GKReflexes', 'Best Position', 'Best Overall Rating', 'Release Clause', 'DefensiveAwareness'])
   
