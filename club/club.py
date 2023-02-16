@@ -8,8 +8,8 @@ import formation as fmt
 
 class Club:
   """
-    Objects describing a team by means of name, statistics and playing characteristics
-    """
+  Objects describing a team by means of name, statistics and playing characteristics
+  """
 
   __min_elo = 1000
   __elo_half_step = 100
@@ -218,7 +218,8 @@ class Club:
       "stats": self.stats,
       "stars": self.stars,
       "result_streak": self.result_streak,
-      "roster": self.__players.to_json(), # TODO to be checked to see if this is converted to/back correctly
+      "roster": self.__players.to_json(
+      ),  # TODO to be checked to see if this is converted to/back correctly
       "formation": self.team
     }.items()
 
