@@ -1,5 +1,4 @@
 import pandas as pd
-import datetime
 import sys
 
 sys.path.append('../')
@@ -13,51 +12,7 @@ class PlayerStats:
   Object containing statistics of a generic player
   """
 
-  def __init__(self, stats: pd.DataFrame, year=None):
-    if not year:
-      self.year = int(datetime.date.today().year)
-    else:
-      self.year = year
-
-    self.basic_info = {}
-    copy_keys(source=stats,
-              destination=self.basic_info,
-              key_list=[
-                "Name", "Age", "Nationality", "Height", "Weight",
-                "Best Position"
-              ],
-              key_rename_list=[
-                "name", "age", "nationality", "height", "weight", "position"
-              ],
-              if_absent="")
-
-    self.contract = {}
-    copy_keys(source=stats,
-              destination=self.contract,
-              key_list=[
-                "Value", "Wage", "Release Clause", "Contract Valid Until",
-                "Joined", "Loaned From"
-              ],
-              key_rename_list=[
-                "value", "wage", "release_clause", "expiry", "joined",
-                "loaned_from"
-              ],
-              if_absent=0)
-
-    self.role = {}
-    copy_keys(source=stats,
-              destination=self.role,
-              key_list=["Jersey Number", "position"],
-              key_rename_list=["jersey", "position"],
-              if_absent=None)
-
-    self.reputation = {}
-    copy_keys(
-      source=stats,
-      destination=self.reputation,
-      key_list=["International Reputation", "International Reputation"],
-      key_rename_list=["national", "international"],
-      if_absent=None)
+  def __init__(self, stats: pd.DataFrame):
 
     self.rating = {}
     copy_keys(source=stats,
@@ -150,6 +105,8 @@ class PlayerStats:
               if_absent=0)
     self.goalkeeping["streak_booster"] = 1
 
+    # this will need to be adjusted to be useful
+    # for the time being it will be ignored
     self.others = {}
     copy_keys(source=stats,
               destination=self.others,
@@ -159,11 +116,6 @@ class PlayerStats:
 
   def stats(self):
     return {
-      "year": self.year,
-      "basic_info": self.basic_info,
-      "contract": self.contract,
-      "role": self.role,
-      "reputation": self.reputation,
       "rating": self.rating,
       "ball_skills": self.ball_skills,
       "defending": self.defending,
@@ -174,3 +126,35 @@ class PlayerStats:
       "goalkeeping": self.goalkeeping,
       "others": self.others
     }
+
+  def __add__(self, other):
+    cumulative_player = PlayerStats(pd.DataFrame())
+    for key in cumulative_player.rating.keys():
+      cumulative_player.rating[key] = self.rating[key] + other.rating[key]
+    cumulative_player.ball_skills["dribbling"] = self.ball_skills[
+      "dribbling"] + other.ball_skills["dribbling"]
+    cumulative_player.ball_skills[
+      "control"] = self.ball_skills["control"] + other.ball_skills["control"]
+    for key in cumulative_player.defending.keys():
+      cumulative_player.defending[
+        key] = self.defending[key] + other.defending[key]
+    for key in cumulative_player.mental.keys():
+      cumulative_player.mental[key] = self.mental[key] + other.mental[key]
+    for key in cumulative_player.physical.keys():
+      cumulative_player.physical[
+        key] = self.physical[key] + other.physical[key]
+    for key in cumulative_player.passing.keys():
+      cumulative_player.passing[key] = self.passing[key] + other.passing[key]
+    for key in cumulative_player.shooting.keys():
+      cumulative_player.shooting[
+        key] = self.shooting[key] + other.shooting[key]
+    for key in cumulative_player.goalkeeping.keys():
+      cumulative_player.goalkeeping[
+        key] = self.goalkeeping[key] + other.goalkeeping[key]
+    return cumulative_player
+
+  def workout(self, type, intensity, duration):
+    pass
+
+  def rest(self, intensity, duration):
+    pass

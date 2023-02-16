@@ -31,4 +31,6 @@ for _, player in chelsea.iterrows():
   team[int(player["Jersey Number"])] = player_redux
 
 Kepa = pl.Player(team[1])
-print(Kepa.stats())
+# print(Kepa.stats())
+null_kepa = Kepa + Kepa
+print(null_kepa.stats())
