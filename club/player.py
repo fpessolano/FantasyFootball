@@ -1,4 +1,8 @@
+import pandas as pd
+import player_stats as ps
+
 # in progress
+
 
 class Player:
   """
@@ -15,5 +19,17 @@ class Player:
    - ...
    """
 
-def __init__(self):
-  pass
+  def __init__(self,
+               reference_stats: pd.DataFrame,
+               current_stats: pd.DataFrame = None,
+               year=None):
+    self.__reference_stats = ps.PlayerStats(reference_stats, year)
+    if current_stats:
+      self.__game_stats = ps.PlayerStats(current_stats, year)
+    else:
+      self.__game_stats = ps.PlayerStats(reference_stats, year)
+
+  def stats(self, actual=True):
+    if actual:
+      return self.__game_stats.stats()
+    return self.__reference_stats.stats()

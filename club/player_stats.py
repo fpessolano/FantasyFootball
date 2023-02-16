@@ -5,14 +5,15 @@ import sys
 sys.path.append('../')
 from support.helpers import copy_keys
 
+# in progress
+
 
 class PlayerStats:
-    """
-    Object containing statistics of a generic player
-    """
+  """
+  Object containing statistics of a generic player
+  """
 
   def __init__(self, stats: pd.DataFrame, year=None):
-
     if not year:
       self.year = int(datetime.date.today().year)
     else:
@@ -50,13 +51,13 @@ class PlayerStats:
               key_rename_list=["jersey", "position"],
               if_absent=None)
 
-    self.ball_skills = {}
+    self.reputation = {}
     copy_keys(
       source=stats,
-      destination=self.ball_skills,
-      key_list=["Dribbling", "BallControl", "Preferred Foot", "Weak Foot"],
-      key_rename_list=["dribbling", "control", "preferred_foot", "weak_foot"],
-      if_absent=0)
+      destination=self.reputation,
+      key_list=["International Reputation", "International Reputation"],
+      key_rename_list=["national", "international"],
+      if_absent=None)
 
     self.rating = {}
     copy_keys(source=stats,
@@ -65,13 +66,13 @@ class PlayerStats:
               key_rename_list=["current", "potential", "best"],
               if_absent=0)
 
-    self.reputation = {}
+    self.ball_skills = {}
     copy_keys(
       source=stats,
-      destination=self.reputation,
-      key_list=["International Reputation", "International Reputation"],
-      key_rename_list=["national", "international"],
-      if_absent=None)
+      destination=self.ball_skills,
+      key_list=["Dribbling", "BallControl", "Preferred Foot", "Weak Foot"],
+      key_rename_list=["dribbling", "control", "preferred_foot", "weak_foot"],
+      if_absent=0)
 
     self.defending = {}
     copy_keys(source=stats,
@@ -155,3 +156,21 @@ class PlayerStats:
               key_list=["Special", "Skill Moves", "Work Rate"],
               key_rename_list=["special", "skills", "work_rate"],
               if_absent=0)
+
+  def stats(self):
+    return {
+      "year": self.year,
+      "basic_info": self.basic_info,
+      "contract": self.contract,
+      "role": self.role,
+      "reputation": self.reputation,
+      "rating": self.rating,
+      "ball_skills": self.ball_skills,
+      "defending": self.defending,
+      "mental": self.mental,
+      "physical": self.physical,
+      "passing": self.passing,
+      "shooting": self.shooting,
+      "goalkeeping": self.goalkeeping,
+      "others": self.others
+    }

@@ -2,7 +2,7 @@
 
 import pandas as pd
 import unidecode
-import player_stats as pl
+import player as pl
 
 fifa_data = pd.read_csv('../assets/FIFA21_official_data.csv')
 # print(fifa_data.info())
@@ -30,5 +30,5 @@ for _, player in chelsea.iterrows():
       player_redux[col] = value
   team[int(player["Jersey Number"])] = player_redux
 
-Kepa = pl.PlayerStats(team[1])
-print(Kepa.physical)
+Kepa = pl.Player(team[1])
+print(Kepa.stats())
