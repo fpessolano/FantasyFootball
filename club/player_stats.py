@@ -1,10 +1,12 @@
 import pandas as pd
 import sys
+import pprint as pp
 
 sys.path.append('../')
 from support.helpers import copy_keys
 
 # in progress
+#  need to ditch DICT for DataFrame including also modifiers and alike
 
 
 class PlayerStats:
