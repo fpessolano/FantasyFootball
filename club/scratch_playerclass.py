@@ -7,7 +7,11 @@ import own_player as opl
 
 df = pd.read_csv('../assets/stats.csv')
 
-print(list(df.columns.values))
+# print(list(set(df.columns.values)))
+
+player = df.loc[[3]]
+player = opl.OwnPlayer(player)
+print(player)
 
 # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
 #     print(fifa_data.loc[86])
