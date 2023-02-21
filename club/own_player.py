@@ -1,30 +1,21 @@
-import datetime
 import pandas as pd
-
-# import player_stats as ps
-# import sys
-# sys.path.append('../')
-# from support.helpers import copy_keys
-
-# in progress
-# needs to be fully changed ans player stats is no longer needed as class
+"""
+  TODO:
+ - how to use and determine boosters
+ - yearly stats updates
+ - match stats decline
+ - rest day recovery
+ - injury and injury recovery
+ - form modifier for match stats decline
+ - how to have the max in season change over time
+ - how to estimate the next season stats (use age and end of season max)
+"""
 
 
 class OwnPlayer:
   """
   this class model the single player (stats and stats evolution)
   """
-  """
-    TODO:
-   - separate types of stats from other data
-   - how to use and determine boosters
-   - yearly stats updates
-   - match stats decline
-   - rest day recovery
-   - injury and injury recovery
-   - form modifier for match stats decline
-   - ...
-   """
 
   def __init__(self, player_data: pd.DataFrame, running=False):
     """
@@ -34,11 +25,8 @@ class OwnPlayer:
     """
 
     # IN PROGRESS
-    # turn data variables into DataFrames
     # then copy the data from start_season_stats (if given)
     # what to do with 'special', 'skills'?
-    # how to have the max in season change over time
-    # how to estimate the next season stats (use age and end of season max)
 
     self.basic_info = {}
     self.basic_info["name"] = player_data["name"]
@@ -82,6 +70,7 @@ class OwnPlayer:
     }
     data_ball_skills["maximum"] = data_ball_skills["start"]
     data_ball_skills["current"] = data_ball_skills["start"]
+    self.ball_skills = pd.DataFrame(data_ball_skills)
 
     data_defending = {
       "name":
@@ -99,6 +88,7 @@ class OwnPlayer:
     }
     data_defending["maximum"] = data_defending["start"]
     data_defending["current"] = data_defending["start"]
+    self.defending = pd.DataFrame(data_defending)
 
     data_mental = {
       "name": [
@@ -119,6 +109,7 @@ class OwnPlayer:
     }
     data_mental["maximum"] = data_mental["start"]
     data_mental["current"] = data_mental["start"]
+    self.mental = pd.DataFrame(data_mental)
 
     data_physical = {
       "name": [
@@ -139,6 +130,7 @@ class OwnPlayer:
     }
     data_physical["maximum"] = data_physical["start"]
     data_physical["current"] = data_physical["start"]
+    self.physical = pd.DataFrame(data_physical)
 
     data_passing = {
       "name": ["crossing", "short passing", "long passing"],
@@ -154,11 +146,12 @@ class OwnPlayer:
     }
     data_passing["maximum"] = data_passing["start"]
     data_passing["current"] = data_passing["start"]
+    self.passing = pd.DataFrame(data_passing)
 
     data_shooting = {
       "name": [
-        "heading accuracy", "shot power", "finishing", "long shots"
-        "curve", "accuracy", "penalties", "volleys"
+        "heading accuracy", "shot power", "finishing", "long shots", "curve",
+        "accuracy", "penalties", "volleys"
       ],
       "start": [
         player_data["heading accuracy"].values[0],
@@ -175,10 +168,10 @@ class OwnPlayer:
     }
     data_shooting["maximum"] = data_shooting["start"]
     data_shooting["current"] = data_shooting["start"]
+    self.shooting = pd.DataFrame(data_shooting)
 
     data_goalkeeping = {
-      "name": ["diving", "handling", "kicking", "gkpositioning"
-               "reflexes"],
+      "name": ["diving", "handling", "kicking", "gkpositioning", "reflexes"],
       "start": [
         player_data["diving"].values[0], player_data["handling"].values[0],
         player_data["kicking"].values[0],
@@ -192,6 +185,7 @@ class OwnPlayer:
     }
     data_goalkeeping["maximum"] = data_goalkeeping["start"]
     data_goalkeeping["current"] = data_goalkeeping["start"]
+    self.goalkeeping = pd.DataFrame(data_goalkeeping)
 
     def rate_equivalence(x):
       return {"low": 0, "medium": 1, "high": 2}[x]
@@ -209,8 +203,9 @@ class OwnPlayer:
       "rest_modifier": [0] * 3,
       "streak_modifier": [0] * 3
     }
-    data_workrate["maximum"] = data_goalkeeping["start"]
-    data_workrate["current"] = data_goalkeeping["start"]
+    data_workrate["maximum"] = data_workrate["start"]
+    data_workrate["current"] = data_workrate["start"]
+    self.workrate = pd.DataFrame(data_workrate)
 
     if running:
       # TODO
