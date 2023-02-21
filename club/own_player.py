@@ -35,8 +35,8 @@ class OwnPlayer:
 
     # IN PROGRESS
     # turn data variables into DataFrames
-    # then copy the data from start_season_stats if given)
-    # what to do with 'special', 'skills', 'work rate'?
+    # then copy the data from start_season_stats (if given)
+    # what to do with 'special', 'skills'?
     # how to have the max in season change over time
     # how to estimate the next season stats (use age and end of season max)
 
@@ -70,8 +70,10 @@ class OwnPlayer:
     data_ball_skills = {
       "name": ["dribbling", "control", "preferred foot", "weak foot"],
       "start": [
-        player_data["dribbling"], player_data["ball control"],
-        player_data["preferred foot"], player_data["weak foot"]
+        player_data["dribbling"].values[0],
+        player_data["ball control"].values[0],
+        1 if player_data["preferred foot"].values[0] == "Right" else 0,
+        0 if player_data["preferred foot"].values[0] == "Right" else 1
       ],
       "match_modifier": [0.5] * 4,
       "training_modifier": [0.2] * 4,
@@ -85,8 +87,10 @@ class OwnPlayer:
       "name":
       ["marking", "standing tackle", "sliding tackle", "defensive awareness"],
       "start": [
-        player_data["marking"], player_data["standing tackle"],
-        player_data["sliding tackle"], player_data["defensive awareness"]
+        player_data["marking"].values[0],
+        player_data["standing tackle"].values[0],
+        player_data["sliding tackle"].values[0],
+        player_data["defensive awareness"].values[0]
       ],
       "match_modifier": [0.5] * 4,
       "training_modifier": [0.2] * 4,
@@ -102,9 +106,11 @@ class OwnPlayer:
         "reactions"
       ],
       "start": [
-        player_data["aggression"], player_data["positioning"],
-        player_data["interceptions"], player_data["vision"],
-        player_data["composure"], player_data["reactions"]
+        player_data["aggression"].values[0],
+        player_data["positioning"].values[0],
+        player_data["interceptions"].values[0],
+        player_data["vision"].values[0], player_data["composure"].values[0],
+        player_data["reactions"].values[0]
       ],
       "match_modifier": [0.5] * 6,
       "training_modifier": [0.1] * 6,
@@ -120,9 +126,11 @@ class OwnPlayer:
         "jumping", "agility"
       ],
       "start": [
-        player_data["acceleration"], player_data["stamina"],
-        player_data["strength"], player_data["sprint speed"],
-        player_data["balance"], player_data["jumping"], player_data["agility"]
+        player_data["acceleration"].values[0],
+        player_data["stamina"].values[0], player_data["strength"].values[0],
+        player_data["sprint speed"].values[0],
+        player_data["balance"].values[0], player_data["jumping"].values[0],
+        player_data["agility"].values[0]
       ],
       "match_modifier": [0.5] * 7,
       "training_modifier": [0.2] * 7,
@@ -135,8 +143,9 @@ class OwnPlayer:
     data_passing = {
       "name": ["crossing", "short passing", "long passing"],
       "start": [
-        player_data["crossing"], player_data["short passing"],
-        player_data["long passing"]
+        player_data["crossing"].values[0],
+        player_data["short passing"].values[0],
+        player_data["long passing"].values[0]
       ],
       "match_modifier": [0.5] * 3,
       "training_modifier": [0.2] * 3,
@@ -152,10 +161,12 @@ class OwnPlayer:
         "curve", "accuracy", "penalties", "volleys"
       ],
       "start": [
-        player_data["heading accuracy"], player_data["shot power"],
-        player_data["finishing"], player_data["long shots"],
-        player_data["curve"], player_data["accuracy"],
-        player_data["penalties"], player_data["volleys"]
+        player_data["heading accuracy"].values[0],
+        player_data["shot power"].values[0],
+        player_data["finishing"].values[0],
+        player_data["long shots"].values[0], player_data["curve"].values[0],
+        player_data["accuracy"].values[0], player_data["penalties"].values[0],
+        player_data["volleys"].values[0]
       ],
       "match_modifier": [0.5] * 8,
       "training_modifier": [0.2] * 8,
@@ -169,8 +180,10 @@ class OwnPlayer:
       "name": ["diving", "handling", "kicking", "gkpositioning"
                "reflexes"],
       "start": [
-        player_data["diving"], player_data["handling"], player_data["kicking"],
-        player_data["gkpositioning"], player_data["reflexes"]
+        player_data["diving"].values[0], player_data["handling"].values[0],
+        player_data["kicking"].values[0],
+        player_data["gkpositioning"].values[0],
+        player_data["reflexes"].values[0]
       ],
       "match_modifier": [0.5] * 5,
       "training_modifier": [0.2] * 5,
@@ -179,6 +192,25 @@ class OwnPlayer:
     }
     data_goalkeeping["maximum"] = data_goalkeeping["start"]
     data_goalkeeping["current"] = data_goalkeeping["start"]
+
+    def rate_equivalence(x):
+      return {"low": 0, "medium": 1, "high": 2}[x]
+
+    work_rate = [
+      rate_equivalence(x.lower().strip())
+      for x in player_data["work rate"].values[0].split("/")
+    ]
+    data_workrate = {
+      "name": ["attacky", "defence", "training"],
+      "start": [work_rate[0], work_rate[1],
+                max(work_rate)],
+      "match_modifier": [0] * 3,
+      "training_modifier": [0] * 3,
+      "rest_modifier": [0] * 3,
+      "streak_modifier": [0] * 3
+    }
+    data_workrate["maximum"] = data_goalkeeping["start"]
+    data_workrate["current"] = data_goalkeeping["start"]
 
     if running:
       # TODO

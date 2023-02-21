@@ -8,8 +8,9 @@ import own_player as opl
 df = pd.read_csv('../assets/stats.csv')
 
 # print(list(set(df.columns.values)))
+# print(list(set(df["work rate"])))
 
-player = df.loc[[3]]
+player = df.loc[[6]]
 player = opl.OwnPlayer(player)
 print(player)
 
