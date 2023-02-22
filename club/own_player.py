@@ -9,7 +9,14 @@ import pandas as pd
  - form modifier for match stats decline
  - how to have the max in season change over time
  - how to estimate the next season stats (use age and end of season max)
+ - form needs to depend on trainings
+ - skills max also need to depend on training somwhow but much much slower
+ - workrate also needs to affect things
 """
+
+MATCH_TIME_UNIT_MIN = 5
+TRAINING_TIME_UNIT_MIN = 5
+REST_TIME_UNIT_DAY = 1
 
 
 class OwnPlayer:
@@ -24,9 +31,7 @@ class OwnPlayer:
     :PARAM running: if true player_data containt the data from a running season and not the reduced season start one
     """
 
-    # IN PROGRESS
-    # then copy the data from start_season_stats (if given)
-    # what to do with 'special', 'skills'?
+    # TODO what to do with 'special', 'skills'?
 
     self.basic_info = {}
     self.basic_info["name"] = player_data["name"]
@@ -63,10 +68,10 @@ class OwnPlayer:
         1 if player_data["preferred foot"].values[0] == "Right" else 0,
         0 if player_data["preferred foot"].values[0] == "Right" else 1
       ],
-      "match_modifier": [0.5] * 4,
-      "training_modifier": [0.2] * 4,
-      "rest_modifier": [1.5] * 4,
-      "streak_modifier": [0.2] * 4
+      "match_modifier": [0.5, 0.5, 0, 0],
+      "training_modifier": [0.2, 0.2, 0, 0],
+      "rest_modifier": [2.5, 2.5, 0, 0],
+      "streak_modifier": [0.2, 0.2, 0, 0]
     }
     data_ball_skills["maximum"] = data_ball_skills["start"]
     data_ball_skills["current"] = data_ball_skills["start"]
@@ -83,7 +88,7 @@ class OwnPlayer:
       ],
       "match_modifier": [0.5] * 4,
       "training_modifier": [0.2] * 4,
-      "rest_modifier": [1.5] * 4,
+      "rest_modifier": [2.5] * 4,
       "streak_modifier": [0.2] * 4
     }
     data_defending["maximum"] = data_defending["start"]
@@ -104,7 +109,7 @@ class OwnPlayer:
       ],
       "match_modifier": [0.5] * 6,
       "training_modifier": [0.1] * 6,
-      "rest_modifier": [2] * 6,
+      "rest_modifier": [2.5] * 6,
       "streak_modifier": [0.1] * 6
     }
     data_mental["maximum"] = data_mental["start"]
@@ -113,20 +118,20 @@ class OwnPlayer:
 
     data_physical = {
       "name": [
-        "acceleration", "stamina", "strength", "sprint speed", "balance",
-        "jumping", "agility"
+        "acceleration", "strength", "sprint speed", "balance", "jumping",
+        "agility"
       ],
       "start": [
         player_data["acceleration"].values[0],
-        player_data["stamina"].values[0], player_data["strength"].values[0],
+        player_data["strength"].values[0],
         player_data["sprint speed"].values[0],
         player_data["balance"].values[0], player_data["jumping"].values[0],
         player_data["agility"].values[0]
       ],
-      "match_modifier": [0.5] * 7,
-      "training_modifier": [0.2] * 7,
-      "rest_modifier": [1.5] * 7,
-      "streak_modifier": [0.2] * 7
+      "match_modifier": [0.5] * 6,
+      "training_modifier": [0.2] * 6,
+      "rest_modifier": [2.5] * 6,
+      "streak_modifier": [0.2] * 6
     }
     data_physical["maximum"] = data_physical["start"]
     data_physical["current"] = data_physical["start"]
@@ -141,7 +146,7 @@ class OwnPlayer:
       ],
       "match_modifier": [0.5] * 3,
       "training_modifier": [0.2] * 3,
-      "rest_modifier": [1.5] * 3,
+      "rest_modifier": [2.5] * 3,
       "streak_modifier": [0.2] * 3
     }
     data_passing["maximum"] = data_passing["start"]
@@ -163,7 +168,7 @@ class OwnPlayer:
       ],
       "match_modifier": [0.5] * 8,
       "training_modifier": [0.2] * 8,
-      "rest_modifier": [1.5] * 8,
+      "rest_modifier": [2.5] * 8,
       "streak_modifier": [0.2] * 8
     }
     data_shooting["maximum"] = data_shooting["start"]
@@ -180,7 +185,7 @@ class OwnPlayer:
       ],
       "match_modifier": [0.5] * 5,
       "training_modifier": [0.2] * 5,
-      "rest_modifier": [1.5] * 5,
+      "rest_modifier": [2.5] * 5,
       "streak_modifier": [0.2] * 5
     }
     data_goalkeeping["maximum"] = data_goalkeeping["start"]
@@ -195,13 +200,15 @@ class OwnPlayer:
       for x in player_data["work rate"].values[0].split("/")
     ]
     data_workrate = {
-      "name": ["attacky", "defence", "training"],
-      "start": [work_rate[0], work_rate[1],
-                max(work_rate)],
-      "match_modifier": [0] * 3,
-      "training_modifier": [0] * 3,
-      "rest_modifier": [0] * 3,
-      "streak_modifier": [0] * 3
+      "name": ["attack", "defence", "training", "form", "stamina"],
+      "start": [
+        work_rate[0], work_rate[1],
+        max(work_rate), 100, player_data["stamina"].values[0]
+      ],
+      "match_modifier": [0, 0, 0, 5, 0.5],
+      "training_modifier": [0, 0, 0, 5, 0.2],
+      "rest_modifier": [0, 0, 0, 20, 2.5],
+      "streak_modifier": [0, 0, 0, 0.5, 0.2],
     }
     data_workrate["maximum"] = data_workrate["start"]
     data_workrate["current"] = data_workrate["start"]
@@ -209,5 +216,15 @@ class OwnPlayer:
 
     if running:
       # TODO
-      # update the from the provided one from the running game (TBD what it means)
+      # update the from the provided one from the running game
+      # need to first fix the saving format.
       pass
+
+  def adjust_to_match_action(self, elapsed_time_min):
+    pass
+
+  def adjust_to_training_action(self, elapsed_time_min, intensity=1):
+    pass
+
+  def adjust_to_rest(self, elapsed_time_day, intensity=1):
+    pass

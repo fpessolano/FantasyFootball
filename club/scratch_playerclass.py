@@ -1,7 +1,7 @@
 # experiment file
 
 import pandas as pd
-import unidecode
+# import unidecode
 import own_player as opl
 
 
@@ -12,7 +12,8 @@ df = pd.read_csv('../assets/stats.csv')
 
 player = df.loc[[6]]
 player = opl.OwnPlayer(player)
-print(player)
+# print(player.mental)
+print(player.ball_skills)
 
 # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
 #     print(fifa_data.loc[86])
