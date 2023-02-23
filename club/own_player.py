@@ -119,19 +119,19 @@ class OwnPlayer:
     data_physical = {
       "name": [
         "acceleration", "strength", "sprint speed", "balance", "jumping",
-        "agility"
+        "agility", "stamina"
       ],
       "start": [
         player_data["acceleration"].values[0],
         player_data["strength"].values[0],
         player_data["sprint speed"].values[0],
         player_data["balance"].values[0], player_data["jumping"].values[0],
-        player_data["agility"].values[0]
+        player_data["agility"].values[0], player_data["stamina"].values[0]
       ],
-      "match_modifier": [0.5] * 6,
-      "training_modifier": [0.2] * 6,
-      "rest_modifier": [2.5] * 6,
-      "streak_modifier": [0.2] * 6
+      "match_modifier": [0.5] * 7,
+      "training_modifier": [0.2] * 7,
+      "rest_modifier": [2.5] * 7,
+      "streak_modifier": [0.2] * 7
     }
     data_physical["maximum"] = data_physical["start"]
     data_physical["current"] = data_physical["start"]
@@ -200,18 +200,18 @@ class OwnPlayer:
       for x in player_data["work rate"].values[0].split("/")
     ]
     data_workrate = {
-      "name": ["attack", "defence", "training", "form", "stamina"],
-      "start": [
+      "name": ["attack", "defence", "training", "form", "max_stamina"],
+      "value": [
         work_rate[0], work_rate[1],
         max(work_rate), 100, player_data["stamina"].values[0]
       ],
-      "match_modifier": [0, 0, 0, 5, 0.5],
-      "training_modifier": [0, 0, 0, 5, 0.2],
-      "rest_modifier": [0, 0, 0, 20, 2.5],
-      "streak_modifier": [0, 0, 0, 0.5, 0.2],
+      "match_modifier": [0, 0, 0, 5, 0],
+      "training_modifier": [0, 0, 0, 5, 0],
+      "rest_modifier": [0, 0, 0, 20, 0],
+      "streak_modifier": [0, 0, 0, 0.5, 0],
     }
-    data_workrate["maximum"] = data_workrate["start"]
-    data_workrate["current"] = data_workrate["start"]
+    # data_workrate["maximum"] = None
+    # data_workrate["current"] = None
     self.workrate = pd.DataFrame(data_workrate)
 
     if running:
@@ -220,10 +220,15 @@ class OwnPlayer:
       # need to first fix the saving format.
       pass
 
-  def adjust_to_match_action(self, elapsed_time_min):
-    pass
+  def adjust_to_match_action(self, elapsed_time_min, number_attacks=0, number_defences=0):
+    actual_form = self.workrate.loc[self.workrate["name"] == "form"]["value"].values[0]
+    maximum_stamina = self.workrate.loc[self.workrate["name"] == "max_stamina"]["value"].values[0]
+    attack_wr = self.workrate.loc[self.workrate["name"] == "attack"]["value"].values[0]
+    defence_wr = self.workrate.loc[self.workrate["name"] == "defence"]["value"].values[0]
+    # TODO how these values actually affect stats decline
+    print(actual_form, maximum_stamina, attack_wr, defence_wr)
 
-  def adjust_to_training_action(self, elapsed_time_min, intensity=1):
+  def adjust_to_training_action(self, elapsed_time_min, intensity=1, focus=None):
     pass
 
   def adjust_to_rest(self, elapsed_time_day, intensity=1):

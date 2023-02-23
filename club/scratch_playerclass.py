@@ -13,7 +13,10 @@ df = pd.read_csv('../assets/stats.csv')
 player = df.loc[[6]]
 player = opl.OwnPlayer(player)
 # print(player.mental)
-print(player.ball_skills)
+# print(player.ball_skills)
+player.adjust_to_match_action(90)
+# print()
+# print(player.ball_skills)
 
 # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
 #     print(fifa_data.loc[86])
