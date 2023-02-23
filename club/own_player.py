@@ -1,6 +1,7 @@
 import pandas as pd
 """
   TODO:
+ - form needs to actually determine stats from the max so the modifier must refer to the form value
  - how to use and determine boosters
  - yearly stats updates
  - match stats decline
@@ -68,7 +69,7 @@ class OwnPlayer:
         1 if player_data["preferred foot"].values[0] == "Right" else 0,
         0 if player_data["preferred foot"].values[0] == "Right" else 1
       ],
-      "match_modifier": [0.5, 0.5, 0, 0],
+      "match_modifier": [1, 1, 0, 0],
       "training_modifier": [0.2, 0.2, 0, 0],
       "rest_modifier": [2.5, 2.5, 0, 0],
       "streak_modifier": [0.2, 0.2, 0, 0]
@@ -86,7 +87,7 @@ class OwnPlayer:
         player_data["sliding tackle"].values[0],
         player_data["defensive awareness"].values[0]
       ],
-      "match_modifier": [0.5] * 4,
+      "match_modifier": [1] * 4,
       "training_modifier": [0.2] * 4,
       "rest_modifier": [2.5] * 4,
       "streak_modifier": [0.2] * 4
@@ -107,7 +108,7 @@ class OwnPlayer:
         player_data["vision"].values[0], player_data["composure"].values[0],
         player_data["reactions"].values[0]
       ],
-      "match_modifier": [0.5] * 6,
+      "match_modifier": [1] * 6,
       "training_modifier": [0.1] * 6,
       "rest_modifier": [2.5] * 6,
       "streak_modifier": [0.1] * 6
@@ -119,19 +120,19 @@ class OwnPlayer:
     data_physical = {
       "name": [
         "acceleration", "strength", "sprint speed", "balance", "jumping",
-        "agility", "stamina"
+        "agility", "stamina", "form"
       ],
       "start": [
         player_data["acceleration"].values[0],
         player_data["strength"].values[0],
         player_data["sprint speed"].values[0],
         player_data["balance"].values[0], player_data["jumping"].values[0],
-        player_data["agility"].values[0], player_data["stamina"].values[0]
+        player_data["agility"].values[0], player_data["stamina"].values[0], 100
       ],
-      "match_modifier": [0.5] * 7,
-      "training_modifier": [0.2] * 7,
-      "rest_modifier": [2.5] * 7,
-      "streak_modifier": [0.2] * 7
+      "match_modifier": [1] * 7 + [3],
+      "training_modifier": [0.2] * 7 + [3],
+      "rest_modifier": [2.5] * 7 + [15],
+      "streak_modifier": [0.2] * 7 + [0.5]
     }
     data_physical["maximum"] = data_physical["start"]
     data_physical["current"] = data_physical["start"]
@@ -144,7 +145,7 @@ class OwnPlayer:
         player_data["short passing"].values[0],
         player_data["long passing"].values[0]
       ],
-      "match_modifier": [0.5] * 3,
+      "match_modifier": [1] * 3,
       "training_modifier": [0.2] * 3,
       "rest_modifier": [2.5] * 3,
       "streak_modifier": [0.2] * 3
@@ -166,7 +167,7 @@ class OwnPlayer:
         player_data["accuracy"].values[0], player_data["penalties"].values[0],
         player_data["volleys"].values[0]
       ],
-      "match_modifier": [0.5] * 8,
+      "match_modifier": [1] * 8,
       "training_modifier": [0.2] * 8,
       "rest_modifier": [2.5] * 8,
       "streak_modifier": [0.2] * 8
@@ -183,7 +184,7 @@ class OwnPlayer:
         player_data["gkpositioning"].values[0],
         player_data["reflexes"].values[0]
       ],
-      "match_modifier": [0.5] * 5,
+      "match_modifier": [1] * 5,
       "training_modifier": [0.2] * 5,
       "rest_modifier": [2.5] * 5,
       "streak_modifier": [0.2] * 5
@@ -199,20 +200,12 @@ class OwnPlayer:
       rate_equivalence(x.lower().strip())
       for x in player_data["work rate"].values[0].split("/")
     ]
-    data_workrate = {
-      "name": ["attack", "defence", "training", "form", "max_stamina"],
-      "value": [
-        work_rate[0], work_rate[1],
-        max(work_rate), 100, player_data["stamina"].values[0]
-      ],
-      "match_modifier": [0, 0, 0, 5, 0],
-      "training_modifier": [0, 0, 0, 5, 0],
-      "rest_modifier": [0, 0, 0, 20, 0],
-      "streak_modifier": [0, 0, 0, 0.5, 0],
+
+    self.workrate = {
+      "attack": work_rate[0],
+      "defence": work_rate[1],
+      "training": max(work_rate)
     }
-    # data_workrate["maximum"] = None
-    # data_workrate["current"] = None
-    self.workrate = pd.DataFrame(data_workrate)
 
     if running:
       # TODO
@@ -220,15 +213,37 @@ class OwnPlayer:
       # need to first fix the saving format.
       pass
 
-  def adjust_to_match_action(self, elapsed_time_min, number_attacks=0, number_defences=0):
-    actual_form = self.workrate.loc[self.workrate["name"] == "form"]["value"].values[0]
-    maximum_stamina = self.workrate.loc[self.workrate["name"] == "max_stamina"]["value"].values[0]
-    attack_wr = self.workrate.loc[self.workrate["name"] == "attack"]["value"].values[0]
-    defence_wr = self.workrate.loc[self.workrate["name"] == "defence"]["value"].values[0]
-    # TODO how these values actually affect stats decline
-    print(actual_form, maximum_stamina, attack_wr, defence_wr)
+  def adjust_to_match_action(self,
+                             elapsed_time_min,
+                             number_attacks=0,
+                             number_defences=0):
 
-  def adjust_to_training_action(self, elapsed_time_min, intensity=1, focus=None):
+    # in progress
+    form = self.physical.loc[self.physical["name"] ==
+                             "form"]["current"].values[0]
+    form_modifier = self.physical.loc[self.physical["name"] ==
+                             "form"]["match_modifier"].values[0]
+    stamina = self.physical.loc[self.physical["name"] ==
+                                "stamina"]["current"].values[0]
+    # stamina = 75
+    stamina_modifier = self.physical.loc[self.physical["name"] ==
+                             "stamina"]["match_modifier"].values[0]
+    # trying modifier calculation
+    stamina_coeff = round((1 + (1 - stamina / 100)) * 0.5, 2)
+
+    new_form = round(form - stamina_coeff * form_modifier * elapsed_time_min / MATCH_TIME_UNIT_MIN,0)
+    new_stamina = round(stamina - stamina_coeff * stamina_modifier * elapsed_time_min / MATCH_TIME_UNIT_MIN,0)
+
+                               
+    print(stamina, stamina_modifier, new_stamina)
+    print(form, form_modifier, new_form)
+
+    # now apply it to all df's
+
+  def adjust_to_training_action(self,
+                                elapsed_time_min,
+                                intensity=1,
+                                focus=None):
     pass
 
   def adjust_to_rest(self, elapsed_time_day, intensity=1):
