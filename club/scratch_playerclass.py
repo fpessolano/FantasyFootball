@@ -4,7 +4,6 @@ import pandas as pd
 # import unidecode
 import own_player as opl
 
-
 # df = pd.read_csv('../assets/stats.csv')
 
 # print(list(set(df.columns.values)))
@@ -54,15 +53,18 @@ player = opl.OwnPlayer(player)
 
 player.adjust_to_match_action(90)
 print("after 90 minutes match")
-print(player.physical[["name", "maximum", "current"]])
-print(player.defending[["name", "maximum", "current"]])
-print(player.passing[["name", "maximum", "current"]])
-print(player.shooting[["name", "maximum", "current"]])
-print(player.goalkeeping[["name", "maximum", "current"]])
+stats = pd.concat([
+  player.ball_skills, player.defending, player.mental, player.physical,
+  player.passing, player.shooting, player.goalkeeping],
+  ignore_index=True)
+print(stats[["name", "maximum", "current"]])
 print()
 
-# player.adjust_to_rest(2)
-# print("after 2 days of rest")
-# print(player.physical[["name", "maximum", "current"]])
-
-
+player.adjust_to_rest(2)
+print("after 2 days of rest")
+stats = pd.concat([
+  player.ball_skills, player.defending, player.mental, player.physical,
+  player.passing, player.shooting, player.goalkeeping],
+  ignore_index=True)
+print(stats[["name", "maximum", "current"]])
+print()

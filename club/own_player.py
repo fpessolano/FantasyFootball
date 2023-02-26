@@ -70,7 +70,7 @@ class OwnPlayer:
         1 if player_data["preferred foot"].values[0] == "Right" else 0,
         0 if player_data["preferred foot"].values[0] == "Right" else 1
       ],
-      "match_modifier": [1, 1, 0, 0],
+      "match_modifier": [0.7, 0.7, 0, 0],
       "training_modifier": [0.2, 0.2, 0, 0],
       "rest_modifier": [2.5, 2.5, 0, 0],
       "streak_modifier": [0.2, 0.2, 0, 0]
@@ -109,7 +109,7 @@ class OwnPlayer:
         player_data["vision"].values[0], player_data["composure"].values[0],
         player_data["reactions"].values[0]
       ],
-      "match_modifier": [1] * 6,
+      "match_modifier": [1, 0.5, 0.7, 0.7, 0.7, 1],
       "training_modifier": [0.1] * 6,
       "rest_modifier": [2.5] * 6,
       "streak_modifier": [0.1] * 6
@@ -146,7 +146,7 @@ class OwnPlayer:
         player_data["short passing"].values[0],
         player_data["long passing"].values[0]
       ],
-      "match_modifier": [1] * 3,
+      "match_modifier": [0.7] * 3,
       "training_modifier": [0.2] * 3,
       "rest_modifier": [2.5] * 3,
       "streak_modifier": [0.2] * 3
@@ -168,7 +168,7 @@ class OwnPlayer:
         player_data["accuracy"].values[0], player_data["penalties"].values[0],
         player_data["volleys"].values[0]
       ],
-      "match_modifier": [1] * 8,
+      "match_modifier": [0.7, 0.7, 0.7, 0.5, 1, 0.5, 0.5, 0.7],
       "training_modifier": [0.2] * 8,
       "rest_modifier": [2.5] * 8,
       "streak_modifier": [0.2] * 8
@@ -185,7 +185,7 @@ class OwnPlayer:
         player_data["gkpositioning"].values[0],
         player_data["reflexes"].values[0]
       ],
-      "match_modifier": [1] * 5,
+      "match_modifier": [0.7, 0.7, 0.7, 0.5, 1],
       "training_modifier": [0.2] * 5,
       "rest_modifier": [2.5] * 5,
       "streak_modifier": [0.2] * 5
@@ -220,44 +220,51 @@ class OwnPlayer:
     x /= 100
     return 1 - x**5
 
+  @classmethod
+  def __update_stats(cls, stats, coefficient, time_units):
+    try:
+      stats["current"] = (
+        stats["maximum"] -
+        coefficient * time_units * stats["match_modifier"]).round(decimals=0)
+      stats["current"] = np.where(stats["current"] <= 0, 0, stats["current"])
+      stats["current"] = np.where(stats["current"] > stats["maximum"],
+                                  stats["maximum"], stats["current"])
+      return stats["current"]
+    except:
+      # this should never happen
+      return None
+
   def adjust_to_match_action(self,
                              elapsed_time_min,
                              number_attacks=0,
                              number_defences=0):
-    # physycal driven stats are influenced by the stamina decrease due to sport acticity
+    # stats are influenced by the stamina decrease dring a match.
+    # The rate of decrease is determined in the modifier field of each stat
     # TODO add effect of number_attacks and number_defences to adjust stamina considering also work rate values
     stamina = self.physical.loc[self.physical["name"] ==
                                 "stamina"]["current"].values[0]
     stamina_coeff = OwnPlayer.___stamina_coeff(stamina)
 
-    self.physical["current"] = (
-      self.physical["maximum"] - stamina_coeff * elapsed_time_min /
-      MATCH_TIME_UNIT_MIN * self.physical["match_modifier"]).round(decimals=0)
-    self.physical["current"] = np.where(self.physical["current"] <= 0, 0, self.physical["current"])
+    self.ball_skills["current"] = OwnPlayer.__update_stats(
+      self.ball_skills, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
 
-    self.defending["current"] = (
-      self.defending["maximum"] - stamina_coeff * elapsed_time_min /
-      MATCH_TIME_UNIT_MIN * self.defending["match_modifier"]).round(decimals=0)
-    self.defending["current"] = np.where(self.defending["current"] <= 0, 0, self.defending["current"])
+    self.defending["current"] = OwnPlayer.__update_stats(
+      self.defending, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
 
-                               
-    self.passing["current"] = (
-      self.passing["maximum"] - stamina_coeff * elapsed_time_min /
-      MATCH_TIME_UNIT_MIN * self.passing["match_modifier"]).round(decimals=0)
-    self.passing["current"] = np.where(self.passing["current"] <= 0, 0, self.passing["current"])
+    self.mental["current"] = OwnPlayer.__update_stats(
+      self.mental, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
 
-    self.shooting["current"] = (
-      self.shooting["maximum"] - stamina_coeff * elapsed_time_min /
-      MATCH_TIME_UNIT_MIN * self.shooting["match_modifier"]).round(decimals=0)
-    self.shooting["current"] = np.where(self.shooting["current"] <= 0, 0, self.shooting["current"])
+    self.physical["current"] = OwnPlayer.__update_stats(
+      self.physical, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
 
-    self.goalkeeping["current"] = (
-      self.goalkeeping["maximum"] -
-      stamina_coeff * elapsed_time_min / MATCH_TIME_UNIT_MIN *
-      self.goalkeeping["match_modifier"]).round(decimals=0)
-    self.goalkeeping["current"] = np.where(self.goalkeeping["current"] <= 0, 0, self.goalkeeping["current"])
+    self.passing["current"] = OwnPlayer.__update_stats(
+      self.passing, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
 
-    # TODO boll_skills and mental needs to change differently
+    self.shooting["current"] = OwnPlayer.__update_stats(
+      self.shooting, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
+
+    self.goalkeeping["current"] = OwnPlayer.__update_stats(
+      self.goalkeeping, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
 
   def adjust_to_training_action(self,
                                 elapsed_time_min,
@@ -268,7 +275,7 @@ class OwnPlayer:
     pass
 
   def adjust_to_rest(self, elapsed_time_day, type="post-match"):
-    # TODO
+    # in progress - adjust the values in modifiers and manage the cap and form one
     type_modifiers = {
       "post-match": {
         "coeff": 1,  # affects the stats recovery
@@ -291,3 +298,27 @@ class OwnPlayer:
         "form_cap": 1
       }
     }
+
+    self.ball_skills["current"] = OwnPlayer.__update_stats(
+      self.ball_skills, -type_modifiers[type]["coeff"],
+      elapsed_time_day / REST_TIME_UNIT_DAY)
+    self.defending["current"] = OwnPlayer.__update_stats(
+      self.defending, -type_modifiers[type]["coeff"],
+      elapsed_time_day / REST_TIME_UNIT_DAY)
+    self.mental["current"] = OwnPlayer.__update_stats(
+      self.mental, -type_modifiers[type]["coeff"],
+      elapsed_time_day / REST_TIME_UNIT_DAY)
+    self.physical["current"] = OwnPlayer.__update_stats(
+      self.physical, -type_modifiers[type]["coeff"],
+      elapsed_time_day / REST_TIME_UNIT_DAY)
+    self.passing["current"] = OwnPlayer.__update_stats(
+      self.passing, -type_modifiers[type]["coeff"],
+      elapsed_time_day / REST_TIME_UNIT_DAY)
+    self.shooting["current"] = OwnPlayer.__update_stats(
+      self.shooting, -type_modifiers[type]["coeff"],
+      elapsed_time_day / REST_TIME_UNIT_DAY)
+    self.goalkeeping["current"] = OwnPlayer.__update_stats(
+      self.goalkeeping, -type_modifiers[type]["coeff"],
+      elapsed_time_day / REST_TIME_UNIT_DAY)
+    
+    
