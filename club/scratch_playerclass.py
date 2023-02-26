@@ -5,16 +5,16 @@ import pandas as pd
 import own_player as opl
 
 
-df = pd.read_csv('../assets/stats.csv')
+# df = pd.read_csv('../assets/stats.csv')
 
 # print(list(set(df.columns.values)))
 # print(list(set(df["work rate"])))
 
-player = df.loc[[6]]
-player = opl.OwnPlayer(player)
+# player = df.loc[[6]]
+# player = opl.OwnPlayer(player)
 # print(player.mental)
 # print(player.ball_skills)
-player.adjust_to_match_action(90)
+# player.adjust_to_match_action(90)
 # print()
 # print(player.ball_skills)
 
@@ -46,3 +46,23 @@ player.adjust_to_match_action(90)
 # print(Kepa.stats())
 # null_kepa = Kepa + Kepa
 # print(null_kepa.stats())
+
+df = pd.read_csv('../assets/stats.csv')
+
+player = df.loc[[6]]
+player = opl.OwnPlayer(player)
+
+player.adjust_to_match_action(90)
+print("after 90 minutes match")
+print(player.physical[["name", "maximum", "current"]])
+print(player.defending[["name", "maximum", "current"]])
+print(player.passing[["name", "maximum", "current"]])
+print(player.shooting[["name", "maximum", "current"]])
+print(player.goalkeeping[["name", "maximum", "current"]])
+print()
+
+# player.adjust_to_rest(2)
+# print("after 2 days of rest")
+# print(player.physical[["name", "maximum", "current"]])
+
+

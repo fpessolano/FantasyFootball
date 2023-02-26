@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import math
 """
   TODO:
@@ -215,6 +216,7 @@ class OwnPlayer:
 
   @classmethod
   def ___stamina_coeff(cls, x):
+    # it is the common stats decay formula, centralised in order to sync on future changes
     x /= 100
     return 1 - x**5
 
@@ -222,45 +224,70 @@ class OwnPlayer:
                              elapsed_time_min,
                              number_attacks=0,
                              number_defences=0):
-
-    # in progress
-    form = self.physical.loc[self.physical["name"] ==
-                             "form"]["current"].values[0]
-    form_modifier = self.physical.loc[self.physical["name"] ==
-                                      "form"]["match_modifier"].values[0]
+    # physycal driven stats are influenced by the stamina decrease due to sport acticity
+    # TODO add effect of number_attacks and number_defences to adjust stamina considering also work rate values
     stamina = self.physical.loc[self.physical["name"] ==
                                 "stamina"]["current"].values[0]
-    # stamina = 50
-    stamina_modifier = self.physical.loc[self.physical["name"] ==
-                                         "stamina"]["match_modifier"].values[0]
-    # trying modifier calculation
     stamina_coeff = OwnPlayer.___stamina_coeff(stamina)
-    print(stamina_coeff)
-
-    new_form = round(
-      form -
-      stamina_coeff * form_modifier * elapsed_time_min / MATCH_TIME_UNIT_MIN,
-      0)
-    new_stamina = round(
-      stamina - stamina_coeff * stamina_modifier * elapsed_time_min /
-      MATCH_TIME_UNIT_MIN, 0)
-
-    print(f"Form: {form}, stamina {stamina}")
-    print(f"Form: {new_form}, stamina {new_stamina}")
-
-    # now apply it to all df's
 
     self.physical["current"] = (
       self.physical["maximum"] - stamina_coeff * elapsed_time_min /
       MATCH_TIME_UNIT_MIN * self.physical["match_modifier"]).round(decimals=0)
+    self.physical["current"] = np.where(self.physical["current"] <= 0, 0, self.physical["current"])
 
-    print(self.physical[["name", "maximum", "current"]])
+    self.defending["current"] = (
+      self.defending["maximum"] - stamina_coeff * elapsed_time_min /
+      MATCH_TIME_UNIT_MIN * self.defending["match_modifier"]).round(decimals=0)
+    self.defending["current"] = np.where(self.defending["current"] <= 0, 0, self.defending["current"])
+
+                               
+    self.passing["current"] = (
+      self.passing["maximum"] - stamina_coeff * elapsed_time_min /
+      MATCH_TIME_UNIT_MIN * self.passing["match_modifier"]).round(decimals=0)
+    self.passing["current"] = np.where(self.passing["current"] <= 0, 0, self.passing["current"])
+
+    self.shooting["current"] = (
+      self.shooting["maximum"] - stamina_coeff * elapsed_time_min /
+      MATCH_TIME_UNIT_MIN * self.shooting["match_modifier"]).round(decimals=0)
+    self.shooting["current"] = np.where(self.shooting["current"] <= 0, 0, self.shooting["current"])
+
+    self.goalkeeping["current"] = (
+      self.goalkeeping["maximum"] -
+      stamina_coeff * elapsed_time_min / MATCH_TIME_UNIT_MIN *
+      self.goalkeeping["match_modifier"]).round(decimals=0)
+    self.goalkeeping["current"] = np.where(self.goalkeeping["current"] <= 0, 0, self.goalkeeping["current"])
+
+    # TODO boll_skills and mental needs to change differently
 
   def adjust_to_training_action(self,
                                 elapsed_time_min,
                                 intensity=1,
                                 focus=None):
+    # in progress
+    # TODO use intensity and focus to adjust stamina considering also work rate values
     pass
 
-  def adjust_to_rest(self, elapsed_time_day, intensity=1):
-    pass
+  def adjust_to_rest(self, elapsed_time_day, type="post-match"):
+    # TODO
+    type_modifiers = {
+      "post-match": {
+        "coeff": 1,  # affects the stats recovery
+        "form_coeff": 1,  # affects the form recovery (together with coeff)
+        "form_cap": 1  # limits the maximum form value
+      },
+      "injury": {
+        "coeff": 1,
+        "form_coeff": 1,
+        "form_cap": 1
+      },
+      "injury-recover": {
+        "coeff": 1,
+        "form_coeff": 1,
+        "form_cap": 1
+      },
+      "holidays": {
+        "coeff": 1,
+        "form_coeff": 1,
+        "form_cap": 1
+      }
+    }
