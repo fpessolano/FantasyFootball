@@ -1,7 +1,7 @@
 import pandas as pd
+import math
 """
   TODO:
- - form needs to actually determine stats from the max so the modifier must refer to the form value
  - how to use and determine boosters
  - yearly stats updates
  - match stats decline
@@ -213,6 +213,11 @@ class OwnPlayer:
       # need to first fix the saving format.
       pass
 
+  @classmethod
+  def ___stamina_coeff(cls, x):
+    x /= 100
+    return 1 - x**5
+
   def adjust_to_match_action(self,
                              elapsed_time_min,
                              number_attacks=0,
@@ -222,23 +227,34 @@ class OwnPlayer:
     form = self.physical.loc[self.physical["name"] ==
                              "form"]["current"].values[0]
     form_modifier = self.physical.loc[self.physical["name"] ==
-                             "form"]["match_modifier"].values[0]
+                                      "form"]["match_modifier"].values[0]
     stamina = self.physical.loc[self.physical["name"] ==
                                 "stamina"]["current"].values[0]
-    # stamina = 75
+    # stamina = 50
     stamina_modifier = self.physical.loc[self.physical["name"] ==
-                             "stamina"]["match_modifier"].values[0]
+                                         "stamina"]["match_modifier"].values[0]
     # trying modifier calculation
-    stamina_coeff = round((1 + (1 - stamina / 100)) * 0.5, 2)
+    stamina_coeff = OwnPlayer.___stamina_coeff(stamina)
+    print(stamina_coeff)
 
-    new_form = round(form - stamina_coeff * form_modifier * elapsed_time_min / MATCH_TIME_UNIT_MIN,0)
-    new_stamina = round(stamina - stamina_coeff * stamina_modifier * elapsed_time_min / MATCH_TIME_UNIT_MIN,0)
+    new_form = round(
+      form -
+      stamina_coeff * form_modifier * elapsed_time_min / MATCH_TIME_UNIT_MIN,
+      0)
+    new_stamina = round(
+      stamina - stamina_coeff * stamina_modifier * elapsed_time_min /
+      MATCH_TIME_UNIT_MIN, 0)
 
-                               
-    print(stamina, stamina_modifier, new_stamina)
-    print(form, form_modifier, new_form)
+    print(f"Form: {form}, stamina {stamina}")
+    print(f"Form: {new_form}, stamina {new_stamina}")
 
     # now apply it to all df's
+
+    self.physical["current"] = (
+      self.physical["maximum"] - stamina_coeff * elapsed_time_min /
+      MATCH_TIME_UNIT_MIN * self.physical["match_modifier"]).round(decimals=0)
+
+    print(self.physical[["name", "maximum", "current"]])
 
   def adjust_to_training_action(self,
                                 elapsed_time_min,
