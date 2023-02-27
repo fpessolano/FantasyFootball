@@ -52,19 +52,16 @@ player = df.loc[[6]]
 player = opl.OwnPlayer(player)
 
 player.adjust_to_match_action(90)
-print("after 90 minutes match")
 stats = pd.concat([
   player.ball_skills, player.defending, player.mental, player.physical,
   player.passing, player.shooting, player.goalkeeping],
   ignore_index=True)
-print(stats[["name", "maximum", "current"]])
-print()
+result_stats = stats[["name", "maximum", "current"]]
 
-player.adjust_to_rest(2)
-print("after 2 days of rest")
+player.adjust_to_rest(20, type="holidays")
 stats = pd.concat([
   player.ball_skills, player.defending, player.mental, player.physical,
   player.passing, player.shooting, player.goalkeeping],
   ignore_index=True)
-print(stats[["name", "maximum", "current"]])
-print()
+result_stats["rested"] = stats["current"].copy()
+print(result_stats)

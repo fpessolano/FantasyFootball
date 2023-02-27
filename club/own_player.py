@@ -221,7 +221,7 @@ class OwnPlayer:
     return 1 - x**5
 
   @classmethod
-  def __update_stats(cls, stats, coefficient, time_units):
+  def __decline_stats(cls, stats, coefficient, time_units):
     try:
       stats["current"] = (
         stats["maximum"] -
@@ -245,25 +245,25 @@ class OwnPlayer:
                                 "stamina"]["current"].values[0]
     stamina_coeff = OwnPlayer.___stamina_coeff(stamina)
 
-    self.ball_skills["current"] = OwnPlayer.__update_stats(
+    self.ball_skills["current"] = OwnPlayer.__decline_stats(
       self.ball_skills, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
 
-    self.defending["current"] = OwnPlayer.__update_stats(
+    self.defending["current"] = OwnPlayer.__decline_stats(
       self.defending, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
 
-    self.mental["current"] = OwnPlayer.__update_stats(
+    self.mental["current"] = OwnPlayer.__decline_stats(
       self.mental, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
 
-    self.physical["current"] = OwnPlayer.__update_stats(
+    self.physical["current"] = OwnPlayer.__decline_stats(
       self.physical, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
 
-    self.passing["current"] = OwnPlayer.__update_stats(
+    self.passing["current"] = OwnPlayer.__decline_stats(
       self.passing, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
 
-    self.shooting["current"] = OwnPlayer.__update_stats(
+    self.shooting["current"] = OwnPlayer.__decline_stats(
       self.shooting, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
 
-    self.goalkeeping["current"] = OwnPlayer.__update_stats(
+    self.goalkeeping["current"] = OwnPlayer.__decline_stats(
       self.goalkeeping, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
 
   def adjust_to_training_action(self,
@@ -275,7 +275,7 @@ class OwnPlayer:
     pass
 
   def adjust_to_rest(self, elapsed_time_day, type="post-match"):
-    # in progress - adjust the values in modifiers and manage the cap and form one
+    # in progress - adjust the values in modifiers and manage/test the cap and form one
     type_modifiers = {
       "post-match": {
         "coeff": 1,  # affects the stats recovery
@@ -283,42 +283,56 @@ class OwnPlayer:
         "form_cap": 1  # limits the maximum form value
       },
       "injury": {
-        "coeff": 1,
-        "form_coeff": 1,
-        "form_cap": 1
+        "coeff": 0.1,
+        "form_coeff": 0.1,
+        "form_cap": 0.5
       },
       "injury-recover": {
-        "coeff": 1,
-        "form_coeff": 1,
+        "coeff": 0.1,
+        "form_coeff": 0.5,
         "form_cap": 1
       },
       "holidays": {
         "coeff": 1,
-        "form_coeff": 1,
-        "form_cap": 1
+        "form_coeff": 0.1,
+        "form_cap": 0.7
       }
     }
 
-    self.ball_skills["current"] = OwnPlayer.__update_stats(
-      self.ball_skills, -type_modifiers[type]["coeff"],
-      elapsed_time_day / REST_TIME_UNIT_DAY)
-    self.defending["current"] = OwnPlayer.__update_stats(
-      self.defending, -type_modifiers[type]["coeff"],
-      elapsed_time_day / REST_TIME_UNIT_DAY)
-    self.mental["current"] = OwnPlayer.__update_stats(
-      self.mental, -type_modifiers[type]["coeff"],
-      elapsed_time_day / REST_TIME_UNIT_DAY)
-    self.physical["current"] = OwnPlayer.__update_stats(
-      self.physical, -type_modifiers[type]["coeff"],
-      elapsed_time_day / REST_TIME_UNIT_DAY)
-    self.passing["current"] = OwnPlayer.__update_stats(
-      self.passing, -type_modifiers[type]["coeff"],
-      elapsed_time_day / REST_TIME_UNIT_DAY)
-    self.shooting["current"] = OwnPlayer.__update_stats(
-      self.shooting, -type_modifiers[type]["coeff"],
-      elapsed_time_day / REST_TIME_UNIT_DAY)
-    self.goalkeeping["current"] = OwnPlayer.__update_stats(
-      self.goalkeeping, -type_modifiers[type]["coeff"],
-      elapsed_time_day / REST_TIME_UNIT_DAY)
-    
-    
+    # TODO this is totally wrong ... the function __decline_stats cannot be used
+    # we need another one
+
+    time_units = elapsed_time_day / REST_TIME_UNIT_DAY
+
+    self.ball_skills["current"] = OwnPlayer.__decline_stats(
+      self.ball_skills, -type_modifiers[type]["coeff"], time_units)
+    self.defending["current"] = OwnPlayer.__decline_stats(
+      self.defending, -type_modifiers[type]["coeff"], time_units)
+    self.mental["current"] = OwnPlayer.__decline_stats(
+      self.mental, -type_modifiers[type]["coeff"], time_units)
+    self.physical["current"] = OwnPlayer.__decline_stats(
+      self.physical, -type_modifiers[type]["coeff"], time_units)
+    self.passing["current"] = OwnPlayer.__decline_stats(
+      self.passing, -type_modifiers[type]["coeff"], time_units)
+    self.shooting["current"] = OwnPlayer.__decline_stats(
+      self.shooting, -type_modifiers[type]["coeff"], time_units)
+    self.goalkeeping["current"] = OwnPlayer.__decline_stats(
+      self.goalkeeping, -type_modifiers[type]["coeff"], time_units)
+
+    form_stats = self.physical[self.physical["name"] == "form"]
+    form = (form_stats["current"] +
+            form_stats["maximum"] * type_modifiers[type]["coeff"] *
+            time_units * form_stats["match_modifier"]
+            ).values[0] 
+    print(form)
+    # form = self.physical[self.physical["name"] == "form"]["current"].values[0]
+    # print(form)
+    # form *= type_modifiers[type]["form_coeff"]
+    # print(form, form * type_modifiers[type]["form_cap"])
+    # if form > form * type_modifiers[type]["form_cap"]:
+    #   form = form * type_modifiers[type]["form_cap"]
+    # self.physical[self.physical["name"] == "form"]["current"] = form
+    # self.physical[self.physical["name"] == "form"] *= type_modifiers[type]["form_coeff"]
+    # form = self.physical[self.physical["name"] == "form"] * type_modifiers[type]["form_cap"]
+    # if self.physical[self.physical["name"] == "form"] > form:
+    #   self.physical[self.physical["name"] == "form"] = form
