@@ -58,7 +58,8 @@ stats = pd.concat([
   ignore_index=True)
 result_stats = stats[["name", "maximum", "current"]]
 
-player.adjust_to_rest(20, type="holidays")
+player.adjust_to_rest(35, type="holidays")
+# player.adjust_to_rest(2)
 stats = pd.concat([
   player.ball_skills, player.defending, player.mental, player.physical,
   player.passing, player.shooting, player.goalkeeping],

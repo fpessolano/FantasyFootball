@@ -227,6 +227,17 @@ class OwnPlayer:
         stats["maximum"] -
         coefficient * time_units * stats["match_modifier"]).round(decimals=0)
       stats["current"] = np.where(stats["current"] <= 0, 0, stats["current"])
+      return stats["current"]
+    except:
+      # this should never happen
+      return None
+
+  @classmethod
+  def __recover_stats(cls, stats, coefficient, time_units):
+    try:
+      stats["current"] = (
+        stats["current"] +
+        coefficient * time_units * stats["match_modifier"]).round(decimals=0)
       stats["current"] = np.where(stats["current"] > stats["maximum"],
                                   stats["maximum"], stats["current"])
       return stats["current"]
@@ -293,38 +304,39 @@ class OwnPlayer:
         "form_cap": 1
       },
       "holidays": {
-        "coeff": 1,
+        "coeff": 0.3,
         "form_coeff": 0.1,
         "form_cap": 0.7
       }
     }
 
-    # TODO this is totally wrong ... the function __decline_stats cannot be used
-    # we need another one
-
     time_units = elapsed_time_day / REST_TIME_UNIT_DAY
 
-    self.ball_skills["current"] = OwnPlayer.__decline_stats(
-      self.ball_skills, -type_modifiers[type]["coeff"], time_units)
-    self.defending["current"] = OwnPlayer.__decline_stats(
-      self.defending, -type_modifiers[type]["coeff"], time_units)
-    self.mental["current"] = OwnPlayer.__decline_stats(
-      self.mental, -type_modifiers[type]["coeff"], time_units)
-    self.physical["current"] = OwnPlayer.__decline_stats(
-      self.physical, -type_modifiers[type]["coeff"], time_units)
-    self.passing["current"] = OwnPlayer.__decline_stats(
-      self.passing, -type_modifiers[type]["coeff"], time_units)
-    self.shooting["current"] = OwnPlayer.__decline_stats(
-      self.shooting, -type_modifiers[type]["coeff"], time_units)
-    self.goalkeeping["current"] = OwnPlayer.__decline_stats(
-      self.goalkeeping, -type_modifiers[type]["coeff"], time_units)
-
     form_stats = self.physical[self.physical["name"] == "form"]
-    form = (form_stats["current"] +
-            form_stats["maximum"] * type_modifiers[type]["coeff"] *
-            time_units * form_stats["match_modifier"]
-            ).values[0] 
-    print(form)
+    print(form_stats)
+    
+    self.ball_skills["current"] = OwnPlayer.__recover_stats(
+      self.ball_skills, type_modifiers[type]["coeff"], time_units)
+    self.defending["current"] = OwnPlayer.__recover_stats(
+      self.defending, type_modifiers[type]["coeff"], time_units)
+    self.mental["current"] = OwnPlayer.__recover_stats(
+      self.mental, type_modifiers[type]["coeff"], time_units)
+    self.physical["current"] = OwnPlayer.__recover_stats(
+      self.physical, type_modifiers[type]["coeff"], time_units)
+    self.passing["current"] = OwnPlayer.__recover_stats(
+      self.passing, type_modifiers[type]["coeff"], time_units)
+    self.shooting["current"] = OwnPlayer.__recover_stats(
+      self.shooting, type_modifiers[type]["coeff"], time_units)
+    self.goalkeeping["current"] = OwnPlayer.__recover_stats(
+      self.goalkeeping, type_modifiers[type]["coeff"], time_units)
+
+    # TODO adjust stats for form recovery
+
+    # form_stats = self.physical[self.physical["name"] == "form"]
+    # form = (form_stats["current"] +
+    #         form_stats["maximum"] * type_modifiers[type]["coeff"] *
+    #         time_units * form_stats["match_modifier"])
+    # print(form)
     # form = self.physical[self.physical["name"] == "form"]["current"].values[0]
     # print(form)
     # form *= type_modifiers[type]["form_coeff"]
