@@ -1,14 +1,8 @@
 import pandas as pd
 import numpy as np
-import math
 """
   TODO:
  - how to use and determine boosters
- - yearly stats updates
- - match stats decline
- - rest day recovery
- - injury and injury recovery
- - form modifier for match stats decline
  - how to have the max in season change over time
  - how to estimate the next season stats (use age and end of season max)
  - form needs to depend on trainings
@@ -237,7 +231,7 @@ class OwnPlayer:
     try:
       stats["current"] = (
         stats["current"] +
-        coefficient * time_units * stats["match_modifier"]).round(decimals=0)
+        coefficient * time_units * stats["rest_modifier"]).round(decimals=0)
       stats["current"] = np.where(stats["current"] > stats["maximum"],
                                   stats["maximum"], stats["current"])
       return stats["current"]
@@ -251,7 +245,9 @@ class OwnPlayer:
                              number_defences=0):
     # stats are influenced by the stamina decrease dring a match.
     # The rate of decrease is determined in the modifier field of each stat
-    # TODO add effect of number_attacks and number_defences to adjust stamina considering also work rate values
+
+    # TODO add effect of number_attacks and number_defences
+    # to adjust stamina considering also work rate values
     stamina = self.physical.loc[self.physical["name"] ==
                                 "stamina"]["current"].values[0]
     stamina_coeff = OwnPlayer.___stamina_coeff(stamina)
@@ -277,16 +273,7 @@ class OwnPlayer:
     self.goalkeeping["current"] = OwnPlayer.__decline_stats(
       self.goalkeeping, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
 
-  def adjust_to_training_action(self,
-                                elapsed_time_min,
-                                intensity=1,
-                                focus=None):
-    # in progress
-    # TODO use intensity and focus to adjust stamina considering also work rate values
-    pass
-
   def adjust_to_rest(self, elapsed_time_day, type="post-match"):
-    # in progress - adjust the values in modifiers and manage/test the cap and form one
     type_modifiers = {
       "post-match": {
         "coeff": 1,  # affects the stats recovery
@@ -294,7 +281,7 @@ class OwnPlayer:
         "form_cap": 1  # limits the maximum form value
       },
       "injury": {
-        "coeff": 0.1,
+        "coeff": 0,  # injury stats will not change till in recover
         "form_coeff": 0.1,
         "form_cap": 0.5
       },
@@ -304,7 +291,7 @@ class OwnPlayer:
         "form_cap": 1
       },
       "holidays": {
-        "coeff": 0.3,
+        "coeff": 0.08,
         "form_coeff": 0.1,
         "form_cap": 0.7
       }
@@ -312,9 +299,6 @@ class OwnPlayer:
 
     time_units = elapsed_time_day / REST_TIME_UNIT_DAY
 
-    form_stats = self.physical[self.physical["name"] == "form"]
-    print(form_stats)
-    
     self.ball_skills["current"] = OwnPlayer.__recover_stats(
       self.ball_skills, type_modifiers[type]["coeff"], time_units)
     self.defending["current"] = OwnPlayer.__recover_stats(
@@ -330,21 +314,25 @@ class OwnPlayer:
     self.goalkeeping["current"] = OwnPlayer.__recover_stats(
       self.goalkeeping, type_modifiers[type]["coeff"], time_units)
 
-    # TODO adjust stats for form recovery
+    form_stats = self.physical[self.physical["name"] == "form"]
+    form_stats["current"] = form_stats["maximum"] * type_modifiers[type][
+      "form_cap"] if form_stats["current"].values[
+        0] > form_stats["maximum"].values[0] * type_modifiers[type][
+          "form_cap"] else form_stats["current"]
+    self.physical[self.physical["name"] == "form"] = form_stats
 
-    # form_stats = self.physical[self.physical["name"] == "form"]
-    # form = (form_stats["current"] +
-    #         form_stats["maximum"] * type_modifiers[type]["coeff"] *
-    #         time_units * form_stats["match_modifier"])
-    # print(form)
-    # form = self.physical[self.physical["name"] == "form"]["current"].values[0]
-    # print(form)
-    # form *= type_modifiers[type]["form_coeff"]
-    # print(form, form * type_modifiers[type]["form_cap"])
-    # if form > form * type_modifiers[type]["form_cap"]:
-    #   form = form * type_modifiers[type]["form_cap"]
-    # self.physical[self.physical["name"] == "form"]["current"] = form
-    # self.physical[self.physical["name"] == "form"] *= type_modifiers[type]["form_coeff"]
-    # form = self.physical[self.physical["name"] == "form"] * type_modifiers[type]["form_cap"]
-    # if self.physical[self.physical["name"] == "form"] > form:
-    #   self.physical[self.physical["name"] == "form"] = form
+  def injured(self, severity=0.5, focus=None):
+    self.ball_skills["current"] *= severity
+    self.defending["current"] *= severity
+    self.mental["current"] *= severity
+    self.physical["current"] *= severity
+    self.passing["current"] *= severity
+    self.shooting["current"] *= severity
+    self.goalkeeping["current"] *= severity
+
+  def adjust_to_training_action(self,
+                                elapsed_time_min,
+                                intensity=1,
+                                focus=None):
+    # TBD
+    pass

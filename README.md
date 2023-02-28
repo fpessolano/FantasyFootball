@@ -7,8 +7,8 @@ NOTE:       As of version 0.3.0 is adaped to run as a repl and uses replit datab
 
 
 **Description**  
-This is a python project initially started to teach Python to my kids in a fun way and with increasing difficulty.  
-It was meant to be a simple CLI football manager game. Currently it is a free time fun project used to explore ideas or new libraries while building something fun.     
+This is a python project initially started to teach Python to my kids in a fun way and with increasing difficulty. It was meant to be a simple CLI football manager game. 
+Currently it is a free time fun project used to explore ideas or new libraries while building something fun.     
 
 **Dependencies**  
 See requirements.txt  

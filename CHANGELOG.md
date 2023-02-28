@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 #### Add
  - Proper title screen
  - Add players with stats (in progress)
- - Add new similation mechanism using real-world form (ELO), FIFA-like players stats and a new simulation engine 
+ - Add new similation mechanism using real-world form (ELO), FIFA-like players stats and a new simulation engine  (to be done)
    
 ## [0.3.1]
 #### Change 

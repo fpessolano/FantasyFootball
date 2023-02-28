@@ -1,10 +1,1 @@
-certifi==2020.12.5
-chardet==4.0.0
-docutils==0.16
-idna==2.10
-Pygments==2.7.4
-pypiwin32==223
-pywin32==300
-requests==2.25.1
-tabulate==0.8.9
-urllib3==1.26.2
+pandas=1.5.3
