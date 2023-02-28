@@ -215,11 +215,21 @@ class OwnPlayer:
     return 1 - x**5
 
   @classmethod
-  def __decline_stats(cls, stats, coefficient, time_units):
+  def __reduce_stats(
+    cls,
+    stats,
+    coefficient,
+    time_units,
+    match=True,
+  ):
+    if match:
+      modifier = stats["match_modifier"]
+    else:
+      modifier = stats["training_modifier"]
     try:
-      stats["current"] = (
-        stats["maximum"] -
-        coefficient * time_units * stats["match_modifier"]).round(decimals=0)
+      stats["current"] = (stats["maximum"] -
+                          coefficient * time_units * modifier).round(
+                            decimals=0)
       stats["current"] = np.where(stats["current"] <= 0, 0, stats["current"])
       return stats["current"]
     except:
@@ -239,39 +249,57 @@ class OwnPlayer:
       # this should never happen
       return None
 
+  def __plays(self, time_units, match, coeff_modifier=1):
+    # stats are influenced by the stamina decrease dring a match.
+    # The rate of decrease is determined in the modifier field of each stat
+    stamina = self.physical.loc[self.physical["name"] ==
+                                "stamina"]["current"].values[0]
+    stamina_coeff = OwnPlayer.___stamina_coeff(stamina) * coeff_modifier
+
+    self.ball_skills["current"] = OwnPlayer.__reduce_stats(self.ball_skills,
+                                                           stamina_coeff,
+                                                           time_units,
+                                                           match=match)
+
+    self.defending["current"] = OwnPlayer.__reduce_stats(self.defending,
+                                                         stamina_coeff,
+                                                         time_units,
+                                                         match=match)
+
+    self.mental["current"] = OwnPlayer.__reduce_stats(self.mental,
+                                                      stamina_coeff,
+                                                      time_units,
+                                                      match=match)
+
+    self.physical["current"] = OwnPlayer.__reduce_stats(self.physical,
+                                                        stamina_coeff,
+                                                        time_units,
+                                                        match=match)
+
+    self.passing["current"] = OwnPlayer.__reduce_stats(self.passing,
+                                                       stamina_coeff,
+                                                       time_units,
+                                                       match=match)
+
+    self.shooting["current"] = OwnPlayer.__reduce_stats(self.shooting,
+                                                        stamina_coeff,
+                                                        time_units,
+                                                        match=match)
+
+    self.goalkeeping["current"] = OwnPlayer.__reduce_stats(self.goalkeeping,
+                                                           stamina_coeff,
+                                                           time_units,
+                                                           match=match)
+
   def adjust_to_match_action(self,
                              elapsed_time_min,
                              number_attacks=0,
                              number_defences=0):
-    # stats are influenced by the stamina decrease dring a match.
-    # The rate of decrease is determined in the modifier field of each stat
 
     # TODO add effect of number_attacks and number_defences
     # to adjust stamina considering also work rate values
-    stamina = self.physical.loc[self.physical["name"] ==
-                                "stamina"]["current"].values[0]
-    stamina_coeff = OwnPlayer.___stamina_coeff(stamina)
-
-    self.ball_skills["current"] = OwnPlayer.__decline_stats(
-      self.ball_skills, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
-
-    self.defending["current"] = OwnPlayer.__decline_stats(
-      self.defending, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
-
-    self.mental["current"] = OwnPlayer.__decline_stats(
-      self.mental, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
-
-    self.physical["current"] = OwnPlayer.__decline_stats(
-      self.physical, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
-
-    self.passing["current"] = OwnPlayer.__decline_stats(
-      self.passing, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
-
-    self.shooting["current"] = OwnPlayer.__decline_stats(
-      self.shooting, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
-
-    self.goalkeeping["current"] = OwnPlayer.__decline_stats(
-      self.goalkeeping, stamina_coeff, elapsed_time_min / MATCH_TIME_UNIT_MIN)
+    time_units = elapsed_time_min / MATCH_TIME_UNIT_MIN
+    self.__plays(time_units=time_units, match=True)
 
   def adjust_to_rest(self, elapsed_time_day, type="post-match"):
     type_modifiers = {
@@ -334,5 +362,7 @@ class OwnPlayer:
                                 elapsed_time_min,
                                 intensity=1,
                                 focus=None):
-    # TBD
-    pass
+    # TODO add effect of intensity and focus
+    # to adjust stamina considering also work rate values
+    time_units = elapsed_time_min / TRAINING_TIME_UNIT_MIN
+    self.__plays(time_units=time_units, match=False)

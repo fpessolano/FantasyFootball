@@ -52,11 +52,12 @@ player = df.loc[[6]]
 player = opl.OwnPlayer(player)
 
 # player.adjust_to_match_action(90)
-# stats = pd.concat([
-#   player.ball_skills, player.defending, player.mental, player.physical,
-#   player.passing, player.shooting, player.goalkeeping],
-#   ignore_index=True)
-# result_stats = stats[["name", "maximum", "current"]]
+player.adjust_to_training_action(90)
+stats = pd.concat([
+  player.ball_skills, player.defending, player.mental, player.physical,
+  player.passing, player.shooting, player.goalkeeping],
+  ignore_index=True)
+result_stats = stats[["name", "maximum", "current"]]
 
 # player.adjust_to_rest(30, type="injury")
 # # player.adjust_to_rest(2)
@@ -65,12 +66,12 @@ player = opl.OwnPlayer(player)
 #   player.passing, player.shooting, player.goalkeeping],
 #   ignore_index=True)
 # result_stats["rested"] = stats["current"].copy()
-# print(result_stats)
-
-player.injured()
-stats = pd.concat([
-  player.ball_skills, player.defending, player.mental, player.physical,
-  player.passing, player.shooting, player.goalkeeping],
-  ignore_index=True)
-result_stats = stats[["name", "maximum", "current"]]
 print(result_stats)
+
+# player.injured()
+# stats = pd.concat([
+#   player.ball_skills, player.defending, player.mental, player.physical,
+#   player.passing, player.shooting, player.goalkeeping],
+#   ignore_index=True)
+# result_stats = stats[["name", "maximum", "current"]]
+# print(result_stats)
