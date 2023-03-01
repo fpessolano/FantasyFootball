@@ -51,7 +51,7 @@ df = pd.read_csv('../assets/stats.csv')
 player = df.loc[[6]]
 player = opl.OwnPlayer(player)
 
-# player.adjust_to_match_action(90)
+player.adjust_to_match_action(90)
 player.adjust_to_training_action(90)
 stats = pd.concat([
   player.ball_skills, player.defending, player.mental, player.physical,

@@ -5,7 +5,6 @@ import numpy as np
  - how to use and determine boosters
  - how to have the max in season change over time
  - how to estimate the next season stats (use age and end of season max)
- - form needs to depend on trainings
  - skills max also need to depend on training somwhow but much much slower
  - workrate also needs to affect things
 """
@@ -125,7 +124,7 @@ class OwnPlayer:
         player_data["agility"].values[0], player_data["stamina"].values[0], 100
       ],
       "match_modifier": [1] * 7 + [3],
-      "training_modifier": [0.2] * 7 + [3],
+      "training_modifier": [0.2] * 7 + [-0.5],
       "rest_modifier": [2.5] * 7 + [15],
       "streak_modifier": [0.2] * 7 + [0.5]
     }
@@ -215,7 +214,7 @@ class OwnPlayer:
     return 1 - x**5
 
   @classmethod
-  def __reduce_stats(
+  def __stats_action(
     cls,
     stats,
     coefficient,
@@ -227,17 +226,19 @@ class OwnPlayer:
     else:
       modifier = stats["training_modifier"]
     try:
-      stats["current"] = (stats["maximum"] -
+      stats["current"] = (stats["current"] -
                           coefficient * time_units * modifier).round(
                             decimals=0)
       stats["current"] = np.where(stats["current"] <= 0, 0, stats["current"])
+      stats["current"] = np.where(stats["current"] > stats["maximum"],
+                                  stats["maximum"], stats["current"])
       return stats["current"]
     except:
       # this should never happen
       return None
 
   @classmethod
-  def __recover_stats(cls, stats, coefficient, time_units):
+  def __stats_rest(cls, stats, coefficient, time_units):
     try:
       stats["current"] = (
         stats["current"] +
@@ -256,37 +257,37 @@ class OwnPlayer:
                                 "stamina"]["current"].values[0]
     stamina_coeff = OwnPlayer.___stamina_coeff(stamina) * coeff_modifier
 
-    self.ball_skills["current"] = OwnPlayer.__reduce_stats(self.ball_skills,
+    self.ball_skills["current"] = OwnPlayer.__stats_action(self.ball_skills,
                                                            stamina_coeff,
                                                            time_units,
                                                            match=match)
 
-    self.defending["current"] = OwnPlayer.__reduce_stats(self.defending,
+    self.defending["current"] = OwnPlayer.__stats_action(self.defending,
                                                          stamina_coeff,
                                                          time_units,
                                                          match=match)
 
-    self.mental["current"] = OwnPlayer.__reduce_stats(self.mental,
+    self.mental["current"] = OwnPlayer.__stats_action(self.mental,
                                                       stamina_coeff,
                                                       time_units,
                                                       match=match)
 
-    self.physical["current"] = OwnPlayer.__reduce_stats(self.physical,
+    self.physical["current"] = OwnPlayer.__stats_action(self.physical,
                                                         stamina_coeff,
                                                         time_units,
                                                         match=match)
 
-    self.passing["current"] = OwnPlayer.__reduce_stats(self.passing,
+    self.passing["current"] = OwnPlayer.__stats_action(self.passing,
                                                        stamina_coeff,
                                                        time_units,
                                                        match=match)
 
-    self.shooting["current"] = OwnPlayer.__reduce_stats(self.shooting,
+    self.shooting["current"] = OwnPlayer.__stats_action(self.shooting,
                                                         stamina_coeff,
                                                         time_units,
                                                         match=match)
 
-    self.goalkeeping["current"] = OwnPlayer.__reduce_stats(self.goalkeeping,
+    self.goalkeeping["current"] = OwnPlayer.__stats_action(self.goalkeeping,
                                                            stamina_coeff,
                                                            time_units,
                                                            match=match)
@@ -306,7 +307,7 @@ class OwnPlayer:
       "post-match": {
         "coeff": 1,  # affects the stats recovery
         "form_coeff": 1,  # affects the form recovery (together with coeff)
-        "form_cap": 1  # limits the maximum form value
+        "form_cap": 0.8  # limits the maximum form value
       },
       "injury": {
         "coeff": 0,  # injury stats will not change till in recover
@@ -327,19 +328,19 @@ class OwnPlayer:
 
     time_units = elapsed_time_day / REST_TIME_UNIT_DAY
 
-    self.ball_skills["current"] = OwnPlayer.__recover_stats(
+    self.ball_skills["current"] = OwnPlayer.__stats_rest(
       self.ball_skills, type_modifiers[type]["coeff"], time_units)
-    self.defending["current"] = OwnPlayer.__recover_stats(
+    self.defending["current"] = OwnPlayer.__stats_rest(
       self.defending, type_modifiers[type]["coeff"], time_units)
-    self.mental["current"] = OwnPlayer.__recover_stats(
+    self.mental["current"] = OwnPlayer.__stats_rest(
       self.mental, type_modifiers[type]["coeff"], time_units)
-    self.physical["current"] = OwnPlayer.__recover_stats(
+    self.physical["current"] = OwnPlayer.__stats_rest(
       self.physical, type_modifiers[type]["coeff"], time_units)
-    self.passing["current"] = OwnPlayer.__recover_stats(
+    self.passing["current"] = OwnPlayer.__stats_rest(
       self.passing, type_modifiers[type]["coeff"], time_units)
-    self.shooting["current"] = OwnPlayer.__recover_stats(
+    self.shooting["current"] = OwnPlayer.__stats_rest(
       self.shooting, type_modifiers[type]["coeff"], time_units)
-    self.goalkeeping["current"] = OwnPlayer.__recover_stats(
+    self.goalkeeping["current"] = OwnPlayer.__stats_rest(
       self.goalkeeping, type_modifiers[type]["coeff"], time_units)
 
     form_stats = self.physical[self.physical["name"] == "form"]
