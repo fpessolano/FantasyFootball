@@ -251,7 +251,7 @@ class OwnPlayer:
       return None
 
   def __plays(self, time_units, match, coeff_modifier=1):
-    # stats are influenced by the stamina decrease dring a match.
+    # stats are influenced by the stamina decrease during a match.
     # The rate of decrease is determined in the modifier field of each stat
     stamina = self.physical.loc[self.physical["name"] ==
                                 "stamina"]["current"].values[0]
@@ -303,11 +303,12 @@ class OwnPlayer:
     self.__plays(time_units=time_units, match=True)
 
   def adjust_to_rest(self, elapsed_time_day, type="post-match"):
+    # form_coeff seems not to work correctly, need a different solution
     type_modifiers = {
       "post-match": {
         "coeff": 1,  # affects the stats recovery
-        "form_coeff": 1,  # affects the form recovery (together with coeff)
-        "form_cap": 0.8  # limits the maximum form value
+        "form_coeff": 0.95,  # affects the form recovery (together with coeff)
+        "form_cap": 1  # limits the maximum form value
       },
       "injury": {
         "coeff": 0,  # injury stats will not change till in recover
@@ -344,6 +345,8 @@ class OwnPlayer:
       self.goalkeeping, type_modifiers[type]["coeff"], time_units)
 
     form_stats = self.physical[self.physical["name"] == "form"]
+    # form_stats["current"] *= type_modifiers[type][
+    #   "form_coeff"]
     form_stats["current"] = form_stats["maximum"] * type_modifiers[type][
       "form_cap"] if form_stats["current"].values[
         0] > form_stats["maximum"].values[0] * type_modifiers[type][
