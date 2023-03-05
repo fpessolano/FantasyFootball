@@ -2,12 +2,13 @@ import pandas as pd
 import numpy as np
 """
   TODO:
+ - IT DOES NOT MAKE sense, training needs to help improvo state also.
+ - THIS NEEDS A TOTAL RETHINK
  - how to use and determine boosters
  - how to have the max in season change over time
  - how to estimate the next season stats (use age and end of season max)
  - skills max also need to depend on training somwhow but much much slower
  - workrate also needs to affect things
- - IT DOES NOT MAKE sense, training needs to help improvo state also.
 """
 
 MATCH_TIME_UNIT_MIN = 5
