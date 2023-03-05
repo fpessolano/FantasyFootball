@@ -2,7 +2,7 @@
 
 import pandas as pd
 # import unidecode
-import own_player as opl
+import active_player as apl
 
 # df = pd.read_csv('../assets/stats.csv')
 
@@ -49,11 +49,11 @@ import own_player as opl
 df = pd.read_csv('../assets/stats.csv')
 
 player = df.loc[[6]]
-player = opl.OwnPlayer(player)
+player = apl.ActivePlayer(player)
 
 player.adjust_to_match_action(90)
 player.adjust_to_rest(2)
-player.adjust_to_training_action(90)
+player.adjust_to_training_action(180)
 player.adjust_to_rest(2)
 stats = pd.concat([
   player.ball_skills, player.defending, player.mental, player.physical,

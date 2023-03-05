@@ -7,6 +7,7 @@ import numpy as np
  - how to estimate the next season stats (use age and end of season max)
  - skills max also need to depend on training somwhow but much much slower
  - workrate also needs to affect things
+ - IT DOES NOT MAKE sense, training needs to help improvo state also.
 """
 
 MATCH_TIME_UNIT_MIN = 5
@@ -14,7 +15,7 @@ TRAINING_TIME_UNIT_MIN = 5
 REST_TIME_UNIT_DAY = 1
 
 
-class OwnPlayer:
+class ActivePlayer:
   """
   this class model the single player (stats and stats evolution)
   """
@@ -255,42 +256,42 @@ class OwnPlayer:
     # The rate of decrease is determined in the modifier field of each stat
     stamina = self.physical.loc[self.physical["name"] ==
                                 "stamina"]["current"].values[0]
-    stamina_coeff = OwnPlayer.___stamina_coeff(stamina) * coeff_modifier
+    stamina_coeff = ActivePlayer.___stamina_coeff(stamina) * coeff_modifier
 
-    self.ball_skills["current"] = OwnPlayer.__stats_action(self.ball_skills,
-                                                           stamina_coeff,
-                                                           time_units,
-                                                           match=match)
+    self.ball_skills["current"] = ActivePlayer.__stats_action(self.ball_skills,
+                                                              stamina_coeff,
+                                                              time_units,
+                                                              match=match)
 
-    self.defending["current"] = OwnPlayer.__stats_action(self.defending,
+    self.defending["current"] = ActivePlayer.__stats_action(self.defending,
+                                                            stamina_coeff,
+                                                            time_units,
+                                                            match=match)
+
+    self.mental["current"] = ActivePlayer.__stats_action(self.mental,
                                                          stamina_coeff,
                                                          time_units,
                                                          match=match)
 
-    self.mental["current"] = OwnPlayer.__stats_action(self.mental,
-                                                      stamina_coeff,
-                                                      time_units,
-                                                      match=match)
-
-    self.physical["current"] = OwnPlayer.__stats_action(self.physical,
-                                                        stamina_coeff,
-                                                        time_units,
-                                                        match=match)
-
-    self.passing["current"] = OwnPlayer.__stats_action(self.passing,
-                                                       stamina_coeff,
-                                                       time_units,
-                                                       match=match)
-
-    self.shooting["current"] = OwnPlayer.__stats_action(self.shooting,
-                                                        stamina_coeff,
-                                                        time_units,
-                                                        match=match)
-
-    self.goalkeeping["current"] = OwnPlayer.__stats_action(self.goalkeeping,
+    self.physical["current"] = ActivePlayer.__stats_action(self.physical,
                                                            stamina_coeff,
                                                            time_units,
                                                            match=match)
+
+    self.passing["current"] = ActivePlayer.__stats_action(self.passing,
+                                                          stamina_coeff,
+                                                          time_units,
+                                                          match=match)
+
+    self.shooting["current"] = ActivePlayer.__stats_action(self.shooting,
+                                                           stamina_coeff,
+                                                           time_units,
+                                                           match=match)
+
+    self.goalkeeping["current"] = ActivePlayer.__stats_action(self.goalkeeping,
+                                                              stamina_coeff,
+                                                              time_units,
+                                                              match=match)
 
   def adjust_to_match_action(self,
                              elapsed_time_min,
@@ -303,12 +304,12 @@ class OwnPlayer:
     self.__plays(time_units=time_units, match=True)
 
   def adjust_to_rest(self, elapsed_time_day, type="post-match"):
-    # form_coeff seems not to work correctly, need a different solution
+    # TODO best split things and depending on the restform changes (too long is holidays)
     type_modifiers = {
       "post-match": {
         "coeff": 1,  # affects the stats recovery
-        "form_coeff": 0.95,  # affects the form recovery (together with coeff)
-        "form_cap": 1  # limits the maximum form value
+        "form_coeff": 0.5,  # affects the form recovery (together with coeff)
+        "form_cap": 0.95  # limits the maximum form value
       },
       "injury": {
         "coeff": 0,  # injury stats will not change till in recover
@@ -329,29 +330,35 @@ class OwnPlayer:
 
     time_units = elapsed_time_day / REST_TIME_UNIT_DAY
 
-    self.ball_skills["current"] = OwnPlayer.__stats_rest(
+    # form_stats = self.physical[self.physical["name"] == "form"]
+
+    self.ball_skills["current"] = ActivePlayer.__stats_rest(
       self.ball_skills, type_modifiers[type]["coeff"], time_units)
-    self.defending["current"] = OwnPlayer.__stats_rest(
+    self.defending["current"] = ActivePlayer.__stats_rest(
       self.defending, type_modifiers[type]["coeff"], time_units)
-    self.mental["current"] = OwnPlayer.__stats_rest(
+    self.mental["current"] = ActivePlayer.__stats_rest(
       self.mental, type_modifiers[type]["coeff"], time_units)
-    self.physical["current"] = OwnPlayer.__stats_rest(
+    self.physical["current"] = ActivePlayer.__stats_rest(
       self.physical, type_modifiers[type]["coeff"], time_units)
-    self.passing["current"] = OwnPlayer.__stats_rest(
+    self.passing["current"] = ActivePlayer.__stats_rest(
       self.passing, type_modifiers[type]["coeff"], time_units)
-    self.shooting["current"] = OwnPlayer.__stats_rest(
+    self.shooting["current"] = ActivePlayer.__stats_rest(
       self.shooting, type_modifiers[type]["coeff"], time_units)
-    self.goalkeeping["current"] = OwnPlayer.__stats_rest(
+    self.goalkeeping["current"] = ActivePlayer.__stats_rest(
       self.goalkeeping, type_modifiers[type]["coeff"], time_units)
 
-    form_stats = self.physical[self.physical["name"] == "form"]
-    # form_stats["current"] *= type_modifiers[type][
-    #   "form_coeff"]
-    form_stats["current"] = form_stats["maximum"] * type_modifiers[type][
-      "form_cap"] if form_stats["current"].values[
-        0] > form_stats["maximum"].values[0] * type_modifiers[type][
-          "form_cap"] else form_stats["current"]
-    self.physical[self.physical["name"] == "form"] = form_stats
+    # form_max = (form_stats["maximum"] * type_modifiers[type]["form_cap"]).values[0]
+
+    # if form_stats["current"].values[0] < form_max:
+    #   form = min(
+    #     (form_stats["current"] +
+    #      type_modifiers[type]["coeff"] * type_modifiers[type]["form_coeff"] *
+    #      time_units * form_stats["rest_modifier"]).values[0],
+    #     (form_stats["maximum"] * type_modifiers[type]["form_cap"]).values[0])
+    # else:
+    #   form = form_stats["current"].values[0]
+
+    # self.physical.loc[self.physical["name"] == "form", ["current"]]=form
 
   def injured(self, severity=0.5, focus=None):
     self.ball_skills["current"] *= severity
