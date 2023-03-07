@@ -3,12 +3,12 @@ About:      a simple football manager game in python3
 Author:     F. Pessolano  
 Version:    0.4.1_nigthly
 
-NOTE:       As of version 0.3.0 is adaped to run as a repl and uses replit database   
+NOTE:       As of version 0.3.0 is adapted to run as a repl and uses replit database   
 
 
 **Description**  
 This is a python project initially started to teach Python to my kids in a fun way and with increasing difficulty. It was meant to be a simple CLI football manager game. 
-Currently it is a free time fun project used to explore ideas or new libraries while building something fun.     
+Currently it is a free time fun project used to explore ideas or new libraries while building something fun in both Pythin and Nim.     
 
 **Dependencies**  
 See requirements.txt  
@@ -22,7 +22,8 @@ Run main.py (simply RUN in replit)
 **What's next**
 
 ***v0.4.x***
- - Add team players with stats  
+ - Add team players with stats  (in progress)
+ - Branched Nim version (in progress)
 
 ***v0.5.x***
  - Improve match simulator (better injuries, streaks, statistics plus elo, etc.)
