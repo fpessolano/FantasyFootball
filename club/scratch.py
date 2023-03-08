@@ -1,4 +1,15 @@
 import stats as st
 
-stats = st.Stats([1, 2, 3, 4, 5])
+stats = st.Stats([100, 100, 100, 1.5, 5])
+print(stats.get())
+stats.action(st.Stats.INTENSITY["very_high"], 90)
+print(stats.get())
+stats.fully_fit()
+stats.inc()
+stats.upgrade()
+print(stats.get())
+stats.rest(st.Stats.INTENSITY["normal"], 2, st.Stats.SEASON_DEFAULT_CAP)
+print(stats.get())
+stats.fully_fit()
+stats.rest(st.Stats.INTENSITY["normal"], 5, st.Stats.SEASON_DEFAULT_CAP)
 print(stats.get())

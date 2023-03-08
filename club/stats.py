@@ -1,4 +1,5 @@
-# TODO to be tested
+# TODO comment
+
 
 class Stats:
 
@@ -8,8 +9,8 @@ class Stats:
     self.reference = values[0]
     self.current = values[1]
     self.__maximum = values[2]
-    self.__rest_modifier = values[3]
-    self.__active_modifier = values[4]
+    self.__active_modifier = values[3]
+    self.__rest_modifier = values[4]
 
   INTENSITY = {
     "rest": 0,
@@ -30,10 +31,10 @@ class Stats:
     self.cuurent = self.reference
 
   def fully_fit(self):
-    self.current = round(self.__maximum)
+    self.current = round(self.__maximum + 0.01)
 
   def upgrade(self):
-    self.reference = round(self.__maximum)
+    self.reference = round(self.__maximum + 0.01)
     self.fully_fit()
 
   def dec(self):
@@ -43,12 +44,13 @@ class Stats:
     self.__maximum += 0.5
 
   def set(self, values: list[int]):
-    return False
+    if len(values) != 5:
+      return False
     self.reference = values[0]
     self.current = values[1]
     self.__maximum = values[2]
-    self.__rest_modifier = values[3]
-    self.__active_modifier = values[4]
+    self.__active_modifier = values[3]
+    self.__rest_modifier = values[4]
     return True
 
   def get(self):
@@ -63,26 +65,25 @@ class Stats:
       self.current = Stats.__MINIMUM_STAT
 
   def rest(self, intensity: int, time: int, cap):
+    if len(cap) != 3:
+      raise (ValueError("Capping must have 3 values"))
     [limit, daily_rate, cap] = cap
 
     def calculate(stats, intensity, time):
       current_value = stats.current + stats.__rest_modifier * (
         intensity / 2) * time / Stats.__REST_TIME_UNIT_DAYS
-      if current_value > stats.__maximum:
-        return round(current_value)
+      if current_value < stats.__maximum:
+        return round(current_value + 0.01)
       else:
-        return self.__maximum
+        return round(self.__maximum + 0.01)
 
-    if len(cap) != 3:
-      raise (ValueError("Capping must have 3 values"))
     if time > limit:
       self.current = calculate(self, intensity, limit)
-      self.rest(intensity, limit)
       current_value = self.current - daily_rate * (intensity / 2) * (
         time - limit) / Stats.__REST_TIME_UNIT_DAYS
-      if current_value > self.maximum * cap:
-        self.current = round(current_value)
+      if current_value > self.__maximum * cap:
+        self.current = round(current_value + 0.01)
       else:
-        self.current = self.maximum * cap
+        self.current = round(self.__maximum * cap + 0.01)
     else:
       self.current = calculate(self, intensity, time)
