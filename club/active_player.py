@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 """
   TODO:
+ - redesign using class Attributes
+ - BELOW could be irrelevant now
  - IT DOES NOT MAKE sense, training needs to help improvo state also.
  - THIS NEEDS A TOTAL RETHINK starting from a stats class (like nim version)
  - how to use and determine boosters
