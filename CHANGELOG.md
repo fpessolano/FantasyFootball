@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.5.0]
+#### Change 
+ - Removed REPLIT support
+
 ## [0.4.1]
 #### Change 
  - Extract user name from replit

@@ -1,9 +1,10 @@
 # Fantasy Football  
-About:      a simple football manager game in python3  
+About:      a football manager game in python3  
 Author:     F. Pessolano  
-Version:    0.4.1_nigthly
+Version:    0.5.0_wip
 
-NOTE:       As of version 0.3.0 is adapted to run as a repl and uses replit database   
+NOTE:       This project is being full redesigned and it is currently not working. 
+            Please note that versios 0.3.x and 0.4.0 work only on replit.
 
 
 **Description**  
@@ -14,23 +15,24 @@ Currently it is a free time fun project used to explore ideas or new libraries w
 See requirements.txt  
 
 **Usage**  
-Run main.py (simply RUN in replit)
+Run main.py
 
 **Known BUGS**  
  - n/a   
 
 **What's next**
 
-***v0.4.x***
- - Add team players with stats  (in progress)
- - Branched Nim version (or new repo)
-
 ***v0.5.x***
+ - Removed REPLIT support (done)
+ - Redesign of the game starting from player stats support (tbd)
+ - CLI redesign based on blessed
+
+***v0.6.x***
  - Improve match simulator (better injuries, streaks, statistics plus elo, etc.)
  - All leagues from one nation including automatic relegation and promotion
  - Friendly
 
-***v0.6.x***
+***v0.7.x***
  - Transfer market by the user for all teams  
 
 

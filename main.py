@@ -5,7 +5,8 @@ main.py: game launcher
 import ffmCLI
 import os
 
-user_name = os.environ['REPL_OWNER']
-version = "0.4.1_nightly"
+version = "0.5.0_wip"
 
+user_name = input("What is your name? ")
+user_name_with_underscores = user_name.replace(" ", "_")
 ffmCLI.play_game(user_name, version)

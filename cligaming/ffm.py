@@ -2,7 +2,7 @@ from game.league import League
 from cligaming.teamUserInput import promotion_and_relegation
 import cligaming.teamUserInput as ti
 from support.screen_utils import clear
-from support.replit_db_store import GameData
+from support.shelve_db_store import GameData
 import json
 
 
