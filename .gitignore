@@ -133,3 +133,4 @@ dmypy.json
 # other files
 test_blessed.py
 support/gamesaves.db
+gamesaves.db

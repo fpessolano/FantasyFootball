@@ -30,7 +30,7 @@ def fully_custom_league():
         print(
           f'!!! ERROR: {number_teams} and {relegation_zone} are not valid values\n'
         )
-    except:
+    except ValueError:
       print("!!! ERROR: please write valid numbers !!!")
   print()
   # user inout all team names
@@ -46,7 +46,7 @@ def fully_custom_league():
       stars = float(input(f'  numbers of stars for team {name} (0 to 5)? '))
       names.append(name)
       teams.append(Team(name=name, elo=1000 + 200 * stars))
-    except:
+    except ValueError:
       print('Number of stars is not valid')
   Team.calculate_stars(teams)
   my_team = select_my_team(teams)
@@ -91,7 +91,7 @@ def existing_league(skip_teams=False):
     my_team = select_my_team(teams_list)
     return league_name, stats.relegation(
       available_leagues[selected]['country']), teams_list, my_team
-  except:
+  except (ValueError, IndexError) as e:
     print('Please type a valid number!')
     return existing_league(True)
 
@@ -123,7 +123,7 @@ def random_teams():
       top100 = input(
         'Do you want random teams only from the best 100 (y for yes)? ').lower(
         ) == 'y'
-    except:
+    except ValueError:
       print("!!! ERROR: please write valid numbers !!!")
   print()
   if top100:
@@ -197,9 +197,9 @@ def customise(teams):
             print()
             names = print_team_list(headers, teams, False)
             print()
-          except:
+          except ValueError:
             print('Number of stars is not valid')
-      except:
+      except (ValueError, IndexError):
         print('Invalid id/command')
 
   return teams
@@ -240,7 +240,7 @@ def promotion_and_relegation(league):
             new_team.elo_from_stars(stars, True)
             promoted_teams.append(new_team)
             accepted = True
-          except:
+          except ValueError:
             print('Number of stars is not valid')
         else:
           print("!!! ERROR: please provide another name")

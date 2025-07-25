@@ -1,6 +1,33 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.6.0] - 2025-01-25
+#### Added
+- Input validation helper function in `support/helpers.py` for consistent user input handling
+- Enhanced screen utilities with improved cross-platform clearing and colored message support
+- Comprehensive error handling throughout the application
+- Enhanced match simulation engine with realistic outcome probabilities
+
+#### Changed
+- **MAJOR**: Completely redesigned match result calculation algorithm
+  - Now uses ELO-based probabilities for more realistic outcomes
+  - Calculates proper draw probabilities based on team strength similarity
+  - Implements realistic score distributions (1-0, 2-1, etc.)
+  - Caps maximum goals at 7 for realism
+- Replaced all bare `except:` clauses with specific exception handling
+- Improved screen clearing with fallback mechanisms
+- Enhanced table row highlighting with better color support
+
+#### Fixed
+- JSON parsing errors now properly handled in save/load operations
+- ValueError exceptions in user input validation
+- Cross-platform terminal clearing issues
+- Team definition loading errors with descriptive messages
+
+#### Development
+- Moved all experimental files to `development/` folder
+- Added comprehensive code analysis and improvement recommendations in `IMPROVEMENTS.md`
+
 ## [0.5.0]
 #### Change 
  - Removed REPLIT support

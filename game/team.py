@@ -29,7 +29,8 @@ class Team:
         self.stars = full_definition["stars"]
         self.result_streak = full_definition["result_streak"]
         return
-    except:
+    except (KeyError, TypeError) as e:
+      print(f"Warning: Invalid team definition provided: {e}")
       pass
     self.name = name
     self.__elo = elo

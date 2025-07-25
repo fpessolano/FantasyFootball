@@ -1,0 +1,95 @@
+coach_id,coach_url,short_name,long_name,dob,nationality_name,coach_face_url,nation_flag_url
+2079,/coach/2079/gareth-taylor/,G. Taylor,Gareth Taylor,1973-02-25,Wales,,https://cdn.sofifa.net/flags/gb-wls.png
+2535,/coach/2535/seb-hines/,S. Hines,Seb Hines,1988-05-29,England,https://cdn.sportmonks.com/images/soccer/players/7/2535.png,https://cdn.sofifa.net/flags/gb-eng.png
+81090,/coach/81090/michal-kolomaznik/,M. Kolomaznik,Michal Kolomaznik,1976-07-20,Czech Republic,https://cdn.sportmonks.com/images/soccer/female_placeholder.png,https://cdn.sofifa.net/flags/cz.png
+94303,/coach/94303/fabrice-abriel/,F. Abriel,Fabrice Abriel,1979-07-06,France,https://cdn.sportmonks.com/images/soccer/players/31/94303.png,https://cdn.sofifa.net/flags/fr.png
+94451,/coach/94451/frederic-biancalani/,F. Biancalani,Frédéric Biancalani,1974-07-21,France,,https://cdn.sofifa.net/flags/fr.png
+185548,/coach/185548/gerardo-garcia-leon/,G. García León,Gerardo García León,1974-07-12,Spain,https://cdn.sportmonks.com/images/soccer/female_placeholder.png,https://cdn.sofifa.net/flags/es.png
+333232,/coach/333232/renee-slegers/,R. Slegers,Renee Slegers,1988-02-05,Netherlands,https://cdn.sportmonks.com/images/soccer/players/16/333232.png,https://cdn.sofifa.net/flags/nl.png
+455803,/coach/455803/andries-jonker/,A. Jonker,Andries Jonker,1962-09-22,Netherlands,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/nl.png
+456714,/coach/456714/jose-alberto-toril-rodriguez/,J. Toril Rodríguez,José Alberto Toril Rodríguez,1973-07-07,Spain,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/es.png
+464820,/coach/464820/corinne-diacre/,C. Diacre,Corinne Diacre,1974-08-04,France,https://cdn.sportmonks.com/images/soccer/players/20/464820.png,https://cdn.sofifa.net/flags/fr.png
+466607,/coach/466607/xiuquan-jia/,X. Jia,Xiuquan Jia,1963-03-23,China PR,https://cdn.sportmonks.com/images/soccer/players/15/466607.png,https://cdn.sofifa.net/flags/cn.png
+529478,/coach/529478/yannick-chandioux/,Y. Chandioux,Yannick Chandioux,1975-09-01,France,,https://cdn.sofifa.net/flags/fr.png
+4536521,/coach/4536521/manuel-jesus-cano-martin/,M. Cano Martín,Manuel Jesús Cano Martín,1975-08-26,Spain,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/es.png
+10276077,/coach/10276077/tommy-stroot/,T. Stroot,Tommy Stroot,,Germany,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/de.png
+10276180,/coach/10276180/robert-de-pauw/,R. de Pauw,Robert de Pauw,1981-07-24,Netherlands,https://cdn.sportmonks.com/images/soccer/female_placeholder.png,https://cdn.sofifa.net/flags/nl.png
+15434001,/coach/15434001/jonas-eidevall/,J. Eidevall,Jonas Eidevall,1983-01-28,Sweden,,https://cdn.sofifa.net/flags/se.png
+19282261,/coach/19282261/patrice-lair/,P. Lair,Patrice Lair,1961-06-16,France,,https://cdn.sofifa.net/flags/fr.png
+25939309,/coach/25939309/rachel-saidi/,R. Saïdi,Rachel Saïdi,1988-06-08,France,https://cdn.sportmonks.com/images/soccer/female_placeholder.png,https://cdn.sofifa.net/flags/fr.png
+25939833,/coach/25939833/jose-luis-sanchez-vera/,J. Sánchez Vera,José Luis Sánchez Vera,,Spain,https://cdn.sportmonks.com/images/soccer/female_placeholder.png,https://cdn.sofifa.net/flags/es.png
+26295980,/coach/26295980/victor-martin-alba/,V. Martín Alba,Victor Martín Alba,,Spain,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/es.png
+26296089,/coach/26296089/antonio-toledo-sanchez/,A. Toledo Sánchez,Antonio Toledo Sánchez,,Spain,https://cdn.sportmonks.com/images/soccer/female_placeholder.png,https://cdn.sofifa.net/flags/es.png
+26313202,/coach/26313202/sandrine-soubeyrand/,S. Soubeyrand,Sandrine Soubeyrand,1973-08-16,France,https://cdn.sportmonks.com/images/soccer/players/18/26313202.png,https://cdn.sofifa.net/flags/fr.png
+26313228,/coach/26313228/sebastien-joseph/,S. Joseph,Sébastien Joseph,1979-06-08,France,https://cdn.sportmonks.com/images/soccer/female_placeholder.png,https://cdn.sofifa.net/flags/fr.png
+28570734,/coach/28570734/casey-stoney/,C. Stoney,Casey Stoney,1982-05-13,England,https://cdn.sportmonks.com/images/soccer/female_placeholder.png,https://cdn.sofifa.net/flags/gb-eng.png
+32011987,/coach/32011987/sara-monforte-mestre/,S. Monforte Mestre,Sara Monforte Mestre,1980-10-14,Spain,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/es.png
+32431129,/coach/32431129/emma-hayes/,E. Hayes,Emma Hayes,1976-10-18,England,,https://cdn.sofifa.net/flags/gb-eng.png
+32431137,/coach/32431137/kelly-chambers/,K. Chambers,Kelly Chambers,,England,,https://cdn.sofifa.net/flags/gb-eng.png
+32431138,/coach/32431138/joseph-montemurro/,J. Montemurro,Joseph Montemurro,1969-09-13,Australia,https://cdn.sportmonks.com/images/soccer/female_placeholder.png,https://cdn.sofifa.net/flags/au.png
+32431158,/coach/32431158/matt-beard/,M. Beard,Matt Beard,1978-01-09,England,,https://cdn.sofifa.net/flags/gb-eng.png
+32431159,/coach/32431159/carla-ward/,C. Ward,Carla Ward,,England,,https://cdn.sofifa.net/flags/gb-eng.png
+33608625,/coach/33608625/inka-grings/,I. Grings,Inka Grings,1978-10-31,Germany,https://cdn.sportmonks.com/images/soccer/players/17/33608625.png,https://cdn.sofifa.net/flags/de.png
+35279752,/coach/35279752/peter-gerhardsson/,P. Gerhardsson,Peter Gerhardsson,1959-08-22,Sweden,https://cdn.sportmonks.com/images/soccer/players/8/35279752.png,https://cdn.sofifa.net/flags/se.png
+35279755,/coach/35279755/milena-bertolini/,M. Bertolini,Milena Bertolini,1966-06-24,Italy,,https://cdn.sofifa.net/flags/it.png
+35279765,/coach/35279765/jorge-vilda/,J. Vilda,Jorge Vilda,1981-07-07,Spain,https://cdn.sportmonks.com/images/soccer/players/21/35279765.png,https://cdn.sofifa.net/flags/es.png
+35279766,/coach/35279766/francisco-neto/,F. Neto,Francisco Neto,1981-07-11,Portugal,,https://cdn.sofifa.net/flags/pt.png
+35280557,/coach/35280557/martina-voss-tecklenburg/,M. Voss-Tecklenburg,Martina Voss-Tecklenburg,1967-12-22,Germany,https://cdn.sportmonks.com/images/soccer/players/13/35280557.png,https://cdn.sofifa.net/flags/de.png
+35280567,/coach/35280567/sarina-glotzbach-wiegman/,S. Glotzbach-Wiegman,Sarina Glotzbach-Wiegman,1969-10-26,Netherlands,https://cdn.sportmonks.com/images/soccer/players/23/35280567.png,https://cdn.sofifa.net/flags/nl.png
+35304616,/coach/35304616/sonia-bompastor/,S. Bompastor,Sonia Bompastor,1980-06-08,France,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/fr.png
+37265116,/coach/37265116/brian-sorensen/,B. Sorensen,Brian Sorensen,1980-06-15,Denmark,,https://cdn.sofifa.net/flags/dk.png
+37265250,/coach/37265250/thorsteinn-halldorsson/,T. Halldórsson,Thorsteinn Halldórsson,,Iceland,,https://cdn.sofifa.net/flags/is.png
+37296295,/coach/37296295/pedro-martinez-losa/,P. Martínez Losa,Pedro Martínez Losa,,Spain,,https://cdn.sofifa.net/flags/es.png
+37296301,/coach/37296301/amandine-miquel/,A. Miquel,Amandine Miquel,1984-08-04,France,,https://cdn.sofifa.net/flags/fr.png
+37303727,/coach/37303727/tony-gustavsson/,T. Gustavsson,Tony Gustavsson,1973-08-14,Sweden,,https://cdn.sofifa.net/flags/se.png
+37304262,/coach/37304262/sascha-glass/,S. Glass,Sascha Glass,1972-10-12,Germany,https://cdn.sportmonks.com/images/soccer/female_placeholder.png,https://cdn.sofifa.net/flags/de.png
+37304267,/coach/37304267/markus-hogner/,M. Högner,Markus Högner,1967-04-26,Germany,https://cdn.sportmonks.com/images/soccer/female_placeholder.png,https://cdn.sofifa.net/flags/de.png
+37304278,/coach/37304278/niko-arnautis/,N. Arnautis,Niko Arnautis,1980-04-01,Germany,https://cdn.sportmonks.com/images/soccer/female_placeholder.png,https://cdn.sofifa.net/flags/de.png
+37342910,/coach/37342910/lydia-bedford/,L. Bedford,Lydia Bedford,,England,,https://cdn.sofifa.net/flags/gb-eng.png
+37347540,/coach/37347540/futoshi-ikeda/,F. Ikeda,Futoshi Ikeda,1970-10-04,Japan,,https://cdn.sofifa.net/flags/jp.png
+37350128,/coach/37350128/ives-serneels/,I. Serneels,Ives Serneels,1972-10-16,Belgium,,https://cdn.sofifa.net/flags/be.png
+37350129,/coach/37350129/vlatko-andonovski/,V. Andonovski,Vlatko Andonovski,1976-09-14,United States,,https://cdn.sofifa.net/flags/us.png
+37357800,/coach/37357800/hege-riise/,H. Riise,Hege Riise,1969-07-18,Norway,,https://cdn.sofifa.net/flags/no.png
+37404816,/coach/37404816/filipa-santos-patao/,Filipa Patão,Filipa Santos Patão,1989-03-06,Portugal,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/pt.png
+37428079,/coach/37428079/laura-harvey/,L. Harvey,Laura Harvey,1980-05-15,England,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/gb-eng.png
+37428117,/coach/37428117/beverly-priestman/,B. Priestman,Beverly Priestman,,Canada,,https://cdn.sofifa.net/flags/ca.png
+37430277,/coach/37430277/pedro-lopez/,Pedro López,Pedro López,1979-05-06,Spain,,https://cdn.sofifa.net/flags/es.png
+37451391,/coach/37451391/lauren-smith/,L. Smith,Lauren Smith,,England,https://cdn.sportmonks.com/images/soccer/female_placeholder.png,https://cdn.sofifa.net/flags/gb-eng.png
+37468327,/coach/37468327/alexander-straus/,A. Straus,Alexander Straus,1975-10-20,Norway,https://cdn.sportmonks.com/images/soccer/female_placeholder.png,https://cdn.sofifa.net/flags/no.png
+37469773,/coach/37469773/pia-mariane-sundhage/,P. Sundhage,Pia Mariane Sundhage,1960-02-13,Sweden,,https://cdn.sofifa.net/flags/se.png
+37522004,/coach/37522004/freya-coombe/,F. Coombe,Freya Coombe,,England,https://cdn.sportmonks.com/images/soccer/female_placeholder.png,https://cdn.sofifa.net/flags/gb-eng.png
+37522022,/coach/37522022/mark-parsons/,M. Parsons,Mark Parsons,1986-08-08,England,https://cdn.sportmonks.com/images/soccer/female_placeholder.png,https://cdn.sofifa.net/flags/gb-eng.png
+37524025,/coach/37524025/marc-skinner/,M. Skinner,Marc Skinner,,England,,https://cdn.sofifa.net/flags/gb-eng.png
+37524186,/coach/37524186/rehanne-skinner/,R. Skinner,Rehanne Skinner,1979-11-13,England,,https://cdn.sofifa.net/flags/gb-eng.png
+37524489,/coach/37524489/jitka-klimkova/,J. Klimkova,Jitka Klimkova,1974-08-20,Czech Republic,,https://cdn.sofifa.net/flags/cz.png
+37524814,/coach/37524814/osman-cankaya/,O. Cankaya,Osman Cankaya,1989-05-07,Germany,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/de.png
+37536392,/coach/37536392/eileen-gleeson/,E. Gleeson,Eileen Gleeson,1972-06-03,Republic of Ireland,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/ie.png
+37554044,/coach/37554044/olli-harder/,O. Harder,Olli Harder,,New Zealand,,https://cdn.sofifa.net/flags/nz.png
+37559411,/coach/37559411/natalia-arroyo/,N. Arroyo,Natalia Arroyo,1986-04-14,Spain,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/es.png
+37559422,/coach/37559422/juan-carlos-amoros/,J. Amorós,Juan Carlos Amorós,1984-06-03,Spain,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/es.png
+37567812,/coach/37567812/thomas-horsch/,T. Horsch,Thomas Horsch,1968-10-30,Germany,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/de.png
+37577491,/coach/37577491/jonatan-giraldez/,J. Giráldez,Jonatan Giráldez,1991-11-27,Spain,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/es.png
+37578659,/coach/37578659/christophe-forest/,C. Forest,Christophe Forest,1969-03-18,France,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/fr.png
+37579700,/coach/37579700/jerome-bonnet/,J. Bonnet,Jérôme Bonnet,1978-07-13,France,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/fr.png
+37590539,/coach/37590539/mario-sachez/,M. Sáchez,Mario Sáchez,,United States,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/us.png
+37598253,/coach/37598253/sean-nahas/,S. Nahas,Sean Nahas,,United States,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/us.png
+37612238,/coach/37612238/german-dario-portanova/,G. Portanova,Germán Darío Portanova,1973-10-19,Argentina,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/ar.png
+37614418,/coach/37614418/qingxia-shui/,Q. Shui,Qingxia Shui,1966-12-18,China PR,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/cn.png
+37614424,/coach/37614424/matt-potter/,M. Potter,Matt Potter,,England,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/gb-eng.png
+37615646,/coach/37615646/roger-lamesa-grau/,R. Lamesa Grau,Roger Lamesa Grau,1990-08-06,Spain,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/es.png
+37615657,/coach/37615657/frederic-goncalves/,F. Gonçalves,Frédéric Gonçalves,1982-03-06,France,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/fr.png
+37617776,/coach/37617776/mathieu-rufie/,M. Rufié,Mathieu Rufié,1983-06-17,France,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/fr.png
+37623355,/coach/37623355/walter-schneck/,W. Schneck,Walter Schneck,1955-04-26,Germany,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/de.png
+37623356,/coach/37623356/christopher-joseph-petrucelli/,C. Petrucelli,Christopher Joseph Petrucelli,1962-05-09,United States,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/us.png
+37626375,/coach/37626375/marco-tamarit/,M. Tamarit,Marco Tamarit,,Spain,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/es.png
+37633976,/coach/37633976/jose-angel-herrera-martin/,J. Herrera Martin,José Ángel Herrera Martin,1989-12-18,Spain,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/es.png
+37643790,/coach/37643790/alexander-saban-uzun/,A. Uzun,Alexander Saban Uzun,1987-05-14,Turkey,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/tr.png
+37652268,/coach/37652268/suzanne-bakker/,S. Bakker,Suzanne Bakker,1986-07-09,Netherlands,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/nl.png
+37654887,/coach/37654887/gerard-precheur/,G. Prêcheur,Gérard Prêcheur,1959-10-23,France,,https://cdn.sofifa.net/flags/fr.png
+37654927,/coach/37654927/ferran-cabello-bellet/,F. Cabello Bellet,Ferrán Cabello Bellet,1992-04-24,Spain,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/es.png
+37656995,/coach/37656995/theresa-merk/,T. Merk,Theresa Merk,1989-10-25,Germany,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/de.png
+37667852,/coach/37667852/michel-bradaia/,M. Bradaia,Michel Bradaia,1971-12-03,France,,https://cdn.sofifa.net/flags/fr.png
+37673814,/coach/37673814/yerai-martin/,Y. Martín,Yerai Martín,,Spain,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/es.png
+37679007,/coach/37679007/jesus-oliva/,J. Oliva,Jesús Oliva,,Spain,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/es.png
+37680915,/coach/37680915/nadine-rolser/,N. Rolser,Nadine Rolser,1990-04-13,Germany,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/de.png
+37682099,/coach/37682099/mike-norris/,M. Norris,Mike Norris,1979-10-08,England,https://cdn.sportmonks.com/images/soccer/placeholder.png,https://cdn.sofifa.net/flags/gb-eng.png

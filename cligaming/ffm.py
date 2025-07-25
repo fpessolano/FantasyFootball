@@ -60,7 +60,11 @@ class FFM:
             return False
         try:
           saved_game = json.loads(saved_game)
-        except:
+        except json.JSONDecodeError as e:
+          print(f"Failed to parse saved game: {e}")
+          return False
+        except Exception as e:
+          print(f"Unexpected error loading game: {e}")
           return False
         self.league.restore(saved_game)
         return True
