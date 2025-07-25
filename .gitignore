@@ -134,3 +134,12 @@ dmypy.json
 test_blessed.py
 support/gamesaves.db
 gamesaves.db
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
