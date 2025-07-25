@@ -1,6 +1,55 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.9.0] - 2025-01-25
+
+### 🎨 Rich Terminal UI - Major Interface Overhaul
+- **Rich Terminal Framework**: Complete migration to Rich library for beautiful colored interface
+- **Dynamic Light/Dark Theming**: Automatic color adaptation based on terminal background
+  - Light theme: Black text on white backgrounds with blue highlights
+  - Dark theme: White/cyan text on black backgrounds with proper contrast
+- **Theme-Aware Components**: All interface elements (menus, help, tables) use dynamic colors
+
+### ⚽ Live Match Experience
+- **Real-time Match Simulation**: Matches progress minute-by-minute with live updates
+- **Global Match Clock**: Single time display (🕐 Kick-off → 67' → Full-time) replacing individual columns
+- **Live Goal Events**: Goals appear in real-time with minute notifications
+- **Simultaneous Matches**: All matches progress together on same timeline
+
+### 👁️ Follow Your Team Mode
+- **Focused Team View**: Dedicated interface highlighting your team prominently
+- **Secondary Matches Table**: Other matches shown in dimmed, separate table for context
+- **Enhanced Team Visibility**: Your team uses high-contrast colors (white on red/black on yellow)
+
+### 📏 Smart Interface Design
+- **Dynamic Table Sizing**: Tables automatically resize based on longest team names in league
+- **Clean Layout**: Removed time columns for more space, added global clock
+- **Optimized Spacing**: Perfect fit for any league (EPL, Bundesliga, etc.)
+
+### 🎲 Realistic Match Simulation
+- **Improved Goal Frequencies**: More authentic scoring patterns (1-0, 2-1, 1-1 common)
+- **Reduced High-Scoring Games**: Fewer unrealistic 4-3, 5-2 scorelines  
+- **Enhanced Draw System**: More 0-0 and 1-1 draws matching real football
+- **Capped Scoring**: Maximum 5 goals per team (down from 7) for realism
+
+### 🔧 Technical Improvements
+- **Comprehensive Bug Fixes**: Resolved all NoneType errors and match simulation crashes
+- **Theme System Architecture**: Robust color management supporting any terminal
+- **Error Handling**: Graceful degradation for invalid teams or missing data
+- **Performance Optimization**: Efficient real-time updates and table rendering
+
+### 🎯 User Experience Enhancements
+- **Intuitive Navigation**: Clear visual hierarchy with focused and secondary content
+- **Consistent Theming**: Same color scheme across all interface components
+- **Responsive Design**: Interface adapts to different terminal sizes and backgrounds
+- **Professional Appearance**: Modern CLI interface rivaling commercial applications
+
+### 📱 Cross-Platform Compatibility
+- **Universal Terminal Support**: Works on light and dark terminals across all platforms
+- **macOS Terminal**: Perfect for both light and dark themes
+- **Windows Terminal**: Full color support with theme detection
+- **Linux Terminals**: Compatible with all major terminal emulators
+
 ## [0.7.1] - 2025-01-25
 
 ### Added

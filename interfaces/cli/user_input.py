@@ -175,9 +175,10 @@ def select_my_team(teams):
     my_team = int(input('Select your team (type the id)? '))
     if my_team < len(names):
       input(f'Your team is {names[my_team]}. Press enter to continue.')
+      su.clear()  # Clear screen after team selection
       return my_team
     else:
-      print('Please selet an existing team')
+      print('Please select an existing team')
 
 
 def customise(teams):

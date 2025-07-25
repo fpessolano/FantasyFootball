@@ -258,6 +258,40 @@ class Team:
     self.__elo = float(self.__elo + match_modifier * modifier *
                        (result - win_probability))
 
+  @property
+  def matches_played(self):
+    """Get the number of matches played."""
+    return self.played
+  
+  @property
+  def won(self):
+    """Get the number of matches won."""
+    return self.stats[0]
+  
+  @property
+  def drawn(self):
+    """Get the number of matches drawn."""
+    return self.stats[1]
+  
+  @property
+  def lost(self):
+    """Get the number of matches lost."""
+    return self.stats[2]
+  
+  @property
+  def goals_for(self):
+    """Get the number of goals scored."""
+    return self.goals[0]
+  
+  @property
+  def goals_against(self):
+    """Get the number of goals conceded."""
+    return self.goals[1]
+  
+  def points(self):
+    """Calculate total points (3 for win, 1 for draw)."""
+    return self.stats[0] * 3 + self.stats[1]
+
   def __iter__(self):
     yield from {
       "name": self.name,

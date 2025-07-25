@@ -23,6 +23,7 @@ class League:
                  league_name='My League',
                  my_team=None,
                  relegation_zone=0,
+                 season=1,
                  schedule_recovery_params=[5, 1, 3]):
         """
         initialises a new instance
@@ -33,6 +34,7 @@ class League:
         """
 
         self.league_name = league_name
+        self.season = season
         if my_team is not None:
           self.my_team = teams[my_team].name
         else:
@@ -42,6 +44,7 @@ class League:
         self.__berger_schedule = []
         self.__calendar = []
         self.__state_file = SaveFile('data.dat')
+        self.completed = False  # Track if season is complete
         if not teams:
             self.valid = False
             return
@@ -151,6 +154,7 @@ class League:
             "relegationZone": self.__relegation_zone,
             "spare": self.__fakeTeam,
             "name": self.league_name,
+            "season": self.season,
             "myteam": self.my_team
         }
 
@@ -279,6 +283,11 @@ class League:
         """
         adjusts team data for the next season - OPTIMIZED
         """
+        # Increment season
+        self.season += 1
+        self.completed = False
+        self.__current_week = 0
+        
         # Reset all teams
         for team in self.__teams.values():
             team.reset()
@@ -333,6 +342,7 @@ class League:
         self.__relegation_zone = savedState["relegationZone"]
         self.__fakeTeam = savedState["spare"]
         self.league_name = savedState["name"]
+        self.season = savedState.get("season", 1)  # Default to 1 if not present
         self.my_team = savedState["myteam"]
 
         # Restore teams with optimized storage
@@ -347,3 +357,63 @@ class League:
         self.__number_teams = len(self.__teams)
         self.valid = (self.__number_teams > 2) and (self.__number_teams > self.__relegation_zone) and \
                         sc.calendar_valid(self.__berger_schedule)
+    
+    def order_list(self) -> list:
+        """Get ordered list of team indices by standings."""
+        _, ordered_teams_ids = self.__order_standings()
+        return ordered_teams_ids
+    
+    def current_match_day(self) -> int:
+        """Get the current match day number."""
+        return self.__current_week + 1
+    
+    def get_current_fixtures(self) -> list:
+        """Get fixtures for the current match day."""
+        if self.__current_week >= len(self.__calendar):
+            return []
+        return self.__calendar[self.__current_week]
+    
+    def advance_match_day(self):
+        """Advance to the next match day."""
+        self.__current_week += 1
+        if self.__current_week >= len(self.__calendar):
+            self.completed = True
+    
+    def simulate_match(self, home_idx: int, away_idx: int) -> tuple:
+        """
+        Simulate a match between two teams.
+        
+        Args:
+            home_idx: Index of home team
+            away_idx: Index of away team
+            
+        Returns:
+            Tuple of (home_score, away_score)
+        """
+        # Skip if fake team is involved (odd number of teams)
+        if self.__fakeTeam in [home_idx, away_idx]:
+            return (0, 0)
+            
+        # Use existing match simulation logic
+        home_team = self.get_team_by_index(home_idx)
+        away_team = self.get_team_by_index(away_idx)
+        
+        # Check if teams are valid before simulation
+        if home_team is None or away_team is None:
+            # Return default score if teams are invalid
+            return (0, 0)
+        
+        # Run the simulation
+        home_score, away_score = game_simulator.play_match(home_team, away_team)
+        
+        return home_score, away_score
+    
+    def get_my_team_index(self) -> int:
+        """Get the index of the user's team."""
+        if self.my_team is None:
+            return None
+        
+        for i, team_name in enumerate(self.__team_order):
+            if team_name == self.my_team:
+                return i
+        return None
