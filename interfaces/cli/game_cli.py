@@ -1,25 +1,37 @@
-from game.league import League
-from cligaming.teamUserInput import promotion_and_relegation
-import cligaming.teamUserInput as ti
-from support.screen_utils import clear
-from support.shelve_db_store import GameData
+from core.entities.league import League
+from interfaces.cli.user_input import promotion_and_relegation
+import interfaces.cli.user_input as ti
+from utils.screen import clear
+from utils.shelve_db_store import GameData
+from core.storage.team_storage import initialize_team_storage
+from core.storage.data_updater import check_and_update_data
 import json
+import os
 
 
 class FFM:
     """
     The Fantasy Football Manager game class
     """
-    def __init__(self, user_id):
+    def __init__(self, user_id, version="0.7.1"):
         """
         setting up the basic game variables
         :param user_id: needed for save and load operations only
+        :param version: game version for display
         """
+        self.user_id = user_id
+        self.version = version
         if user_id:
             self.user_data = GameData(user_id)
         else:
             self.user_data = None
         self.league = League([])
+        
+        # Initialize optimized team storage if raw data is available
+        self._initialize_team_storage()
+        
+        # Check for weekly data updates
+        self._check_weekly_updates()
 
     def new(self):
         """
@@ -139,3 +151,101 @@ class FFM:
                 save_game_name.strip().replace(" ", "_")
             self.user_data.save_game(save_game_name, self.league.data())
         print("\nThanks for playing!")
+
+    def _initialize_team_storage(self):
+        """Initialize the optimized team storage system if raw data is available."""
+        try:
+            # Use the correct path - initialize_team_storage has its own path resolution
+            success = initialize_team_storage()
+            # Silent initialization - no output messages during game startup
+        except Exception as e:
+            # Silent error handling - no output messages during game startup
+            pass
+
+    def _check_weekly_updates(self):
+        """Check for and perform weekly team rating updates."""
+        try:
+            # Check if updates are needed (silently)
+            update_performed = check_and_update_data(show_progress=False)
+            
+            # Only show message if update was actually performed
+            if update_performed:
+                print("📈 Team ratings have been updated with latest data")
+                
+        except Exception as e:
+            # Silent error handling
+            pass
+
+    def new_game(self):
+        """Create a new game - wrapper for new() method for consistency."""
+        if self.new():
+            self._play_game_loop()
+
+    def load_game(self):
+        """Load a saved game - wrapper for load() method for consistency."""
+        if self.load():
+            self._play_game_loop()
+    
+    def _play_game_loop(self):
+        """Main game loop that continues across multiple seasons."""
+        while True:
+            continue_playing = self.play_round()
+            if not continue_playing:
+                # Player chose to quit or game ended
+                break
+
+    def _show_title_screen(self):
+        """Display the game title screen."""
+        from termcolor import colored
+        user_id_colored = colored(self.user_id, "green")
+        version_colored = colored(self.version, "blue")
+        print("""
+******************************************************
+*                                                    *""")
+        print("*" + f'Welcome {user_id_colored} to'.center(61) + "*")
+        print("""*                                                    *
+*                                                    *
+*      ______          _                             *
+*     |  ____|        | |                            *
+*     | |__ __ _ _ __ | |_ __ _ ___ _   _            *
+*     |  __/ _` | '_ \\| __/ _` / __| | | |           *
+*     | | | (_| | | | | || (_| \\\\__ \\\\ |_| |           * 
+*     |_|  \\\\__,_|_| |_|\\\\__\\\\__,_|___/\\\\__, |           *
+*     |  \\/  |                       __/ |           *
+*     | \\  / | __ _ _ __   __ _  __ |___/_ _ __      *
+*     | |\\/| |/ _` | '_ \\ / _` |/ _` |/ _ \\ '__|     *
+*     | |  | | (_| | | | | (_| | (_| |  __/ |        *
+*     |_|  |_|\\\\__,_|_| |_|\\\\__,_|\\\\__, |\\\\___|_|        *
+*                                __/ |               *
+*                               |___/                *
+*                                                    *""")
+        print("*" + f'Version {version_colored}'.center(61) + "*")
+        print("""*                                                    *
+******************************************************
+  """)
+
+    def help(self):
+        """Display help information."""
+        clear()
+        print("""
+Fantasy Football Manager - Help
+
+Commands:
+  new   - Start a new game
+  load  - Load a saved game  
+  help  - Show this help message
+  exit  - Exit the game
+
+Game Types:
+  (E)xisting - Play with real world leagues
+  (R)andom   - Generate random teams
+  (C)ustom   - Create your own league
+
+During Play:
+  (F)inalize - Simulate rest of season quickly
+  (C)ontinue - Play one match day at a time
+  (Q)uit     - Save and exit current game
+""")
+        input("Press Enter to continue...")
+        clear()
+        self._show_title_screen()

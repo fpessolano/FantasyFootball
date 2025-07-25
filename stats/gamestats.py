@@ -4,7 +4,7 @@ import os
 from datetime import date
 import time
 
-from support.diskstore import SaveFile
+from utils.database import SaveFile
 
 
 class FootballStatistics:

@@ -24,7 +24,7 @@ Match Modifiers (for future use):
 """
 
 import random
-from game.team import Team
+from core.entities.team import Team
 
 
 class MatchType:

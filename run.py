@@ -1,8 +1,7 @@
 """
-main.py: Legacy game launcher
+run.py: New modular game launcher
 
-Entry point for the Fantasy Football Manager - now uses modular architecture.
-For new installations, consider using run.py instead.
+Entry point for the Fantasy Football Manager using the new modular architecture.
 """
 
 from interfaces.cli.game_cli import FFM
@@ -26,13 +25,13 @@ def start_screen(user_id="", version=""):
 *     |  ____|        | |                            *
 *     | |__ __ _ _ __ | |_ __ _ ___ _   _            *
 *     |  __/ _` | '_ \| __/ _` / __| | | |           *
-*     | | | (_| | | | | || (_| \\\\__ \\\\ |_| |           * 
-*     |_|  \\\\__,_|_| |_|\\\\__\\\\__,_|___/\\\\__, |           *
+*     | | | (_| | | | | || (_| \\__ \\ |_| |           * 
+*     |_|  \\__,_|_| |_|\\__\\__,_|___/\\__, |           *
 *     |  \/  |                       __/ |           *
 *     | \  / | __ _ _ __   __ _  __ |___/_ _ __      *
 *     | |\/| |/ _` | '_ \ / _` |/ _` |/ _ \ '__|     *
 *     | |  | | (_| | | | | (_| | (_| |  __/ |        *
-*     |_|  |_|\\\\__,_|_| |_|\\\\__,_|\\\\__, |\\\\___|_|        *
+*     |_|  |_|\\__,_|_| |_|\\__,_|\\__, |\\___|_|        *
 *                                __/ |               *
 *                               |___/                *
 *                                                    *""")
@@ -88,10 +87,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-else:
-    # Legacy behavior when imported
-    clear()
-    user_name = input("What is your name? ")
-    user_name_with_underscores = user_name.replace(" ", "_")
-    clear()
-    play_game(user_name, __version__)

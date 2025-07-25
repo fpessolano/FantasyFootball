@@ -1,6 +1,80 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.7.1] - 2025-01-25
+
+### Added
+- Enhanced help system with screen clearing and title screen redisplay
+- Continuous gameplay loop supporting multiple consecutive seasons
+- Clean league selection interface with automatic screen clearing
+
+### Fixed
+- **MAJOR**: Fixed season progression bug where game would reset to main menu after season end
+- **MAJOR**: Fixed team storage initialization preventing two-step league selection
+- League selection now properly displays improved country → league interface
+- Help command now clears screen, shows help, then returns to title screen
+- Game now continues seamlessly through multiple seasons without resetting
+
+### Technical Improvements
+- Added `_play_game_loop()` method for continuous multi-season gameplay
+- Fixed path resolution in team storage initialization
+- Enhanced FFM constructor to support version display in help system
+- Improved user experience with proper screen management
+
+## [0.7.0] - 2025-01-25
+
+### Added
+- **Modular Architecture**: Complete codebase reorganization into logical modules
+  - `core/entities/` - Game objects (Team, League)
+  - `core/simulation/` - Match simulation and scheduling
+  - `core/storage/` - Data management and ELO estimation
+  - `interfaces/cli/` - Command line interface
+  - `utils/` - Utilities and helpers
+  - `stats/` - Statistics and analytics
+- **Advanced ELO System**: Sophisticated team rating management
+  - O(1) team lookups with optimized storage
+  - Smart ELO estimation for teams with missing data
+  - Multi-metric similarity analysis for accurate estimates
+  - Bell curve distribution for realistic ELO conversion
+- **Enhanced User Interface**: Streamlined league selection system
+  - Two-step selection process (country → league)
+  - Country grouping with clean 3-column display
+  - Improved alignment and consistent formatting
+- **Smart Data Management**: Automatic weekly data updates
+  - Fallback systems for missing team data
+  - Conservative ELO estimation with confidence scoring
+  - Robust error handling and data validation
+
+### Changed
+- **MAJOR**: Complete modular code reorganization for maintainability
+- **MAJOR**: Replaced linear team searches with O(1) dictionary lookups
+- **MAJOR**: Enhanced league selection from single list to hierarchical country/league system
+- Consolidated entry points from 3 files to 2 streamlined launchers
+- Removed ELO estimation warnings for cleaner user experience
+- Fixed alignment issues in league selection interface
+
+### Removed
+- **Dead Code Cleanup**: Removed unused files and modules
+  - `ffmCLI.py` - Redundant CLI interface (consolidated into main.py)
+  - `interfaces/gui/` - Empty placeholder module
+  - `utils/helpers.py` - Unused utility functions
+  - `utils/stack.py` - Unused Stack class
+- Legacy import dependencies and redundant code paths
+
+### Fixed
+- Import path consistency across all modules
+- Asset path resolution for modular structure
+- ELO calculation edge cases and validation
+- Country/league text alignment in selection interface
+- Syntax warnings in ASCII art displays
+
+### Technical Improvements
+- **Performance**: O(n) → O(1) team lookup optimization
+- **Architecture**: Clear separation of concerns with modular design
+- **Maintainability**: Well-organized code structure for future development
+- **Scalability**: Ready for GUI, AI, and multiplayer features
+- **Testing**: Modules can be tested independently
+
 ## [0.6.0] - 2025-01-25
 #### Added
 - Input validation helper function in `support/helpers.py` for consistent user input handling

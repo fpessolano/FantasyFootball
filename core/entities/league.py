@@ -1,17 +1,22 @@
 import random
 import tabulate
 
-import game.simulator as game_simulator
-from game.team import Team
-from support.diskstore import SaveFile
-from support.screen_utils import highlight_table_row
-import game.scheduling as sc
+from core.simulation import simulator as game_simulator
+from core.entities.team import Team
+from utils.database import SaveFile
+from utils.screen import highlight_table_row
+from core.simulation import scheduling as sc
 
 # TODO: using disk based file saving, concurrent access an issue. 
 
 class League:
     """
-    Object that define a league including all teams, calendar, and all related methods
+    Optimized League class with dictionary-based team storage for O(1) lookups.
+    
+    Key improvements:
+    - Teams stored in dictionary by name for O(1) access
+    - Maintains backwards compatibility with index-based operations
+    - Enhanced for regular internet data updates
     """
     def __init__(self,
                  teams,
@@ -23,12 +28,12 @@ class League:
         initialises a new instance
         :param league_name: league name
         :param relegation_zone: how many teams are relegated
-        :param teams: the league team names
+        :param teams: the league team objects
         :param schedule_recovery_params: regulates the usage of saved generated schedules
         """
 
         self.league_name = league_name
-        if my_team:
+        if my_team is not None:
           self.my_team = teams[my_team].name
         else:
           self.my_team = None
@@ -51,7 +56,11 @@ class League:
         else:
             self.__fakeTeam = -1
         self.__number_teams = number_teams
-        self.__teams = []
+        
+        # Optimized team storage
+        self.__teams = {}  # Dictionary for O(1) lookups by name
+        self.__team_order = []  # List to maintain order for matches (index-based compatibility)
+        
         self.__relegation_zone = relegation_zone
         self.__current_week = 0
         
@@ -67,10 +76,11 @@ class League:
         self.__calendar = sc.generate_calendar(self.__berger_schedule)
         self.valid = sc.calendar_valid(self.__berger_schedule)
         if self.valid:
-            # the league is populated with teams
-            for team in teams:
-                self.__teams.append(team)
-            random.shuffle(self.__teams)
+            # Populate teams with optimized storage
+            for i, team in enumerate(teams):
+                self.__teams[team.name] = team
+                self.__team_order.append(team.name)
+            random.shuffle(self.__team_order)
 
     def __read_berger_schedule(self, minimum_set=5):
         """
@@ -115,15 +125,28 @@ class League:
         self.__state_file.write_state(str(self.__number_teams),
                                       saved_schedules)
 
+    def get_team_by_name(self, name: str) -> Team:
+        """Get team by name - O(1) lookup."""
+        return self.__teams.get(name)
+    
+    def get_team_by_index(self, index: int) -> Team:
+        """Get team by index - for backwards compatibility."""
+        if 0 <= index < len(self.__team_order):
+            team_name = self.__team_order[index]
+            return self.__teams[team_name]
+        return None
+
     def data(self):
         """
         returns the league data in a readable DICT
         :return: a dict of all league data
         """
-
+        # Convert teams back to list format for save compatibility
+        teams_list = [self.__teams[name] for name in self.__team_order]
+        
         return {
             "week": self.__current_week,
-            "teams": self.__teams,
+            "teams": teams_list,
             "calendar": self.__berger_schedule,
             "relegationZone": self.__relegation_zone,
             "spare": self.__fakeTeam,
@@ -133,36 +156,45 @@ class League:
 
     def __order_standings(self, showStars=False):
         """
-        Generate the standings based on the points and goal stats
+        Generate the standings based on the points and goal stats - OPTIMIZED
         :return: a ordered list
         """
 
         if not self.valid:
             return "", []
+        
         teams_weight = {}
         zeros = 0
-        for i in range(len(self.__teams)):
-            team = self.__teams[i].data()
-            teams_weight[i] = team["PT"] + team["GD"] / 100 + team[
-                "GF"] / 1000 - team["GA"] / 1000000
+        
+        # Use team names for sorting instead of indices
+        for i, team_name in enumerate(self.__team_order):
+            team = self.__teams[team_name]
+            team_data = team.data()
+            teams_weight[i] = team_data["PT"] + team_data["GD"] / 100 + team_data[
+                "GF"] / 1000 - team_data["GA"] / 1000000
             if teams_weight[i] == 0:
                 zeros += 1
-        if len(self.__teams) == zeros:
+                
+        if len(self.__team_order) == zeros:
             teams_weight = {}
-            for i in range(len(self.__teams)):
-                teams_weight[i] = self.__teams[i].name
+            for i, team_name in enumerate(self.__team_order):
+                teams_weight[i] = team_name
             reverse = False
         else:
             reverse = True
+            
         teams_weight = sorted(teams_weight.items(),
                               key=lambda x: x[1],
                               reverse=reverse)
         ordered_teams = []
         ordered_teams_ids = []
-        weight: tuple
+        
         for weight in teams_weight:
-            ordered_teams.append(self.__teams[weight[0]].data(showStars))
-            ordered_teams_ids.append(weight[0])
+            team_index = weight[0]
+            team_name = self.__team_order[team_index]
+            team = self.__teams[team_name]
+            ordered_teams.append(team.data(showStars))
+            ordered_teams_ids.append(team_index)
 
         return ordered_teams, ordered_teams_ids
 
@@ -186,7 +218,7 @@ class League:
 
     def match_day(self):
         """
-        Execute a match day with all matches and rested teams
+        Execute a match day with all matches and rested teams - OPTIMIZED
         :return: a tabulated string with all match results
         """
 
@@ -208,26 +240,35 @@ class League:
                 break
             table = tabulate.tabulate(rows, header)
             if highlight_row >= 0:
-
               table = highlight_table_row(table=table, row_number=highlight_row, color=self.__result_color)
             return table
         else:
             return ""
 
     def _single_match(self, match_results, match):
+        """Process a single match - OPTIMIZED for dictionary access."""
         if self.__fakeTeam in match:
             return 
-        msg0 = self.__teams[match[0]].name + " vs " + self.__teams[
-            match[1]].name
-        result = game_simulator.play_match(self.__teams[match[0]], self.__teams[match[1]])
+            
+        # Get teams by index (backwards compatible)
+        team1 = self.get_team_by_index(match[0])
+        team2 = self.get_team_by_index(match[1])
+        
+        if not team1 or not team2:
+            return
+            
+        msg0 = team1.name + " vs " + team2.name
+        result = game_simulator.play_match(team1, team2)
         msg1 = str(result[0]) + " - " + str(result[1])
         match_results.append([msg0, msg1])
-        if self.__teams[match[0]].name == self.my_team:
+        
+        # Determine result color for user's team
+        if team1.name == self.my_team:
           if result[0] == result[1]:
             self.__result_color = "yellow"
           elif result[0] < result[1]:
             self.__result_color = "red"
-        elif self.__teams[match[1]].name == self.my_team:
+        elif team2.name == self.my_team:
           if result[0] == result[1]:
             self.__result_color = "yellow"
           elif result[0] > result[1]:
@@ -236,28 +277,38 @@ class League:
 
     def prepare_new_season(self):
         """
-        adjusts team data for the next season
+        adjusts team data for the next season - OPTIMIZED
         """
-
-        for i in range(len(self.__teams)):
-            self.__teams[i].reset()
-        Team.calculate_stars(self.__teams)
-        random.shuffle(self.__teams)
+        # Reset all teams
+        for team in self.__teams.values():
+            team.reset()
+            
+        # Calculate stars for all teams
+        teams_list = list(self.__teams.values())
+        Team.calculate_stars(teams_list)
+        
+        # Shuffle team order
+        random.shuffle(self.__team_order)
         self.__current_week = 0
 
-    def promoted(self, teams):
+    def promoted(self, new_teams):
         """
-        replaces relegated teams with promoted teams. If not enough promoted teams are given
-        it leave the relegated team in
-        :param teams: the promoted teams
+        replaces relegated teams with promoted teams - OPTIMIZED
+        :param new_teams: the promoted teams
         """
-
         _, ordered_teams_ids = self.__order_standings()
+        
         for i in range(self.__relegation_zone):
-            team_number = ordered_teams_ids[-1 - i]
-            if len(teams) > 0:
-                new_team = teams.pop()
-                self.__teams[team_number] = new_team
+            team_index = ordered_teams_ids[-1 - i]
+            if len(new_teams) > 0:
+                # Remove old team
+                old_team_name = self.__team_order[team_index]
+                del self.__teams[old_team_name]
+                
+                # Add new team
+                new_team = new_teams.pop()
+                self.__teams[new_team.name] = new_team
+                self.__team_order[team_index] = new_team.name
             else:
                 break
 
@@ -268,14 +319,14 @@ class League:
         return self.__number_teams
 
     def teams(self):
-        return [x.name for x in self.__teams]
+        """Return list of team names."""
+        return [self.__teams[name].name for name in self.__team_order]
 
     def restore(self, savedState):
         """
-        restore the league from the provided data
+        restore the league from the provided data - OPTIMIZED
         :param savedState: dict containing all necessary league data
         """
-
         self.__current_week = savedState["week"]
         self.__berger_schedule = savedState["calendar"]
         self.__calendar = sc.generate_calendar(self.__berger_schedule)
@@ -284,9 +335,14 @@ class League:
         self.league_name = savedState["name"]
         self.my_team = savedState["myteam"]
 
-        self.__teams = []
-        for team in savedState["teams"]:
-            self.__teams.append(Team(full_definition=team))
+        # Restore teams with optimized storage
+        self.__teams = {}
+        self.__team_order = []
+        
+        for i, team_data in enumerate(savedState["teams"]):
+            team = Team(full_definition=team_data)
+            self.__teams[team.name] = team
+            self.__team_order.append(team.name)
 
         self.__number_teams = len(self.__teams)
         self.valid = (self.__number_teams > 2) and (self.__number_teams > self.__relegation_zone) and \

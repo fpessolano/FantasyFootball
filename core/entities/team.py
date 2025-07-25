@@ -14,32 +14,72 @@ class Team:
     """
     Declare a team
     :param name: team name
-    :param elo: team elo
-    :param full_definition: if nto none is includes the complete sent os team stats (name, _Team__elo, 
+    :param elo: team elo (defaults to 1500 if invalid/missing)
+    :param full_definition: if not none includes the complete set of team stats (name, _Team__elo, 
       _Team__old_elo, played, goals, stats, stars, result_streak)
     """
     try:
       if full_definition:
         self.name = full_definition["name"]
-        self.__elo = full_definition["_Team__elo"]
-        self.__old_elo = full_definition["_Team__old_elo"]
-        self.played = full_definition["played"]
-        self.goals = full_definition["goals"]
-        self.stats = full_definition["stats"]
-        self.stars = full_definition["stars"]
-        self.result_streak = full_definition["result_streak"]
+        self.__elo = self._validate_elo(full_definition.get("_Team__elo", 1500))
+        self.__old_elo = self._validate_elo(full_definition.get("_Team__old_elo", self.__elo))
+        self.played = full_definition.get("played", 0)
+        self.goals = full_definition.get("goals", [0, 0, 0])
+        self.stats = full_definition.get("stats", [0, 0, 0])
+        self.stars = full_definition.get("stars", 0)
+        self.result_streak = full_definition.get("result_streak", 0)
         return
     except (KeyError, TypeError) as e:
       print(f"Warning: Invalid team definition provided: {e}")
       pass
+    
     self.name = name
-    self.__elo = elo
-    self.__old_elo = elo
+    self.__elo = self._validate_elo(elo)
+    self.__old_elo = self.__elo
     self.played = 0
     self.goals = [0, 0, 0]
     self.stats = [0, 0, 0]
     self.stars = 0
     self.result_streak = 0
+
+  @classmethod
+  def _validate_elo(cls, elo_value):
+    """
+    Validate and sanitize ELO value.
+    
+    Args:
+        elo_value: Raw ELO value (any type)
+        
+    Returns:
+        float: Valid ELO between 1000-2000, defaults to 1500
+    """
+    try:
+      if elo_value is None:
+        return 1500.0
+      
+      elo_float = float(elo_value)
+      
+      # Clamp to reasonable range
+      if elo_float < cls.__min_elo:
+        return float(cls.__min_elo)
+      elif elo_float > 2000:
+        return 2000.0
+      
+      return elo_float
+      
+    except (ValueError, TypeError, OverflowError):
+      # Return default ELO for any invalid input
+      return 1500.0
+
+  @property
+  def elo(self):
+    """Get the current ELO rating."""
+    return self.__elo
+    
+  @elo.setter
+  def elo(self, value):
+    """Set the ELO rating with validation."""
+    self.__elo = self._validate_elo(value)
 
   def data(self, show_stars=False):
     """
@@ -100,14 +140,36 @@ class Team:
 
   @classmethod
   def calculate_stars(cls, team_list):
-    elo_list = []
+    """
+    Calculate star ratings using absolute ELO scale (not relative to league).
+    1 star = 1000-1200 ELO (very weak)
+    2 stars = 1200-1400 ELO (weak) 
+    3 stars = 1400-1600 ELO (average)
+    4 stars = 1600-1800 ELO (strong)
+    5 stars = 1800-2000 ELO (elite)
+    """
     for el in team_list:
-      elo_list.append(el.__elo)
-    maxElo = max(elo_list)
-    cls.__elo_half_step = (maxElo - cls.__min_elo) / 10
-    for el in team_list:
-      el.stars = max(((el.__elo - cls.__min_elo) // cls.__elo_half_step) / 2,
-                     0.5)
+      elo = el.__elo
+      
+      if elo < 1200:
+        stars = 1.0
+      elif elo < 1400:
+        # 1200-1400 → 1-2 stars
+        stars = 1.0 + (elo - 1200) / 200
+      elif elo < 1600:
+        # 1400-1600 → 2-3 stars  
+        stars = 2.0 + (elo - 1400) / 200
+      elif elo < 1800:
+        # 1600-1800 → 3-4 stars
+        stars = 3.0 + (elo - 1600) / 200
+      elif elo < 2000:
+        # 1800-2000 → 4-5 stars
+        stars = 4.0 + (elo - 1800) / 200
+      else:
+        stars = 5.0
+        
+      # Round to nearest 0.5 for cleaner display
+      el.stars = max(0.5, round(stars * 2) / 2)
 
   # @classmethod
   # def eloFromStars(cls, stars, team):

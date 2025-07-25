@@ -1,10 +1,11 @@
 import random
-import support.screen_utils as su
+from utils import screen as su
 
 from tabulate import tabulate
 
-from game.team import Team
-from game.gamestats import FootballStatistics
+from core.entities.team import Team
+from stats.gamestats import FootballStatistics
+from core.storage.team_storage import team_storage
 
 
 # TODO support for fractional stars
@@ -58,42 +59,47 @@ def existing_league(skip_teams=False):
     generates a league from an existing one
     :return:  league name, number of teams to be relegates,list of team Names and my team name
     """
-
-  stats = FootballStatistics()
-  available_leagues = []
-  for country in stats.countries():
-    for league in stats.leagues(country):
-      teams_in_league = stats.teams(country, league)
-      if len(teams_in_league) > 10:
-        available_leagues.append({
-          'country': country,
-          'league': league,
-          'teams': teams_in_league
-        })
-  if not skip_teams:
-    print('Available leagues:\n')
-    [
-      print(
-        f'({i}) {available_leagues[i]["country"]}-{available_leagues[i]["league"]}'
-      ) for i in range(len(available_leagues))
-    ]
-  try:
-    selected = int(input('\nWhich league do you want to play? '))
-    while selected < 0 or selected > len(available_leagues) - 1:
-      print(f'League number {selected} is not available!')
+  
+  # Check if optimized team storage is available
+  if team_storage._loaded_from_raw:
+    return _select_country_then_league(skip_teams)
+  else:
+    # Fallback to original system
+    stats = FootballStatistics()
+    available_leagues = []
+    for country in stats.countries():
+      for league in stats.leagues(country):
+        teams_in_league = stats.teams(country, league)
+        if len(teams_in_league) > 10:
+          available_leagues.append({
+            'country': country,
+            'league': league,
+            'teams': teams_in_league
+          })
+    if not skip_teams:
+      print('Available leagues:\n')
+      [
+        print(
+          f'({i}) {available_leagues[i]["country"]}-{available_leagues[i]["league"]}'
+        ) for i in range(len(available_leagues))
+      ]
+    try:
       selected = int(input('\nWhich league do you want to play? '))
-    teams_list = [
-      Team(name=x, elo=available_leagues[selected]['teams'][x]['Elo'])
-      for x in available_leagues[selected]['teams']
-    ]
-    league_name = f'{available_leagues[selected]["country"]}-{available_leagues[selected]["league"]}'
-    teams_list = customise(teams_list)
-    my_team = select_my_team(teams_list)
-    return league_name, stats.relegation(
-      available_leagues[selected]['country']), teams_list, my_team
-  except (ValueError, IndexError) as e:
-    print('Please type a valid number!')
-    return existing_league(True)
+      while selected < 0 or selected > len(available_leagues) - 1:
+        print(f'League number {selected} is not available!')
+        selected = int(input('\nWhich league do you want to play? '))
+      teams_list = [
+        Team(name=x, elo=available_leagues[selected]['teams'][x]['Elo'])
+        for x in available_leagues[selected]['teams']
+      ]
+      league_name = f'{available_leagues[selected]["country"]}-{available_leagues[selected]["league"]}'
+      teams_list = customise(teams_list)
+      my_team = select_my_team(teams_list)
+      return league_name, stats.relegation(
+        available_leagues[selected]['country']), teams_list, my_team
+    except (ValueError, IndexError) as e:
+      print('Please type a valid number!')
+      return existing_league(True)
 
 
 def random_teams():
@@ -126,18 +132,32 @@ def random_teams():
     except ValueError:
       print("!!! ERROR: please write valid numbers !!!")
   print()
-  if top100:
-    teams = [
-      Team(name=y['Club'], elo=y['Elo'])
-      for _, y in FootballStatistics().get_top_teams().items()
-    ]
+  
+  # Use optimized team storage if available
+  if team_storage._loaded_from_raw:
+    if top100:
+      # Get top teams by rating
+      teams = team_storage.get_random_teams(number_teams, min_rating=85, max_rating=100)
+      if len(teams) < number_teams:
+        teams.extend(team_storage.get_random_teams(number_teams - len(teams), min_rating=75, max_rating=84))
+    else:
+      teams = team_storage.get_random_teams(number_teams)
   else:
-    teams = [
-      Team(name=y['Club'], elo=y['Elo'])
-      for y in FootballStatistics().get_teams()
-    ]
-  random.shuffle(teams)
-  teams_list = customise(teams[:number_teams])
+    # Fallback to original system
+    if top100:
+      teams = [
+        Team(name=y['Club'], elo=y['Elo'])
+        for _, y in FootballStatistics().get_top_teams().items()
+      ]
+    else:
+      teams = [
+        Team(name=y['Club'], elo=y['Elo'])
+        for y in FootballStatistics().get_teams()
+      ]
+    random.shuffle(teams)
+    teams = teams[:number_teams]
+  
+  teams_list = customise(teams)
   my_team = select_my_team(teams_list)
   return league_name, relegation_zone, teams_list, my_team
 
@@ -245,6 +265,79 @@ def promotion_and_relegation(league):
         else:
           print("!!! ERROR: please provide another name")
   return promoted_teams
+
+
+def _select_country_then_league(skip_teams=False):
+  """
+  Two-step selection: first country, then league within that country.
+  
+  Args:
+    skip_teams: If True, skip the display (used for retries)
+    
+  Returns:
+    tuple: (league_display_name, relegation_zone, teams_list, my_team)
+  """
+  # Clear screen for clean league selection interface
+  su.clear()
+  
+  leagues_by_country = team_storage.get_leagues_by_country()
+  
+  # Step 1: Select Country
+  if not skip_teams:
+    print('🌍 Select a country:\n')
+    
+  countries = list(leagues_by_country.keys())
+  
+  if not skip_teams:
+    # Display countries in columns for better readability
+    cols = 3
+    for i in range(0, len(countries), cols):
+      row_countries = countries[i:i+cols]
+      for j, country in enumerate(row_countries):
+        league_count = len(leagues_by_country[country])
+        if league_count == 1:
+          league_text = f"{league_count} league "
+        else:
+          league_text = f"{league_count} leagues"
+        print(f'({i+j:2d}) 🏁 {country:<20} ({league_text})', end='  ')
+      print()  # New line after each row
+    print()
+  
+  try:
+    # Get country selection
+    country_choice = int(input('Select country number: '))
+    while country_choice < 0 or country_choice >= len(countries):
+      print(f'Country number {country_choice} is not available!')
+      country_choice = int(input('Select country number: '))
+    
+    selected_country = countries[country_choice]
+    available_leagues = leagues_by_country[selected_country]
+    
+    # Step 2: Select League within chosen country
+    print(f'\n🏁 {selected_country} - Select a league:\n')
+    
+    for i, (league_name, team_count, has_estimated) in enumerate(available_leagues):
+      print(f'({i}) {league_name} ({team_count} teams)')
+    
+    print()
+    
+    # Get league selection
+    league_choice = int(input('Select league number: '))
+    while league_choice < 0 or league_choice >= len(available_leagues):
+      print(f'League number {league_choice} is not available!')
+      league_choice = int(input('Select league number: '))
+    
+    league_name, team_count, has_estimated = available_leagues[league_choice]
+    teams_list = team_storage.get_league_teams(league_name, selected_country)
+    league_display_name = f'{selected_country}-{league_name}'
+    
+    teams_list = customise(teams_list)
+    my_team = select_my_team(teams_list)
+    return league_display_name, 3, teams_list, my_team  # Default relegation zone
+    
+  except (ValueError, IndexError) as e:
+    print('Please type a valid number!')
+    return _select_country_then_league(True)  # Retry without displaying again
 
 
 if __name__ == '__main__':

@@ -1,7 +1,7 @@
 # Fantasy Football Manager  
 **About:**      A CLI football manager game in Python3  
 **Author:**     F. Pessolano  
-**Version:**    0.6.0
+**Version:**    0.7.1
 
 ## Description  
 A comprehensive football manager simulation application built using both AI and traditional programming approaches. This project aims to create a realistic football management experience with advanced match simulation, player statistics, team management, and strategic gameplay elements.
@@ -25,36 +25,80 @@ This project aims to build a complete football manager simulation that rivals co
 - **Persistent Data**: Save/load system with user profiles and game state management
 - **Real World Data**: Over 80 real-world leagues with authentic team data and statistics
 
-## Recent Improvements (v0.6.0)
-- **Enhanced Match Engine**: Completely redesigned simulation for realistic results
-- **Better Error Handling**: Robust error management throughout the application  
-- **Improved UI**: Enhanced screen utilities with better color support
-- **Input Validation**: Consistent user input handling with automatic retry
-- **Code Quality**: Replaced bare exceptions with specific error handling
+## Recent Improvements (v0.7.1)
+- **🔄 Seamless Seasons**: Fixed major bug - game now continues through multiple seasons without resetting
+- **🎯 Enhanced League Selection**: Two-step country → league interface with automatic screen clearing
+- **📚 Improved Help System**: Clean help display with automatic return to title screen
+- **⚡ Performance Optimization**: O(1) team lookups replacing linear searches (670 teams loaded instantly)
+- **🧠 Smart ELO System**: Advanced estimation using similarity matching for missing team data
+- **🏗️ Modular Architecture**: Complete codebase reorganization into logical modules for maintainability
+- **🧹 Code Cleanup**: Removed unused files and consolidated entry points for cleaner structure
+- **📊 Better Data Management**: Bell curve ELO distribution and robust error handling
+- **🚀 Future-Ready**: Modular design supports GUI, AI, and multiplayer development
 
 ## Dependencies  
 See `requirements.txt`  
 
 ## Usage  
+
+### Quick Start
 ```bash
+# Modern entry point (recommended)
+python run.py
+
+# Legacy entry point (backward compatibility)
 python main.py
 ```
 
+Both entry points now use the same modular architecture and provide identical functionality.
+
+### Requirements
+```bash
+pip install -r requirements.txt
+```
+
 ## Project Structure
+
+The project now uses a modular architecture for better maintainability:
+
 ```
-├── main.py              # Game launcher
-├── ffmCLI.py           # Main game loop and CLI interface
-├── cligaming/          # Core game logic
-├── game/               # League, team, and match simulation
-├── support/            # Utilities (database, screen, helpers)
-├── assets/             # Game data (leagues, teams, historical data)
-└── development/        # Experimental code (not used in main app)
+├── run.py               # Modern game launcher (recommended)
+├── main.py              # Legacy game launcher (backward compatibility)
+├── core/                # Core game engine
+│   ├── entities/        # Game objects (Team, League)
+│   ├── simulation/      # Match simulation & scheduling
+│   └── storage/         # Data management & ELO estimation
+├── interfaces/          # User interfaces
+│   ├── cli/             # Command line interface
+│   └── gui/             # Future GUI (placeholder)
+├── utils/               # Utilities (screen, database, helpers)
+├── stats/               # Statistics and analytics
+├── assets/              # Game data (leagues, teams, historical data)
+└── development/         # Experimental code (ignored)
 ```
+
+### Architecture Benefits
+- **🎯 Modular Design**: Clear separation of concerns with logical module organization
+- **🔮 Future-Proof**: Easy to extend with GUI, AI, multiplayer, and advanced features
+- **🛠️ Maintainable**: Well-organized code structure for team development
+- **🧪 Testable**: Independent modules can be unit tested separately
+- **⚡ Performance**: O(1) team lookups and optimized data structures
+- **🔄 Backwards Compatible**: Legacy entry points preserved for existing users
+- **📱 Scalable**: Ready for mobile apps, web interfaces, and cloud deployment
 
 ## Development Roadmap
 
-### Phase 1: Core Infrastructure (v0.6.x) - In Progress
-- [ ] **Team Storage Optimization**: Convert to dictionary-based storage for O(1) lookups
+### ✅ Phase 1: Core Infrastructure (v0.7.1) - **COMPLETED**
+- [x] **Modular Architecture**: Complete codebase reorganization ✅
+- [x] **Team Storage Optimization**: O(1) dictionary-based lookups ✅
+- [x] **Advanced ELO System**: Smart estimation with similarity matching ✅
+- [x] **Enhanced UI**: Two-step country/league selection ✅
+- [x] **Performance Optimization**: Instant loading of 670+ teams ✅
+- [x] **Code Cleanup**: Removed unused files and consolidated entry points ✅
+- [x] **Seamless Gameplay**: Multi-season continuation without resets ✅
+- [x] **Enhanced UX**: Improved help system and screen management ✅
+
+### 🚧 Phase 2: Advanced Features (v0.8.x) - **NEXT**
 - [ ] **SQLite Migration**: Replace shelve with proper database for concurrent access
 - [ ] **Rich Terminal UI**: Modern CLI interface with colored tables and progress bars
 - [ ] **Logging & Monitoring**: Comprehensive system for debugging and performance tracking
