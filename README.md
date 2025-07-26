@@ -152,6 +152,7 @@ The game includes a sophisticated calibration system that ensures realistic matc
 - **Match History**: Detailed records and statistics tracking
 - **Enhanced Analytics**: Performance insights and predictions
 - **Advanced Save Features**: Multi-save management with quick preview
+- **League Composition Review**: Annual verification and updates of team rosters to reflect real-world season changes
 
 ### Planned Features
 - **AI Integration**: Machine learning for match prediction and player development
