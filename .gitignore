@@ -143,3 +143,6 @@ gamesaves.db
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Bug tracking file
+bugs.txt
