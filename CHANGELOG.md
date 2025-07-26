@@ -1,6 +1,36 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.9.1] - 2025-01-25
+
+### 🐛 Bug Fixes
+- **Follow Your Team Display**: Fixed column alignment issue where scores appeared in time column
+- **Table Consistency**: Removed time columns from Follow Your Team mode for cleaner 2-column layout (Match | Score)
+- **Performance Enhancement**: Increased simulation speed by 3x while maintaining visual progression
+- **Display Optimization**: Consistent table structure between "Watch All" and "Follow Your Team" modes
+- **Interface Cleanup**: Removed redundant "View detailed standings" option that duplicated existing table display
+
+### 🚀 Performance Improvements
+- **Faster Live Simulation**: Reduced delay times from 0.6-1.5s to 0.2-0.5s per minute
+- **Maintained Visual Quality**: All minute-by-minute progression and goal events still visible
+- **Streamlined Interface**: Simplified table layouts for better readability
+
+### 💾 Save System Overhaul
+- **JSON-Based Storage**: Replaced problematic shelve system with modern JSON approach
+- **Data Compression**: Gzip compression reduces save file sizes by 50-70%
+- **Integrity Protection**: SHA256 checksums prevent data corruption
+- **Save Metadata**: Rich information about saves including league name, match day, and team position
+- **Automatic Backups**: System keeps last 3 versions of each save for safety
+- **Improved Reliability**: Eliminates nested dictionary issues that caused save failures
+- **Smart Save Names**: Game remembers original save name when re-saving loaded games
+- **Save Management**: New "delete" command in main menu to manage saved games
+- **Enhanced Load Display**: Bold colors in load table for better visibility
+
+### 🎮 Interface Improvements
+- **Differentiated Match Views**: "Simulate All" shows quick results table, "Watch All" shows live simulation
+- **Save Management Menu**: Delete individual saves or all saves with safety confirmations
+- **Better Load Interface**: Displays actual league and season information from save metadata
+
 ## [0.9.0] - 2025-01-25
 
 ### 🎨 Rich Terminal UI - Major Interface Overhaul

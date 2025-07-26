@@ -278,18 +278,16 @@ def _select_country_then_league(skip_teams=False):
   Returns:
     tuple: (league_display_name, relegation_zone, teams_list, my_team)
   """
-  # Clear screen for clean league selection interface
-  su.clear()
-  
   leagues_by_country = team_storage.get_leagues_by_country()
   
   # Step 1: Select Country
-  if not skip_teams:
-    print('🌍 Select a country:\n')
+  while True:
+    # Always clear screen and show choices
+    su.clear()
+    print('Select a country:\n')
+      
+    countries = list(leagues_by_country.keys())
     
-  countries = list(leagues_by_country.keys())
-  
-  if not skip_teams:
     # Display countries in columns for better readability
     cols = 3
     for i in range(0, len(countries), cols):
@@ -300,45 +298,71 @@ def _select_country_then_league(skip_teams=False):
           league_text = f"{league_count} league "
         else:
           league_text = f"{league_count} leagues"
-        print(f'({i+j:2d}) 🏁 {country:<20} ({league_text})', end='  ')
+        print(f'({i+j:2d}) {country:<20} ({league_text})', end='  ')
       print()  # New line after each row
     print()
-  
-  try:
-    # Get country selection
-    country_choice = int(input('Select country number: '))
-    while country_choice < 0 or country_choice >= len(countries):
-      print(f'Country number {country_choice} is not available!')
+    
+    try:
+      # Get country selection
       country_choice = int(input('Select country number: '))
-    
-    selected_country = countries[country_choice]
-    available_leagues = leagues_by_country[selected_country]
-    
-    # Step 2: Select League within chosen country
-    print(f'\n🏁 {selected_country} - Select a league:\n')
-    
-    for i, (league_name, team_count, has_estimated) in enumerate(available_leagues):
-      print(f'({i}) {league_name} ({team_count} teams)')
-    
-    print()
-    
-    # Get league selection
-    league_choice = int(input('Select league number: '))
-    while league_choice < 0 or league_choice >= len(available_leagues):
-      print(f'League number {league_choice} is not available!')
-      league_choice = int(input('Select league number: '))
-    
-    league_name, team_count, has_estimated = available_leagues[league_choice]
-    teams_list = team_storage.get_league_teams(league_name, selected_country)
-    league_display_name = f'{selected_country}-{league_name}'
-    
-    teams_list = customise(teams_list)
-    my_team = select_my_team(teams_list)
-    return league_display_name, 3, teams_list, my_team  # Default relegation zone
-    
-  except (ValueError, IndexError) as e:
-    print('Please type a valid number!')
-    return _select_country_then_league(True)  # Retry without displaying again
+      if 0 <= country_choice < len(countries):
+        selected_country = countries[country_choice]
+        available_leagues = leagues_by_country[selected_country]
+        break
+      else:
+        print(f'Country number {country_choice} is not available!')
+        input('Press Enter to try again...')
+        continue
+        
+    except (ValueError, IndexError):
+      print('Please type a valid number!')
+      input('Press Enter to try again...')
+      continue
+  
+  # Step 2: Select League within chosen country (if more than one)
+  if len(available_leagues) == 1:
+    # Only one league - auto-select it
+    league_name, team_count, has_estimated = available_leagues[0]
+    print(f'\nAuto-selected: {selected_country} - {league_name} ({team_count} teams)')
+    input('Press Enter to continue...')
+  else:
+    # Multiple leagues - let user choose
+    while True:
+      su.clear()
+      print(f'{selected_country} - Select a league:\n')
+      
+      for i, (league_name, team_count, has_estimated) in enumerate(available_leagues):
+        print(f'({i}) {league_name} ({team_count} teams)')
+      
+      print(f'(b) Back to country selection')
+      print()
+      
+      try:
+        choice = input('Select league number (or "b" for back): ').strip().lower()
+        
+        if choice == 'b':
+          return _select_country_then_league()  # Go back to country selection
+        
+        league_choice = int(choice)
+        if 0 <= league_choice < len(available_leagues):
+          league_name, team_count, has_estimated = available_leagues[league_choice]
+          break
+        else:
+          print(f'League number {league_choice} is not available!')
+          input('Press Enter to try again...')
+          continue
+          
+      except (ValueError, IndexError):
+        print('Please type a valid number or "b" for back!')
+        input('Press Enter to try again...')
+        continue
+  
+  teams_list = team_storage.get_league_teams(league_name, selected_country)
+  league_display_name = f'{selected_country}-{league_name}'
+  
+  teams_list = customise(teams_list)
+  my_team = select_my_team(teams_list)
+  return league_display_name, 3, teams_list, my_team  # Default relegation zone
 
 
 if __name__ == '__main__':

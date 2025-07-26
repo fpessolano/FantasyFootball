@@ -1,190 +1,205 @@
 # Fantasy Football Manager  
 **About:**      A CLI football manager game in Python3  
 **Author:**     F. Pessolano  
-**Version:**    0.9.0
+**Version:**    0.9.1
 
 ## Description  
-A comprehensive football manager simulation application built using both AI and traditional programming approaches. This project aims to create a realistic football management experience with advanced match simulation, player statistics, team management, and strategic gameplay elements.
+A comprehensive football manager simulation with a beautiful Rich terminal interface. Experience realistic match simulation, team management, and complete season play with over 80 real-world leagues and authentic team data.
 
-The application combines modern AI techniques for realistic player behavior and match outcomes with traditional algorithms for core game mechanics, creating an engaging and sophisticated football management simulation.   
+The application combines modern terminal UI design with sophisticated match simulation, creating an engaging football management experience entirely in your command line.
 
-## Vision & Goals
-This project aims to build a complete football manager simulation that rivals commercial applications by leveraging:
+## Features
 
-- **AI-Powered Match Engine**: Realistic match outcomes using machine learning and statistical models
-- **Intelligent Player Development**: AI-driven player progression and regression systems
-- **Advanced Analytics**: Performance prediction and tactical analysis using data science
-- **Dynamic Market System**: AI-controlled transfer market with realistic valuations
-- **Adaptive Opponent AI**: Computer-controlled teams that learn and adapt strategies
+### ✨ Rich Terminal Experience
+- **Beautiful UI**: Colored tables, panels, and live match simulation
+- **Dynamic Theming**: Automatic light/dark theme detection for optimal readability
+- **Live Match Simulation**: Real-time match progression with minute-by-minute updates
+- **Follow Your Team Mode**: Focused view highlighting your team with other matches dimmed
+- **Smart Table Sizing**: Tables automatically resize based on content length
 
-## Current Features
-- **🎨 Rich Terminal UI**: Beautiful colored interface with live match simulation and dynamic theming
-- **🌓 Light/Dark Theme Support**: Automatic color adaptation for different terminal backgrounds
-- **⚽ Real-time Match Experience**: Live goal events, match timers, and simultaneous match progression
-- **👁️ Follow Your Team Mode**: Dedicated view focusing on your team with other matches summary
-- **📏 Dynamic Table Sizing**: Tables automatically size to accommodate longest team names
-- **🏆 League Management**: Create custom leagues, use existing real-world leagues, or generate random leagues
-- **👥 Team Management**: Manage your chosen team through seasons with ELO-based ratings
-- **🎲 Realistic Match Simulation**: Enhanced scoring system with authentic goal frequencies
-- **🏅 Season Play**: Complete seasons with promotion/relegation system
-- **💾 Persistent Data**: Save/load system with user profiles and game state management
-- **🌍 Real World Data**: Over 80 real-world leagues with authentic team data and statistics
+### 🏟️ Gameplay Features
+- **League Management**: Choose from 80+ real-world leagues or create custom leagues
+- **Team Management**: Manage your chosen team through complete seasons
+- **Realistic Match Simulation**: Enhanced scoring system with authentic goal frequencies
+- **Season Play**: Multi-season continuation with promotion/relegation system
+- **ELO-Based Ratings**: Advanced team strength calculation with similarity matching
+- **Persistent Data**: Modern JSON-based save system with compression and data integrity checks
 
-## Major New Features (v0.9.0)
-- **🎨 Rich Terminal UI**: Complete interface overhaul with beautiful colored tables and panels
-- **🌓 Dynamic Theme System**: Automatic light/dark theme detection for optimal readability
-- **⚽ Live Match Simulation**: Real-time match progression with minute-by-minute updates
-- **🎯 Follow Your Team Mode**: Focused view highlighting your team with dimmed other matches
-- **🕒 Global Match Clock**: Single time display showing match progression (Kick-off → 90' → Full-time)
-- **📏 Smart Table Sizing**: Tables automatically resize based on longest team names in league
-- **🎲 Realistic Scoring**: Improved match simulator with authentic goal frequencies (more 1-0, 2-1 games)
-- **🔧 Comprehensive Bug Fixes**: Resolved NoneType errors and match simulation crashes
-- **🎨 Theme-Aware Interface**: All components (menus, help, tables) adapt to terminal background
-- **⚡ Enhanced Performance**: Optimized team lookups and match processing
+### 📊 Real World Data
+- **34 Major Leagues**: Premier League, La Liga, Serie A, Bundesliga, and many more
+- **670+ Teams**: Authentic team data from around the world
+- **Realistic Statistics**: Goal frequencies calibrated to real-world averages
+- **Dynamic Calibration**: Rolling average system ensures accurate season-long statistics
 
-## Previous Improvements (v0.7.1-v0.8.0)
-- **🔄 Seamless Seasons**: Multi-season continuation without resets
-- **🎯 Enhanced League Selection**: Two-step country → league interface
-- **📚 Improved Help System**: Clean help display with screen management
-- **⚡ Performance Optimization**: O(1) team lookups (670 teams loaded instantly)
-- **🧠 Smart ELO System**: Advanced estimation using similarity matching
-- **🏗️ Modular Architecture**: Complete codebase reorganization
-- **🧹 Code Cleanup**: Removed unused files and consolidated entry points
+## Quick Start
 
-## Dependencies  
-See `requirements.txt`  
-
-## Usage  
-
-### Quick Start
+### Installation
 ```bash
-# Rich Terminal UI (RECOMMENDED - v0.9.0)
-python run_rich.py
+# Clone or download the repository
+cd FantasyFootball
 
-# Standard UI (legacy support)
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the game
 python run.py
-
-# Legacy entry point (backward compatibility)
-python main.py
 ```
-
-The Rich UI provides a beautiful terminal interface with:
-- **🎨 Colored tables and panels** that adapt to your terminal theme
-- **⚽ Live match simulation** with real-time goal events and timing
-- **👁️ Follow Your Team mode** for focused match viewing
-- **📏 Dynamic sizing** that fits any team name length perfectly
-- **🌓 Light/Dark theme support** for optimal readability
 
 ### Requirements
-```bash
-pip install -r requirements.txt
-```
+- Python 3.7+
+- Rich terminal library (automatically installed)
+- Modern terminal with color support
+
+## Interface Guide
+
+### Main Menu
+Choose from a clean, intuitive interface:
+- **New Game**: Start fresh with league and team selection
+- **Load Game**: Continue your saved career with rich save metadata display
+- **Delete**: Manage saved games - delete individual saves or all saves with safety confirmations
+- **Help**: View in-game help and controls
+- **Exit**: Quit the application
+
+### Match Day Experience
+When a match day arrives, choose your viewing experience:
+
+- **S** - **Simulate All**: Quick results table for all matches
+- **W** - **Watch All**: Live minute-by-minute simulation with real-time updates
+- **F** - **Follow Your Team**: Detailed view focusing on your team's match
+- **C** - **Choose Matches**: Select specific matches to watch live
+
+### Live Match Features
+- **Real-time Scores**: Watch goals as they happen with minute markers
+- **Goal Events**: See who scored and when during the match
+- **Visual Progress**: Match timer and status updates
+- **Optimized Speed**: 3x faster simulation (0.2-0.5s per minute) for smooth viewing
+
+### League Table
+Enhanced league display with:
+- **Color-coded Positions**: Green for European spots, red for relegation
+- **Team Highlighting**: Your team stands out with special highlighting
+- **Complete Statistics**: Matches, wins, draws, losses, goals, and points
+- **Recent Form**: Visual representation of last 5 match results
+
+## Controls
+
+- **Standard Navigation**: Type menu options and press Enter
+- **Ctrl+C**: Interrupt simulation at any time
+- **Enter**: Continue after match completion
+- **Simple Commands**: All interactions use intuitive text commands
 
 ## Project Structure
 
-The project now uses a modular architecture for better maintainability:
-
 ```
-├── run.py               # Modern game launcher (recommended)
-├── main.py              # Legacy game launcher (backward compatibility)
-├── core/                # Core game engine
-│   ├── entities/        # Game objects (Team, League)
-│   ├── simulation/      # Match simulation & scheduling
-│   └── storage/         # Data management & ELO estimation
-├── interfaces/          # User interfaces
-│   ├── cli/             # Command line interface
-│   └── gui/             # Future GUI (placeholder)
-├── utils/               # Utilities (screen, database, helpers)
-├── stats/               # Statistics and analytics
-├── assets/              # Game data (leagues, teams, historical data)
-└── development/         # Experimental code (ignored)
+FantasyFootball/
+├── run.py                 # Main game launcher
+├── core/                  # Core game engine
+│   ├── entities/          # Game objects (Team, League)
+│   ├── simulation/        # Match engine & realistic goal calibration
+│   └── storage/           # Data management & ELO estimation
+├── interfaces/cli/        # Rich terminal interface
+├── utils/                 # Utilities (JSON save system, screen helpers)
+├── stats/                 # Statistics and analytics
+├── assets/                # Game data
+│   ├── data/             # 670+ teams across 34 leagues
+│   └── league_average_goals.csv  # Real-world goal calibration data
+└── tests/                 # Testing tools
+    ├── test_goal_average.py   # Goal calibration testing tool
+    └── test_save_load.py      # Save/load functionality testing
 ```
 
-### Architecture Benefits
-- **🎯 Modular Design**: Clear separation of concerns with logical module organization
-- **🔮 Future-Proof**: Easy to extend with GUI, AI, multiplayer, and advanced features
-- **🛠️ Maintainable**: Well-organized code structure for team development
-- **🧪 Testable**: Independent modules can be unit tested separately
-- **⚡ Performance**: O(1) team lookups and optimized data structures
-- **🔄 Backwards Compatible**: Legacy entry points preserved for existing users
-- **📱 Scalable**: Ready for mobile apps, web interfaces, and cloud deployment
+## Latest Updates (v0.9.1)
 
-## Development Roadmap
+### Performance Optimizations
+- **3x Faster Simulation**: Live matches now progress at optimal speed
+- **Improved UX**: Better visual flow and cleaner match displays
+- **Enhanced Calibration**: More accurate goal frequencies across all leagues
 
-### ✅ Phase 1: Core Infrastructure (v0.7.1) - **COMPLETED**
-- [x] **Modular Architecture**: Complete codebase reorganization ✅
-- [x] **Team Storage Optimization**: O(1) dictionary-based lookups ✅
-- [x] **Advanced ELO System**: Smart estimation with similarity matching ✅
-- [x] **Enhanced UI**: Two-step country/league selection ✅
-- [x] **Performance Optimization**: Instant loading of 670+ teams ✅
-- [x] **Code Cleanup**: Removed unused files and consolidated entry points ✅
-- [x] **Seamless Gameplay**: Multi-season continuation without resets ✅
-- [x] **Enhanced UX**: Improved help system and screen management ✅
+### Visual Improvements
+- **Fixed Alignment**: Corrected table layouts and column spacing
+- **Consistent Interface**: Streamlined design across all game modes
+- **Better Theme Support**: Enhanced light/dark theme adaptation
 
-### ✅ Phase 2: Rich Terminal UI (v0.9.0) - **COMPLETED**
-- [x] **Rich Terminal UI**: Modern CLI interface with colored tables and live simulation ✅
-- [x] **Dynamic Theming**: Light/dark theme support for all terminal backgrounds ✅
-- [x] **Live Match Experience**: Real-time goal events and match progression ✅
-- [x] **Follow Your Team Mode**: Focused viewing experience for your team ✅
-- [x] **Smart Table Sizing**: Dynamic column widths based on content ✅
-- [x] **Realistic Match Simulation**: Improved goal frequencies and scoring patterns ✅
+### Save System Improvements
+- **JSON-Based Storage**: Modern, reliable replacement for problematic shelve system
+- **Data Compression**: 50-70% size reduction with gzip compression
+- **Integrity Protection**: SHA256 checksums prevent data corruption
+- **Save Metadata**: Rich information about saves including progress details
+- **Automatic Backups**: Keeps last 3 versions for safety
+- **Smart Save Names**: Remembers original save name when re-saving loaded games
+- **Save Management**: Delete individual saves or all saves with safety confirmations
 
-### 🚧 Phase 3: Database & Performance (v0.10.x) - **NEXT**
-- [ ] **SQLite Migration**: Replace shelve with proper database for concurrent access
-- [ ] **Logging & Monitoring**: Comprehensive system for debugging and performance tracking
-- [ ] **Match History**: Detailed match records and statistics tracking
+## Development Features
 
-### Phase 4: AI Integration (v0.11.x)
-- [ ] **ML Match Prediction**: Train models on historical match data for outcome prediction
-- [ ] **Player Performance AI**: Machine learning models for player form and development
-- [ ] **Tactical Analysis**: AI-powered analysis of team formations and strategies  
-- [ ] **Dynamic Difficulty**: Adaptive AI opponents that adjust to player skill level
+### Goal Calibration System
+The game includes a sophisticated calibration system that ensures realistic match outcomes:
 
-### Phase 5: Advanced Features (v0.12.x)
-- [ ] **Transfer Market AI**: Intelligent agent-based transfer negotiations and valuations
-- [ ] **Injury Simulation**: Realistic injury models based on player workload and age
-- [ ] **Media System**: Press conferences, fan reactions, and reputation management
-- [ ] **Financial Management**: Budget constraints, sponsorships, and economic simulation
+- **Real-World Data**: Goal averages from 34 major football leagues
+- **Rolling Average Tracking**: Season-long calibration maintains accuracy
+- **Dynamic Adjustment**: Match-day flexibility with season accuracy
+- **Comprehensive Testing**: Automated testing ensures 80-110% of target averages
 
-### Phase 6: Data Science & Analytics (v0.13.x)
-- [ ] **Performance Analytics**: Advanced statistics dashboard with predictive insights
-- [ ] **Scout Network**: AI-powered player discovery and recommendation system
-- [ ] **Competition Analysis**: Deep analysis of opponent strengths and weaknesses
-- [ ] **Season Simulation**: Fast-forward capabilities with statistical projections
+### Advanced Architecture
+- **Modular Design**: Clear separation between game logic, UI, and data
+- **O(1) Team Lookups**: Optimized for instant access to 670+ teams
+- **Extensible Framework**: Ready for AI, web interfaces, and advanced features
+- **Modern Save System**: JSON-based storage with compression and integrity verification
 
-### Phase 7: Polish & Distribution (v1.0.x)
-- [ ] **Web Interface**: Optional web-based UI for enhanced user experience
-- [ ] **Multi-platform Support**: Cross-platform compatibility and packaging
-- [ ] **Save Game Cloud Sync**: Cloud-based save synchronization
-- [ ] **Modding Support**: Plugin system for community modifications
+## Future Roadmap
 
-## Known Issues  
-- Schedule generation can be slow for large leagues (16+ teams)
-- No progress indicators during season simulation
-- Limited match detail information
+### Next Phase (v0.10.x)
+- **Match History**: Detailed records and statistics tracking
+- **Enhanced Analytics**: Performance insights and predictions
+- **Advanced Save Features**: Multi-save management with quick preview
+
+### Planned Features
+- **AI Integration**: Machine learning for match prediction and player development
+- **Transfer Market**: Dynamic player trading with AI valuations
+- **Advanced Statistics**: Comprehensive analytics dashboard
+- **Web Interface**: Optional browser-based UI
+
+## Troubleshooting
+
+### Common Issues
+1. **Tables appear cut off**: Ensure terminal is at least 80 characters wide
+2. **Colors not displaying**: Use a modern terminal with full color support
+3. **Performance issues**: Try a smaller league (10-12 teams) for faster simulation
+
+### System Requirements
+- **Terminal**: Modern terminal with 256+ color support
+- **Font**: Monospace font recommended for proper table alignment
+- **Screen Size**: Minimum 80x24 characters for optimal experience
+
+## Testing & Calibration
+
+The project includes comprehensive testing tools:
+
+```bash
+cd tests
+
+# Test goal calibration across all leagues
+python test_goal_average.py
+
+# Test save/load game functionality
+python test_save_load.py
+```
+
+These tools verify that:
+- **Goal Calibration**: Match simulation produces realistic goal averages that match real-world football statistics
+- **Save/Load System**: JSON-based saves work correctly with compression, integrity checks, and proper data restoration
 
 ## Technology Stack
 
-### Current Implementation
 - **Python 3.x**: Core application language
-- **Rich**: Modern terminal UI framework with theming support
-- **Pandas**: Data manipulation and analysis  
-- **Termcolor**: Terminal UI coloring (legacy UI only)
-- **Tabulate**: Table formatting (legacy UI only)
-- **Shelve**: Current database storage (to be replaced)
+- **Rich**: Modern terminal UI framework with theming
+- **Pandas**: Data analysis for team statistics
+- **Modular Architecture**: Clean separation of concerns
 
-### Planned AI/ML Integration
-- **Scikit-learn**: Machine learning models for player development and match prediction
-- **TensorFlow/PyTorch**: Deep learning for advanced tactical analysis
-- **NumPy**: Numerical computing for statistical calculations
-- **Matplotlib/Seaborn**: Data visualization for analytics dashboard
+## License
+See LICENSE file for details.
 
-### Future Infrastructure
-- **SQLite/PostgreSQL**: Robust database management
-- **FastAPI**: Web interface backend
-- **Redis**: Caching for performance optimization  
+---
 
+**Enjoy realistic football management in your terminal!**
 
-
-
-
+*The beautiful game deserves a beautiful interface.*

@@ -12,7 +12,7 @@ from core.entities.league import League
 from interfaces.cli.rich_interface_simple import SimpleRichInterface
 from interfaces.cli.user_input import promotion_and_relegation
 import interfaces.cli.user_input as ti
-from utils.shelve_db_store import GameData
+from utils.json_save_system import GameData
 from core.storage.team_storage import initialize_team_storage
 from core.storage.data_updater import check_and_update_data
 import json
@@ -22,7 +22,7 @@ import os
 class RichFFM:
     """Enhanced Fantasy Football Manager game class with Rich UI."""
     
-    def __init__(self, user_id: str, version: str = "0.9.0", theme: str = "dark"):
+    def __init__(self, user_id: str, version: str = "0.9.1", theme: str = "dark"):
         """
         Initialize the game with Rich UI support.
         
@@ -41,6 +41,7 @@ class RichFFM:
             self.user_data = None
             
         self.league = League([])
+        self.current_save_name = None  # Track the currently loaded save name
         
         # Initialize team storage and check for updates
         self._initialize_team_storage()
@@ -80,6 +81,8 @@ class RichFFM:
             elif command == "load":
                 if self.load():
                     self._play_game_loop()
+            elif command == "delete":
+                self._manage_saves()
             elif command == "exit":
                 self.ui.console.print("\n[bold green]Thanks for playing Fantasy Football Manager![/bold green]")
                 break
@@ -102,6 +105,8 @@ class RichFFM:
         self.ui.console.clear()
         self.ui.console.print("[bold cyan]Starting New Game[/bold cyan]\n")
         
+        is_random_league = False
+        
         while True:
             self.ui.console.print("[bold]Choose game type:[/bold]")
             self.ui.console.print("  [cyan](E)[/cyan]xisting - Play with real world leagues")
@@ -117,6 +122,7 @@ class RichFFM:
             elif command == 'r':
                 self.ui.show_loading("Generating random teams...")
                 league_name, relegation_zone, teams, my_team = ti.random_teams()
+                is_random_league = True
                 break
             elif command == 'c':
                 league_name, relegation_zone, teams, my_team = ti.fully_custom_league()
@@ -128,8 +134,12 @@ class RichFFM:
             league_name=league_name,
             teams=teams,
             my_team=my_team,
-            relegation_zone=relegation_zone
+            relegation_zone=relegation_zone,
+            is_random_league=is_random_league
         )
+        
+        # Clear current save name for new games
+        self.current_save_name = None
         
         return self.league.valid
         
@@ -151,14 +161,22 @@ class RichFFM:
         from rich.table import Table
         
         saves_table = Table(show_header=True, header_style="bold cyan")
-        saves_table.add_column("Save Name", style="white")
-        saves_table.add_column("League", style="green")
-        saves_table.add_column("Season", style="yellow")
+        saves_table.add_column("Save Name", style="bold white")
+        saves_table.add_column("League", style="bold green")
+        saves_table.add_column("Season", style="bold yellow")
         
         for save_name in saves:
-            # For now, just show the save name
-            # In future, could load metadata about each save
-            saves_table.add_row(save_name, "N/A", "N/A")
+            # Get save metadata from the new JSON system
+            save_info = self.user_data.get_save_info(save_name)
+            if save_info and 'progress_info' in save_info:
+                progress = save_info['progress_info']
+                league_name = progress.get('league_name', 'Unknown')
+                season = str(progress.get('season', 1))
+            else:
+                league_name = "Unknown"
+                season = "1"
+            
+            saves_table.add_row(save_name, league_name, season)
             
         self.ui.console.print(saves_table)
         self.ui.console.print("\n")
@@ -177,6 +195,7 @@ class RichFFM:
         try:
             saved_game = json.loads(saved_game)
             self.league.restore(saved_game)
+            self.current_save_name = save_game_name  # Remember the loaded save name
             self.ui.console.print(f"[green]Successfully loaded {save_game_name}![/green]")
             time.sleep(1)
             return True
@@ -186,6 +205,99 @@ class RichFFM:
         except Exception as e:
             self.ui.console.print(f"[red]Unexpected error loading game: {e}[/red]")
             return False
+    
+    def _manage_saves(self):
+        """Manage saved games - delete individual saves or all saves."""
+        if not self.user_data:
+            self.ui.console.print("\n[red]No user data available for managing saves.[/red]")
+            input("Press Enter to continue...")
+            return
+            
+        saves = self.user_data.saved_game_list()
+        if not saves:
+            self.ui.console.print("\n[yellow]No saved games found.[/yellow]")
+            input("Press Enter to continue...")
+            return
+            
+        while True:
+            self.ui.console.clear()
+            self.ui.console.print("[bold cyan]Manage Saved Games[/bold cyan]\n")
+            
+            # Display saves in a table
+            from rich.table import Table
+            
+            saves_table = Table(show_header=True, header_style="bold cyan")
+            saves_table.add_column("#", style="bold white", width=3)
+            saves_table.add_column("Save Name", style="bold white")
+            saves_table.add_column("League", style="bold green")
+            saves_table.add_column("Season", style="bold yellow")
+            
+            for i, save_name in enumerate(saves, 1):
+                save_info = self.user_data.get_save_info(save_name)
+                if save_info and 'progress_info' in save_info:
+                    progress = save_info['progress_info']
+                    league_name = progress.get('league_name', 'Unknown')
+                    season = str(progress.get('season', 1))
+                else:
+                    league_name = "Unknown"
+                    season = "1"
+                
+                saves_table.add_row(str(i), save_name, league_name, season)
+                
+            self.ui.console.print(saves_table)
+            self.ui.console.print("\n[bold]Options:[/bold]")
+            self.ui.console.print("  [cyan]1-{0}[/cyan] - Delete specific save".format(len(saves)))
+            self.ui.console.print("  [cyan]all[/cyan] - Delete all saves")
+            self.ui.console.print("  [cyan]back[/cyan] - Return to main menu\n")
+            
+            choice = input("Your choice: ").strip().lower()
+            
+            if choice == "back":
+                break
+            elif choice == "all":
+                confirm = input(f"\n[bold red]Delete ALL {len(saves)} saved games? This cannot be undone! (type 'DELETE ALL' to confirm): ")
+                if confirm == "DELETE ALL":
+                    deleted_count = 0
+                    for save_name in saves[:]:  # Copy list to avoid modification during iteration
+                        if self.user_data.delete_saved_game(save_name):
+                            deleted_count += 1
+                    
+                    if deleted_count > 0:
+                        self.ui.console.print(f"\n[green]Successfully deleted {deleted_count} saved games![/green]")
+                        saves = []  # Clear the list since all saves are deleted
+                    else:
+                        self.ui.console.print("\n[red]Failed to delete saved games.[/red]")
+                    input("Press Enter to continue...")
+                    if not saves:  # Exit if no saves left
+                        break
+                else:
+                    self.ui.console.print("\n[yellow]Deletion cancelled.[/yellow]")
+                    input("Press Enter to continue...")
+            else:
+                try:
+                    save_index = int(choice) - 1
+                    if 0 <= save_index < len(saves):
+                        save_name = saves[save_index]
+                        confirm = input(f"\nDelete '{save_name}'? (y/n): ").lower()
+                        if confirm == 'y':
+                            if self.user_data.delete_saved_game(save_name):
+                                self.ui.console.print(f"\n[green]Successfully deleted '{save_name}'![/green]")
+                                saves.remove(save_name)  # Remove from our local list
+                                if not saves:  # Exit if no saves left
+                                    input("Press Enter to continue...")
+                                    break
+                            else:
+                                self.ui.console.print(f"\n[red]Failed to delete '{save_name}'.[/red]")
+                            input("Press Enter to continue...")
+                        else:
+                            self.ui.console.print("\n[yellow]Deletion cancelled.[/yellow]")
+                            input("Press Enter to continue...")
+                    else:
+                        self.ui.console.print(f"\n[red]Invalid choice. Please enter 1-{len(saves)}.[/red]")
+                        input("Press Enter to continue...")
+                except ValueError:
+                    self.ui.console.print(f"\n[red]Invalid choice. Please enter 1-{len(saves)}, 'all', or 'back'.[/red]")
+                    input("Press Enter to continue...")
             
     def _play_game_loop(self):
         """Main game loop with Rich UI enhancements."""
@@ -211,7 +323,6 @@ class RichFFM:
             self.ui.console.print("\n[bold]Options:[/bold]")
             self.ui.console.print("  [cyan](C)[/cyan]ontinue - Play next match day")
             self.ui.console.print("  [cyan](S)[/cyan]imulate - Quick simulate to end of season")
-            self.ui.console.print("  [cyan](V)[/cyan]iew - View detailed standings")
             self.ui.console.print("  [cyan](Q)[/cyan]uit - Save and exit\n")
             
             command = input("Your choice: ").upper()
@@ -222,14 +333,11 @@ class RichFFM:
             elif command == "S":
                 self._simulate_to_end()
                 break
-            elif command == "V":
-                my_team_idx = self.league.get_my_team_index()
-                self.ui.display_league_table(self.league, my_team_idx)
             elif command == "Q":
                 self._save_and_exit()
                 return False
             else:
-                self.ui.console.print("[red]Invalid choice![/red]")
+                self.ui.console.print("[red]Invalid choice. Please select C, S, or Q.[/red]")
                 
         return True
         
@@ -268,8 +376,26 @@ class RichFFM:
     def _simulate_matches(self, fixtures: List[Tuple[int, int]], show_summary: bool = True):
         """Simulate matches with optional summary display."""
         if show_summary:
-            # Use live display for visible simulation
-            results = self.ui.simulate_all_matches_live(fixtures, self.league)
+            # Quick simulation - process matches and show results
+            self.ui.console.clear()
+            self.ui.console.print(f"[bold cyan]🎲 Simulating Match Day {self.league.current_match_day()}...[/bold cyan]\n")
+            
+            results = []
+            for home_idx, away_idx in fixtures:
+                home_team = self.league.get_team_by_index(home_idx)
+                away_team = self.league.get_team_by_index(away_idx)
+                
+                if home_team and away_team:
+                    home_score, away_score = self.league.simulate_match(home_idx, away_idx)
+                    results.append({
+                        'home_team': home_team.name,
+                        'away_team': away_team.name, 
+                        'home_score': home_score,
+                        'away_score': away_score
+                    })
+            
+            # Display results
+            self.ui.display_match_results_summary(results)
             input("\nPress Enter to continue...")
         else:
             # Silent simulation for season end
@@ -300,20 +426,79 @@ class RichFFM:
         self._simulate_matches(fixtures, show_summary=True)
         
     def _simulate_to_end(self):
-        """Simulate to the end of the season with simple progress."""
+        """Simulate to the end of the season with live table updates."""
         remaining_days = (self.league.team_number() - 1) * 2 - self.league.current_match_day() + 1
+        my_team_idx = self.league.get_my_team_index()
         
         self.ui.console.print("\n[bold cyan]Simulating to end of season...[/bold cyan]\n")
+        time.sleep(0.5)
         
         for day in range(remaining_days):
             fixtures = self.league.get_current_fixtures()
             if not fixtures:
                 break
                 
-            self.ui.console.print(f"[dim]Match Day {self.league.current_match_day()}...[/dim]", end="\r")
-            self._simulate_matches(fixtures, show_summary=False)
+            current_match_day = self.league.current_match_day()
+            
+            # Find my team's match if any
+            my_team_result = None
+            if my_team_idx is not None:
+                for home_idx, away_idx in fixtures:
+                    if my_team_idx in [home_idx, away_idx]:
+                        # We'll get the result after match_day() processes it
+                        home_team = self.league.get_team_by_index(home_idx)
+                        away_team = self.league.get_team_by_index(away_idx)
+                        
+                        # Skip if teams not found
+                        if not home_team or not away_team:
+                            continue
+                            
+                        my_team_result = {
+                            'home': home_team.name,
+                            'away': away_team.name,
+                            'home_idx': home_idx,
+                            'away_idx': away_idx,
+                            'is_home': my_team_idx == home_idx
+                        }
+                        break
+            
+            # Process all matches for this day
+            match_results = self.league.match_day()
+            
+            # Extract my team's score from results if they played
+            if my_team_result and match_results:
+                import re
+                # Remove ANSI color codes
+                clean_results = re.sub(r'\x1b\[[0-9;]*m', '', match_results)
+                
+                for result in clean_results.split('\n'):
+                    if my_team_result['home'] in result and my_team_result['away'] in result:
+                        # Extract score from result string (format: "Team1 vs Team2      2 - 1")
+                        if ' - ' in result:
+                            # Find the score pattern (number - number)
+                            score_match = re.search(r'(\d+)\s*-\s*(\d+)', result)
+                            if score_match:
+                                my_team_result['home_score'] = int(score_match.group(1))
+                                my_team_result['away_score'] = int(score_match.group(2))
+            
             self.league.advance_match_day()
-            time.sleep(0.1)  # Brief pause for visual effect
+            
+            # Update display for every match day
+            self.ui.console.clear()
+            self.ui.console.print(f"[bold cyan]Simulating Season - Match Day {current_match_day}/{(self.league.team_number() - 1) * 2}[/bold cyan]\n")
+            
+            # Show league table first
+            self.ui.display_league_table(self.league, my_team_idx)
+            
+            # Show my team's result below the table if they played
+            if my_team_idx is not None and my_team_result and 'home_score' in my_team_result:
+                if my_team_result['is_home']:
+                    result_text = f"[bold yellow]{my_team_result['home']}[/bold yellow] {my_team_result['home_score']} - {my_team_result['away_score']} {my_team_result['away']}"
+                else:
+                    result_text = f"{my_team_result['home']} {my_team_result['home_score']} - {my_team_result['away_score']} [bold yellow]{my_team_result['away']}[/bold yellow]"
+                self.ui.console.print(f"\nYour Match: {result_text}")
+            
+            time.sleep(0.5)  # Half second pause for each match day
             
         self.league.completed = True
         self.ui.console.print("\n[green]Season simulation complete![/green]")
@@ -343,6 +528,9 @@ class RichFFM:
         if continue_playing:
             self.ui.console.print("\n[green]Starting new season...[/green]")
             time.sleep(1)
+        else:
+            # Clear screen before returning to main menu
+            self.ui.console.clear()
             
         return continue_playing
         
@@ -355,9 +543,11 @@ class RichFFM:
         save_choice = input("\nSave the game? (y/n): ").lower()
         
         if save_choice == 'y':
-            save_name = input("Save name (Enter for 'Autosave'): ").strip()
+            # Offer current save name if available, otherwise default to Autosave
+            default_name = self.current_save_name if self.current_save_name else "Autosave"
+            save_name = input(f"Save name (Enter for '{default_name}'): ").strip()
             if not save_name:
-                save_name = "Autosave"
+                save_name = default_name
                 
             self.ui.show_loading(f"Saving as '{save_name}'...")
             self.user_data.save_game(save_name, self.league.data())

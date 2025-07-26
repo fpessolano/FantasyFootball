@@ -104,6 +104,7 @@ class SimpleRichInterface:
         
         menu_table.add_row(f"[bold {self._colors['primary']}]new[/bold {self._colors['primary']}]", "Start a new game")
         menu_table.add_row(f"[bold {self._colors['primary']}]load[/bold {self._colors['primary']}]", "Load a saved game")
+        menu_table.add_row(f"[bold {self._colors['primary']}]delete[/bold {self._colors['primary']}]", "Manage saved games")
         menu_table.add_row(f"[bold {self._colors['primary']}]help[/bold {self._colors['primary']}]", "Show help information")
         menu_table.add_row(f"[bold {self._colors['primary']}]exit[/bold {self._colors['primary']}]", "Exit the game")
         
@@ -395,7 +396,6 @@ class SimpleRichInterface:
   [{self._colors['primary']}](S)imulate All[/{self._colors['primary']}]     - Quick simulation of all matches
   [{self._colors['primary']}](W)atch All[/{self._colors['primary']}]        - Watch all matches with details
   [{self._colors['primary']}](F)ollow Your Team[/{self._colors['primary']}] - Only watch your team's matches
-  [{self._colors['primary']}](V)iew Table[/{self._colors['primary']}]       - Show current standings
   [{self._colors['primary']}](Q)uit[/{self._colors['primary']}]             - Save and exit current game
         """
     
@@ -468,7 +468,6 @@ class SimpleRichInterface:
             if follow_your_team and my_team_idx is not None:
                 # Show only your team's match prominently
                 matches_table.add_column("Your Match", style=self._colors["text"], width=match_column_width)
-                matches_table.add_column("Time", justify="center", style=self._colors["primary"], width=8)
                 matches_table.add_column("Score", justify="center", style=f"bold {self._colors['text']}", width=10)
                 
                 # Find and display only your team's match
@@ -492,7 +491,7 @@ class SimpleRichInterface:
                 
                 # If no user match found, show message
                 if not user_match_found:
-                    matches_table.add_row("No team match found", "--", "--", style="dim")
+                    matches_table.add_row("No team match found", "--", style="dim")
                         
                 # Show other matches in a separate table with dimmed colors
                 other_table = Table(
@@ -502,7 +501,6 @@ class SimpleRichInterface:
                     box=box.SIMPLE
                 )
                 other_table.add_column("Match", style="dim", width=other_match_column_width)
-                other_table.add_column("Time", justify="center", style="dim", width=6)
                 other_table.add_column("Score", justify="center", style="dim", width=8)
                 
                 # Add other matches to the table
@@ -598,8 +596,8 @@ class SimpleRichInterface:
                 for goal in goals_this_minute:
                     self.console.print(goal)
             
-            # Pause for effect
+            # Pause for effect - 3x faster than original
             if minute < 90:
-                time.sleep(1.2 if goals_this_minute else 0.6)
+                time.sleep((1.2 if goals_this_minute else 0.6) / 3.0)
             else:
-                time.sleep(1.5)
+                time.sleep(1.5 / 3.0)

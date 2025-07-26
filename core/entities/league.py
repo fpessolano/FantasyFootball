@@ -24,7 +24,8 @@ class League:
                  my_team=None,
                  relegation_zone=0,
                  season=1,
-                 schedule_recovery_params=[5, 1, 3]):
+                 schedule_recovery_params=[5, 1, 3],
+                 is_random_league=False):
         """
         initialises a new instance
         :param league_name: league name
@@ -35,6 +36,11 @@ class League:
 
         self.league_name = league_name
         self.season = season
+        self.is_random_league = is_random_league
+        
+        # Goal tracking for calibration
+        self.__season_total_goals = 0
+        self.__season_total_matches = 0
         if my_team is not None:
           self.my_team = teams[my_team].name
         else:
@@ -155,7 +161,10 @@ class League:
             "spare": self.__fakeTeam,
             "name": self.league_name,
             "season": self.season,
-            "myteam": self.my_team
+            "myteam": self.my_team,
+            "is_random_league": self.is_random_league,
+            "season_total_goals": self.__season_total_goals,
+            "season_total_matches": self.__season_total_matches
         }
 
     def __order_standings(self, showStars=False):
@@ -262,9 +271,12 @@ class League:
             return
             
         msg0 = team1.name + " vs " + team2.name
-        result = game_simulator.play_match(team1, team2)
+        result = game_simulator.play_match(team1, team2, league_name=self.league_name, is_random_league=self.is_random_league, league_instance=self)
         msg1 = str(result[0]) + " - " + str(result[1])
         match_results.append([msg0, msg1])
+        
+        # Track goals for rolling average
+        self.add_match_goals(result[0], result[1])
         
         # Determine result color for user's team
         if team1.name == self.my_team:
@@ -287,6 +299,9 @@ class League:
         self.season += 1
         self.completed = False
         self.__current_week = 0
+        
+        # Reset season goal tracking
+        self.reset_season_stats()
         
         # Reset all teams
         for team in self.__teams.values():
@@ -344,6 +359,11 @@ class League:
         self.league_name = savedState["name"]
         self.season = savedState.get("season", 1)  # Default to 1 if not present
         self.my_team = savedState["myteam"]
+        self.is_random_league = savedState.get("is_random_league", False)  # Default to False for old saves
+        
+        # Restore goal tracking stats
+        self.__season_total_goals = savedState.get("season_total_goals", 0)
+        self.__season_total_matches = savedState.get("season_total_matches", 0)
 
         # Restore teams with optimized storage
         self.__teams = {}
@@ -403,8 +423,11 @@ class League:
             # Return default score if teams are invalid
             return (0, 0)
         
-        # Run the simulation
-        home_score, away_score = game_simulator.play_match(home_team, away_team)
+        # Run the simulation with league context
+        home_score, away_score = game_simulator.play_match(home_team, away_team, league_name=self.league_name, is_random_league=self.is_random_league, league_instance=self)
+        
+        # Track goals for rolling average
+        self.add_match_goals(home_score, away_score)
         
         return home_score, away_score
     
@@ -417,3 +440,23 @@ class League:
             if team_name == self.my_team:
                 return i
         return None
+    
+    def add_match_goals(self, home_goals: int, away_goals: int):
+        """Track goals for rolling average calculation."""
+        self.__season_total_goals += home_goals + away_goals
+        self.__season_total_matches += 1
+    
+    def get_season_average_goals(self) -> float:
+        """Get current season rolling average goals per match."""
+        if self.__season_total_matches == 0:
+            return 0.0
+        return self.__season_total_goals / self.__season_total_matches
+    
+    def get_season_match_count(self) -> int:
+        """Get number of matches played this season."""
+        return self.__season_total_matches
+    
+    def reset_season_stats(self):
+        """Reset season goal tracking stats."""
+        self.__season_total_goals = 0
+        self.__season_total_matches = 0
