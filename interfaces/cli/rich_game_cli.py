@@ -381,17 +381,24 @@ class RichFFM:
             self.ui.console.print(f"[bold cyan]🎲 Simulating Match Day {self.league.current_match_day()}...[/bold cyan]\n")
             
             results = []
+            my_team_idx = self.league.get_my_team_index()
+            
             for home_idx, away_idx in fixtures:
                 home_team = self.league.get_team_by_index(home_idx)
                 away_team = self.league.get_team_by_index(away_idx)
                 
                 if home_team and away_team:
                     home_score, away_score = self.league.simulate_match(home_idx, away_idx)
+                    
+                    # Check if this match involves the user's team
+                    is_user_match = my_team_idx is not None and (home_idx == my_team_idx or away_idx == my_team_idx)
+                    
                     results.append({
                         'home_team': home_team.name,
                         'away_team': away_team.name, 
                         'home_score': home_score,
-                        'away_score': away_score
+                        'away_score': away_score,
+                        'user_team': is_user_match
                     })
             
             # Display results
@@ -515,9 +522,20 @@ class RichFFM:
         
         # Handle promotion/relegation
         if self.league.relegation_zone() > 0:
-            promoted_teams = promotion_and_relegation(self.league)
-            if len(promoted_teams) > 0:
-                self.league.promoted(promoted_teams)
+            # Check if relegation is actually possible (multiple leagues in country)
+            if self._can_relegate():
+                if self.league.is_random_league:
+                    # For random leagues, offer to replace with random teams
+                    promoted_teams = self._handle_random_league_relegation()
+                else:
+                    # For regular leagues, check if we can offer teams from same country
+                    promoted_teams = self._handle_regular_league_relegation()
+                
+                if len(promoted_teams) > 0:
+                    self.league.promoted(promoted_teams)
+            else:
+                self.ui.console.print("\n[yellow]Note: Relegation zone highlighted but no relegation occurs (only league in country).[/yellow]")
+                input("Press Enter to continue...")
                 
         # Prepare new season
         self.league.prepare_new_season()
@@ -554,6 +572,184 @@ class RichFFM:
             self.ui.console.print(f"[green]Game saved as '{save_name}'![/green]")
             
         self.ui.console.print("\n[bold green]Thanks for playing![/bold green]")
+    
+    def _can_relegate(self) -> bool:
+        """Check if relegation is possible for this league (i.e., multiple leagues in country)."""
+        league_name = self.league.league_name
+        if not league_name or '-' not in league_name:
+            return True  # Default to allowing relegation if we can't determine
+        
+        # Extract country from league name (format: "Country - League")
+        country = league_name.split(' - ')[0]
+        
+        # Check if team storage is available and get leagues by country
+        from core.storage.team_storage import team_storage
+        if team_storage._loaded_from_raw:
+            leagues_by_country = team_storage.get_leagues_by_country()
+            if country in leagues_by_country:
+                return len(leagues_by_country[country]) > 1
+        
+        # Default to allowing relegation if we can't determine
+        return True
+    
+    def _handle_random_league_relegation(self) -> list:
+        """Handle relegation for random leagues by offering to replace with random teams."""
+        from core.storage.team_storage import team_storage
+        
+        promoted_teams = []
+        relegated_count = self.league.relegation_zone()
+        
+        replace_choice = input(f'\nThe last {relegated_count} teams have been relegated. '
+                             f'Replace them with random teams? (y/n): ').lower()
+        
+        if replace_choice == 'y':
+            # Ask for team quality preference
+            quality_choice = input('Use elite teams only? (y/n): ').lower()
+            use_elite = quality_choice == 'y'
+            
+            self.ui.console.print(f"\n[cyan]Generating {relegated_count} random replacement teams...[/cyan]")
+            
+            if team_storage._loaded_from_raw:
+                # Get list of existing team names to avoid duplicates
+                existing_team_names = set()
+                for i in range(self.league.team_number()):
+                    team = self.league.get_team_by_index(i)
+                    if team:
+                        existing_team_names.add(team.name)
+                
+                # Generate unique teams
+                new_teams = []
+                attempts = 0
+                max_attempts = relegated_count * 10  # Prevent infinite loops
+                
+                while len(new_teams) < relegated_count and attempts < max_attempts:
+                    if use_elite:
+                        # Get elite teams
+                        candidate_teams = team_storage.get_random_teams(relegated_count * 2, min_rating=85, max_rating=100)
+                        if not candidate_teams:
+                            # Fill with good teams if no elite teams available
+                            candidate_teams = team_storage.get_random_teams(relegated_count * 2, min_rating=75, max_rating=84)
+                    else:
+                        # Get mixed quality teams
+                        candidate_teams = team_storage.get_random_teams(relegated_count * 2)
+                    
+                    # Filter out existing teams and already selected teams
+                    selected_names = {team.name for team in new_teams}
+                    for team in candidate_teams:
+                        if (team.name not in existing_team_names and 
+                            team.name not in selected_names and 
+                            len(new_teams) < relegated_count):
+                            new_teams.append(team)
+                    
+                    attempts += 1
+                
+                # Add the new teams to promoted_teams list
+                for team in new_teams:
+                    promoted_teams.append(team)
+                    self.ui.console.print(f"   • {team.name}")
+                
+                if promoted_teams:
+                    self.ui.console.print(f"\n[green]Successfully added {len(promoted_teams)} unique random teams![/green]")
+                    if len(promoted_teams) < relegated_count:
+                        self.ui.console.print(f"[yellow]Warning: Only found {len(promoted_teams)} unique teams out of {relegated_count} requested.[/yellow]")
+                else:
+                    self.ui.console.print(f"\n[red]Failed to generate random teams.[/red]")
+            else:
+                self.ui.console.print(f"\n[red]Team storage not available for random team generation.[/red]")
+            
+            input("Press Enter to continue...")
+        
+        return promoted_teams
+    
+    def _handle_regular_league_relegation(self) -> list:
+        """Handle relegation for regular leagues with option for random teams from same country."""
+        from interfaces.cli.user_input import promotion_and_relegation
+        from core.storage.team_storage import team_storage
+        
+        relegated_count = self.league.relegation_zone()
+        league_name = self.league.league_name
+        
+        # Check if there are other leagues in the same country
+        country = None
+        other_leagues = []
+        
+        if league_name and '-' in league_name:
+            country = league_name.split(' - ')[0]
+            
+            if team_storage._loaded_from_raw:
+                leagues_by_country = team_storage.get_leagues_by_country()
+                if country in leagues_by_country:
+                    other_leagues = [league for league in leagues_by_country[country] 
+                                   if f"{country} - {league}" != league_name]
+        
+        # Show relegation options
+        self.ui.console.print(f"\n[yellow]The last {relegated_count} teams have been relegated.[/yellow]")
+        
+        if other_leagues:
+            self.ui.console.print(f"\nReplacement options:")
+            self.ui.console.print(f"1. Manual team entry (custom teams)")
+            self.ui.console.print(f"2. Random teams from {country} leagues")
+            self.ui.console.print(f"3. No replacement")
+            
+            choice = input("Select option (1-3): ").strip()
+            
+            if choice == "1":
+                # Use original promotion/relegation function
+                return promotion_and_relegation(self.league)
+            elif choice == "2":
+                # Generate random teams from same country
+                return self._generate_random_teams_from_country(country, other_leagues, relegated_count)
+            else:
+                return []
+        else:
+            # No other leagues available, use original function
+            return promotion_and_relegation(self.league)
+    
+    def _generate_random_teams_from_country(self, country: str, available_leagues: list, count: int) -> list:
+        """Generate random teams from other leagues in the same country."""
+        from core.storage.team_storage import team_storage
+        
+        promoted_teams = []
+        
+        self.ui.console.print(f"\n[cyan]Generating {count} random teams from {country} leagues...[/cyan]")
+        
+        # Get teams from all other leagues in the country
+        all_available_teams = []
+        for league_name in available_leagues:
+            league_teams = team_storage.get_league_teams(league_name, country)
+            if league_teams:
+                all_available_teams.extend(league_teams)
+        
+        # Get list of existing team names to avoid duplicates
+        existing_team_names = set()
+        for i in range(self.league.team_number()):
+            team = self.league.get_team_by_index(i)
+            if team:
+                existing_team_names.add(team.name)
+        
+        # Filter out teams that are already in the current league
+        unique_available_teams = [team for team in all_available_teams 
+                                if team.name not in existing_team_names]
+        
+        if unique_available_teams and len(unique_available_teams) >= count:
+            # Randomly select teams
+            import random
+            selected_teams = random.sample(unique_available_teams, count)
+            
+            for team in selected_teams:
+                promoted_teams.append(team)
+                self.ui.console.print(f"   • {team.name}")
+            
+            self.ui.console.print(f"\n[green]Successfully added {len(promoted_teams)} unique teams from {country}![/green]")
+        else:
+            self.ui.console.print(f"\n[red]Not enough teams available in other {country} leagues.[/red]")
+            self.ui.console.print(f"[yellow]Falling back to manual team entry...[/yellow]")
+            # Fall back to manual entry
+            from interfaces.cli.user_input import promotion_and_relegation
+            return promotion_and_relegation(self.league)
+        
+        input("Press Enter to continue...")
+        return promoted_teams
         
     def _generate_goal_events(self, home_score: int, away_score: int) -> List[Dict]:
         """Generate mock goal events for match simulation."""
