@@ -31,6 +31,12 @@ All notable changes to this project will be documented in this file.
 - **Save Management Menu**: Delete individual saves or all saves with safety confirmations
 - **Better Load Interface**: Displays actual league and season information from save metadata
 
+### 🧪 Testing Enhancements
+- **Comprehensive Test Suite**: Added random league goal average testing with weighted target calculation
+- **Test File Organization**: Renamed all test files to follow *_test.py naming convention
+- **Enhanced Coverage**: Complete testing for both regular and random league goal calibration
+- **Weighted Target Calculation**: Random league targets now use weighted averages based on team league composition
+
 ## [0.9.0] - 2025-01-25
 
 ### 🎨 Rich Terminal UI - Major Interface Overhaul

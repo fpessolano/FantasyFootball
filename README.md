@@ -104,8 +104,9 @@ FantasyFootball/
 │   ├── data/             # 670+ teams across 34 leagues
 │   └── league_average_goals.csv  # Real-world goal calibration data
 └── tests/                 # Testing tools
-    ├── test_goal_average.py   # Goal calibration testing tool
-    └── test_save_load.py      # Save/load functionality testing
+    ├── goal_average_test.py         # Goal calibration testing tool
+    ├── random_leagues_test.py       # Random league goal average testing
+    └── save_load_test.py            # Save/load functionality testing
 ```
 
 ## Latest Updates (v0.9.1)
@@ -178,14 +179,18 @@ The project includes comprehensive testing tools:
 cd tests
 
 # Test goal calibration across all leagues
-python test_goal_average.py
+python goal_average_test.py
+
+# Test random league goal calibration
+python random_leagues_test.py
 
 # Test save/load game functionality
-python test_save_load.py
+python save_load_test.py
 ```
 
 These tools verify that:
 - **Goal Calibration**: Match simulation produces realistic goal averages that match real-world football statistics
+- **Random League Calibration**: Random leagues maintain realistic goal averages using weighted averages based on team league origins
 - **Save/Load System**: JSON-based saves work correctly with compression, integrity checks, and proper data restoration
 
 ## Technology Stack
