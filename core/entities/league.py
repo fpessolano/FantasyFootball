@@ -295,6 +295,13 @@ class League:
         """
         adjusts team data for the next season - OPTIMIZED
         """
+        # Save final standings order before resetting
+        final_order = self.order_list()
+        final_team_order = []
+        for team_idx in final_order:
+            team_name = self.__team_order[team_idx]
+            final_team_order.append(team_name)
+        
         # Increment season
         self.season += 1
         self.completed = False
@@ -307,12 +314,14 @@ class League:
         for team in self.__teams.values():
             team.reset()
             
+        # Update team order to match final standings from previous season
+        self.__team_order = final_team_order
+            
         # Calculate stars for all teams
         teams_list = list(self.__teams.values())
         Team.calculate_stars(teams_list)
         
-        # Shuffle team order
-        random.shuffle(self.__team_order)
+        # Don't shuffle team order - preserve final standings from previous season
         self.__current_week = 0
 
     def promoted(self, new_teams):

@@ -360,9 +360,13 @@ def _select_country_then_league(skip_teams=False):
   teams_list = team_storage.get_league_teams(league_name, selected_country)
   league_display_name = f'{selected_country}-{league_name}'
   
+  # Always use 3 for relegation zone (for highlighting)
+  # The actual relegation logic will check if multiple leagues exist
+  relegation_zone = 3
+  
   teams_list = customise(teams_list)
   my_team = select_my_team(teams_list)
-  return league_display_name, 3, teams_list, my_team  # Default relegation zone
+  return league_display_name, relegation_zone, teams_list, my_team
 
 
 if __name__ == '__main__':
