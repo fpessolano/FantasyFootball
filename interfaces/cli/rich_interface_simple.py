@@ -28,40 +28,50 @@ class SimpleRichInterface:
         self._colors = self._get_color_scheme()
     
     def _get_color_scheme(self):
-        """Get color scheme based on terminal background."""
+        """Get color scheme based on terminal background with maximum contrast."""
         if self.theme == "light":
             return {
-                # Light background colors (white/light terminals)
-                "primary": "blue",
-                "secondary": "purple",
-                "win": "green",
-                "draw": "orange1", 
-                "loss": "red",
+                # Light background - maximum contrast with vibrant dark colors
+                "primary": "navy_blue",
+                "secondary": "purple4", 
+                "win": "dark_green",
+                "draw": "dark_orange3", 
+                "loss": "red3",
                 "text": "black",
-                "numbers": "black",  # For MP, GF, GA, GD, Pts
-                "highlight_bg": "blue",
+                "numbers": "blue",
+                "dim": "grey37",
+                "highlight_bg": "navy_blue",
                 "highlight_text": "white",
-                "champions": "bold green",
-                "europa": "bold blue", 
-                "relegation": "bold red",
-                "your_team": "bold white on red"  # Much more visible - white text on red background
+                "champions": "bold dark_green",
+                "europa": "bold purple",
+                "relegation": "bold red3",
+                "your_team": "bold white on dark_green",
+                "accent1": "dark_cyan",
+                "accent2": "magenta3",
+                "accent3": "gold3",
+                "warning": "orange1"
             }
         else:
             return {
-                # Dark background colors (black/dark terminals)
-                "primary": "cyan",
-                "secondary": "magenta", 
+                # Dark background - maximum contrast with vibrant bright colors
+                "primary": "bright_cyan",
+                "secondary": "bright_magenta", 
                 "win": "bright_green",
                 "draw": "bright_yellow",
                 "loss": "bright_red",
-                "text": "white",
-                "numbers": "white",  # For MP, GF, GA, GD, Pts
-                "highlight_bg": "yellow",
+                "text": "bright_white",
+                "numbers": "cyan",
+                "dim": "grey63",
+                "highlight_bg": "bright_yellow",
                 "highlight_text": "black",
                 "champions": "bold bright_green",
                 "europa": "bold bright_cyan",
                 "relegation": "bold bright_red",
-                "your_team": "bold black on bright_yellow"  # Keep existing for dark theme
+                "your_team": "bold black on bright_green",
+                "accent1": "bright_blue",
+                "accent2": "magenta",
+                "accent3": "yellow",
+                "warning": "orange3"
             }
         
     def display_title_screen(self, user_name: str, version: str):
@@ -135,9 +145,10 @@ class SimpleRichInterface:
             caption=f"Match Day {league.current_match_day()}"
         )
         
-        # Add columns with theme-appropriate colors
+        # Add columns with theme-appropriate colors - Pts after team name and highlighted
         table.add_column("Pos", style=self._colors["primary"], no_wrap=True, width=4, justify="center")
         table.add_column("Team", style=self._colors["text"], no_wrap=False, width=team_column_width)
+        table.add_column("Pts", justify="center", style=f"bold {self._colors['win']}", width=4)
         table.add_column("MP", justify="center", style=self._colors["numbers"], width=4)
         table.add_column("W", justify="center", style=self._colors["win"], width=4)
         table.add_column("D", justify="center", style=self._colors["draw"], width=4)
@@ -145,7 +156,8 @@ class SimpleRichInterface:
         table.add_column("GF", justify="center", style=self._colors["numbers"], width=4)
         table.add_column("GA", justify="center", style=self._colors["numbers"], width=4)
         table.add_column("GD", justify="center", style=self._colors["numbers"], width=4)
-        table.add_column("Pts", justify="center", style=f"bold {self._colors['numbers']}", width=4)
+        table.add_column("ELO", justify="center", style=self._colors["accent1"], width=6)
+        table.add_column("★", justify="center", style=self._colors["accent3"], width=4)
         
         # Add rows
         for i, team_idx in enumerate(teams):
@@ -164,12 +176,12 @@ class SimpleRichInterface:
                 row_style = self._colors["champions"]
             elif pos <= 6:  # Europa League spots
                 row_style = self._colors["europa"]
-            elif pos > len(teams) - league.relegation_zone():  # Relegation zone
-                row_style = self._colors["relegation"]
+            # No relegation zone highlighting
                 
             table.add_row(
                 str(pos),
                 team.name,
+                str(team.points()),
                 str(team.matches_played),
                 str(team.won),
                 str(team.drawn),
@@ -177,7 +189,8 @@ class SimpleRichInterface:
                 str(team.goals_for),
                 str(team.goals_against),
                 f"{team.goals_for - team.goals_against:+d}",
-                str(team.points()),
+                str(int(team.elo)),
+                f"{team.stars:.1f}",
                 style=row_style
             )
             
@@ -214,15 +227,15 @@ class SimpleRichInterface:
         
         # Fixtures table
         fixtures_table = Table(
-            title="[bold]Today's Fixtures[/bold]",
+            title=f"[bold {self._colors['primary']}]Today's Fixtures[/bold {self._colors['primary']}]",
             show_header=True,
-            header_style="bold cyan",
+            header_style=f"bold {self._colors['primary']}",
             box=box.ROUNDED
         )
         
-        fixtures_table.add_column("Home", style="white", no_wrap=True, width=team_column_width)
-        fixtures_table.add_column("vs", justify="center", style="cyan", width=4)
-        fixtures_table.add_column("Away", style="white", no_wrap=True, width=team_column_width)
+        fixtures_table.add_column("Home", style=self._colors["text"], no_wrap=True, width=team_column_width)
+        fixtures_table.add_column("vs", justify="center", style=self._colors["primary"], width=4)
+        fixtures_table.add_column("Away", style=self._colors["text"], no_wrap=True, width=team_column_width)
         
         # Add fixtures
         for i, (home_idx, away_idx) in enumerate(match_day_fixtures):
@@ -251,12 +264,10 @@ class SimpleRichInterface:
         
         # Options
         options_text = (
-            "[bold cyan][S][/bold cyan]imulate All  "
-            "[bold cyan][W][/bold cyan]atch All  "
-            "[bold cyan][F][/bold cyan]ollow Your Team  "
-            "[bold cyan][C][/bold cyan]hoose Matches"
+            f"[bold {self._colors['win']}][S][/bold {self._colors['win']}]imulate Next Match Day  "
+            f"[bold {self._colors['loss']}][Q][/bold {self._colors['loss']}]uick Results (No Animation)"
         )
-        self.console.print(Panel(options_text, box=box.SIMPLE))
+        self.console.print(Panel(options_text, box=box.SIMPLE, style=self._colors["primary"]))
         
     def simulate_all_matches_live(self, fixtures: List[Tuple[int, int]], league: League, follow_your_team: bool = False) -> List[Dict]:
         """Display all matches updating simultaneously."""
@@ -429,10 +440,25 @@ class SimpleRichInterface:
         return events
     
     def _simulate_all_matches_simultaneous(self, all_match_events: List[Dict], league: League, follow_your_team: bool = False):
-        """Simulate all matches simultaneously with real-time updates."""
+        """Simulate all matches simultaneously with real-time updates and live table."""
         
         # Get user's team index once
         my_team_idx = league.get_my_team_index()
+        
+        # Store initial table state before matches
+        initial_standings = {}
+        for i in range(league.team_number()):
+            team = league.get_team_by_index(i)
+            if team:
+                initial_standings[i] = {
+                    'points': team.points(),
+                    'goals_for': team.goals_for,
+                    'goals_against': team.goals_against,
+                    'played': team.played,
+                    'won': team.won,
+                    'drawn': team.drawn,
+                    'lost': team.lost
+                }
         
         # Calculate optimal column widths based on team names
         max_team_name_length = 0
@@ -444,8 +470,7 @@ class SimpleRichInterface:
                 max_team_name_length = max(max_team_name_length, match_text_length)
         
         # Set minimum width and add some padding
-        match_column_width = max(35, max_team_name_length + 2)
-        other_match_column_width = max(30, max_team_name_length)
+        match_column_width = max(40, max_team_name_length + 4)
         
         # Collect all unique minutes from all matches
         all_minutes = set([0, 90])  # Always show start and end
@@ -458,101 +483,151 @@ class SimpleRichInterface:
         minutes_to_show = sorted(all_minutes)
         
         for minute in minutes_to_show:
-            # Create table for current minute
+            # Create live table update
+            live_table = Table(
+                show_header=True,
+                header_style=f"bold {self._colors['primary']}",
+                box=box.ROUNDED,
+                title="LIVE TABLE" if minute > 0 else "CURRENT STANDINGS"
+            )
+            
+            live_table.add_column("Pos", justify="right", style=self._colors["text"], no_wrap=True, width=4)
+            live_table.add_column("Team", style=self._colors["text"], width=20)
+            live_table.add_column("Pts", justify="center", style=f"bold {self._colors['win']}", width=4)
+            live_table.add_column("P", justify="center", style=self._colors["dim"], width=3)
+            live_table.add_column("GD", justify="center", style=self._colors["dim"], width=4)
+            
+            # Calculate live points and goals for each team based on current minute
+            live_standings = {}
+            for team_idx in range(league.team_number()):
+                team = league.get_team_by_index(team_idx)
+                if team:
+                    # Start with original stats
+                    live_points = initial_standings[team_idx]['points']
+                    live_gf = initial_standings[team_idx]['goals_for']
+                    live_ga = initial_standings[team_idx]['goals_against']
+                    
+                    # Add goals scored up to this minute
+                    for match in all_match_events:
+                        if match['home_idx'] == team_idx or match['away_idx'] == team_idx:
+                            home_goals_so_far = sum(1 for e in match['goal_events'] if e['team'] == 'home' and e['minute'] <= minute)
+                            away_goals_so_far = sum(1 for e in match['goal_events'] if e['team'] == 'away' and e['minute'] <= minute)
+                            
+                            if match['home_idx'] == team_idx:
+                                # This team is home
+                                live_gf += home_goals_so_far
+                                live_ga += away_goals_so_far
+                                # Update points if match is finished (minute >= 90)
+                                if minute >= 90:
+                                    if home_goals_so_far > away_goals_so_far:
+                                        live_points += 3  # Win
+                                    elif home_goals_so_far == away_goals_so_far:
+                                        live_points += 1  # Draw
+                            else:
+                                # This team is away
+                                live_gf += away_goals_so_far
+                                live_ga += home_goals_so_far
+                                # Update points if match is finished (minute >= 90)
+                                if minute >= 90:
+                                    if away_goals_so_far > home_goals_so_far:
+                                        live_points += 3  # Win
+                                    elif away_goals_so_far == home_goals_so_far:
+                                        live_points += 1  # Draw
+                    
+                    live_standings[team_idx] = {
+                        'points': live_points,
+                        'gd': live_gf - live_ga,
+                        'gf': live_gf,
+                        'name': team.name,
+                        'played': team.played + (1 if minute >= 90 else 0)
+                    }
+            
+            # Sort teams by live points and goal difference
+            sorted_teams = sorted(live_standings.items(), 
+                                key=lambda x: (x[1]['points'], x[1]['gd'], x[1]['gf']), 
+                                reverse=True)
+            
+            # Show teams around user's position (or top 6 if no user team)
+            my_team_idx = league.get_my_team_index()
+            if my_team_idx is not None:
+                # Find user's position in live standings
+                user_position = None
+                for i, (team_idx, _) in enumerate(sorted_teams):
+                    if team_idx == my_team_idx:
+                        user_position = i
+                        break
+                
+                if user_position is not None:
+                    # Show 2 teams above, user team, and 3 teams below (6 total)
+                    start_idx = max(0, user_position - 2)
+                    end_idx = min(len(sorted_teams), start_idx + 6)
+                    # Adjust start if we're near the end
+                    if end_idx - start_idx < 6:
+                        start_idx = max(0, end_idx - 6)
+                    teams_to_show = sorted_teams[start_idx:end_idx]
+                else:
+                    teams_to_show = sorted_teams[:6]
+            else:
+                teams_to_show = sorted_teams[:6]
+            
+            for i, (team_idx, team_data) in enumerate(teams_to_show):
+                # Calculate actual position in live standings
+                actual_position = next(j for j, (idx, _) in enumerate(sorted_teams) if idx == team_idx) + 1
+                
+                # Highlight user's team
+                style = self._colors["your_team"] if team_idx == my_team_idx else None
+                
+                # Show position changes
+                pos_text = f"{actual_position}"
+                if minute > 0 and team_idx in initial_standings:
+                    old_points = initial_standings[team_idx]['points']
+                    if team_data['points'] > old_points:
+                        pos_text = f"↑ {actual_position}"
+                
+                live_table.add_row(
+                    pos_text,
+                    team_data['name'][:20],  # Truncate long names
+                    str(team_data['points']),
+                    str(team_data['played']),
+                    f"{team_data['gd']:+d}",
+                    style=style
+                )
+            
+            # Create matches display
             matches_table = Table(
                 show_header=True,
                 header_style=f"bold {self._colors['primary']}",
-                box=box.ROUNDED
+                box=box.ROUNDED,
+                title="MATCHES"
             )
             
-            if follow_your_team and my_team_idx is not None:
-                # Show only your team's match prominently
-                matches_table.add_column("Your Match", style=self._colors["text"], width=match_column_width)
-                matches_table.add_column("Time", justify="center", style=self._colors["primary"], width=8)
-                matches_table.add_column("Score", justify="center", style=f"bold {self._colors['text']}", width=10)
+            matches_table.add_column("Match", style=self._colors["text"], width=match_column_width)
+            matches_table.add_column("Score", justify="center", style=f"bold {self._colors['text']}", width=10)
+            
+            for match in all_match_events:
+                home_team = league.get_team_by_index(match['home_idx'])
+                away_team = league.get_team_by_index(match['away_idx'])
                 
-                # Find and display only your team's match
-                user_match_found = False
-                for match in all_match_events:
-                    if match['home_idx'] == my_team_idx or match['away_idx'] == my_team_idx:
-                        home_team = league.get_team_by_index(match['home_idx'])
-                        away_team = league.get_team_by_index(match['away_idx'])
-                        
-                        if home_team is not None and away_team is not None:
-                            # Calculate current score at this minute
-                            current_home = sum(1 for e in match['goal_events'] if e['team'] == 'home' and e['minute'] <= minute)
-                            current_away = sum(1 for e in match['goal_events'] if e['team'] == 'away' and e['minute'] <= minute)
-                            
-                            match_name = f"{home_team.name} vs {away_team.name}"
-                            score_text = f"{current_home}-{current_away}" if minute > 0 else "-"
-                            
-                            matches_table.add_row(match_name, score_text, style=self._colors["your_team"])
-                            user_match_found = True
-                        break
-                
-                # If no user match found, show message
-                if not user_match_found:
-                    matches_table.add_row("No team match found", "--", "--", style="dim")
-                        
-                # Show other matches in a separate table with dimmed colors
-                other_table = Table(
-                    title="[dim]Other Matches[/dim]",
-                    show_header=True,
-                    header_style="dim",
-                    box=box.SIMPLE
-                )
-                other_table.add_column("Match", style="dim", width=other_match_column_width)
-                other_table.add_column("Time", justify="center", style="dim", width=6)
-                other_table.add_column("Score", justify="center", style="dim", width=8)
-                
-                # Add other matches to the table
-                for match in all_match_events:
-                    if my_team_idx is None or (match['home_idx'] != my_team_idx and match['away_idx'] != my_team_idx):
-                        home_team = league.get_team_by_index(match['home_idx'])
-                        away_team = league.get_team_by_index(match['away_idx'])
-                        
-                        if home_team is not None and away_team is not None:
-                            current_home = sum(1 for e in match['goal_events'] if e['team'] == 'home' and e['minute'] <= minute)
-                            current_away = sum(1 for e in match['goal_events'] if e['team'] == 'away' and e['minute'] <= minute)
-                            
-                            match_name = f"{home_team.name} vs {away_team.name}"
-                            score_text = f"{current_home}-{current_away}" if minute > 0 else "-"
-                            
-                            other_table.add_row(match_name, score_text)
-                        
-            else:
-                # Show all matches equally
-                matches_table.add_column("Match", style=self._colors["text"], width=match_column_width)
-                matches_table.add_column("Score", justify="center", style=f"bold {self._colors['text']}", width=10)
-                
-                for match in all_match_events:
-                    home_team = league.get_team_by_index(match['home_idx'])
-                    away_team = league.get_team_by_index(match['away_idx'])
+                if home_team is not None and away_team is not None:
+                    # Calculate current score at this minute
+                    current_home = sum(1 for e in match['goal_events'] if e['team'] == 'home' and e['minute'] <= minute)
+                    current_away = sum(1 for e in match['goal_events'] if e['team'] == 'away' and e['minute'] <= minute)
                     
-                    if home_team is not None and away_team is not None:
-                        # Calculate current score at this minute
-                        current_home = sum(1 for e in match['goal_events'] if e['team'] == 'home' and e['minute'] <= minute)
-                        current_away = sum(1 for e in match['goal_events'] if e['team'] == 'away' and e['minute'] <= minute)
-                        
-                        match_name = f"{home_team.name} vs {away_team.name}"
-                        score_text = f"{current_home}-{current_away}" if minute > 0 else "-"
-                        
-                        user_match = my_team_idx is not None and (match['home_idx'] == my_team_idx or match['away_idx'] == my_team_idx)
-                        style = self._colors["your_team"] if user_match else None
-                        
-                        matches_table.add_row(match_name, score_text, style=style)
+                    match_name = f"{home_team.name} vs {away_team.name}"
+                    score_text = f"{current_home}-{current_away}" if minute > 0 else "-"
+                    
+                    user_match = my_team_idx is not None and (match['home_idx'] == my_team_idx or match['away_idx'] == my_team_idx)
+                    
+                    # Add all matches to table, highlight user's match
+                    if user_match:
+                        matches_table.add_row(match_name, score_text, style=self._colors["your_team"])
+                    else:
+                        matches_table.add_row(match_name, score_text)
             
             # Clear and show updated display
             self.console.clear()
             
-            if follow_your_team and my_team_idx is not None:
-                my_team = league.get_team_by_index(my_team_idx)
-                if my_team is not None:
-                    header_text = f"[bold {self._colors['primary']}]FOLLOWING {my_team.name.upper()}[/bold {self._colors['primary']}]"
-                else:
-                    header_text = f"[bold {self._colors['primary']}]LIVE MATCH TRACKER[/bold {self._colors['primary']}]"
-            else:
-                header_text = f"[bold {self._colors['primary']}]LIVE MATCH TRACKER[/bold {self._colors['primary']}]"
+            header_text = f"[bold {self._colors['primary']}]LIVE MATCH TRACKER[/bold {self._colors['primary']}]"
             
             self.console.print(Panel(
                 header_text,
@@ -568,11 +643,11 @@ class SimpleRichInterface:
                 clock_text = "🕐 Full-time"
             
             self.console.print(f"\n{clock_text}\n", style=f"bold {self._colors['primary']}", justify="center")
-            self.console.print(matches_table)
             
-            if follow_your_team and 'other_table' in locals() and other_table.row_count > 0:
-                self.console.print("\n")
-                self.console.print(other_table)
+            # Show live table above match table
+            self.console.print(live_table)
+            self.console.print("")
+            self.console.print(matches_table)
             
             # Show goal alerts for this minute
             goals_this_minute = []

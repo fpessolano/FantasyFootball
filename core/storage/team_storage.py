@@ -200,7 +200,6 @@ class TeamStorage:
             return True
             
         except Exception as e:
-            print(f"Error loading team data: {e}")
             return False
     
     def get_team(self, team_name: str) -> Optional[Team]:

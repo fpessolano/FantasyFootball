@@ -130,7 +130,21 @@ dmypy.json
 /.idea/
 /saves.dat
 
-# other files
-test_blessed.py
-support/gamesaves.db
+# Project specific
+tobedone.txt
+bugs.txt
+issues.txt
+*.dat
+gamesaves
 gamesaves.db
+support/gamesaves.db
+test_blessed.py
+
+# Development and test files
+development/
+tests/
+test_*.py
+*_test.py
+
+# macOS
+.DS_Store

@@ -60,10 +60,11 @@ class MatchType:
 def match_result(home_win_probability, away_win_probability):
     """
     Enhanced match result calculation using ELO-based probabilities
+    Optimized for 2.08-2.6 goals per match average
     """
     # Calculate draw probability based on team strength similarity
     strength_diff = abs(home_win_probability - away_win_probability)
-    draw_probability = 0.25 * (1 - strength_diff)
+    draw_probability = 0.27 * (1 - strength_diff)  # Slightly increased draw probability
     
     # Normalize probabilities
     total = home_win_probability + away_win_probability + draw_probability
@@ -74,31 +75,31 @@ def match_result(home_win_probability, away_win_probability):
     # Determine match outcome first
     outcome_roll = random.random()
     if outcome_roll < home_win_prob:
-        # Home win - more realistic scoring
-        base_home_goals = random.choice([1, 1, 2, 2, 2, 3, 3, 4])  # Favor 1-2 goals
-        base_away_goals = max(0, base_home_goals - random.choice([1, 1, 1, 2, 2, 3]))  # Usually 1-2 goal difference
+        # Home win - optimized for target range
+        base_home_goals = random.choice([1, 1, 1, 2, 2, 2, 3])  # Favor 1-2 goals, some 3
+        base_away_goals = max(0, base_home_goals - random.choice([1, 1, 1, 2, 2]))  # Usually 1 goal difference
     elif outcome_roll < home_win_prob + draw_prob:
-        # Draw - more 0-0, 1-1 draws
-        draw_score = random.choice([0, 0, 1, 1, 1, 2, 2, 3])  # Favor low-scoring draws
+        # Draw - balanced for target average
+        draw_score = random.choice([0, 0, 1, 1, 1, 1, 2, 2])  # Balanced between 0-0, 1-1, 2-2
         base_home_goals = base_away_goals = draw_score
     else:
-        # Away win - more realistic scoring
-        base_away_goals = random.choice([1, 1, 2, 2, 2, 3, 3, 4])  # Favor 1-2 goals
-        base_home_goals = max(0, base_away_goals - random.choice([1, 1, 1, 2, 2, 3]))  # Usually 1-2 goal difference
+        # Away win - optimized for target range
+        base_away_goals = random.choice([1, 1, 1, 2, 2, 2, 3])  # Favor 1-2 goals, some 3
+        base_home_goals = max(0, base_away_goals - random.choice([1, 1, 1, 2, 2]))  # Usually 1 goal difference
     
-    # Add some variance based on team strengths
+    # Add some variance based on team strengths (reduced)
     home_goals = base_home_goals
     away_goals = base_away_goals
     
-    # Reduced chance for extra goals (more realistic)
-    if random.random() < home_win_probability * 0.15:  # Reduced from 0.3 to 0.15
+    # Balanced chance for extra goals to reach target
+    if random.random() < home_win_probability * 0.12:  # Slightly increased to 0.12
         home_goals += 1
-    if random.random() < away_win_probability * 0.15:  # Reduced from 0.3 to 0.15
+    if random.random() < away_win_probability * 0.12:  # Slightly increased to 0.12
         away_goals += 1
     
-    # Ensure realistic scores (cap at 5 goals)
-    home_goals = min(home_goals, 5)  # Reduced from 7 to 5
-    away_goals = min(away_goals, 5)  # Reduced from 7 to 5
+    # Ensure realistic scores (cap at 4 goals)
+    home_goals = min(home_goals, 4)  # Reduced from 5 to 4
+    away_goals = min(away_goals, 4)  # Reduced from 5 to 4
     
     return home_goals, away_goals
 

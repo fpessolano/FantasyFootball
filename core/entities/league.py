@@ -83,7 +83,8 @@ class League:
             for i, team in enumerate(teams):
                 self.__teams[team.name] = team
                 self.__team_order.append(team.name)
-            random.shuffle(self.__team_order)
+            # Sort by ELO rating instead of random shuffle
+            self.__team_order.sort(key=lambda name: self.__teams[name].elo, reverse=True)
 
     def __read_berger_schedule(self, minimum_set=5):
         """
@@ -121,7 +122,6 @@ class League:
                 for i in range(rows)
             ])
             if skip:
-                print('skip')
                 break
         if not skip:
             saved_schedules.append(self.__berger_schedule)
@@ -144,8 +144,21 @@ class League:
         returns the league data in a readable DICT
         :return: a dict of all league data
         """
-        # Convert teams back to list format for save compatibility
-        teams_list = [self.__teams[name] for name in self.__team_order]
+        # Convert teams back to list format for save compatibility with team data
+        teams_list = []
+        for name in self.__team_order:
+            team = self.__teams[name]
+            team_data = {
+                'name': team.name,
+                '_Team__elo': team.elo,
+                '_Team__old_elo': team.elo,
+                'stats': team.stats,
+                'goals': team.goals,
+                'played': team.played,
+                'stars': team.stars,
+                'result_streak': getattr(team, 'result_streak', 0)
+            }
+            teams_list.append(team_data)
         
         return {
             "week": self.__current_week,
@@ -336,27 +349,33 @@ class League:
         restore the league from the provided data - OPTIMIZED
         :param savedState: dict containing all necessary league data
         """
-        self.__current_week = savedState["week"]
-        self.__berger_schedule = savedState["calendar"]
-        self.__calendar = sc.generate_calendar(self.__berger_schedule)
-        self.__relegation_zone = savedState["relegationZone"]
-        self.__fakeTeam = savedState["spare"]
-        self.league_name = savedState["name"]
-        self.season = savedState.get("season", 1)  # Default to 1 if not present
-        self.my_team = savedState["myteam"]
+        try:
+            self.__current_week = savedState["week"]
+            self.__berger_schedule = savedState["calendar"]
+            self.__calendar = sc.generate_calendar(self.__berger_schedule)
+            self.__relegation_zone = savedState.get("relegationZone", 0)  # Default to 0
+            self.__fakeTeam = savedState.get("spare", False)  # Default to False
+            self.league_name = savedState["name"]
+            self.season = savedState.get("season", 1)  # Default to 1 if not present
+            self.my_team = savedState["myteam"]
 
-        # Restore teams with optimized storage
-        self.__teams = {}
-        self.__team_order = []
-        
-        for i, team_data in enumerate(savedState["teams"]):
-            team = Team(full_definition=team_data)
-            self.__teams[team.name] = team
-            self.__team_order.append(team.name)
+            # Restore teams with optimized storage
+            self.__teams = {}
+            self.__team_order = []
+            
+            for i, team_data in enumerate(savedState["teams"]):
+                try:
+                    team = Team(full_definition=team_data)
+                    self.__teams[team.name] = team
+                    self.__team_order.append(team.name)
+                except Exception as e:
+                    continue
 
-        self.__number_teams = len(self.__teams)
-        self.valid = (self.__number_teams > 2) and (self.__number_teams > self.__relegation_zone) and \
-                        sc.calendar_valid(self.__berger_schedule)
+            self.__number_teams = len(self.__teams)
+            self.valid = (self.__number_teams > 2) and (self.__number_teams > self.__relegation_zone) and \
+                            sc.calendar_valid(self.__berger_schedule)
+        except Exception as e:
+            self.valid = False
     
     def order_list(self) -> list:
         """Get ordered list of team indices by standings."""
