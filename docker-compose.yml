@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: ffm-app
+    environment:
+      - APP_ENV=production
+      - DATABASE_URL=postgresql://ffm:password@db:5432/ffm
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true
+
+  db:
+    image: postgres:15-alpine
+    container_name: ffm-db
+    environment:
+      - POSTGRES_USER=ffm
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=ffm
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:

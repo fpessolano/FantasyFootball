@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fantasy-football-manager"
+version = "2.0.0-dev"
+description = "A modern football management simulation application"
+readme = "README.md"
+authors = [
+    {name = "F. Pessolano", email = ""},
+]
+license = {text = "MIT"}
+requires-python = ">=3.8"
+dependencies = [
+    "rich>=13.0.0",
+    "click>=8.0.0",
+    "pydantic>=2.0.0",
+    "sqlalchemy>=2.0.0",
+    "alembic>=1.8.0",
+    "httpx>=0.23.0",
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=22.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest-asyncio",
+    "pytest-mock",
+    "factory-boy",
+    "faker",
+]
+
+[project.scripts]
+ffm = "src.main:cli"
+
+[tool.black]
+line-length = 88
+target-version = ["py38", "py39", "py310", "py311"]
+
+[tool.ruff]
+line-length = 88
+select = ["E", "F", "I", "N", "UP", "YTT", "B", "A", "C4", "T10", "ISC", "ICN", "PIE", "PYI", "RSE", "RET", "SIM", "TID", "ARG", "ERA", "PGH", "PL", "TRY", "RUF"]
+ignore = ["E501"]
+target-version = "py38"
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers --cov=src --cov-report=html --cov-report=term"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["src"]

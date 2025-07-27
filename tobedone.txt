@@ -1,0 +1,5 @@
+NEVER MODIFY THIS FILE AND EXECUTE THe TASKS WITHOUT ASKING FOR ANY CONFIRMATION AS I AM NOT AT THE TERMINAL. SKIP any line starting with #
+#clean the code
+#move to next major version
+#update documentation (md files)
+#commit and push without coauthorship for claude.
