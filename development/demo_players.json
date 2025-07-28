@@ -1,0 +1,1502 @@
+[
+  {
+    "name": "GK_8216",
+    "position": "GK",
+    "goalkeeping": 85,
+    "defending": 24,
+    "passing": 39,
+    "dribbling": 24,
+    "shooting": 15,
+    "physical": 62
+  },
+  {
+    "name": "GK_1089",
+    "position": "GK",
+    "goalkeeping": 89,
+    "defending": 33,
+    "passing": 52,
+    "dribbling": 17,
+    "shooting": 30,
+    "physical": 74
+  },
+  {
+    "name": "CB_7971",
+    "position": "CB",
+    "goalkeeping": 0,
+    "defending": 62,
+    "passing": 36,
+    "dribbling": 37,
+    "shooting": 48,
+    "physical": 71
+  },
+  {
+    "name": "CB_4843",
+    "position": "CB",
+    "goalkeeping": 0,
+    "defending": 92,
+    "passing": 60,
+    "dribbling": 23,
+    "shooting": 41,
+    "physical": 63
+  },
+  {
+    "name": "SW_8181",
+    "position": "SW",
+    "goalkeeping": 0,
+    "defending": 85,
+    "passing": 45,
+    "dribbling": 41,
+    "shooting": 24,
+    "physical": 86
+  },
+  {
+    "name": "SW_9491",
+    "position": "SW",
+    "goalkeeping": 0,
+    "defending": 80,
+    "passing": 45,
+    "dribbling": 45,
+    "shooting": 31,
+    "physical": 68
+  },
+  {
+    "name": "LB_7393",
+    "position": "LB",
+    "goalkeeping": 0,
+    "defending": 71,
+    "passing": 62,
+    "dribbling": 59,
+    "shooting": 25,
+    "physical": 84
+  },
+  {
+    "name": "LB_3643",
+    "position": "LB",
+    "goalkeeping": 0,
+    "defending": 61,
+    "passing": 65,
+    "dribbling": 55,
+    "shooting": 32,
+    "physical": 56
+  },
+  {
+    "name": "RB_9083",
+    "position": "RB",
+    "goalkeeping": 0,
+    "defending": 61,
+    "passing": 54,
+    "dribbling": 57,
+    "shooting": 59,
+    "physical": 84
+  },
+  {
+    "name": "RB_2744",
+    "position": "RB",
+    "goalkeeping": 0,
+    "defending": 66,
+    "passing": 60,
+    "dribbling": 50,
+    "shooting": 44,
+    "physical": 50
+  },
+  {
+    "name": "CM_7316",
+    "position": "CM",
+    "goalkeeping": 0,
+    "defending": 51,
+    "passing": 85,
+    "dribbling": 45,
+    "shooting": 35,
+    "physical": 51
+  },
+  {
+    "name": "CM_6721",
+    "position": "CM",
+    "goalkeeping": 0,
+    "defending": 55,
+    "passing": 50,
+    "dribbling": 74,
+    "shooting": 59,
+    "physical": 71
+  },
+  {
+    "name": "DM_2427",
+    "position": "DM",
+    "goalkeeping": 0,
+    "defending": 54,
+    "passing": 69,
+    "dribbling": 58,
+    "shooting": 59,
+    "physical": 56
+  },
+  {
+    "name": "DM_6843",
+    "position": "DM",
+    "goalkeeping": 0,
+    "defending": 71,
+    "passing": 61,
+    "dribbling": 80,
+    "shooting": 46,
+    "physical": 79
+  },
+  {
+    "name": "WB_6551",
+    "position": "WB",
+    "goalkeeping": 0,
+    "defending": 70,
+    "passing": 57,
+    "dribbling": 54,
+    "shooting": 52,
+    "physical": 77
+  },
+  {
+    "name": "WB_7684",
+    "position": "WB",
+    "goalkeeping": 0,
+    "defending": 41,
+    "passing": 64,
+    "dribbling": 66,
+    "shooting": 49,
+    "physical": 57
+  },
+  {
+    "name": "LWB_9760",
+    "position": "LWB",
+    "goalkeeping": 0,
+    "defending": 65,
+    "passing": 64,
+    "dribbling": 82,
+    "shooting": 31,
+    "physical": 54
+  },
+  {
+    "name": "LWB_9375",
+    "position": "LWB",
+    "goalkeeping": 0,
+    "defending": 69,
+    "passing": 55,
+    "dribbling": 63,
+    "shooting": 61,
+    "physical": 53
+  },
+  {
+    "name": "RWB_2277",
+    "position": "RWB",
+    "goalkeeping": 0,
+    "defending": 51,
+    "passing": 67,
+    "dribbling": 64,
+    "shooting": 56,
+    "physical": 52
+  },
+  {
+    "name": "RWB_7632",
+    "position": "RWB",
+    "goalkeeping": 0,
+    "defending": 34,
+    "passing": 79,
+    "dribbling": 67,
+    "shooting": 55,
+    "physical": 51
+  },
+  {
+    "name": "AM_3540",
+    "position": "AM",
+    "goalkeeping": 0,
+    "defending": 35,
+    "passing": 89,
+    "dribbling": 84,
+    "shooting": 76,
+    "physical": 72
+  },
+  {
+    "name": "AM_6260",
+    "position": "AM",
+    "goalkeeping": 0,
+    "defending": 24,
+    "passing": 66,
+    "dribbling": 77,
+    "shooting": 79,
+    "physical": 58
+  },
+  {
+    "name": "LM_5925",
+    "position": "LM",
+    "goalkeeping": 0,
+    "defending": 52,
+    "passing": 60,
+    "dribbling": 73,
+    "shooting": 35,
+    "physical": 57
+  },
+  {
+    "name": "LM_1232",
+    "position": "LM",
+    "goalkeeping": 0,
+    "defending": 55,
+    "passing": 77,
+    "dribbling": 76,
+    "shooting": 59,
+    "physical": 54
+  },
+  {
+    "name": "RM_1204",
+    "position": "RM",
+    "goalkeeping": 0,
+    "defending": 62,
+    "passing": 62,
+    "dribbling": 84,
+    "shooting": 32,
+    "physical": 64
+  },
+  {
+    "name": "RM_2290",
+    "position": "RM",
+    "goalkeeping": 0,
+    "defending": 48,
+    "passing": 61,
+    "dribbling": 69,
+    "shooting": 54,
+    "physical": 80
+  },
+  {
+    "name": "ST_8104",
+    "position": "ST",
+    "goalkeeping": 0,
+    "defending": 50,
+    "passing": 53,
+    "dribbling": 84,
+    "shooting": 85,
+    "physical": 73
+  },
+  {
+    "name": "ST_7028",
+    "position": "ST",
+    "goalkeeping": 0,
+    "defending": 23,
+    "passing": 74,
+    "dribbling": 56,
+    "shooting": 78,
+    "physical": 56
+  },
+  {
+    "name": "LW_1649",
+    "position": "LW",
+    "goalkeeping": 0,
+    "defending": 27,
+    "passing": 79,
+    "dribbling": 55,
+    "shooting": 68,
+    "physical": 77
+  },
+  {
+    "name": "LW_8170",
+    "position": "LW",
+    "goalkeeping": 0,
+    "defending": 40,
+    "passing": 77,
+    "dribbling": 65,
+    "shooting": 95,
+    "physical": 53
+  },
+  {
+    "name": "RW_3854",
+    "position": "RW",
+    "goalkeeping": 0,
+    "defending": 31,
+    "passing": 64,
+    "dribbling": 68,
+    "shooting": 69,
+    "physical": 63
+  },
+  {
+    "name": "RW_9145",
+    "position": "RW",
+    "goalkeeping": 0,
+    "defending": 22,
+    "passing": 68,
+    "dribbling": 78,
+    "shooting": 61,
+    "physical": 56
+  },
+  {
+    "name": "RB_8124",
+    "position": "RB",
+    "goalkeeping": 0,
+    "defending": 55,
+    "passing": 40,
+    "dribbling": 73,
+    "shooting": 46,
+    "physical": 55
+  },
+  {
+    "name": "LWB_3791",
+    "position": "LWB",
+    "goalkeeping": 0,
+    "defending": 42,
+    "passing": 72,
+    "dribbling": 59,
+    "shooting": 31,
+    "physical": 61
+  },
+  {
+    "name": "RW_5928",
+    "position": "RW",
+    "goalkeeping": 0,
+    "defending": 29,
+    "passing": 67,
+    "dribbling": 71,
+    "shooting": 85,
+    "physical": 68
+  },
+  {
+    "name": "AM_7686",
+    "position": "AM",
+    "goalkeeping": 0,
+    "defending": 40,
+    "passing": 78,
+    "dribbling": 65,
+    "shooting": 65,
+    "physical": 73
+  },
+  {
+    "name": "LM_9942",
+    "position": "LM",
+    "goalkeeping": 0,
+    "defending": 34,
+    "passing": 77,
+    "dribbling": 69,
+    "shooting": 45,
+    "physical": 78
+  },
+  {
+    "name": "AM_8590",
+    "position": "AM",
+    "goalkeeping": 0,
+    "defending": 40,
+    "passing": 89,
+    "dribbling": 79,
+    "shooting": 80,
+    "physical": 58
+  },
+  {
+    "name": "WB_5417",
+    "position": "WB",
+    "goalkeeping": 0,
+    "defending": 56,
+    "passing": 66,
+    "dribbling": 57,
+    "shooting": 33,
+    "physical": 62
+  },
+  {
+    "name": "RWB_6677",
+    "position": "RWB",
+    "goalkeeping": 0,
+    "defending": 56,
+    "passing": 80,
+    "dribbling": 84,
+    "shooting": 32,
+    "physical": 70
+  },
+  {
+    "name": "ST_9697",
+    "position": "ST",
+    "goalkeeping": 0,
+    "defending": 47,
+    "passing": 42,
+    "dribbling": 67,
+    "shooting": 70,
+    "physical": 67
+  },
+  {
+    "name": "RM_1712",
+    "position": "RM",
+    "goalkeeping": 0,
+    "defending": 69,
+    "passing": 51,
+    "dribbling": 79,
+    "shooting": 32,
+    "physical": 66
+  },
+  {
+    "name": "RW_3993",
+    "position": "RW",
+    "goalkeeping": 0,
+    "defending": 20,
+    "passing": 64,
+    "dribbling": 63,
+    "shooting": 78,
+    "physical": 79
+  },
+  {
+    "name": "DM_3024",
+    "position": "DM",
+    "goalkeeping": 0,
+    "defending": 41,
+    "passing": 61,
+    "dribbling": 66,
+    "shooting": 48,
+    "physical": 75
+  },
+  {
+    "name": "LM_6510",
+    "position": "LM",
+    "goalkeeping": 0,
+    "defending": 64,
+    "passing": 72,
+    "dribbling": 62,
+    "shooting": 70,
+    "physical": 76
+  },
+  {
+    "name": "SW_6789",
+    "position": "SW",
+    "goalkeeping": 0,
+    "defending": 67,
+    "passing": 35,
+    "dribbling": 32,
+    "shooting": 46,
+    "physical": 58
+  },
+  {
+    "name": "DM_5688",
+    "position": "DM",
+    "goalkeeping": 0,
+    "defending": 51,
+    "passing": 86,
+    "dribbling": 62,
+    "shooting": 35,
+    "physical": 54
+  },
+  {
+    "name": "RM_1570",
+    "position": "RM",
+    "goalkeeping": 0,
+    "defending": 43,
+    "passing": 63,
+    "dribbling": 62,
+    "shooting": 52,
+    "physical": 63
+  },
+  {
+    "name": "LM_2044",
+    "position": "LM",
+    "goalkeeping": 0,
+    "defending": 45,
+    "passing": 82,
+    "dribbling": 69,
+    "shooting": 56,
+    "physical": 48
+  },
+  {
+    "name": "SW_9045",
+    "position": "SW",
+    "goalkeeping": 0,
+    "defending": 86,
+    "passing": 70,
+    "dribbling": 39,
+    "shooting": 21,
+    "physical": 81
+  },
+  {
+    "name": "GK_1277",
+    "position": "GK",
+    "goalkeeping": 89,
+    "defending": 37,
+    "passing": 34,
+    "dribbling": 19,
+    "shooting": 15,
+    "physical": 74
+  },
+  {
+    "name": "GK_1054",
+    "position": "GK",
+    "goalkeeping": 89,
+    "defending": 39,
+    "passing": 60,
+    "dribbling": 16,
+    "shooting": 13,
+    "physical": 56
+  },
+  {
+    "name": "CB_2988",
+    "position": "CB",
+    "goalkeeping": 0,
+    "defending": 63,
+    "passing": 40,
+    "dribbling": 43,
+    "shooting": 36,
+    "physical": 90
+  },
+  {
+    "name": "CB_5400",
+    "position": "CB",
+    "goalkeeping": 0,
+    "defending": 90,
+    "passing": 38,
+    "dribbling": 31,
+    "shooting": 37,
+    "physical": 55
+  },
+  {
+    "name": "SW_6349",
+    "position": "SW",
+    "goalkeeping": 0,
+    "defending": 68,
+    "passing": 34,
+    "dribbling": 26,
+    "shooting": 42,
+    "physical": 73
+  },
+  {
+    "name": "SW_1438",
+    "position": "SW",
+    "goalkeeping": 0,
+    "defending": 61,
+    "passing": 63,
+    "dribbling": 45,
+    "shooting": 27,
+    "physical": 56
+  },
+  {
+    "name": "LB_7457",
+    "position": "LB",
+    "goalkeeping": 0,
+    "defending": 83,
+    "passing": 79,
+    "dribbling": 50,
+    "shooting": 47,
+    "physical": 65
+  },
+  {
+    "name": "LB_4946",
+    "position": "LB",
+    "goalkeeping": 0,
+    "defending": 66,
+    "passing": 74,
+    "dribbling": 66,
+    "shooting": 25,
+    "physical": 67
+  },
+  {
+    "name": "RB_8763",
+    "position": "RB",
+    "goalkeeping": 0,
+    "defending": 58,
+    "passing": 40,
+    "dribbling": 65,
+    "shooting": 52,
+    "physical": 67
+  },
+  {
+    "name": "RB_6759",
+    "position": "RB",
+    "goalkeeping": 0,
+    "defending": 70,
+    "passing": 40,
+    "dribbling": 73,
+    "shooting": 52,
+    "physical": 74
+  },
+  {
+    "name": "CM_8353",
+    "position": "CM",
+    "goalkeeping": 0,
+    "defending": 47,
+    "passing": 73,
+    "dribbling": 80,
+    "shooting": 55,
+    "physical": 70
+  },
+  {
+    "name": "CM_2796",
+    "position": "CM",
+    "goalkeeping": 0,
+    "defending": 46,
+    "passing": 80,
+    "dribbling": 46,
+    "shooting": 39,
+    "physical": 85
+  },
+  {
+    "name": "DM_7360",
+    "position": "DM",
+    "goalkeeping": 0,
+    "defending": 75,
+    "passing": 67,
+    "dribbling": 66,
+    "shooting": 45,
+    "physical": 73
+  },
+  {
+    "name": "DM_1041",
+    "position": "DM",
+    "goalkeeping": 0,
+    "defending": 60,
+    "passing": 84,
+    "dribbling": 80,
+    "shooting": 49,
+    "physical": 53
+  },
+  {
+    "name": "WB_6977",
+    "position": "WB",
+    "goalkeeping": 0,
+    "defending": 42,
+    "passing": 84,
+    "dribbling": 64,
+    "shooting": 63,
+    "physical": 78
+  },
+  {
+    "name": "WB_4087",
+    "position": "WB",
+    "goalkeeping": 0,
+    "defending": 37,
+    "passing": 75,
+    "dribbling": 72,
+    "shooting": 48,
+    "physical": 61
+  },
+  {
+    "name": "LWB_7667",
+    "position": "LWB",
+    "goalkeeping": 0,
+    "defending": 61,
+    "passing": 68,
+    "dribbling": 67,
+    "shooting": 32,
+    "physical": 64
+  },
+  {
+    "name": "LWB_5379",
+    "position": "LWB",
+    "goalkeeping": 0,
+    "defending": 45,
+    "passing": 83,
+    "dribbling": 57,
+    "shooting": 67,
+    "physical": 48
+  },
+  {
+    "name": "RWB_3333",
+    "position": "RWB",
+    "goalkeeping": 0,
+    "defending": 33,
+    "passing": 81,
+    "dribbling": 54,
+    "shooting": 66,
+    "physical": 77
+  },
+  {
+    "name": "RWB_3795",
+    "position": "RWB",
+    "goalkeeping": 0,
+    "defending": 38,
+    "passing": 57,
+    "dribbling": 61,
+    "shooting": 69,
+    "physical": 47
+  },
+  {
+    "name": "AM_7279",
+    "position": "AM",
+    "goalkeeping": 0,
+    "defending": 51,
+    "passing": 94,
+    "dribbling": 88,
+    "shooting": 48,
+    "physical": 62
+  },
+  {
+    "name": "AM_9136",
+    "position": "AM",
+    "goalkeeping": 0,
+    "defending": 40,
+    "passing": 67,
+    "dribbling": 73,
+    "shooting": 68,
+    "physical": 50
+  },
+  {
+    "name": "LM_6941",
+    "position": "LM",
+    "goalkeeping": 0,
+    "defending": 45,
+    "passing": 73,
+    "dribbling": 66,
+    "shooting": 61,
+    "physical": 78
+  },
+  {
+    "name": "LM_2044",
+    "position": "LM",
+    "goalkeeping": 0,
+    "defending": 62,
+    "passing": 75,
+    "dribbling": 63,
+    "shooting": 50,
+    "physical": 71
+  },
+  {
+    "name": "RM_8440",
+    "position": "RM",
+    "goalkeeping": 0,
+    "defending": 64,
+    "passing": 64,
+    "dribbling": 75,
+    "shooting": 64,
+    "physical": 62
+  },
+  {
+    "name": "RM_5362",
+    "position": "RM",
+    "goalkeeping": 0,
+    "defending": 58,
+    "passing": 70,
+    "dribbling": 69,
+    "shooting": 59,
+    "physical": 69
+  },
+  {
+    "name": "ST_5460",
+    "position": "ST",
+    "goalkeeping": 0,
+    "defending": 33,
+    "passing": 56,
+    "dribbling": 67,
+    "shooting": 83,
+    "physical": 68
+  },
+  {
+    "name": "ST_6212",
+    "position": "ST",
+    "goalkeeping": 0,
+    "defending": 29,
+    "passing": 76,
+    "dribbling": 86,
+    "shooting": 68,
+    "physical": 65
+  },
+  {
+    "name": "LW_2552",
+    "position": "LW",
+    "goalkeeping": 0,
+    "defending": 38,
+    "passing": 73,
+    "dribbling": 82,
+    "shooting": 72,
+    "physical": 71
+  },
+  {
+    "name": "LW_6776",
+    "position": "LW",
+    "goalkeeping": 0,
+    "defending": 29,
+    "passing": 80,
+    "dribbling": 88,
+    "shooting": 70,
+    "physical": 74
+  },
+  {
+    "name": "RW_5221",
+    "position": "RW",
+    "goalkeeping": 0,
+    "defending": 23,
+    "passing": 62,
+    "dribbling": 68,
+    "shooting": 87,
+    "physical": 74
+  },
+  {
+    "name": "RW_9379",
+    "position": "RW",
+    "goalkeeping": 0,
+    "defending": 49,
+    "passing": 69,
+    "dribbling": 61,
+    "shooting": 75,
+    "physical": 59
+  },
+  {
+    "name": "LB_7330",
+    "position": "LB",
+    "goalkeeping": 0,
+    "defending": 52,
+    "passing": 60,
+    "dribbling": 52,
+    "shooting": 51,
+    "physical": 65
+  },
+  {
+    "name": "LW_7541",
+    "position": "LW",
+    "goalkeeping": 0,
+    "defending": 25,
+    "passing": 45,
+    "dribbling": 74,
+    "shooting": 94,
+    "physical": 79
+  },
+  {
+    "name": "LWB_7622",
+    "position": "LWB",
+    "goalkeeping": 0,
+    "defending": 33,
+    "passing": 53,
+    "dribbling": 77,
+    "shooting": 56,
+    "physical": 71
+  },
+  {
+    "name": "AM_1672",
+    "position": "AM",
+    "goalkeeping": 0,
+    "defending": 26,
+    "passing": 79,
+    "dribbling": 79,
+    "shooting": 40,
+    "physical": 60
+  },
+  {
+    "name": "LW_4084",
+    "position": "LW",
+    "goalkeeping": 0,
+    "defending": 45,
+    "passing": 49,
+    "dribbling": 63,
+    "shooting": 71,
+    "physical": 50
+  },
+  {
+    "name": "WB_4971",
+    "position": "WB",
+    "goalkeeping": 0,
+    "defending": 41,
+    "passing": 51,
+    "dribbling": 67,
+    "shooting": 48,
+    "physical": 54
+  },
+  {
+    "name": "LM_4107",
+    "position": "LM",
+    "goalkeeping": 0,
+    "defending": 52,
+    "passing": 66,
+    "dribbling": 55,
+    "shooting": 37,
+    "physical": 77
+  },
+  {
+    "name": "SW_1632",
+    "position": "SW",
+    "goalkeeping": 0,
+    "defending": 66,
+    "passing": 62,
+    "dribbling": 36,
+    "shooting": 38,
+    "physical": 88
+  },
+  {
+    "name": "LB_1455",
+    "position": "LB",
+    "goalkeeping": 0,
+    "defending": 54,
+    "passing": 69,
+    "dribbling": 73,
+    "shooting": 34,
+    "physical": 57
+  },
+  {
+    "name": "LM_8195",
+    "position": "LM",
+    "goalkeeping": 0,
+    "defending": 53,
+    "passing": 81,
+    "dribbling": 62,
+    "shooting": 34,
+    "physical": 67
+  },
+  {
+    "name": "RM_8932",
+    "position": "RM",
+    "goalkeeping": 0,
+    "defending": 59,
+    "passing": 62,
+    "dribbling": 76,
+    "shooting": 35,
+    "physical": 53
+  },
+  {
+    "name": "LB_7033",
+    "position": "LB",
+    "goalkeeping": 0,
+    "defending": 78,
+    "passing": 71,
+    "dribbling": 48,
+    "shooting": 23,
+    "physical": 82
+  },
+  {
+    "name": "LM_6092",
+    "position": "LM",
+    "goalkeeping": 0,
+    "defending": 46,
+    "passing": 74,
+    "dribbling": 64,
+    "shooting": 68,
+    "physical": 57
+  },
+  {
+    "name": "CB_6616",
+    "position": "CB",
+    "goalkeeping": 0,
+    "defending": 89,
+    "passing": 37,
+    "dribbling": 24,
+    "shooting": 39,
+    "physical": 53
+  },
+  {
+    "name": "ST_9673",
+    "position": "ST",
+    "goalkeeping": 0,
+    "defending": 27,
+    "passing": 75,
+    "dribbling": 74,
+    "shooting": 91,
+    "physical": 76
+  },
+  {
+    "name": "WB_7003",
+    "position": "WB",
+    "goalkeeping": 0,
+    "defending": 37,
+    "passing": 80,
+    "dribbling": 67,
+    "shooting": 63,
+    "physical": 75
+  },
+  {
+    "name": "LW_5550",
+    "position": "LW",
+    "goalkeeping": 0,
+    "defending": 25,
+    "passing": 72,
+    "dribbling": 57,
+    "shooting": 80,
+    "physical": 63
+  },
+  {
+    "name": "DM_3498",
+    "position": "DM",
+    "goalkeeping": 0,
+    "defending": 72,
+    "passing": 68,
+    "dribbling": 79,
+    "shooting": 45,
+    "physical": 71
+  },
+  {
+    "name": "CM_6113",
+    "position": "CM",
+    "goalkeeping": 0,
+    "defending": 54,
+    "passing": 57,
+    "dribbling": 68,
+    "shooting": 37,
+    "physical": 77
+  },
+  {
+    "name": "SW_2096",
+    "position": "SW",
+    "goalkeeping": 0,
+    "defending": 71,
+    "passing": 50,
+    "dribbling": 36,
+    "shooting": 33,
+    "physical": 73
+  },
+  {
+    "name": "CB_2062",
+    "position": "CB",
+    "goalkeeping": 0,
+    "defending": 74,
+    "passing": 44,
+    "dribbling": 32,
+    "shooting": 34,
+    "physical": 53
+  },
+  {
+    "name": "LM_1085",
+    "position": "LM",
+    "goalkeeping": 0,
+    "defending": 41,
+    "passing": 58,
+    "dribbling": 52,
+    "shooting": 34,
+    "physical": 48
+  },
+  {
+    "name": "RM_5411",
+    "position": "RM",
+    "goalkeeping": 0,
+    "defending": 68,
+    "passing": 70,
+    "dribbling": 76,
+    "shooting": 34,
+    "physical": 77
+  },
+  {
+    "name": "CM_4240",
+    "position": "CM",
+    "goalkeeping": 0,
+    "defending": 76,
+    "passing": 65,
+    "dribbling": 47,
+    "shooting": 40,
+    "physical": 84
+  },
+  {
+    "name": "LWB_7694",
+    "position": "LWB",
+    "goalkeeping": 0,
+    "defending": 39,
+    "passing": 83,
+    "dribbling": 67,
+    "shooting": 64,
+    "physical": 69
+  },
+  {
+    "name": "LB_9884",
+    "position": "LB",
+    "goalkeeping": 0,
+    "defending": 52,
+    "passing": 71,
+    "dribbling": 67,
+    "shooting": 43,
+    "physical": 83
+  },
+  {
+    "name": "RWB_7725",
+    "position": "RWB",
+    "goalkeeping": 0,
+    "defending": 64,
+    "passing": 58,
+    "dribbling": 78,
+    "shooting": 34,
+    "physical": 66
+  },
+  {
+    "name": "RW_7383",
+    "position": "RW",
+    "goalkeeping": 0,
+    "defending": 28,
+    "passing": 58,
+    "dribbling": 53,
+    "shooting": 94,
+    "physical": 64
+  },
+  {
+    "name": "ST_3502",
+    "position": "ST",
+    "goalkeeping": 0,
+    "defending": 24,
+    "passing": 80,
+    "dribbling": 59,
+    "shooting": 88,
+    "physical": 64
+  },
+  {
+    "name": "DM_5297",
+    "position": "DM",
+    "goalkeeping": 0,
+    "defending": 66,
+    "passing": 78,
+    "dribbling": 45,
+    "shooting": 33,
+    "physical": 66
+  },
+  {
+    "name": "RWB_2209",
+    "position": "RWB",
+    "goalkeeping": 0,
+    "defending": 66,
+    "passing": 50,
+    "dribbling": 60,
+    "shooting": 42,
+    "physical": 75
+  },
+  {
+    "name": "CB_8137",
+    "position": "CB",
+    "goalkeeping": 0,
+    "defending": 85,
+    "passing": 48,
+    "dribbling": 46,
+    "shooting": 26,
+    "physical": 53
+  },
+  {
+    "name": "LM_8756",
+    "position": "LM",
+    "goalkeeping": 0,
+    "defending": 68,
+    "passing": 52,
+    "dribbling": 78,
+    "shooting": 37,
+    "physical": 57
+  },
+  {
+    "name": "WB_4874",
+    "position": "WB",
+    "goalkeeping": 0,
+    "defending": 32,
+    "passing": 61,
+    "dribbling": 55,
+    "shooting": 49,
+    "physical": 57
+  },
+  {
+    "name": "CB_4095",
+    "position": "CB",
+    "goalkeeping": 0,
+    "defending": 81,
+    "passing": 43,
+    "dribbling": 30,
+    "shooting": 27,
+    "physical": 86
+  },
+  {
+    "name": "CM_8250",
+    "position": "CM",
+    "goalkeeping": 0,
+    "defending": 56,
+    "passing": 76,
+    "dribbling": 45,
+    "shooting": 32,
+    "physical": 81
+  },
+  {
+    "name": "CM_3963",
+    "position": "CM",
+    "goalkeeping": 0,
+    "defending": 59,
+    "passing": 53,
+    "dribbling": 60,
+    "shooting": 58,
+    "physical": 73
+  },
+  {
+    "name": "RW_2533",
+    "position": "RW",
+    "goalkeeping": 0,
+    "defending": 36,
+    "passing": 76,
+    "dribbling": 65,
+    "shooting": 66,
+    "physical": 85
+  },
+  {
+    "name": "AM_7361",
+    "position": "AM",
+    "goalkeeping": 0,
+    "defending": 58,
+    "passing": 91,
+    "dribbling": 86,
+    "shooting": 68,
+    "physical": 40
+  },
+  {
+    "name": "RWB_9853",
+    "position": "RWB",
+    "goalkeeping": 0,
+    "defending": 58,
+    "passing": 74,
+    "dribbling": 72,
+    "shooting": 54,
+    "physical": 66
+  },
+  {
+    "name": "WB_6006",
+    "position": "WB",
+    "goalkeeping": 0,
+    "defending": 46,
+    "passing": 51,
+    "dribbling": 53,
+    "shooting": 59,
+    "physical": 52
+  },
+  {
+    "name": "LW_4049",
+    "position": "LW",
+    "goalkeeping": 0,
+    "defending": 45,
+    "passing": 51,
+    "dribbling": 62,
+    "shooting": 68,
+    "physical": 50
+  },
+  {
+    "name": "LWB_1710",
+    "position": "LWB",
+    "goalkeeping": 0,
+    "defending": 32,
+    "passing": 60,
+    "dribbling": 54,
+    "shooting": 32,
+    "physical": 54
+  },
+  {
+    "name": "RB_5558",
+    "position": "RB",
+    "goalkeeping": 0,
+    "defending": 75,
+    "passing": 69,
+    "dribbling": 61,
+    "shooting": 37,
+    "physical": 75
+  },
+  {
+    "name": "CB_6961",
+    "position": "CB",
+    "goalkeeping": 0,
+    "defending": 67,
+    "passing": 65,
+    "dribbling": 47,
+    "shooting": 21,
+    "physical": 76
+  },
+  {
+    "name": "RWB_5652",
+    "position": "RWB",
+    "goalkeeping": 0,
+    "defending": 47,
+    "passing": 79,
+    "dribbling": 84,
+    "shooting": 63,
+    "physical": 59
+  },
+  {
+    "name": "SW_6694",
+    "position": "SW",
+    "goalkeeping": 0,
+    "defending": 90,
+    "passing": 68,
+    "dribbling": 45,
+    "shooting": 29,
+    "physical": 80
+  },
+  {
+    "name": "CB_3082",
+    "position": "CB",
+    "goalkeeping": 0,
+    "defending": 72,
+    "passing": 36,
+    "dribbling": 39,
+    "shooting": 46,
+    "physical": 78
+  },
+  {
+    "name": "LWB_9127",
+    "position": "LWB",
+    "goalkeeping": 0,
+    "defending": 46,
+    "passing": 80,
+    "dribbling": 76,
+    "shooting": 60,
+    "physical": 79
+  },
+  {
+    "name": "LB_3412",
+    "position": "LB",
+    "goalkeeping": 0,
+    "defending": 84,
+    "passing": 65,
+    "dribbling": 52,
+    "shooting": 50,
+    "physical": 82
+  },
+  {
+    "name": "LW_5090",
+    "position": "LW",
+    "goalkeeping": 0,
+    "defending": 49,
+    "passing": 44,
+    "dribbling": 76,
+    "shooting": 88,
+    "physical": 60
+  },
+  {
+    "name": "RWB_9325",
+    "position": "RWB",
+    "goalkeeping": 0,
+    "defending": 32,
+    "passing": 78,
+    "dribbling": 82,
+    "shooting": 66,
+    "physical": 59
+  },
+  {
+    "name": "GK_4600",
+    "position": "GK",
+    "goalkeeping": 94,
+    "defending": 45,
+    "passing": 35,
+    "dribbling": 26,
+    "shooting": 12,
+    "physical": 45
+  },
+  {
+    "name": "CM_7177",
+    "position": "CM",
+    "goalkeeping": 0,
+    "defending": 77,
+    "passing": 69,
+    "dribbling": 80,
+    "shooting": 52,
+    "physical": 70
+  },
+  {
+    "name": "GK_2104",
+    "position": "GK",
+    "goalkeeping": 67,
+    "defending": 20,
+    "passing": 60,
+    "dribbling": 30,
+    "shooting": 20,
+    "physical": 40
+  },
+  {
+    "name": "DM_1199",
+    "position": "DM",
+    "goalkeeping": 0,
+    "defending": 78,
+    "passing": 89,
+    "dribbling": 42,
+    "shooting": 35,
+    "physical": 62
+  },
+  {
+    "name": "LB_1440",
+    "position": "LB",
+    "goalkeeping": 0,
+    "defending": 78,
+    "passing": 62,
+    "dribbling": 49,
+    "shooting": 34,
+    "physical": 67
+  },
+  {
+    "name": "RWB_1450",
+    "position": "RWB",
+    "goalkeeping": 0,
+    "defending": 45,
+    "passing": 75,
+    "dribbling": 64,
+    "shooting": 66,
+    "physical": 80
+  },
+  {
+    "name": "CB_1078",
+    "position": "CB",
+    "goalkeeping": 0,
+    "defending": 92,
+    "passing": 60,
+    "dribbling": 22,
+    "shooting": 21,
+    "physical": 64
+  },
+  {
+    "name": "RWB_3228",
+    "position": "RWB",
+    "goalkeeping": 0,
+    "defending": 49,
+    "passing": 75,
+    "dribbling": 76,
+    "shooting": 57,
+    "physical": 69
+  },
+  {
+    "name": "WB_8441",
+    "position": "WB",
+    "goalkeeping": 0,
+    "defending": 35,
+    "passing": 85,
+    "dribbling": 70,
+    "shooting": 62,
+    "physical": 49
+  },
+  {
+    "name": "RW_5994",
+    "position": "RW",
+    "goalkeeping": 0,
+    "defending": 44,
+    "passing": 53,
+    "dribbling": 84,
+    "shooting": 93,
+    "physical": 55
+  },
+  {
+    "name": "WB_5796",
+    "position": "WB",
+    "goalkeeping": 0,
+    "defending": 61,
+    "passing": 63,
+    "dribbling": 73,
+    "shooting": 56,
+    "physical": 64
+  },
+  {
+    "name": "WB_2089",
+    "position": "WB",
+    "goalkeeping": 0,
+    "defending": 42,
+    "passing": 74,
+    "dribbling": 54,
+    "shooting": 64,
+    "physical": 61
+  },
+  {
+    "name": "WB_8739",
+    "position": "WB",
+    "goalkeeping": 0,
+    "defending": 44,
+    "passing": 70,
+    "dribbling": 73,
+    "shooting": 51,
+    "physical": 53
+  },
+  {
+    "name": "GK_8753",
+    "position": "GK",
+    "goalkeeping": 89,
+    "defending": 25,
+    "passing": 41,
+    "dribbling": 28,
+    "shooting": 20,
+    "physical": 46
+  },
+  {
+    "name": "SW_6128",
+    "position": "SW",
+    "goalkeeping": 0,
+    "defending": 64,
+    "passing": 33,
+    "dribbling": 50,
+    "shooting": 47,
+    "physical": 75
+  },
+  {
+    "name": "DM_5783",
+    "position": "DM",
+    "goalkeeping": 0,
+    "defending": 71,
+    "passing": 55,
+    "dribbling": 54,
+    "shooting": 66,
+    "physical": 82
+  }
+]

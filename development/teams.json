@@ -1,0 +1,238 @@
+[
+  {
+    "name": "Red",
+    "formation": "4-4-2",
+    "style": "WIDE",
+    "elo_rating": 1521.0306874280336,
+    "players": [
+      {
+        "name": "Tino Pazzo",
+        "position": "GK",
+        "goalkeeping": 99,
+        "defending": 65,
+        "passing": 5,
+        "dribbling": 5,
+        "shooting": 5,
+        "physical": 25
+      },
+      {
+        "name": "CB_2978",
+        "position": "CB",
+        "goalkeeping": 0,
+        "defending": 97,
+        "passing": 33,
+        "dribbling": 70,
+        "shooting": 71,
+        "physical": 79
+      },
+      {
+        "name": "CB_2827",
+        "position": "CB",
+        "goalkeeping": 0,
+        "defending": 56,
+        "passing": 81,
+        "dribbling": 83,
+        "shooting": 52,
+        "physical": 99
+      },
+      {
+        "name": "LB_3360",
+        "position": "LB",
+        "goalkeeping": 0,
+        "defending": 81,
+        "passing": 92,
+        "dribbling": 59,
+        "shooting": 37,
+        "physical": 62
+      },
+      {
+        "name": "RB_4909",
+        "position": "RB",
+        "goalkeeping": 0,
+        "defending": 92,
+        "passing": 81,
+        "dribbling": 55,
+        "shooting": 47,
+        "physical": 58
+      },
+      {
+        "name": "CM_2052",
+        "position": "CM",
+        "goalkeeping": 0,
+        "defending": 42,
+        "passing": 37,
+        "dribbling": 59,
+        "shooting": 59,
+        "physical": 89
+      },
+      {
+        "name": "CM_9309",
+        "position": "CM",
+        "goalkeeping": 0,
+        "defending": 67,
+        "passing": 48,
+        "dribbling": 60,
+        "shooting": 44,
+        "physical": 80
+      },
+      {
+        "name": "LM_5354",
+        "position": "LM",
+        "goalkeeping": 0,
+        "defending": 100,
+        "passing": 49,
+        "dribbling": 94,
+        "shooting": 85,
+        "physical": 73
+      },
+      {
+        "name": "RM_6129",
+        "position": "RM",
+        "goalkeeping": 0,
+        "defending": 67,
+        "passing": 96,
+        "dribbling": 79,
+        "shooting": 57,
+        "physical": 30
+      },
+      {
+        "name": "ST_1964",
+        "position": "ST",
+        "goalkeeping": 0,
+        "defending": 77,
+        "passing": 78,
+        "dribbling": 43,
+        "shooting": 83,
+        "physical": 74
+      },
+      {
+        "name": "ST_4429",
+        "position": "ST",
+        "goalkeeping": 0,
+        "defending": 93,
+        "passing": 79,
+        "dribbling": 66,
+        "shooting": 70,
+        "physical": 89
+      }
+    ]
+  },
+  {
+    "name": "Blue",
+    "formation": "3-5-2",
+    "style": "ATTACKING",
+    "elo_rating": 1478.9693125719664,
+    "players": [
+      {
+        "name": "GK_1981",
+        "position": "GK",
+        "goalkeeping": 94,
+        "defending": 76,
+        "passing": 72,
+        "dribbling": 93,
+        "shooting": 39,
+        "physical": 82
+      },
+      {
+        "name": "CB_9122",
+        "position": "CB",
+        "goalkeeping": 0,
+        "defending": 79,
+        "passing": 86,
+        "dribbling": 96,
+        "shooting": 35,
+        "physical": 94
+      },
+      {
+        "name": "CB_7326",
+        "position": "CB",
+        "goalkeeping": 0,
+        "defending": 76,
+        "passing": 79,
+        "dribbling": 63,
+        "shooting": 36,
+        "physical": 75
+      },
+      {
+        "name": "CB_2978",
+        "position": "CB",
+        "goalkeeping": 0,
+        "defending": 97,
+        "passing": 33,
+        "dribbling": 70,
+        "shooting": 71,
+        "physical": 79
+      },
+      {
+        "name": "CM_6471",
+        "position": "CM",
+        "goalkeeping": 0,
+        "defending": 77,
+        "passing": 94,
+        "dribbling": 71,
+        "shooting": 63,
+        "physical": 93
+      },
+      {
+        "name": "CM_1794",
+        "position": "CM",
+        "goalkeeping": 0,
+        "defending": 88,
+        "passing": 92,
+        "dribbling": 94,
+        "shooting": 37,
+        "physical": 41
+      },
+      {
+        "name": "LWB_9114",
+        "position": "LWB",
+        "goalkeeping": 0,
+        "defending": 97,
+        "passing": 97,
+        "dribbling": 39,
+        "shooting": 95,
+        "physical": 99
+      },
+      {
+        "name": "RWB_4987",
+        "position": "RWB",
+        "goalkeeping": 0,
+        "defending": 90,
+        "passing": 87,
+        "dribbling": 79,
+        "shooting": 87,
+        "physical": 53
+      },
+      {
+        "name": "AM_3617",
+        "position": "AM",
+        "goalkeeping": 0,
+        "defending": 61,
+        "passing": 89,
+        "dribbling": 89,
+        "shooting": 92,
+        "physical": 65
+      },
+      {
+        "name": "ST_5150",
+        "position": "ST",
+        "goalkeeping": 0,
+        "defending": 57,
+        "passing": 80,
+        "dribbling": 49,
+        "shooting": 85,
+        "physical": 55
+      },
+      {
+        "name": "ST_5060",
+        "position": "ST",
+        "goalkeeping": 0,
+        "defending": 43,
+        "passing": 43,
+        "dribbling": 31,
+        "shooting": 100,
+        "physical": 52
+      }
+    ]
+  }
+]
