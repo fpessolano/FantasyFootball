@@ -42,9 +42,8 @@ class MatchResult:
 class MatchEngine:
     """Enhanced match engine with performance tracking."""
     
-    def __init__(self, use_momentum: bool = True, detailed_sim: bool = True):
+    def __init__(self, use_momentum: bool = True):
         self.use_momentum = use_momentum
-        self.detailed_sim = detailed_sim
         self.show_penalty_details = True  # Toggle for penalty shootout event details
         self.show_detailed_stats = True  # Toggle for detailed statistics table only
         self.performance_manager = PlayerPerformanceManager()
@@ -589,10 +588,19 @@ class MatchEngine:
         print(f"\nFINAL SCORE: {result.home_team} {result.home_score} - "
               f"{result.away_score} {result.away_team}")
         
-        # Events
-        if result.events:
+        # Events - separate regular match events from penalty events
+        regular_events = []
+        penalty_events = []
+        
+        for event in result.events:
+            if event.event_type == "penalty":
+                penalty_events.append(event)
+            else:
+                regular_events.append(event)
+        
+        if regular_events:
             print("\nMATCH EVENTS:")
-            for event in result.events:
+            for event in regular_events:
                 if event.event_type == "goal":
                     emoji = "⚽"
                 elif event.event_type == "yellow_card":
@@ -603,54 +611,60 @@ class MatchEngine:
                     emoji = "🚫"
                 else:
                     emoji = "📝"
-                # Include team attribution in event display
                 print(f"{event.minute}' {emoji} {event.team} - {event.description}")
         
-        # Enhanced Statistics
-        print("\nENHANCED MATCH STATISTICS:")
-        print(f"{'Stat':<25} {result.home_team:<20} {result.away_team:<20}")
-        print("-" * 65)
+        if penalty_events and self.show_penalty_details:
+            print("\nPENALTY SHOOTOUT EVENTS:")
+            for event in penalty_events:
+                emoji = "🥅"
+                print(f"{event.minute}' {emoji} {event.team} - {event.description}")
         
-        home_stats = result.stats[result.home_team]
-        away_stats = result.stats[result.away_team]
-        
-        # Find the actual teams to get player counts
-        home_team = None
-        away_team = None
-        # Note: This is a limitation - we don't have access to team objects here
-        # In a future version, we could pass team objects to the display method
-        
-        print(f"{'Possession':<25} {home_stats['possession']:<20.1f}% "
-              f"{away_stats['possession']:<20.1f}%")
-        print(f"{'Expected Goals':<25} {home_stats['expected_goals']:<20.1f} "
-              f"{away_stats['expected_goals']:<20.1f}")
-        print(f"{'Shots':<25} {home_stats['shots']:<20.0f} "
-              f"{away_stats['shots']:<20.0f}")
-        print(f"{'Shots on Target':<25} {home_stats['shots_on_target']:<20.0f} "
-              f"{away_stats['shots_on_target']:<20.0f}")
-        print(f"{'Pass Accuracy':<25} {home_stats['pass_accuracy']:<20.1f}% "
-              f"{away_stats['pass_accuracy']:<20.1f}%")
-        print(f"{'Team Rating':<25} {home_stats['team_rating']:<20.1f} "
-              f"{away_stats['team_rating']:<20.1f}")
-        print(f"{'Players Available':<25} {home_stats['players_available']:<20.0f} "
-              f"{away_stats['players_available']:<20.0f}")
-        print(f"{'Average Stamina':<25} {home_stats['average_stamina']:<20.1f}% "
-              f"{away_stats['average_stamina']:<20.1f}%")
-        print(f"{'Team Momentum':<25} {home_stats['momentum']:<20.1f} "
-              f"{away_stats['momentum']:<20.1f}")
-        
-        # Fatigue Impact
-        print(f"\nFATIGUE IMPACT:")
-        for team, impact in result.fatigue_impact.items():
-            impact_desc = "High" if impact > 0.3 else "Medium" if impact > 0.15 else "Low"
-            print(f"  {team}: {impact:.1%} ({impact_desc})")
-        
-        # Momentum Changes
-        if result.momentum_changes:
-            print(f"\nKEY MOMENTUM SHIFTS:")
-            for minute, team, change in result.momentum_changes[-3:]:  # Show last 3
-                direction = "↗️" if change > 0 else "↘️"
-                print(f"  {minute}' {direction} {team}: {change:+.0f}")
+        # Enhanced Statistics - only show if detailed stats enabled
+        if self.show_detailed_stats:
+            print("\nENHANCED MATCH STATISTICS:")
+            print(f"{'Stat':<25} {result.home_team:<20} {result.away_team:<20}")
+            print("-" * 65)
+            
+            home_stats = result.stats[result.home_team]
+            away_stats = result.stats[result.away_team]
+            
+            # Find the actual teams to get player counts
+            home_team = None
+            away_team = None
+            # Note: This is a limitation - we don't have access to team objects here
+            # In a future version, we could pass team objects to the display method
+            
+            print(f"{'Possession':<25} {home_stats['possession']:<20.1f}% "
+                  f"{away_stats['possession']:<20.1f}%")
+            print(f"{'Expected Goals':<25} {home_stats['expected_goals']:<20.1f} "
+                  f"{away_stats['expected_goals']:<20.1f}")
+            print(f"{'Shots':<25} {home_stats['shots']:<20.0f} "
+                  f"{away_stats['shots']:<20.0f}")
+            print(f"{'Shots on Target':<25} {home_stats['shots_on_target']:<20.0f} "
+                  f"{away_stats['shots_on_target']:<20.0f}")
+            print(f"{'Pass Accuracy':<25} {home_stats['pass_accuracy']:<20.1f}% "
+                  f"{away_stats['pass_accuracy']:<20.1f}%")
+            print(f"{'Team Rating':<25} {home_stats['team_rating']:<20.1f} "
+                  f"{away_stats['team_rating']:<20.1f}")
+            print(f"{'Players Available':<25} {home_stats['players_available']:<20.0f} "
+                  f"{away_stats['players_available']:<20.0f}")
+            print(f"{'Average Stamina':<25} {home_stats['average_stamina']:<20.1f}% "
+                  f"{away_stats['average_stamina']:<20.1f}%")
+            print(f"{'Team Momentum':<25} {home_stats['momentum']:<20.1f} "
+                  f"{away_stats['momentum']:<20.1f}")
+            
+            # Fatigue Impact
+            print(f"\nFATIGUE IMPACT:")
+            for team, impact in result.fatigue_impact.items():
+                impact_desc = "High" if impact > 0.3 else "Medium" if impact > 0.15 else "Low"
+                print(f"  {team}: {impact:.1%} ({impact_desc})")
+            
+            # Momentum Changes
+            if result.momentum_changes:
+                print(f"\nKEY MOMENTUM SHIFTS:")
+                for minute, team, change in result.momentum_changes[-3:]:  # Show last 3
+                    direction = "↗️" if change > 0 else "↘️"
+                    print(f"  {minute}' {direction} {team}: {change:+.0f}")
         
         print("="*80)
     
@@ -665,7 +679,6 @@ class MatchEngine:
             import json
             with open(self.settings_file, 'r') as f:
                 settings = json.load(f)
-                self.detailed_sim = settings.get('detailed_sim', True)
                 self.show_penalty_details = settings.get('show_penalty_details', True)
                 self.show_detailed_stats = settings.get('show_detailed_stats', True)
         except (FileNotFoundError, json.JSONDecodeError):
@@ -677,7 +690,6 @@ class MatchEngine:
         try:
             import json
             settings = {
-                'detailed_sim': self.detailed_sim,
                 'show_penalty_details': self.show_penalty_details,
                 'show_detailed_stats': self.show_detailed_stats
             }

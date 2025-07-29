@@ -1531,38 +1531,39 @@ class FantasyFootballApp:
                                     emoji = "📝"
                                 print(f"{event.minute}' {emoji} {event.team} - {event.description}")
                         
-                        if penalty_events:
+                        if penalty_events and self.match_engine.show_penalty_details:
                             print("\nPENALTY SHOOTOUT EVENTS:")
                             for event in penalty_events:
                                 emoji = "🥅"
                                 print(f"{event.minute}' {emoji} {event.team} - {event.description}")
                         
-                        # Statistics table
-                        print("\nMATCH STATISTICS:")
-                        print(f"{'Stat':<25} {full_result.home_team:<20} {full_result.away_team:<20}")
-                        print("-" * 65)
-                        
-                        home_stats = full_result.stats[full_result.home_team]
-                        away_stats = full_result.stats[full_result.away_team]
-                        
-                        print(f"{'Possession':<25} {home_stats['possession']:<20.1f}% "
-                              f"{away_stats['possession']:<20.1f}%")
-                        print(f"{'Expected Goals':<25} {home_stats['expected_goals']:<20.1f} "
-                              f"{away_stats['expected_goals']:<20.1f}")
-                        print(f"{'Shots':<25} {home_stats['shots']:<20.0f} "
-                              f"{away_stats['shots']:<20.0f}")
-                        print(f"{'Shots on Target':<25} {home_stats['shots_on_target']:<20.0f} "
-                              f"{away_stats['shots_on_target']:<20.0f}")
-                        print(f"{'Pass Accuracy':<25} {home_stats['pass_accuracy']:<20.1f}% "
-                              f"{away_stats['pass_accuracy']:<20.1f}%")
-                        print(f"{'Team Rating':<25} {home_stats['team_rating']:<20.1f} "
-                              f"{away_stats['team_rating']:<20.1f}")
-                        print(f"{'Players Available':<25} {home_stats['players_available']:<20.0f} "
-                              f"{away_stats['players_available']:<20.0f}")
-                        print(f"{'Average Stamina':<25} {home_stats['average_stamina']:<20.1f}% "
-                              f"{away_stats['average_stamina']:<20.1f}%")
-                        print(f"{'Team Momentum':<25} {home_stats['momentum']:<20.1f} "
-                              f"{away_stats['momentum']:<20.1f}")
+                        # Statistics table - only show if detailed stats enabled
+                        if self.match_engine.show_detailed_stats:
+                            print("\nMATCH STATISTICS:")
+                            print(f"{'Stat':<25} {full_result.home_team:<20} {full_result.away_team:<20}")
+                            print("-" * 65)
+                            
+                            home_stats = full_result.stats[full_result.home_team]
+                            away_stats = full_result.stats[full_result.away_team]
+                            
+                            print(f"{'Possession':<25} {home_stats['possession']:<20.1f}% "
+                                  f"{away_stats['possession']:<20.1f}%")
+                            print(f"{'Expected Goals':<25} {home_stats['expected_goals']:<20.1f} "
+                                  f"{away_stats['expected_goals']:<20.1f}")
+                            print(f"{'Shots':<25} {home_stats['shots']:<20.0f} "
+                                  f"{away_stats['shots']:<20.0f}")
+                            print(f"{'Shots on Target':<25} {home_stats['shots_on_target']:<20.0f} "
+                                  f"{away_stats['shots_on_target']:<20.0f}")
+                            print(f"{'Pass Accuracy':<25} {home_stats['pass_accuracy']:<20.1f}% "
+                                  f"{away_stats['pass_accuracy']:<20.1f}%")
+                            print(f"{'Team Rating':<25} {home_stats['team_rating']:<20.1f} "
+                                  f"{away_stats['team_rating']:<20.1f}")
+                            print(f"{'Players Available':<25} {home_stats['players_available']:<20.0f} "
+                                  f"{away_stats['players_available']:<20.0f}")
+                            print(f"{'Average Stamina':<25} {home_stats['average_stamina']:<20.1f}% "
+                                  f"{away_stats['average_stamina']:<20.1f}%")
+                            print(f"{'Team Momentum':<25} {home_stats['momentum']:<20.1f} "
+                                  f"{away_stats['momentum']:<20.1f}")
                         
                         print("="*80)
                         
@@ -1604,9 +1605,8 @@ class FantasyFootballApp:
             print("=" * 70)
             print("⚙️  SETTINGS")
             print("=" * 70)
-            print(f"\n1. Toggle Enhanced Match Simulation (Currently: {'📊 ON' if self.match_engine.detailed_sim else '⚡ OFF'})")
-            print(f"2. Toggle Penalty Shootout Details (Currently: {'🥅 ON' if self.match_engine.show_penalty_details else '⚡ OFF'})")
-            print(f"3. Toggle Detailed Statistics Table (Currently: {'📊 ON' if self.match_engine.show_detailed_stats else '⚡ OFF'})")
+            print(f"\n1. Toggle Penalty Shootout Details (Currently: {'🥅 ON' if self.match_engine.show_penalty_details else '⚡ OFF'})")
+            print(f"2. Toggle Detailed Statistics Table (Currently: {'📊 ON' if self.match_engine.show_detailed_stats else '⚡ OFF'})")
             print("4. Reset All Data")
             print("5. View System Info")
             print("0. Back to Main Menu")
@@ -1616,18 +1616,12 @@ class FantasyFootballApp:
             if choice == "0":
                 break
             elif choice == "1":
-                self.match_engine.detailed_sim = not self.match_engine.detailed_sim
-                self.match_engine.save_settings()
-                status = "📊 ENABLED" if self.match_engine.detailed_sim else "⚡ DISABLED"
-                print(f"\nDetailed simulation {status}!")
-                self.pause()
-            elif choice == "2":
                 self.match_engine.show_penalty_details = not self.match_engine.show_penalty_details
                 self.match_engine.save_settings()
                 status = "🥅 ENABLED" if self.match_engine.show_penalty_details else "⚡ DISABLED"
                 print(f"\nPenalty shootout event details {status}!")
                 self.pause()
-            elif choice == "3":
+            elif choice == "2":
                 self.match_engine.show_detailed_stats = not self.match_engine.show_detailed_stats
                 self.match_engine.save_settings()
                 status = "📊 ENABLED" if self.match_engine.show_detailed_stats else "⚡ DISABLED"
@@ -1667,7 +1661,6 @@ class FantasyFootballApp:
         
         print(f"\n⚙️  Current Settings:")
         print(f"   Momentum System: {'🔥 ON' if self.match_engine.use_momentum else '❄️ OFF'}")
-        print(f"   Detailed Simulation: {'📊 ON' if self.match_engine.detailed_sim else '⚡ OFF'}")
         
         print(f"\n📁 Data Files:")
         print(f"   Players: {self.player_manager.filename}")

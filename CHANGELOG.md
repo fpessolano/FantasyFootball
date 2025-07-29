@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.3] - 2025-07-29
+
+### 🔧 Settings Cleanup
+- **Removed Non-functional Toggle**: Eliminated "Enhanced Match Simulation" toggle from settings menu
+- **Simplified Settings Interface**: Settings menu now contains only functional options:
+  - Toggle Penalty Shootout Details
+  - Toggle Detailed Statistics Table
+- **Updated Menu Numbering**: Reordered settings options after removal
+- **Code Cleanup**: Removed unused `detailed_sim` parameter and related code
+
 ## [2.0.2] - 2025-07-29
 
 ### 🥅 Enhanced Penalty System

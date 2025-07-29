@@ -1,4 +1,4 @@
-# Fantasy Football Manager v2.0.2
+# Fantasy Football Manager v2.0.3
 
 A comprehensive football simulation game featuring realistic player management, team building, and advanced match simulation with tournament modes.
 
