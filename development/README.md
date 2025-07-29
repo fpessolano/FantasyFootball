@@ -1,336 +1,285 @@
-# Fantasy Football Manager v2.0
+# Fantasy Football Manager v2.1 - Realistic Performance Edition
 
-A comprehensive football simulation system with player management, team building, and match simulation capabilities.
+A comprehensive football simulation system with realistic performance bounds, player management, team building, and advanced match simulation capabilities.
 
-## Features
+## 🎯 **Key Features**
 
-- **Player Management**: Create and manage players with detailed attributes
-- **Team Building**: Build teams manually or automatically with formation support
-- **Single & Multiple Match Simulation**: Play one match, series between same teams, or multiple matches with random teams
-- **Enhanced UI**: Clean, menu-driven interface with screen clearing and emojis
-- **Streak/Momentum System**: Teams on winning/losing streaks get performance bonuses/penalties
+### **Enhanced Realism**
+- **Realistic Performance Bounds**: Prevents unrealistic performance scaling (60-rated players can't perform at 95+ levels)
+- **Elite Player Consistency**: Better players show more consistent performance (based on real football research)
+- **Sigmoid Performance Curves**: Smooth scaling prevents harsh performance cutoffs
+- **Research-Based Bounds**: Elite players 2.7x more consistent than average players
+
+### **Core Systems**
+- **Player Management**: Create and manage players with 16 detailed attributes including mental and physical traits
+- **Team Building**: Build teams with formations, tactical styles, and strategic depth
+- **Advanced Match Engine**: Realistic match simulation with fatigue, form, momentum, and pressure effects
+- **Performance Tracking**: Dynamic fatigue, stamina, form, and confidence systems
 - **Elo Rating System**: Track team performance over time with live updates
-- **Tournament Support**: Run round-robin tournaments
-- **Detailed Statistics**: Match events, possession, shots, and comprehensive analysis
 
-## Quick Start
+### **Gameplay Features**
+- **Single & Multiple Match Simulation**: Play individual matches or series with streak effects
+- **Momentum/Streak System**: Teams on winning/losing streaks get performance bonuses/penalties
+- **Tournament Support**: Round-robin tournaments and comprehensive statistics
+- **Quick Play**: Instant match with randomly generated teams
+- **Detailed Statistics**: Match events, possession, shots, fatigue impact, and momentum tracking
 
-### Running the Application
+## 🚀 **Quick Start**
 
+### **Running the Game**
 ```bash
 python3 fantasy_football.py
 ```
 
-### Demo Mode
+### **First Time Setup**
+1. **Generate Players**: Go to Player Management → Generate Player Pool (recommended: 50+ players)
+2. **Create Teams**: Go to Team Management → Create Random/Manual Team  
+3. **Play Matches**: Select \"Play Single Match\" or \"Quick Play\" for instant action
 
-For a quick demonstration of the system:
+### **Recommended Workflow**
+1. Generate 50-80 players for a good player pool
+2. Create 4-6 teams with different formations and styles
+3. Play multiple matches to see streak effects and Elo progression
+4. Use \"Play Multiple Matches (Random Teams)\" to see performance systems in action
 
-```bash
-python3 demo.py
-```
+## 📊 **System Architecture**
 
-### Test the System
+### **Core Modules**
+- **`models.py`**: Core data models (Player, Team, Position, TacticalStyle) with realistic bounds
+- **`performance_system.py`**: Multi-layered performance management (fatigue, form, momentum, pressure)
+- **`match_engine.py`**: Advanced match simulation with performance tracking
+- **`player_manager.py`**: Player creation, management, and migration support
+- **`team_manager.py`**: Team creation, formations, and Elo management
+- **`fantasy_football.py`**: Main application with clean UI
 
-To verify everything is working:
+### **Data Storage**
+- **`players.json`**: Persistent player database with full attribute storage
+- **`teams.json`**: Team database with formations, styles, and Elo ratings
 
-```bash
-python3 test_system.py
-```
+## 👤 **Player System**
 
-### Streak System Demo
+### **Core Attributes (0-100)**
+- **Goalkeeping**: Shot-stopping ability (only relevant for goalkeepers)
+- **Defending**: Defensive positioning, tackling, marking
+- **Passing**: Passing accuracy, vision, distribution
+- **Dribbling**: Ball control, close control, skill moves
+- **Shooting**: Finishing, shot power, accuracy
+- **Physical**: Strength, speed, stamina, jumping
 
-To see the momentum/streak effects in action:
+### **Extended Attributes (0-100)**
+- **Natural Fitness**: Base stamina and recovery rate
+- **Work Rate**: How quickly player gets tired during matches
+- **Pressure Handling**: Performance under high-stakes situations
+- **Concentration**: Maintains performance when fatigued
+- **Determination**: Resistance to negative momentum
+- **Composure**: Performance in crucial moments
+- **Leadership**: Influence on team momentum
 
-```bash
-python3 test_streak_demo.py
-```
+### **Personality & Form**
+- **Temperament**: COOL_HEADED, PASSIONATE, CONSISTENT, VOLATILE
+- **Age**: Affects consistency and recovery (18-35 range)
+- **Form System**: Dynamic 1-10 rating based on recent performances
+- **Confidence**: 0-100 scale affecting performance modifiers
 
-### Enhanced Features Test
+## ⚽ **Team System**
 
-To test all enhanced features:
-
-```bash
-python3 test_enhanced_app.py
-```
-
-### Enhanced Streak System Test
-
-To test the improved streak display and screen clearing:
-
-```bash
-python3 test_enhanced_streak.py
-```
-
-### Multiple Matches with Random Teams Test
-
-To test the multiple matches feature with random teams:
-
-```bash
-python3 test_multiple_random_teams.py
-```
-
-### First Time Setup
-
-1. **Generate Players**: Go to Player Management → Generate Player Pool
-2. **Create Teams**: Go to Team Management → Create Random/Manual Team
-3. **Single Match**: Select "Play Single Match" for one game
-4. **Multiple Matches**: Select "Play Multiple Matches" to see streak effects develop
-5. **Multiple Matches (Random Teams)**: Select "Play Multiple Matches (Random Teams)" to see streak effects with randomly generated teams
-
-### Quick Play
-
-Select "Quick Play" from the main menu for an instant match with randomly generated teams.
-
-### Menu Navigation
-
-- **Screen clearing** between all menu transitions and after match prompts
-- **Visual streak indicators**: 🔥 (hot streak), ❄️ (cold streak), ⚪ (no streak)
-- **Enhanced momentum display** with BOOST/PENALTY labels when active
-- **Streak threshold notifications** when teams enter hot/cold streaks
-- **Improved match progression** with clear before/after comparisons
-- Pause between actions to review results
-
-## System Architecture
-
-### Core Modules
-
-- **models.py**: Core data models (Player, Team, Position, TacticalStyle)
-- **player_manager.py**: Player creation and management
-- **team_manager.py**: Team creation and management
-- **match_engine.py**: Match simulation engine
-- **fantasy_football.py**: Main application
-
-### Data Storage
-
-- **players.json**: Stores all player data
-- **teams.json**: Stores all team data
-
-## Player Attributes
-
-Each player has six core attributes (0-100 scale):
-
-- **Goalkeeping**: Only relevant for goalkeepers
-- **Defending**: Defensive ability
-- **Passing**: Passing accuracy and vision
-- **Dribbling**: Ball control and dribbling
-- **Shooting**: Shooting accuracy and power
-- **Physical**: Strength, speed, and stamina
-
-## Positions
-
-The system supports 16 different positions:
-
-### Goalkeepers
-- GK (Goalkeeper)
-
-### Defenders
-- CB (Center Back)
-- SW (Sweeper/Libero)
-- LB (Left Back)
-- RB (Right Back)
-
-### Midfielders
-- DM (Defensive Midfielder)
-- CM (Central Midfielder)
-- AM (Attacking Midfielder)
-- LM (Left Midfielder)
-- RM (Right Midfielder)
-- WB (Wing Back)
-- LWB (Left Wing Back)
-- RWB (Right Wing Back)
-
-### Forwards
-- ST (Striker)
-- LW (Left Winger)
-- RW (Right Winger)
-
-## Formations
-
+### **Formations**
 Pre-configured formations include:
-
 - **4-4-2**: Classic balanced formation
-- **4-3-3**: Attacking formation with wingers
+- **4-3-3**: Attacking formation with wingers  
 - **3-5-2**: Midfield-heavy formation
 - **4-2-3-1**: Modern formation with double pivot
 - **5-3-2**: Defensive formation
+- **Custom**: Build your own 11-player formation
 
-You can also create custom formations with any combination of 11 players.
-
-## Tactical Styles
-
-Teams can adopt different tactical approaches:
-
-- **BALANCED**: No modifications to team attributes
+### **Tactical Styles**
+- **BALANCED**: No modifications (default)
 - **ATTACKING**: +20% attack, -10% defense
-- **DEFENSIVE**: -20% attack, +20% defense
+- **DEFENSIVE**: -20% attack, +20% defense  
 - **WIDE**: +10% midfield (emphasizes wing play)
 - **CENTRAL**: -10% midfield (emphasizes central play)
 
-## Match Engine
+### **Performance Tracking**
+- **Elo Ratings**: Dynamic team strength ratings (start at 1500)
+- **Streak System**: Win/loss streaks affect performance (±15% maximum)
+- **Team Momentum**: Match events influence team performance (-100 to +100)
 
-The match engine uses sophisticated calculations:
+## 🎮 **Match Engine**
 
-### Expected Goals (xG)
-- Based on team ratings and tactical styles
-- Zone-based calculations (left, center, right)
-- Home advantage bonus
+### **Realistic Performance Bounds**
+The new system ensures realistic performance scaling:
 
-### Momentum System
-- Teams on winning streaks get performance bonuses
-- Losing streaks decrease performance
-- Can be toggled on/off in settings
+**Before (Unrealistic):**
+- 60-rated player with perfect conditions: 95 performance (59% boost) ❌
 
-### Match Statistics
-- Possession percentage
-- Expected goals
-- Shots and shots on target
-- Pass accuracy
-- Match events (goals with scorers)
+**After (Realistic):**  
+- 60-rated player with perfect conditions: ~72 performance (~20% boost) ✅
 
-## Elo Rating System
+### **Performance Factors**
+- **Form Modifier**: 0.9 to 1.15 (±12.5% max, down from ±20%)
+- **Momentum Modifier**: ±12% maximum (down from ±15%)  
+- **Pressure Modifier**: ±8% maximum (down from ±15%)
+- **Consistency-Based Bounds**: Elite players more consistent than average players
 
-- Teams start with 1500 Elo rating
-- Ratings update after each match
-- K-factor of 20 (adjustable)
-- Momentum affects rating changes
+### **Match Statistics**
+- **Possession %**: Based on midfield strength and fatigue
+- **Expected Goals (xG)**: Zone-based calculations with tactical modifiers
+- **Shots & Accuracy**: Dynamic based on team ratings and fatigue
+- **Match Events**: Goals, cards, substitutions with detailed tracking
+- **Fatigue Impact**: Real-time stamina tracking affects performance
 
-## Creating Players
+### **Disciplinary System**
+- **Yellow Cards**: Performance penalty (-8 momentum), tracked per match
+- **Red Cards**: Two types with full implementation:
+  - **Direct Red Card**: Immediate sending off (-25 momentum)
+  - **Second Yellow**: Automatic red card after 2 yellows
+- **Numerical Disadvantage**: Teams with red cards play with reduced players:
+  - **10 players**: 15% performance penalty
+  - **9 players**: 30% performance penalty
+  - **8 players**: 45% performance penalty
+  - **7 players**: 60% performance penalty
+  - **<7 players**: Match abandoned, opposition awarded 3-0 victory
+- **Individual Impact**: Sent-off player's attributes completely removed from team calculations
+- **Match Reset**: All cards cleared between matches - players available for next game
 
-### Random Players
-1. Go to Player Management
-2. Select "Create Random Player"
-3. Choose position (or random)
-4. Optionally provide name prefix
+### **Elite vs Average Consistency**
+Based on football research:
+- **Elite players (85+)**: ±8-15% performance variation
+- **Average players (60-69)**: ±20-25% performance variation  
+- **Poor players (<60)**: -25%/+15% performance variation
 
-### Manual Players
-1. Go to Player Management
-2. Select "Create Manual Player"
-3. Enter name and attributes
+## 📋 **Game Modes**
 
-### Bulk Generation
-1. Go to Player Management
-2. Select "Generate Player Pool"
-3. Enter number of players
-4. System ensures at least 2 players per position
+### **Player Management**
+- **View All Players**: Browse by position with top performers
+- **Create Random Player**: Generate position-appropriate players
+- **Create Manual Player**: Full control over attributes and traits
+- **Generate Player Pool**: Bulk creation ensuring positional balance
+- **Search Players**: Find players by name
+- **View Top Players**: Rankings by overall rating
 
-## Creating Teams
+### **Team Management**  
+- **View All Teams**: Elo rankings with formations and styles
+- **Create Random Team**: Automatic team building with best available players
+- **Create Manual Team**: Choose formation, style, and individual players
+- **View Team Details**: Comprehensive team analysis
+- **Delete Team**: Remove teams from database
 
-### Random Teams
-1. Go to Team Management
-2. Select "Create Random Team"
-3. Enter team name
-4. System automatically:
-   - Selects formation
-   - Picks best available players
-   - Assigns tactical style
+### **Match Simulation**
+- **Play Single Match**: One-off match with detailed statistics
+- **Play Multiple Matches**: Series between same teams showing streak development
+  - **Detailed Mode (≤5 matches)**: Full match analysis with events, statistics, and momentum tracking
+  - **Fast Mode (>5 matches)**: Progress indicator with comprehensive final summary
+- **Play Multiple Matches (Random Teams)**: Generated teams with performance progression
+- **Quick Play**: Instant match with random teams
+- **View Rankings**: Current Elo standings
 
-### Manual Teams
-1. Go to Team Management
-2. Select "Create Manual Team"
-3. Choose formation or custom
-4. Select tactical style
-5. Pick players for each position
+### **Settings**
+- **Toggle Momentum**: Enable/disable streak effects
+- **Toggle Detailed Simulation**: Choose simulation depth
+- **Reset All Data**: Clean slate for new campaigns
+- **View System Info**: Database statistics and feature overview
 
-## Playing Matches
+## 🧪 **Testing & Verification**
 
-### Single Match
-1. Select "Play Single Match" from main menu
-2. Choose home and away teams
-3. View detailed match result
-4. Elo ratings update automatically
+### **Verification Scripts**
+- **`quick_verify.py`**: Quick test of realistic bounds
+- **`test_realistic_bounds.py`**: Comprehensive testing suite
+- **`demo_realistic_bounds.py`**: Before/after performance comparison
 
-### Multiple Matches (Same Teams)
-1. Select "Play Multiple Matches" from main menu
-2. Choose two teams
-3. Set number of matches to simulate
-4. Watch streak effects develop over time
-5. View comprehensive series summary
+### **Sample Test Results**
+```
+🧪 Testing 60-rated player with perfect conditions
+Base Overall Rating: 60.0
+Effective Overall: 71.8
+Performance Boost: +19.7%
+✅ PASS: Within realistic bounds (max 75.0)
+```
 
-### Multiple Matches (Random Teams)
-1. Select "Play Multiple Matches (Random Teams)" from main menu
-2. Choose number of matches to simulate
-3. System creates two random teams once
-4. Watch the same teams play multiple times to see:
-   - Streak effects developing over time
-   - Elo rating changes
-   - Momentum boosts and penalties
-   - Performance consistency patterns
+## 📈 **Performance Research**
 
-### Tournament Mode
-Use the match_engine's `simulate_tournament` method to run round-robin tournaments.
+The realistic bounds system is based on actual football research:
+- **Elite consistency**: 9.2% coefficient of variation between matches
+- **Average consistency**: 24.8% coefficient of variation  
+- **Performance hierarchy**: Elite players maintain superiority while allowing tactical depth
+- **Sigmoid curves**: Natural performance scaling prevents exploitation
 
-## Tips
+## 🎯 **Tips for Success**
 
+### **Team Building**
 - **Balance is Key**: Don't focus only on attack or defense
-- **Formations Matter**: Choose formations that suit your players
-- **Tactical Styles**: Match your style to your team's strengths
+- **Formation Matters**: Choose formations that suit your player strengths  
+- **Tactical Styles**: Match your style to your team's attributes
 - **Squad Depth**: Keep multiple players for each position
-- **Momentum**: Teams on winning streaks perform better
 
-## Advanced Usage
+### **Performance Management**
+- **Monitor Fatigue**: Tired players perform poorly and get cards
+- **Build Momentum**: Winning streaks provide significant boosts
+- **Pressure Situations**: High-pressure matches favor composed players
+- **Consistency Advantage**: Elite players are more reliable than average players with good form
 
-### Custom Formations
+### **Strategic Depth**
+- **Elite vs Average**: A consistent 85-rated player often outperforms a volatile 75-rated player
+- **Temperament Matters**: CONSISTENT players more reliable, VOLATILE players more unpredictable
+- **Age Curves**: Peak consistency at 27-30, younger players more erratic
+- **Mental Attributes**: Concentration, composure, and determination affect consistency
 
-```python
-from models import Team, Position
-from team_manager import TeamManager
+## 🔧 **Technical Details**
 
-# Create custom formation
-my_formation = {
-    Position.GK: 1,
-    Position.CB: 2,
-    Position.DM: 1,
-    Position.CM: 3,
-    Position.AM: 2,
-    Position.ST: 2
-}
+### **System Requirements**
+- Python 3.7+ 
+- No external dependencies (uses only standard library)
+- Cross-platform (Windows, macOS, Linux)
+
+### **File Structure**
+```
+fantasy_football/
+├── fantasy_football.py      # Main application
+├── models.py               # Core data models  
+├── performance_system.py   # Performance management
+├── match_engine.py         # Match simulation
+├── player_manager.py       # Player operations
+├── team_manager.py         # Team operations
+├── players.json           # Player database
+├── teams.json            # Team database
+└── README.md             # This file
 ```
 
-### Batch Simulations
+### **Data Migration**
+The system automatically migrates legacy player data to the new extended format with realistic bounds. No manual intervention required.
 
-```python
-from match_engine import MatchEngine
+## 🆕 **Version 2.1 Changes**
 
-engine = MatchEngine()
-results = engine.simulate_tournament(teams, rounds=2)
-```
+### **Major Improvements**
+- ✅ **Realistic Performance Bounds**: Research-based performance scaling
+- ✅ **Elite Player Consistency**: Better players show less variation  
+- ✅ **Sigmoid Performance Curves**: Smooth, natural scaling
+- ✅ **Consistency-Based Bounds**: Different limits for different player tiers
+- ✅ **Cleaned Codebase**: Removed duplicate/legacy files
 
-## File Structure
+### **Performance System Overhaul**
+- Form modifier: 0.8-1.2 → 0.9-1.15 (more realistic)
+- Momentum modifier: ±15% → ±12% (capped)
+- Pressure modifier: ±15% → ±8% (more subtle)
+- Master bounds: Prevents any player from exceeding realistic performance
 
-```
-development/
-├── fantasy_football.py    # Main application
-├── models.py             # Core data models
-├── player_manager.py     # Player management
-├── team_manager.py       # Team management
-├── match_engine.py       # Match simulation
-├── players.json          # Player database
-├── teams.json           # Team database
-└── README.md            # This file
-```
+### **Bug Fixes**
+- Fixed unrealistic performance scaling
+- Improved consistency calculations
+- Better age-based attribute adjustment
+- Enhanced temperament effects
 
-## Troubleshooting
+## 🔮 **Future Enhancements**
 
-### Not enough players for position
-- Generate more players using Player Pool
-- Some positions can substitute (e.g., WB can play LB/RB)
+Potential improvements for future versions:
+- **Transfer System**: Player trading between teams
+- **Season Mode**: Full league campaigns with fixtures
+- **Player Development**: Attribute growth/decline over time
+- **Injuries**: Temporary player unavailability
+- **Financial Management**: Budgets and salaries
+- **Custom Leagues**: User-created competitions
+- **Advanced Analytics**: Detailed performance metrics
 
-### Teams not balanced
-- Check team ratings in Team Details
-- Adjust tactical style to compensate
-- Consider rebuilding with different players
+---
 
-### Unrealistic scores
-- Toggle detailed simulation for more realistic results
-- Adjust team strengths by editing players
-- Check if momentum system is affecting results
-
-## Future Enhancements
-
-Potential improvements:
-- Player transfers between teams
-- Season mode with fixtures
-- Player development over time
-- Injuries and suspensions
-- Financial management
-- Custom leagues and cups
+**Fantasy Football Manager v2.1** - Where tactical depth meets realistic performance! 🏆

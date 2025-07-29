@@ -446,24 +446,29 @@ class FantasyFootballApp:
             )
             
             if detailed_mode:
-                # Show result with enhanced display
-                print(f"\n{result_emoji} RESULT: {result.home_team} {result.home_score} - {result.away_score} {result.away_team} ({winner})")
+                # Show full match result (same as single match display)
+                self.match_engine.display_enhanced_match_result(result)
                 
-                print(f"\nAfter Match:")
+                print(f"\n{'='*60}")
+                print("POST-MATCH RATINGS")
+                print(f"{'='*60}")
                 new_home_icon = "🔥" if home_team.streak_count >= 3 else "❄️" if home_team.streak_count <= -3 else "⚪"
                 new_away_icon = "🔥" if away_team.streak_count >= 3 else "❄️" if away_team.streak_count <= -3 else "⚪"
                 
-                print(f"  🏠 {home_team.name}: Elo {home_team.elo_rating:.0f} | {new_home_icon} {self._format_streak(home_team.streak_count)}")
-                print(f"  ✈️  {away_team.name}: Elo {away_team.elo_rating:.0f} | {new_away_icon} {self._format_streak(away_team.streak_count)}")
+                print(f"🏠 {home_team.name}: {home_team.elo_rating:.0f} (Streak: {new_home_icon} {self._format_streak(home_team.streak_count)})")
+                print(f"✈️  {away_team.name}: {away_team.elo_rating:.0f} (Streak: {new_away_icon} {self._format_streak(away_team.streak_count)})")
                 
                 # Highlight if streaks just hit the momentum threshold
                 if abs(home_team.streak_count) == 3:
-                    print(f"🎯 {home_team.name} {'enters hot streak' if home_team.streak_count > 0 else 'enters cold streak'}!")
+                    print(f"\n🎯 {home_team.name} {'enters hot streak' if home_team.streak_count > 0 else 'enters cold streak'}!")
                 if abs(away_team.streak_count) == 3:
                     print(f"🎯 {away_team.name} {'enters hot streak' if away_team.streak_count > 0 else 'enters cold streak'}!")
                 
                 if match_num < num_matches:
                     self.pause("Press Enter for next match...")
+                else:
+                    # For the last match, pause before showing final summary 
+                    self.pause("Press Enter to view final summary...")
         
         # Clear progress indicator for fast mode
         if not detailed_mode:
@@ -702,40 +707,29 @@ class FantasyFootballApp:
             team2.elo_rating += k_factor * (actual_2 - expected_2)
             
             if detailed_mode:
-                # Show result with enhanced display
-                print(f"{result_emoji} RESULT: {result.home_team} {result.home_score} - {result.away_score} {result.away_team} ({winner})")
+                # Show full match result (same as single match display)
+                self.match_engine.display_enhanced_match_result(result)
                 
-                # Show key stats
-                home_stats = result.stats[result.home_team]
-                away_stats = result.stats[result.away_team]
-                
-                print(f"\n📊 Match Stats:")
-                print(f"   Possession: {home_stats['possession']:.0f}% - {away_stats['possession']:.0f}%")
-                print(f"   Expected Goals: {home_stats['expected_goals']:.1f} - {away_stats['expected_goals']:.1f}")
-                print(f"   Shots: {home_stats['shots']:.0f} - {away_stats['shots']:.0f}")
-                
-                # Show events
-                if result.events:
-                    print(f"\n🎯 Goals:")
-                    for event in result.events:
-                        if event.event_type == "goal":
-                            print(f"   {event.minute}' - {event.player} ({event.team})")
-                
-                print(f"\nAfter Match:")
+                print(f"\n{'='*60}")
+                print("POST-MATCH RATINGS")
+                print(f"{'='*60}")
                 new_team1_icon = "🔥" if team1.streak_count >= 3 else "❄️" if team1.streak_count <= -3 else "⚪"
                 new_team2_icon = "🔥" if team2.streak_count >= 3 else "❄️" if team2.streak_count <= -3 else "⚪"
                 
-                print(f"  🏠 {team1.name}: Elo {team1.elo_rating:.0f} | {new_team1_icon} {self._format_streak(team1.streak_count)}")
-                print(f"  ✈️  {team2.name}: Elo {team2.elo_rating:.0f} | {new_team2_icon} {self._format_streak(team2.streak_count)}")
+                print(f"🏠 {team1.name}: {team1.elo_rating:.0f} (Streak: {new_team1_icon} {self._format_streak(team1.streak_count)})")
+                print(f"✈️  {team2.name}: {team2.elo_rating:.0f} (Streak: {new_team2_icon} {self._format_streak(team2.streak_count)})")
                 
                 # Highlight if streaks just hit the momentum threshold
                 if abs(team1.streak_count) == 3:
-                    print(f"🎯 {team1.name} {'enters hot streak' if team1.streak_count > 0 else 'enters cold streak'}!")
+                    print(f"\n🎯 {team1.name} {'enters hot streak' if team1.streak_count > 0 else 'enters cold streak'}!")
                 if abs(team2.streak_count) == 3:
                     print(f"🎯 {team2.name} {'enters hot streak' if team2.streak_count > 0 else 'enters cold streak'}!")
                 
                 if match_num < num_matches:
                     self.pause("Press Enter for next match...")
+                else:
+                    # For the last match, pause before showing final summary
+                    self.pause("Press Enter to view final summary...")
         
         # Clear progress indicator for fast mode
         if not detailed_mode:
