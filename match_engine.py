@@ -45,8 +45,8 @@ class MatchEngine:
     def __init__(self, use_momentum: bool = True, detailed_sim: bool = True):
         self.use_momentum = use_momentum
         self.detailed_sim = detailed_sim
-        self.show_penalty_details = True  # Toggle for penalty shootout details
-        self.show_detailed_stats = True  # Toggle for detailed match statistics
+        self.show_penalty_details = True  # Toggle for penalty shootout event details
+        self.show_detailed_stats = True  # Toggle for detailed statistics table only
         self.performance_manager = PlayerPerformanceManager()
     
     def simulate_match(self, home_team: Team, away_team: Team, 
