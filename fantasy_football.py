@@ -1482,20 +1482,13 @@ class FantasyFootballApp:
                         # 3. ADVANCES TO NEXT ROUND (or wins tournament)
                         current_round = tournament.get_current_round()
                         
-                        # DEBUG: Print current state
-                        print(f"DEBUG: Current round index: {tournament.current_round}")
-                        print(f"DEBUG: Total rounds: {len(tournament.rounds)}")
-                        print(f"DEBUG: Current round name: {current_round.round_name if current_round else 'None'}")
-                        
                         # Check if this is the final round (last round in tournament)
                         is_final_round = tournament.current_round == len(tournament.rounds) - 1
-                        print(f"DEBUG: Is final round? {is_final_round}")
                         
                         if is_final_round:
                             print(f"\n🏆 {result_match.winner} wins the tournament!")
                         else:
                             next_round_name = tournament.rounds[tournament.current_round + 1].round_name if tournament.current_round + 1 < len(tournament.rounds) else "Final"
-                            print(f"DEBUG: Next round name: {next_round_name}")
                             print(f"\n🏆 {result_match.winner} advances to the {next_round_name}!")
                         
                         # 4. ENHANCED MATCH STATISTICS (without header since we already showed it)
