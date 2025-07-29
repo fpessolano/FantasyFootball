@@ -1479,8 +1479,13 @@ class FantasyFootballApp:
                                   f"{result_match.away_score} {result_match.away_team}")
                             print(f"   🏆 Winner on penalties: {result_match.winner}")
                         
-                        # 3. ADVANCES TO NEXT ROUND
-                        print(f"\n🏆 {result_match.winner} advances to the next round!")
+                        # 3. ADVANCES TO NEXT ROUND (or wins tournament)
+                        current_round = tournament.get_current_round()
+                        if tournament.current_round + 1 >= len(tournament.rounds):
+                            print(f"\n🏆 {result_match.winner} wins the tournament!")
+                        else:
+                            next_round_name = tournament.rounds[tournament.current_round + 1].round_name if tournament.current_round + 1 < len(tournament.rounds) else "Final"
+                            print(f"\n🏆 {result_match.winner} advances to the {next_round_name}!")
                         
                         # 4. ENHANCED MATCH STATISTICS (without header since we already showed it)
                         print(f"\n{'='*80}")
