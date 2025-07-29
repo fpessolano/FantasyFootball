@@ -1473,7 +1473,7 @@ class FantasyFootballApp:
                               f"{full_result.away_score} {result_match.away_team}")
                         
                         # 2. PENALTY SHOOTOUT RESULT (if applicable)
-                        if "(" in str(result_match.home_score):
+                        if "(" in str(result_match.home_score) and self.match_engine.show_penalty_details:
                             print(f"\n🥅 PENALTY SHOOTOUT RESULT:")
                             print(f"   {result_match.home_team} {result_match.home_score} - "
                                   f"{result_match.away_score} {result_match.away_team}")
