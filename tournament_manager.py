@@ -599,8 +599,7 @@ class TournamentManager:
                     if home == "TBD" or away == "TBD":
                         lines.append(f"   {j}. {home} vs {away}")
                     else:
-                        preview = self._generate_match_preview(home, away)
-                        lines.append(f"   {j}. {preview} (⏳ Pending)")
+                        lines.append(f"   {j}. {home} vs {away} (⏳ Pending)")
             lines.append("")
         
         return "\n".join(lines)

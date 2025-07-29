@@ -1454,24 +1454,6 @@ class FantasyFootballApp:
                     print(f"📍 {current_round.round_name}")
                     print(f"{'─' * 70}")
                     
-                    # Show team info
-                    home_team_obj = self.team_manager.find_team_by_name(match.home_team)
-                    away_team_obj = self.team_manager.find_team_by_name(match.away_team)
-                    
-                    if home_team_obj and away_team_obj:
-                        # Determine favorite based on Elo rating
-                        if home_team_obj.elo_rating > away_team_obj.elo_rating:
-                            home_status = "⭐ FAVORITE"
-                            away_status = "UNDERDOG"
-                        elif away_team_obj.elo_rating > home_team_obj.elo_rating:
-                            home_status = "UNDERDOG"
-                            away_status = "⭐ FAVORITE"
-                        else:
-                            home_status = "EVEN"
-                            away_status = "EVEN"
-                        
-                        print(f"🏠 {match.home_team} (Elo: {home_team_obj.elo_rating:.0f}) - {home_status}")
-                        print(f"✈️  {match.away_team} (Elo: {away_team_obj.elo_rating:.0f}) - {away_status}")
                     
                     # Simulate the match
                     match_result = self.tournament_manager.simulate_tournament_match(
