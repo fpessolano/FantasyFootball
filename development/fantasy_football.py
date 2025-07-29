@@ -8,11 +8,12 @@ Main application for the Fantasy Football simulation system.
 
 import os
 import sys
-from typing import Optional
+from typing import Optional, List
 from models import Position, TacticalStyle
 from player_manager import PlayerManager
 from team_manager import TeamManager
 from match_engine import MatchEngine
+from tournament_manager import TournamentManager
 
 
 class FantasyFootballApp:
@@ -22,6 +23,7 @@ class FantasyFootballApp:
         self.player_manager = PlayerManager()
         self.team_manager = TeamManager()
         self.match_engine = MatchEngine()
+        self.tournament_manager = TournamentManager(self.team_manager, self.player_manager)
     
     def clear_screen(self):
         """Clear the terminal screen."""
@@ -44,9 +46,10 @@ class FantasyFootballApp:
         print("3. Play Single Match")
         print("4. Play Multiple Matches")
         print("5. Play Multiple Matches (Random Teams)")
-        print("6. View Rankings")
-        print("7. Quick Play (Random Teams)")
-        print("8. Settings")
+        print("6. Tournament Mode")
+        print("7. View Rankings")
+        print("8. Quick Play (Random Teams)")
+        print("9. Settings")
         print("0. Exit")
         print("\n" + "="*60)
     
@@ -103,7 +106,8 @@ class FantasyFootballApp:
             print("2. Create Random Team")
             print("3. Create Manual Team")
             print("4. View Team Details")
-            print("5. Delete Team")
+            print("5. Modify Team")
+            print("6. Delete Team")
             print("0. Back to Main Menu")
             print("\n" + "=" * 60)
             
@@ -122,6 +126,9 @@ class FantasyFootballApp:
                 self.view_team_details()
                 self.pause()
             elif choice == "5":
+                self.modify_team()
+                self.pause()
+            elif choice == "6":
                 self.delete_team()
                 self.pause()
             elif choice == "0":
@@ -279,25 +286,298 @@ class FantasyFootballApp:
     
     def view_team_details(self):
         """View detailed team information."""
-        name = input("Enter team name: ").strip()
-        team = self.team_manager.find_team_by_name(name)
-        
+        team = self._select_team_by_number("Select team to view")
         if not team:
-            print("Team not found!")
             return
         
         print(team.summary())
     
-    def delete_team(self):
-        """Delete a team."""
-        name = input("Enter team name to delete: ").strip()
-        team = self.team_manager.find_team_by_name(name)
+    def _select_team_by_number(self, prompt: str = "Select team"):
+        """Helper method to select a team by number with list display."""
+        if not self.team_manager.teams:
+            print("\nNo teams found!")
+            return None
         
+        print("\nAvailable teams:")
+        for i, team in enumerate(self.team_manager.teams, 1):
+            print(f"{i}. {team.name}")
+        
+        try:
+            choice = int(input(f"\n{prompt} (1-{len(self.team_manager.teams)}): ").strip())
+            if not (1 <= choice <= len(self.team_manager.teams)):
+                print("Invalid choice!")
+                return None
+            
+            return self.team_manager.teams[choice - 1]
+        except ValueError:
+            print("Invalid input!")
+            return None
+        except KeyboardInterrupt:
+            print("\nOperation cancelled.")
+            return None
+    
+    def modify_team(self):
+        """Modify an existing team."""
+        team = self._select_team_by_number("Select team to modify")
         if not team:
-            print("Team not found!")
             return
         
-        confirm = input(f"Delete team '{team.name}'? (y/n): ").strip().lower()
+        try:
+            while True:
+                self.clear_screen()
+                print("=" * 60)
+                print(f"MODIFY TEAM: {team.name}")
+                print("=" * 60)
+                print("\n1. Change Team Name")
+                print("2. Change Formation")
+                print("3. Change Tactical Style")
+                print("4. Replace Player")
+                print("5. View Current Team")
+                print("0. Back")
+                print("\n" + "=" * 60)
+                
+                choice = input("\nEnter choice: ").strip()
+                
+                if choice == "1":
+                    self._change_team_name(team)
+                elif choice == "2":
+                    self._change_team_formation(team)
+                elif choice == "3":
+                    self._change_team_style(team)
+                elif choice == "4":
+                    self._replace_team_player(team)
+                elif choice == "5":
+                    print(team.summary())
+                    self.pause()
+                elif choice == "0":
+                    break
+                else:
+                    print("Invalid choice!")
+                    self.pause()
+        except KeyboardInterrupt:
+            print("\nReturning to team menu...")
+            return
+    
+    def _change_team_name(self, team):
+        """Change team name."""
+        new_name = input(f"Enter new name for '{team.name}': ").strip()
+        if not new_name:
+            print("Name cannot be empty!")
+            return
+        
+        # Check if name already exists
+        existing = self.team_manager.find_team_by_name(new_name)
+        if existing and existing != team:
+            print("Team name already exists!")
+            return
+        
+        old_name = team.name
+        team.name = new_name
+        self.team_manager.save_teams()
+        print(f"Team name changed from '{old_name}' to '{new_name}'!")
+        self.pause()
+    
+    def _change_team_formation(self, team):
+        """Change team formation."""
+        from models import FORMATIONS
+        
+        print("\nAvailable formations:")
+        formations = list(FORMATIONS.keys())
+        for i, formation in enumerate(formations, 1):
+            print(f"{i}. {formation}")
+        
+        try:
+            choice = int(input(f"\nSelect formation (1-{len(formations)}): ").strip())
+            if 1 <= choice <= len(formations):
+                new_formation = formations[choice - 1]
+                team.formation = new_formation
+                self.team_manager.save_teams()
+                print(f"Formation changed to {new_formation}!")
+            else:
+                print("Invalid choice!")
+        except ValueError:
+            print("Invalid input!")
+        
+        self.pause()
+    
+    def _change_team_style(self, team):
+        """Change team tactical style."""
+        styles = list(TacticalStyle)
+        
+        print("\nAvailable tactical styles:")
+        for i, style in enumerate(styles, 1):
+            print(f"{i}. {style.name}")
+        
+        try:
+            choice = int(input(f"\nSelect style (1-{len(styles)}): ").strip())
+            if 1 <= choice <= len(styles):
+                new_style = styles[choice - 1]
+                team.style = new_style
+                self.team_manager.save_teams()
+                print(f"Tactical style changed to {new_style.name}!")
+            else:
+                print("Invalid choice!")
+        except ValueError:
+            print("Invalid input!")
+        
+        self.pause()
+    
+    def _get_formation_assignment(self, team):
+        """Get formation position assignments for team players."""
+        from models import FORMATIONS
+        
+        if team.formation not in FORMATIONS:
+            # If formation not recognized, just use natural positions
+            return {i: player.position for i, player in enumerate(team.players)}
+        
+        formation_req = FORMATIONS[team.formation]
+        assignments = {}
+        used_positions = {}
+        
+        # Sort players by position priority for formation
+        position_priority = {
+            'GK': 1, 'CB': 2, 'SW': 2, 'LB': 3, 'RB': 3,
+            'LWB': 4, 'RWB': 4, 'DM': 5, 'CM': 6, 'WB': 4,
+            'LM': 7, 'RM': 7, 'AM': 8, 'LW': 9, 'RW': 9, 'ST': 10
+        }
+        
+        sorted_players = sorted(enumerate(team.players), 
+                               key=lambda x: position_priority.get(x[1].position.name, 99))
+        
+        # Assign players to formation positions
+        for player_idx, player in sorted_players:
+            player_pos = player.position
+            
+            # Check if this position is needed in formation and not filled
+            if player_pos in formation_req:
+                needed = formation_req[player_pos]
+                used = used_positions.get(player_pos, 0)
+                
+                if used < needed:
+                    assignments[player_idx] = player_pos
+                    used_positions[player_pos] = used + 1
+                    continue
+            
+            # If natural position is full, find a compatible position
+            compatible_positions = self._get_compatible_positions(player_pos)
+            assigned = False
+            
+            for comp_pos in compatible_positions:
+                if comp_pos in formation_req:
+                    needed = formation_req[comp_pos]
+                    used = used_positions.get(comp_pos, 0)
+                    
+                    if used < needed:
+                        assignments[player_idx] = comp_pos
+                        used_positions[comp_pos] = used + 1
+                        assigned = True
+                        break
+            
+            if not assigned:
+                # Fallback to natural position
+                assignments[player_idx] = player_pos
+        
+        return assignments
+    
+    def _get_compatible_positions(self, position):
+        """Get positions compatible with the given position."""
+        from models import Position
+        
+        compatibility = {
+            Position.GK: [Position.GK],
+            Position.CB: [Position.CB, Position.SW],
+            Position.SW: [Position.SW, Position.CB],
+            Position.LB: [Position.LB, Position.LWB, Position.WB],
+            Position.RB: [Position.RB, Position.RWB, Position.WB],
+            Position.LWB: [Position.LWB, Position.LB, Position.WB],
+            Position.RWB: [Position.RWB, Position.RB, Position.WB],
+            Position.WB: [Position.WB, Position.LWB, Position.RWB],
+            Position.DM: [Position.DM, Position.CM],
+            Position.CM: [Position.CM, Position.DM, Position.AM],
+            Position.AM: [Position.AM, Position.CM],
+            Position.LM: [Position.LM, Position.CM, Position.LW],
+            Position.RM: [Position.RM, Position.CM, Position.RW],
+            Position.LW: [Position.LW, Position.LM, Position.ST],
+            Position.RW: [Position.RW, Position.RM, Position.ST],
+            Position.ST: [Position.ST, Position.LW, Position.RW]
+        }
+        
+        return compatibility.get(position, [position])
+    
+    def _replace_team_player(self, team):
+        """Replace a player in the team."""
+        # Get formation assignments
+        assignments = self._get_formation_assignment(team)
+        
+        print(f"\nCurrent players in {team.name} (Formation: {team.formation}):")
+        for i, player in enumerate(team.players, 1):
+            natural_pos = player.position.name
+            assigned_pos = assignments.get(i-1, player.position).name
+            
+            if natural_pos == assigned_pos:
+                pos_display = f"Playing: {assigned_pos}"
+            else:
+                pos_display = f"Playing: {assigned_pos} (Natural: {natural_pos})"
+            
+            print(f"{i}. {player.name} - {pos_display} - OVR: {player.overall_rating():.0f}")
+        
+        try:
+            player_idx = int(input(f"\nSelect player to replace (1-{len(team.players)}): ").strip()) - 1
+            if not (0 <= player_idx < len(team.players)):
+                print("Invalid choice!")
+                self.pause()
+                return
+            
+            old_player = team.players[player_idx]
+            assigned_position = assignments.get(player_idx, old_player.position)
+            
+            print(f"\nReplacing {old_player.name} who is playing {assigned_position.name}")
+            
+            # Show available players for that assigned position (and compatible positions)
+            compatible_positions = self._get_compatible_positions(assigned_position)
+            available_players = [p for p in self.player_manager.players 
+                               if p.position in compatible_positions and p not in team.players]
+            
+            if not available_players:
+                print(f"No available players for {assigned_position.name} position!")
+                print("Showing all available players instead...")
+                available_players = [p for p in self.player_manager.players if p not in team.players]
+            
+            if not available_players:
+                print("No available players!")
+                self.pause()
+                return
+            
+            print(f"\nAvailable players for {assigned_position.name} position:")
+            for i, player in enumerate(available_players, 1):
+                suitability = "✅" if player.position == assigned_position else "⚠️ " if player.position in self._get_compatible_positions(assigned_position) else "❌"
+                print(f"{i}. {player.name} ({player.position.name}) {suitability} - OVR: {player.overall_rating():.0f}")
+            
+            new_player_idx = int(input(f"\nSelect replacement (1-{len(available_players)}): ").strip()) - 1
+            if not (0 <= new_player_idx < len(available_players)):
+                print("Invalid choice!")
+                self.pause()
+                return
+            
+            new_player = available_players[new_player_idx]
+            team.players[player_idx] = new_player
+            self.team_manager.save_teams()
+            
+            print(f"Replaced {old_player.name} with {new_player.name}!")
+            print(f"{new_player.name} will play {assigned_position.name}")
+            
+        except (ValueError, KeyboardInterrupt):
+            print("Operation cancelled!")
+        
+        self.pause()
+    
+    def delete_team(self):
+        """Delete a team."""
+        team = self._select_team_by_number("Select team to delete")
+        if not team:
+            return
+        
+        confirm = input(f"\nDelete team '{team.name}'? (y/n): ").strip().lower()
         if confirm == 'y':
             self.team_manager.teams.remove(team)
             self.team_manager.save_teams()
@@ -808,6 +1088,441 @@ class FantasyFootballApp:
         result = self.match_engine.simulate_match(team1, team2)
         self.match_engine.display_match_result(result)
     
+    def tournament_menu(self):
+        """Tournament management submenu."""
+        while True:
+            self.clear_screen()
+            print("=" * 70)
+            print("🏆 TOURNAMENT MODE")
+            print("=" * 70)
+            print("\n1. Create New Tournament")
+            print("2. Continue Existing Tournament")
+            print("3. View Tournament Bracket")
+            print("0. Back to Main Menu")
+            print("\n" + "=" * 70)
+            
+            choice = input("\nEnter choice: ").strip()
+            
+            if choice == "1":
+                self.create_tournament()
+                self.pause()
+            elif choice == "2":
+                self.continue_tournament()
+                self.pause()
+            elif choice == "3":
+                self.view_tournament_bracket()
+                self.pause()
+            elif choice == "0":
+                break
+            else:
+                print("Invalid choice!")
+                self.pause()
+    
+    def create_tournament(self):
+        """Create a new tournament."""
+        self.clear_screen()
+        print("=" * 70)
+        print("🏆 CREATE NEW TOURNAMENT")
+        print("=" * 70)
+        
+        tournament_name = input("\nEnter tournament name: ").strip()
+        if not tournament_name:
+            print("Tournament name cannot be empty!")
+            return
+        
+        # Get number of teams
+        try:
+            num_teams = int(input("Enter number of teams (must be power of 2, e.g., 4, 8, 16): "))
+            if num_teams < 2:
+                print("Need at least 2 teams!")
+                return
+        except ValueError:
+            print("Invalid number!")
+            return
+        
+        # Clear screen before team selection
+        self.clear_screen()
+        
+        # Check if we have enough existing teams
+        existing_teams_count = len(self.team_manager.teams)
+        
+        print("=" * 70)
+        print(f"🏆 {tournament_name.upper()} - TEAM SELECTION")
+        print("=" * 70)
+        print(f"\nTeam Selection Options:")
+        print(f"Available existing teams: {existing_teams_count}")
+        print(f"Teams needed: {num_teams}")
+        
+        print(f"\n1. Select existing teams manually")
+        print(f"2. Randomly select from existing teams")
+        print(f"3. Create all teams randomly")
+        print(f"4. Mix existing and random teams")
+        
+        selection_choice = input("\nSelect option: ").strip()
+        
+        selected_teams = []
+        
+        if selection_choice == "1":
+            # Manually select existing teams
+            if existing_teams_count < num_teams:
+                print(f"Not enough existing teams! Have {existing_teams_count}, need {num_teams}")
+                return
+            
+            selected_teams = self._select_existing_teams(num_teams)
+            
+        elif selection_choice == "2":
+            # Randomly select from existing teams
+            if existing_teams_count == 0:
+                print("No existing teams available!")
+                return
+            
+            if existing_teams_count < num_teams:
+                print(f"Not enough existing teams! Have {existing_teams_count}, need {num_teams}")
+                print(f"1. Use all {existing_teams_count} existing teams")
+                print(f"2. Cancel and select different option")
+                
+                sub_choice = input("Select option: ").strip()
+                if sub_choice == "1":
+                    selected_teams = self._randomly_select_existing_teams(existing_teams_count)
+                else:
+                    return
+            else:
+                # Ask how many to select if we have more than needed
+                if existing_teams_count > num_teams:
+                    print(f"\nYou need {num_teams} teams, but have {existing_teams_count} available.")
+                    print(f"1. Randomly select exactly {num_teams} teams")
+                    print(f"2. Use all {existing_teams_count} teams")
+                    
+                    sub_choice = input("Select option: ").strip()
+                    if sub_choice == "1":
+                        selected_teams = self._randomly_select_existing_teams(num_teams)
+                    elif sub_choice == "2":
+                        selected_teams = self._randomly_select_existing_teams(existing_teams_count)
+                    else:
+                        print("Invalid selection!")
+                        return
+                else:
+                    # Exactly the right number
+                    selected_teams = self._randomly_select_existing_teams(num_teams)
+            
+        elif selection_choice == "3":
+            # Create all random teams
+            print(f"\n🔄 Creating {num_teams} random teams...")
+            random_teams = self.tournament_manager.create_random_teams_for_tournament(
+                num_teams, f"{tournament_name}"
+            )
+            selected_teams = [team.name for team in random_teams]
+            print(f"✅ Created {len(random_teams)} teams!")
+            
+        elif selection_choice == "4":
+            # Mix existing and random
+            use_existing = min(existing_teams_count, num_teams)
+            if use_existing > 0:
+                print(f"\nHow many existing teams to use? (max {use_existing}):")
+                try:
+                    existing_count = int(input().strip())
+                    existing_count = min(max(0, existing_count), use_existing)
+                    
+                    if existing_count > 0:
+                        print(f"\n1. Select {existing_count} existing teams manually")
+                        print(f"2. Randomly select {existing_count} existing teams")
+                        
+                        sub_choice = input("Select option: ").strip()
+                        
+                        if sub_choice == "1":
+                            existing_selected = self._select_existing_teams(existing_count)
+                        elif sub_choice == "2":
+                            existing_selected = self._randomly_select_existing_teams(existing_count)
+                        else:
+                            print("Invalid selection!")
+                            return
+                        
+                        selected_teams.extend(existing_selected)
+                except ValueError:
+                    print("Invalid number!")
+                    return
+            
+            remaining = num_teams - len(selected_teams)
+            if remaining > 0:
+                print(f"\n🔄 Creating {remaining} additional random teams...")
+                random_teams = self.tournament_manager.create_random_teams_for_tournament(
+                    remaining, f"{tournament_name} Random"
+                )
+                selected_teams.extend([team.name for team in random_teams])
+                print(f"✅ Created {len(random_teams)} additional teams!")
+        else:
+            print("Invalid selection!")
+            return
+        
+        if len(selected_teams) < 2:
+            print("Not enough teams selected! Need at least 2 teams for a tournament.")
+            return
+        
+        # Inform user if tournament will be padded to next power of 2
+        if len(selected_teams) != num_teams:
+            print(f"\n📝 Note: Selected {len(selected_teams)} teams instead of {num_teams}")
+            print(f"Tournament will automatically adjust bracket size if needed.")
+        
+        # Create tournament
+        try:
+            tournament = self.tournament_manager.create_tournament(tournament_name, selected_teams)
+            
+            # Clear screen before showing tournament created message and bracket
+            self.clear_screen()
+            
+            print("=" * 70)
+            print(f"🏆 TOURNAMENT CREATED: {tournament_name.upper()}")
+            print("=" * 70)
+            print(f"\n✅ Tournament '{tournament_name}' created successfully!")
+            print(f"📊 Teams: {len(tournament.teams)}")
+            print(f"🔥 Rounds: {len(tournament.rounds)}")
+            
+            # Display bracket
+            print(self.tournament_manager.get_tournament_bracket_display(tournament))
+            
+            # Store tournament for continuation
+            self.current_tournament = tournament
+            
+            # Ask if user wants to start immediately
+            start_now = input("\nStart tournament now? (y/n): ").strip().lower()
+            if start_now == 'y':
+                # Clear screen before starting tournament
+                self.clear_screen()
+                print("=" * 70)
+                print(f"🚀 STARTING TOURNAMENT: {tournament_name.upper()}")
+                print("=" * 70)
+                self.pause("Press Enter to begin...")
+                self._simulate_tournament(tournament)
+            
+        except Exception as e:
+            print(f"Error creating tournament: {e}")
+    
+    def _select_existing_teams(self, count: int) -> List[str]:
+        """Helper to select existing teams."""
+        available_teams = [team.name for team in self.team_manager.teams]
+        selected = []
+        
+        print(f"\nAvailable teams:")
+        for i, team_name in enumerate(available_teams, 1):
+            team = self.team_manager.find_team_by_name(team_name)
+            elo = team.elo_rating if team else 0
+            print(f"{i}. {team_name} (Elo: {elo:.0f})")
+        
+        while len(selected) < count:
+            try:
+                choice = input(f"\nSelect team {len(selected) + 1}/{count} (number): ").strip()
+                idx = int(choice) - 1
+                
+                if 0 <= idx < len(available_teams):
+                    team_name = available_teams[idx]
+                    if team_name not in selected:
+                        selected.append(team_name)
+                        print(f"✅ Selected: {team_name}")
+                    else:
+                        print("Team already selected!")
+                else:
+                    print("Invalid team number!")
+            except ValueError:
+                print("Invalid input!")
+        
+        return selected
+    
+    def _randomly_select_existing_teams(self, count: int) -> List[str]:
+        """Randomly select teams from existing teams."""
+        import random
+        
+        available_teams = [team.name for team in self.team_manager.teams]
+        
+        if count >= len(available_teams):
+            # If we need all teams or more, just return all
+            selected = available_teams.copy()
+            print(f"\n🎲 Randomly selected all {len(selected)} available teams:")
+        else:
+            # Randomly sample the requested number
+            selected = random.sample(available_teams, count)
+            print(f"\n🎲 Randomly selected {count} teams from {len(available_teams)} available:")
+        
+        # Display selected teams with their Elo ratings
+        for i, team_name in enumerate(selected, 1):
+            team = self.team_manager.find_team_by_name(team_name)
+            elo = team.elo_rating if team else 0
+            print(f"   {i}. {team_name} (Elo: {elo:.0f})")
+        
+        return selected
+    
+    def _display_tournament_progress(self, tournament):
+        """Display tournament progress header."""
+        completed_rounds = sum(1 for r in tournament.rounds if r.completed)
+        total_rounds = len(tournament.rounds)
+        
+        print(f"\n🏆 {tournament.name.upper()}")
+        print(f"📊 Progress: Round {tournament.current_round + 1}/{total_rounds} "
+              f"({completed_rounds}/{total_rounds} rounds completed)")
+        
+        # Show progress bar
+        progress = completed_rounds / total_rounds if total_rounds > 0 else 0
+        bar_length = 30
+        filled_length = int(bar_length * progress)
+        bar = '█' * filled_length + '░' * (bar_length - filled_length)
+        print(f"▌{bar}▐ {progress * 100:.0f}%")
+        
+        # Show remaining teams
+        if not tournament.completed:
+            current_round = tournament.get_current_round()
+            if current_round:
+                active_teams = set()
+                for match in current_round.matches:
+                    if match.home_team:
+                        active_teams.add(match.home_team)
+                    if match.away_team:
+                        active_teams.add(match.away_team)
+                print(f"🎯 Teams remaining: {len(active_teams)}")
+    
+    def _display_round_winners(self, round_obj):
+        """Display winners of a completed round."""
+        winners = [match.winner for match in round_obj.matches if match.winner]
+        if winners:
+            print(f"\n🏆 {round_obj.round_name} Winners:")
+            for i, winner in enumerate(winners, 1):
+                print(f"   {i}. {winner}")
+            print(f"\n➡️  {len(winners)} teams advance to the next round")
+    
+    def continue_tournament(self):
+        """Continue an existing tournament."""
+        if not hasattr(self, 'current_tournament') or not self.current_tournament:
+            print("\nNo active tournament found!")
+            return
+        
+        tournament = self.current_tournament
+        
+        if tournament.completed:
+            self.clear_screen()
+            print("=" * 70)
+            print(f"🏆 TOURNAMENT COMPLETED: {tournament.name.upper()}")
+            print("=" * 70)
+            print(f"\n🥇 Winner: {tournament.winner}")
+            print(self.tournament_manager.get_tournament_bracket_display(tournament))
+            return
+        
+        # Clear screen and show current status
+        self.clear_screen()
+        print("=" * 70)
+        print(f"🔄 CONTINUING TOURNAMENT: {tournament.name.upper()}")
+        print("=" * 70)
+        
+        # Show current status
+        print(self.tournament_manager.get_tournament_bracket_display(tournament))
+        self.pause("Press Enter to continue tournament...")
+        
+        # Continue simulation
+        self._simulate_tournament(tournament)
+    
+    def view_tournament_bracket(self):
+        """View the current tournament bracket."""
+        if not hasattr(self, 'current_tournament') or not self.current_tournament:
+            print("\nNo active tournament found!")
+            return
+        
+        self.clear_screen()
+        print("=" * 70)
+        print(f"📋 TOURNAMENT BRACKET: {self.current_tournament.name.upper()}")
+        print("=" * 70)
+        
+        print(self.tournament_manager.get_tournament_bracket_display(self.current_tournament))
+    
+    def _simulate_tournament(self, tournament):
+        """Simulate tournament matches."""
+        while not tournament.completed:
+            current_round = tournament.get_current_round()
+            if not current_round:
+                break
+            
+            # We'll show the round info before each match, so no need for detailed round intro
+            
+            # Simulate all matches in current round
+            for match_num, match in enumerate(current_round.matches, 1):
+                if not match.completed:
+                    # Clear screen before each match announcement
+                    self.clear_screen()
+                    
+                    # Show tournament progress
+                    self._display_tournament_progress(tournament)
+                    
+                    print(f"\n{'─' * 70}")
+                    print(f"⚽ MATCH {match_num}/{len(current_round.matches)}: {match.home_team} vs {match.away_team}")
+                    print(f"📍 {current_round.round_name}")
+                    print(f"{'─' * 70}")
+                    
+                    # Show team info
+                    home_team_obj = self.team_manager.find_team_by_name(match.home_team)
+                    away_team_obj = self.team_manager.find_team_by_name(match.away_team)
+                    
+                    if home_team_obj and away_team_obj:
+                        print(f"🏠 {match.home_team} (Elo: {home_team_obj.elo_rating:.0f})")
+                        print(f"✈️  {match.away_team} (Elo: {away_team_obj.elo_rating:.0f})")
+                    
+                    self.pause("Press Enter to simulate match...")
+                    
+                    # Simulate the match
+                    match_result = self.tournament_manager.simulate_tournament_match(
+                        tournament, match.match_id, self.match_engine
+                    )
+                    
+                    if match_result:
+                        result_match, full_result = match_result
+                        
+                        # Display enhanced match result like in single match mode (keep on same screen)
+                        print()  # Just add some spacing
+                        self.match_engine.display_enhanced_match_result(full_result)
+                        
+                        # Show penalty shootout info if applicable
+                        if "(" in str(result_match.home_score):
+                            print(f"\n🥅 PENALTY SHOOTOUT RESULT:")
+                            print(f"   {result_match.home_team} {result_match.home_score} - "
+                                  f"{result_match.away_score} {result_match.away_team}")
+                            print(f"   🏆 Winner on penalties: {result_match.winner}")
+                        
+                        print(f"\n🏆 {result_match.winner} advances to the next round!")
+                        
+                        # Show updated Elo ratings
+                        home_team_obj = self.team_manager.find_team_by_name(result_match.home_team)
+                        away_team_obj = self.team_manager.find_team_by_name(result_match.away_team)
+                        if home_team_obj and away_team_obj:
+                            print(f"\n📊 Updated Elo Ratings:")
+                            print(f"   {home_team_obj.name}: {home_team_obj.elo_rating:.0f}")
+                            print(f"   {away_team_obj.name}: {away_team_obj.elo_rating:.0f}")
+                        
+                        # Always show pause prompt after each match, including the last one
+                        if match_num < len(current_round.matches):
+                            self.pause("Press Enter for next match...")
+                        else:
+                            self.pause("Press Enter to view round summary...")
+            
+            # Show updated bracket after round
+            if current_round.completed:
+                self.clear_screen()
+                print(f"\n✅ {current_round.round_name.upper()} COMPLETED!")
+                print("=" * 70)
+                self._display_round_winners(current_round)
+                print(self.tournament_manager.get_tournament_bracket_display(tournament))
+                
+                if not tournament.completed:
+                    next_round = tournament.rounds[tournament.current_round + 1] if tournament.current_round + 1 < len(tournament.rounds) else None
+                    if next_round:
+                        print(f"\n🔜 Next up: {next_round.round_name}")
+                    self.pause("Press Enter to continue to next round...")
+        
+        # Tournament finished
+        if tournament.completed:
+            self.clear_screen()
+            print("\n" + "🏆" * 20)
+            print(f"TOURNAMENT COMPLETED: {tournament.name}")
+            print("🏆" * 20)
+            print(f"\n🥇 CHAMPION: {tournament.winner}")
+            print(f"\nCongratulations to {tournament.winner}!")
+            print("\nFinal Bracket:")
+            print(self.tournament_manager.get_tournament_bracket_display(tournament))
+    
     def settings_menu(self):
         """Settings submenu."""
         while True:
@@ -890,39 +1605,46 @@ class FantasyFootballApp:
         print("Welcome to Fantasy Football Manager v2.0!")
         self.pause()
         
-        while True:
-            self.clear_screen()
-            self.display_menu()
-            choice = input("\nEnter choice: ").strip()
-            
-            if choice == "1":
-                self.player_menu()
-            elif choice == "2":
-                self.team_menu()
-            elif choice == "3":
-                self.play_match()
-                self.pause()
-            elif choice == "4":
-                self.play_multiple_matches()
-                self.pause()
-            elif choice == "5":
-                self.play_multiple_random_games()
-                self.pause()
-            elif choice == "6":
-                self.view_all_teams()
-                self.pause()
-            elif choice == "7":
-                self.quick_play()
-                self.pause()
-            elif choice == "8":
-                self.settings_menu()
-            elif choice == "0":
+        try:
+            while True:
                 self.clear_screen()
-                print("\nGoodbye! 👋")
-                break
-            else:
-                print("Invalid choice!")
-                self.pause()
+                self.display_menu()
+                choice = input("\nEnter choice: ").strip()
+                
+                if choice == "1":
+                    self.player_menu()
+                elif choice == "2":
+                    self.team_menu()
+                elif choice == "3":
+                    self.play_match()
+                    self.pause()
+                elif choice == "4":
+                    self.play_multiple_matches()
+                    self.pause()
+                elif choice == "5":
+                    self.play_multiple_random_games()
+                    self.pause()
+                elif choice == "6":
+                    self.tournament_menu()
+                elif choice == "7":
+                    self.view_all_teams()
+                    self.pause()
+                elif choice == "8":
+                    self.quick_play()
+                    self.pause()
+                elif choice == "9":
+                    self.settings_menu()
+                elif choice == "0":
+                    self.clear_screen()
+                    print("\nGoodbye! 👋")
+                    break
+                else:
+                    print("Invalid choice!")
+                    self.pause()
+        except KeyboardInterrupt:
+            self.clear_screen()
+            print("\n\nExiting Fantasy Football Manager... Goodbye! 👋")
+            sys.exit(0)
 
 
 def main():

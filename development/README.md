@@ -1,4 +1,4 @@
-# Fantasy Football Manager v2.1 - Realistic Performance Edition
+# Fantasy Football Manager v2.2 - Tournament Edition
 
 A comprehensive football simulation system with realistic performance bounds, player management, team building, and advanced match simulation capabilities.
 
@@ -19,8 +19,9 @@ A comprehensive football simulation system with realistic performance bounds, pl
 
 ### **Gameplay Features**
 - **Single & Multiple Match Simulation**: Play individual matches or series with streak effects
+- **Tournament Mode**: Knockout-style tournaments with bracket progression and penalty shootouts
+- **Team Modification**: Edit existing teams with formation-aware position assignments
 - **Momentum/Streak System**: Teams on winning/losing streaks get performance bonuses/penalties
-- **Tournament Support**: Round-robin tournaments and comprehensive statistics
 - **Quick Play**: Instant match with randomly generated teams
 - **Detailed Statistics**: Match events, possession, shots, fatigue impact, and momentum tracking
 
@@ -55,6 +56,7 @@ python3 fantasy_football.py
 ### **Data Storage**
 - **`players.json`**: Persistent player database with full attribute storage
 - **`teams.json`**: Team database with formations, styles, and Elo ratings
+- **`tournament_manager.py`**: Tournament bracket generation and match management
 
 ## 👤 **Player System**
 
@@ -103,6 +105,45 @@ Pre-configured formations include:
 - **Elo Ratings**: Dynamic team strength ratings (start at 1500)
 - **Streak System**: Win/loss streaks affect performance (±15% maximum)
 - **Team Momentum**: Match events influence team performance (-100 to +100)
+
+### **Team Modification System**
+- **Formation-Aware Positions**: Shows where each player actually plays in the current formation
+- **Position Assignment Display**: 
+  - `Playing: CB` - Natural position matches formation role
+  - `Playing: CM (Natural: AM)` - Player adapted to new tactical role
+- **Smart Replacement Suggestions**: 
+  - `✅` Perfect match for position
+  - `⚠️` Compatible position (good adaptation)
+  - `❌` Poor fit but available
+- **Position Compatibility**: Understands realistic position changes (CB↔SW, LB↔LWB, CM↔DM↔AM)
+
+## 🏆 **Tournament System**
+
+### **Tournament Features**
+- **Knockout Style**: Direct elimination tournament with bracket progression
+- **Flexible Team Selection**:
+  - Manual selection from existing teams
+  - Random selection from existing teams
+  - Create all new random teams
+  - Mix existing and random teams
+- **Automatic Bracket Generation**: Supports any number of teams (pads to power of 2)
+- **Penalty Shootouts**: Realistic penalty simulation for drawn knockout matches
+- **Live Tournament Progress**: Visual bracket with match results and advancement tracking
+
+### **Tournament Flow**
+1. **Create Tournament**: Name tournament and specify team count
+2. **Team Selection**: Choose from 4 different team selection methods
+3. **Bracket Generation**: Automatic knockout bracket with proper seeding
+4. **Match Simulation**: Full match details with enhanced statistics
+5. **Round Progression**: Clear round summaries and advancement notifications
+6. **Tournament Completion**: Championship ceremony with final bracket display
+
+### **Match Display in Tournaments**
+- **Tournament Progress Bar**: Visual progress through rounds
+- **Enhanced Match Stats**: Same detailed statistics as single matches
+- **Team Attribution**: Clear event descriptions showing which team scored/received cards
+- **Elo Updates**: Live rating changes after each match
+- **Professional Presentation**: Clean screen management and staged tournament flow
 
 ## 🎮 **Match Engine**
 

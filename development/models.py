@@ -1,14 +1,16 @@
 """
-Fantasy Football Models
-~~~~~~~~~~~~~~~~~~~~~~~
+Fantasy Football Models - Extended
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Core data models for the Fantasy Football simulation system.
+Enhanced data models with fatigue, form, and performance tracking.
 """
 
 from enum import Enum
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Optional
 from dataclasses import dataclass, field
 import json
+import math
+from collections import deque
 
 
 class Position(Enum):
@@ -43,29 +45,107 @@ class TacticalStyle(Enum):
         return self.value
 
 
+class TemperamentType(Enum):
+    """Player temperament types affecting performance variation."""
+    COOL_HEADED = "cool_headed"    # Less affected by pressure, slower momentum swings
+    PASSIONATE = "passionate"      # Higher momentum swings, more affected by events
+    CONSISTENT = "consistent"      # Stable performance, less form variation
+    VOLATILE = "volatile"         # High performance variation, big form swings
+
+
+@dataclass
+class PlayerForm:
+    """Tracks individual player form and confidence."""
+    performance_history: deque = field(default_factory=lambda: deque(maxlen=5))
+    base_form: float = 7.0  # 1-10 scale
+    confidence: float = 50.0  # 0-100 scale
+    
+    def update_form(self, match_rating: float, temperament: TemperamentType):
+        """Update form based on match performance."""
+        self.performance_history.append(match_rating)
+        
+        # Weighted average favoring recent matches
+        weights = [0.1, 0.15, 0.2, 0.25, 0.3]  # Most recent weighs more
+        weighted_sum = sum(p * w for p, w in zip(reversed(self.performance_history), weights))
+        weight_total = sum(weights[:len(self.performance_history)])
+        
+        new_form = weighted_sum / weight_total if weight_total > 0 else self.base_form
+        
+        # Temperament affects form stability
+        change_rate = {
+            TemperamentType.COOL_HEADED: 0.2,
+            TemperamentType.PASSIONATE: 0.4,
+            TemperamentType.CONSISTENT: 0.15,
+            TemperamentType.VOLATILE: 0.5
+        }
+        
+        rate = change_rate[temperament]
+        self.base_form += (new_form - self.base_form) * rate
+        
+        # Update confidence based on recent performance
+        if match_rating >= 7.5:
+            self.confidence = min(100, self.confidence + 5)
+        elif match_rating <= 5.5:
+            self.confidence = max(0, self.confidence - 8)
+        else:
+            self.confidence += (match_rating - 6.5) * 0.5
+    
+    def get_form_modifier(self) -> float:
+        """Convert form to performance modifier with realistic bounds."""
+        # Clamp form to reasonable range first
+        clamped_form = max(3.0, min(9.0, self.base_form))  # 3-9 range instead of 1-10
+        
+        # Form scale: 3-9 -> modifier: 0.9-1.15 (instead of 0.8-1.2)
+        form_mod = 0.9 + (clamped_form - 3.0) / 6.0 * 0.25  # Max ±12.5%
+        
+        # Confidence adds smaller modifier
+        confidence_mod = 0.97 + (self.confidence / 100) * 0.06  # Max ±3%
+        
+        return form_mod * confidence_mod
+
+
 @dataclass
 class Player:
     """
-    Represents a football player with their attributes.
-    
-    Attributes:
-        name: Player's name
-        position: Playing position (Position enum)
-        goalkeeping: Goalkeeping ability (0-100)
-        defending: Defensive ability (0-100)
-        passing: Passing ability (0-100)
-        dribbling: Dribbling ability (0-100)
-        shooting: Shooting ability (0-100)
-        physical: Physical ability (0-100)
+    Enhanced player with fatigue, form, and extended attributes.
     """
     name: str
     position: Position
+    
+    # Core attributes (0-100)
     goalkeeping: int
     defending: int
     passing: int
     dribbling: int
     shooting: int
     physical: int
+    
+    # Extended attributes (0-100)
+    natural_fitness: int = 70      # Base stamina and recovery rate
+    work_rate: int = 50           # How quickly player gets tired
+    injury_proneness: int = 30    # Likelihood of getting injured when fatigued
+    pressure_handling: int = 60   # Performance under high-stakes situations
+    concentration: int = 60       # Maintains performance when tired
+    determination: int = 60       # Resistance to negative momentum
+    composure: int = 60          # Performance in crucial moments
+    leadership: int = 30         # Influence on team momentum
+    
+    # Personality and physical traits
+    temperament: TemperamentType = TemperamentType.CONSISTENT
+    preferred_foot: str = "right"
+    age: int = 25
+    
+    # Performance tracking (runtime data)
+    current_stamina: float = 100.0
+    match_intensity: float = 50.0
+    minutes_played_today: float = 0.0
+    
+    # Match status (runtime data)
+    is_sent_off: bool = False     # NEW: Track if player was sent off
+    yellow_cards: int = 0         # NEW: Track yellow cards in current match
+    
+    # Form tracking
+    form: PlayerForm = field(default_factory=PlayerForm)
     
     def to_dict(self) -> Dict:
         """Convert player to dictionary for JSON serialization."""
@@ -77,13 +157,29 @@ class Player:
             "passing": self.passing,
             "dribbling": self.dribbling,
             "shooting": self.shooting,
-            "physical": self.physical
+            "physical": self.physical,
+            "natural_fitness": self.natural_fitness,
+            "work_rate": self.work_rate,
+            "injury_proneness": self.injury_proneness,
+            "pressure_handling": self.pressure_handling,
+            "concentration": self.concentration,
+            "determination": self.determination,
+            "composure": self.composure,
+            "leadership": self.leadership,
+            "temperament": self.temperament.value,
+            "preferred_foot": self.preferred_foot,
+            "age": self.age,
+            "current_stamina": self.current_stamina,
+            # Form data is reset each time for simplicity
+            "form_base": self.form.base_form,
+            "form_confidence": self.form.confidence
         }
     
     @classmethod
     def from_dict(cls, data: Dict) -> 'Player':
         """Create player from dictionary."""
-        return cls(
+        # Handle legacy data that might not have extended attributes
+        player = cls(
             name=data["name"],
             position=Position[data["position"]],
             goalkeeping=data["goalkeeping"],
@@ -91,8 +187,28 @@ class Player:
             passing=data["passing"],
             dribbling=data["dribbling"],
             shooting=data["shooting"],
-            physical=data["physical"]
+            physical=data["physical"],
+            natural_fitness=data.get("natural_fitness", data.get("physical", 70)),
+            work_rate=data.get("work_rate", 50),
+            injury_proneness=data.get("injury_proneness", 30),
+            pressure_handling=data.get("pressure_handling", 60),
+            concentration=data.get("concentration", 60),
+            determination=data.get("determination", 60),
+            composure=data.get("composure", 60),
+            leadership=data.get("leadership", 30),
+            temperament=TemperamentType(data.get("temperament", "consistent")),
+            preferred_foot=data.get("preferred_foot", "right"),
+            age=data.get("age", 25),
+            current_stamina=data.get("current_stamina", 100.0)
         )
+        
+        # Restore form data if available
+        if "form_base" in data:
+            player.form.base_form = data["form_base"]
+        if "form_confidence" in data:
+            player.form.confidence = data["form_confidence"]
+            
+        return player
     
     def overall_rating(self) -> float:
         """Calculate overall player rating based on position."""
@@ -111,20 +227,20 @@ class Player:
         else:  # ST, LW, RW
             return (self.shooting * 0.35 + self.dribbling * 0.25 + 
                     self.physical * 0.2 + self.passing * 0.15 + self.defending * 0.05)
+    
+    def reset_match_state(self):
+        """Reset player state for a new match."""
+        self.match_intensity = 50.0
+        self.minutes_played_today = 0.0
+        self.is_sent_off = False       # NEW: Reset red card status
+        self.yellow_cards = 0          # NEW: Reset yellow cards
+        # Don't reset stamina here - it should carry over between matches
 
 
 @dataclass
 class Team:
     """
-    Represents a football team.
-    
-    Attributes:
-        name: Team name
-        formation: Team formation (e.g., "4-4-2")
-        players: List of players in the team
-        style: Tactical style
-        elo_rating: Elo rating for competitive play
-        streak_count: Current win/loss streak
+    Enhanced team with performance tracking.
     """
     name: str
     formation: str
@@ -132,6 +248,17 @@ class Team:
     style: TacticalStyle = TacticalStyle.BALANCED
     elo_rating: float = 1500.0
     streak_count: int = 0
+    
+    # Team momentum tracking
+    team_momentum: float = 0.0  # -100 to +100
+    
+    def get_available_players(self) -> List[Player]:
+        """Get list of players still available to play (not sent off)."""
+        return [p for p in self.players if not p.is_sent_off]
+    
+    def get_sent_off_players(self) -> List[Player]:
+        """Get list of players who have been sent off."""
+        return [p for p in self.players if p.is_sent_off]
     
     def compute_team_ratings(self) -> Dict[str, float]:
         """Compute aggregated team ratings from player attributes."""
@@ -145,7 +272,10 @@ class Team:
             "center_flow": 0,
         }
         
-        for p in self.players:
+        # Only consider available players (not sent off)
+        available_players = self.get_available_players()
+        
+        for p in available_players:
             # Goalkeeping
             total["keeping"] += p.goalkeeping if p.position == Position.GK else 0
             
@@ -166,9 +296,31 @@ class Team:
             elif p.position in [Position.CM, Position.AM, Position.DM, Position.ST, Position.SW]:
                 total["center_flow"] += p.passing
         
-        # Normalize by player count
-        count = max(len(self.players), 1)
-        return {k: v / count for k, v in total.items()}
+        # Normalize by available player count, apply penalty for reduced numbers
+        available_count = len(available_players)
+        if available_count == 0:
+            return {k: 0 for k in total.keys()}  # No players available
+        
+        # Apply numerical disadvantage penalty
+        numerical_penalty = self._get_numerical_disadvantage_penalty(available_count)
+        
+        normalized_ratings = {k: (v / available_count) * numerical_penalty for k, v in total.items()}
+        return normalized_ratings
+    
+    def _get_numerical_disadvantage_penalty(self, available_players: int) -> float:
+        """Calculate performance penalty for having fewer than 11 players."""
+        if available_players >= 11:
+            return 1.0  # No penalty
+        elif available_players == 10:
+            return 0.85  # 15% penalty for 10 players
+        elif available_players == 9:
+            return 0.70  # 30% penalty for 9 players
+        elif available_players == 8:
+            return 0.55  # 45% penalty for 8 players
+        elif available_players == 7:
+            return 0.40  # 60% penalty for 7 players
+        else:
+            return 0.25  # 75% penalty for very few players
     
     def compute_strength(self) -> float:
         """Compute overall team strength."""
@@ -182,7 +334,16 @@ class Team:
         attack = ratings["attack"] * att_mult
         
         # Weighted average
-        return gk * 0.1 + defense * 0.3 + midfield * 0.3 + attack * 0.3
+        base_strength = gk * 0.1 + defense * 0.3 + midfield * 0.3 + attack * 0.3
+        
+        # Apply additional penalty for playing with fewer players
+        available_count = len(self.get_available_players())
+        if available_count < 11:
+            # Extra penalty beyond the ratings adjustment
+            cohesion_penalty = 0.95 ** (11 - available_count)  # Each missing player = 5% additional penalty
+            base_strength *= cohesion_penalty
+        
+        return base_strength
     
     def adjust_for_streak(self, enabled: bool = True) -> float:
         """Calculate momentum adjustment based on streak."""
@@ -191,6 +352,21 @@ class Team:
         streak_bonus = min(max(self.streak_count, -5), 5)
         return 1 + 0.03 * streak_bonus
     
+    def get_team_momentum_modifier(self) -> float:
+        """Get performance modifier from team momentum."""
+        return 1 + (self.team_momentum / 100) * 0.15  # Max 15% boost/penalty
+    
+    def update_team_momentum(self, change: float):
+        """Update team momentum and apply decay."""
+        self.team_momentum = max(-100, min(100, self.team_momentum + change))
+        # Apply small decay
+        self.team_momentum *= 0.98
+    
+    def reset_players_for_match(self):
+        """Reset all players' match state."""
+        for player in self.players:
+            player.reset_match_state()
+    
     def to_dict(self) -> Dict:
         """Convert team to dictionary for JSON serialization."""
         return {
@@ -198,6 +374,8 @@ class Team:
             "formation": self.formation,
             "style": self.style.name,
             "elo_rating": self.elo_rating,
+            "streak_count": self.streak_count,
+            "team_momentum": self.team_momentum,
             "players": [p.to_dict() for p in self.players]
         }
     
@@ -210,16 +388,13 @@ class Team:
             formation=data["formation"],
             players=players,
             style=TacticalStyle[data.get("style", "BALANCED")],
-            elo_rating=data.get("elo_rating", 1500.0)
+            elo_rating=data.get("elo_rating", 1500.0),
+            streak_count=data.get("streak_count", 0),
+            team_momentum=data.get("team_momentum", 0.0)
         )
     
     def validate_formation(self) -> Tuple[bool, str]:
-        """
-        Validate team formation.
-        
-        Returns:
-            Tuple of (is_valid, message)
-        """
+        """Validate team formation."""
         if len(self.players) != 11:
             return False, f"Team must have exactly 11 players, has {len(self.players)}"
         
@@ -250,17 +425,20 @@ class Team:
             f"Formation: {self.formation}",
             f"Elo Rating: {self.elo_rating:.0f}",
             f"Current Form: {streak_emoji} {streak_str}",
+            f"Team Momentum: {self.team_momentum:+.1f}",
             f"Total Strength: {strength:.2f}",
             "",
             "Players:"
         ]
         
         for p in sorted(self.players, key=lambda x: x.position.name):
+            # Show extended attributes in summary
             lines.append(
                 f"  {p.name:20} {p.position.name:3} "
                 f"G:{p.goalkeeping:2d} D:{p.defending:2d} P:{p.passing:2d} "
                 f"Dr:{p.dribbling:2d} S:{p.shooting:2d} Ph:{p.physical:2d} "
-                f"(OVR: {p.overall_rating():.0f})"
+                f"(OVR: {p.overall_rating():.0f}) "
+                f"Fit:{p.natural_fitness:2d} Temp:{p.temperament.value[:4]}"
             )
         
         lines.extend([
@@ -274,6 +452,14 @@ class Team:
             f"  Center Flow: {ratings['center_flow']:.1f}",
             f"  Right Flow: {ratings['right_flow']:.1f}"
         ])
+        
+        # Show sent off players if any
+        sent_off = self.get_sent_off_players()
+        if sent_off:
+            lines.append("")
+            lines.append("🟥 Sent Off Players:")
+            for p in sent_off:
+                lines.append(f"  {p.name} ({p.position.name}) - Red Card")
         
         return "\n".join(lines)
 
@@ -339,3 +525,56 @@ FORMATIONS = {
         Position.ST: 2
     }
 }
+
+
+# Tournament-related data structures
+@dataclass
+class TournamentMatch:
+    """Represents a single match in a tournament."""
+    round_name: str
+    match_id: str
+    home_team: Optional[str]  # Team name or None if TBD
+    away_team: Optional[str]  # Team name or None if TBD
+    winner: Optional[str] = None
+    home_score: Optional[int] = None
+    away_score: Optional[int] = None
+    completed: bool = False
+
+
+@dataclass 
+class TournamentRound:
+    """Represents a round in the tournament."""
+    round_name: str
+    matches: List[TournamentMatch]
+    completed: bool = False
+
+
+@dataclass
+class Tournament:
+    """Represents a complete knockout tournament."""
+    name: str
+    teams: List[str]  # Team names
+    rounds: List[TournamentRound]
+    current_round: int = 0
+    completed: bool = False
+    winner: Optional[str] = None
+    
+    def get_current_round(self) -> Optional[TournamentRound]:
+        """Get the current active round."""
+        if self.current_round < len(self.rounds):
+            return self.rounds[self.current_round]
+        return None
+    
+    def advance_round(self) -> bool:
+        """Move to the next round if current is completed."""
+        current = self.get_current_round()
+        if current and current.completed:
+            self.current_round += 1
+            if self.current_round >= len(self.rounds):
+                self.completed = True
+                # Find winner from final match
+                final_round = self.rounds[-1]
+                if final_round.matches and final_round.matches[0].winner:
+                    self.winner = final_round.matches[0].winner
+            return True
+        return False

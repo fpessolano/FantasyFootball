@@ -1,18 +1,18 @@
 """
-Player Manager
-~~~~~~~~~~~~~~
+Player Manager - Enhanced
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Module for creating and managing players in the Fantasy Football system.
+Module for creating and managing players with extended attributes.
 """
 
 import json
 import random
 from typing import List, Optional, Dict
-from models import Player, Position
+from models import Player, Position, TemperamentType
 
 
 class PlayerManager:
-    """Manages player creation, loading, and saving."""
+    """Enhanced player manager with extended attributes and migration support."""
     
     def __init__(self, filename: str = "players.json"):
         self.filename = filename
@@ -20,13 +20,65 @@ class PlayerManager:
         self.load_players()
     
     def load_players(self) -> None:
-        """Load players from JSON file."""
+        """Load players from JSON file with migration support."""
         try:
             with open(self.filename, "r") as f:
                 data = json.load(f)
-                self.players = [Player.from_dict(p) for p in data]
+            
+            migrated_players = []
+            migration_needed = False
+            
+            for p_data in data:
+                try:
+                    # Try to load as extended player
+                    player = Player.from_dict(p_data)
+                    migrated_players.append(player)
+                except (KeyError, ValueError) as e:
+                    # Migration from legacy format
+                    print(f"Migrating legacy player: {p_data.get('name', 'Unknown')}")
+                    migrated_player = self._migrate_legacy_player(p_data)
+                    if migrated_player:
+                        migrated_players.append(migrated_player)
+                        migration_needed = True
+            
+            self.players = migrated_players
+            
+            # If we migrated any players, save in new format
+            if migration_needed:
+                print(f"Migrated {len(migrated_players)} players to extended format")
+                self.save_players()
+                
         except FileNotFoundError:
             self.players = []
+    
+    def _migrate_legacy_player(self, legacy_data: Dict) -> Optional[Player]:
+        """Migrate a legacy player to extended format."""
+        try:
+            # Create extended player with legacy attributes + reasonable defaults
+            return Player(
+                name=legacy_data['name'],
+                position=Position[legacy_data['position']],
+                goalkeeping=legacy_data['goalkeeping'],
+                defending=legacy_data['defending'],
+                passing=legacy_data['passing'],
+                dribbling=legacy_data['dribbling'],
+                shooting=legacy_data['shooting'],
+                physical=legacy_data['physical'],
+                # Generate reasonable defaults for new attributes
+                natural_fitness=max(50, min(90, legacy_data['physical'] + random.randint(-10, 10))),
+                work_rate=random.randint(40, 80),
+                injury_proneness=random.randint(20, 50),
+                pressure_handling=random.randint(40, 80),
+                concentration=random.randint(45, 75),
+                determination=random.randint(40, 80),
+                composure=random.randint(40, 75),
+                leadership=random.randint(20, 60),
+                temperament=random.choice(list(TemperamentType)),
+                age=random.randint(20, 32)
+            )
+        except Exception as e:
+            print(f"Failed to migrate player {legacy_data.get('name', 'Unknown')}: {e}")
+            return None
     
     def save_players(self) -> None:
         """Save players to JSON file."""
@@ -40,16 +92,7 @@ class PlayerManager:
     
     def create_random_player(self, position: Optional[Position] = None, 
                            name_prefix: Optional[str] = None) -> Player:
-        """
-        Create a random player with randomized attributes.
-        
-        Args:
-            position: Specific position or None for random
-            name_prefix: Prefix for player name or None for position-based
-        
-        Returns:
-            New Player instance
-        """
+        """Create a random player with extended attributes."""
         if position is None:
             position = random.choice(list(Position))
         
@@ -58,70 +101,113 @@ class PlayerManager:
         else:
             name = f"{name_prefix}_{random.randint(100, 999)}"
         
-        # Generate attributes based on position
-        if position == Position.GK:
-            goalkeeping = random.randint(60, 95)
-            defending = random.randint(20, 50)
-            passing = random.randint(20, 60)
-            dribbling = random.randint(10, 30)
-            shooting = random.randint(10, 30)
-            physical = random.randint(40, 80)
-        elif position in [Position.CB, Position.SW]:
-            goalkeeping = 0
-            defending = random.randint(60, 95)
-            passing = random.randint(30, 70)
-            dribbling = random.randint(20, 50)
-            shooting = random.randint(20, 50)
-            physical = random.randint(50, 90)
-        elif position in [Position.LB, Position.RB]:
-            goalkeeping = 0
-            defending = random.randint(50, 85)
-            passing = random.randint(40, 80)
-            dribbling = random.randint(40, 75)
-            shooting = random.randint(20, 60)
-            physical = random.randint(50, 85)
-        elif position in [Position.DM, Position.CM]:
-            goalkeeping = 0
-            defending = random.randint(40, 80)
-            passing = random.randint(50, 90)
-            dribbling = random.randint(40, 80)
-            shooting = random.randint(30, 70)
-            physical = random.randint(50, 85)
-        elif position in [Position.LM, Position.RM, Position.LWB, Position.RWB, Position.WB]:
-            goalkeeping = 0
-            defending = random.randint(30, 70)
-            passing = random.randint(50, 85)
-            dribbling = random.randint(50, 85)
-            shooting = random.randint(30, 70)
-            physical = random.randint(45, 80)
-        elif position == Position.AM:
-            goalkeeping = 0
-            defending = random.randint(20, 60)
-            passing = random.randint(60, 95)
-            dribbling = random.randint(60, 90)
-            shooting = random.randint(40, 80)
-            physical = random.randint(40, 75)
-        else:  # ST, LW, RW
-            goalkeeping = 0
-            defending = random.randint(20, 50)
-            passing = random.randint(40, 80)
-            dribbling = random.randint(50, 90)
-            shooting = random.randint(60, 95)
-            physical = random.randint(50, 85)
+        # Generate core attributes based on position
+        core_attrs = self._generate_position_attributes(position)
         
-        return Player(
+        # Generate extended attributes
+        player = Player(
             name=name,
             position=position,
-            goalkeeping=goalkeeping,
-            defending=defending,
-            passing=passing,
-            dribbling=dribbling,
-            shooting=shooting,
-            physical=physical
+            **core_attrs,
+            # Physical/Mental attributes
+            natural_fitness=random.randint(40, 95),
+            work_rate=random.randint(30, 90),
+            injury_proneness=random.randint(10, 60),
+            pressure_handling=random.randint(30, 90),
+            concentration=random.randint(40, 85),
+            determination=random.randint(30, 90),
+            composure=random.randint(35, 85),
+            leadership=random.randint(10, 80),
+            temperament=random.choice(list(TemperamentType)),
+            preferred_foot=random.choice(["left", "right", "both"]),
+            age=random.randint(18, 35)
         )
+        
+        # Adjust some attributes based on age
+        if player.age < 22:  # Young players
+            player.leadership = max(10, player.leadership - 20)
+            player.composure = max(30, player.composure - 15)
+            player.natural_fitness += 5  # Young players fitter
+        elif player.age > 30:  # Older players
+            player.leadership += 15
+            player.composure += 10
+            player.natural_fitness = max(40, player.natural_fitness - 10)
+            
+        # Clamp all values to valid ranges
+        player.natural_fitness = min(100, max(30, player.natural_fitness))
+        player.leadership = min(100, max(0, player.leadership))
+        player.composure = min(100, max(20, player.composure))
+        
+        return player
+    
+    def _generate_position_attributes(self, position: Position) -> Dict[str, int]:
+        """Generate position-appropriate base attributes."""
+        if position == Position.GK:
+            return {
+                'goalkeeping': random.randint(60, 95),
+                'defending': random.randint(20, 60),
+                'passing': random.randint(40, 80),
+                'dribbling': random.randint(20, 50),
+                'shooting': random.randint(10, 40),
+                'physical': random.randint(50, 85)
+            }
+        elif position in [Position.CB, Position.SW]:
+            return {
+                'goalkeeping': random.randint(5, 25),
+                'defending': random.randint(70, 95),
+                'passing': random.randint(50, 80),
+                'dribbling': random.randint(30, 60),
+                'shooting': random.randint(20, 50),
+                'physical': random.randint(65, 90)
+            }
+        elif position in [Position.LB, Position.RB]:
+            return {
+                'goalkeeping': random.randint(5, 20),
+                'defending': random.randint(60, 85),
+                'passing': random.randint(55, 85),
+                'dribbling': random.randint(50, 80),
+                'shooting': random.randint(25, 55),
+                'physical': random.randint(70, 90)
+            }
+        elif position in [Position.DM, Position.CM]:
+            return {
+                'goalkeeping': random.randint(5, 20),
+                'defending': random.randint(50, 80),
+                'passing': random.randint(70, 95),
+                'dribbling': random.randint(60, 85),
+                'shooting': random.randint(35, 70),
+                'physical': random.randint(60, 85)
+            }
+        elif position in [Position.LM, Position.RM, Position.LWB, Position.RWB, Position.WB]:
+            return {
+                'goalkeeping': random.randint(5, 20),
+                'defending': random.randint(35, 70),
+                'passing': random.randint(60, 85),
+                'dribbling': random.randint(65, 90),
+                'shooting': random.randint(30, 70),
+                'physical': random.randint(65, 90)
+            }
+        elif position == Position.AM:
+            return {
+                'goalkeeping': random.randint(5, 20),
+                'defending': random.randint(25, 60),
+                'passing': random.randint(75, 95),
+                'dribbling': random.randint(70, 90),
+                'shooting': random.randint(60, 85),
+                'physical': random.randint(55, 80)
+            }
+        else:  # ST, LW, RW
+            return {
+                'goalkeeping': random.randint(5, 20),
+                'defending': random.randint(20, 50),
+                'passing': random.randint(50, 80),
+                'dribbling': random.randint(65, 90),
+                'shooting': random.randint(70, 95),
+                'physical': random.randint(65, 90)
+            }
     
     def create_manual_player(self) -> Optional[Player]:
-        """Create a player through user input."""
+        """Create a player through user input with extended attributes."""
         print("\n=== Create New Player ===")
         
         name = input("Enter player name: ").strip()
@@ -145,8 +231,8 @@ class PlayerManager:
             print("Invalid input!")
             return None
         
-        # Get attributes
-        print("\nEnter attributes (0-100):")
+        # Get core attributes
+        print("\nEnter core attributes (0-100):")
         try:
             if position == Position.GK:
                 goalkeeping = int(input("Goalkeeping: "))
@@ -161,8 +247,8 @@ class PlayerManager:
             physical = int(input("Physical: "))
             
             # Validate ranges
-            attrs = [goalkeeping, defending, passing, dribbling, shooting, physical]
-            if any(a < 0 or a > 100 for a in attrs):
+            core_attrs = [goalkeeping, defending, passing, dribbling, shooting, physical]
+            if any(a < 0 or a > 100 for a in core_attrs):
                 print("All attributes must be between 0 and 100!")
                 return None
             
@@ -170,7 +256,52 @@ class PlayerManager:
             print("Invalid input! Attributes must be numbers.")
             return None
         
-        return Player(
+        # Get extended attributes with defaults
+        print("\nExtended attributes (press Enter for default):")
+        try:
+            age_input = input(f"Age [25]: ").strip()
+            age = int(age_input) if age_input else 25
+            if age < 16 or age > 45:
+                print("Age must be between 16 and 45!")
+                return None
+            
+            fitness_input = input(f"Natural Fitness [70]: ").strip()
+            natural_fitness = int(fitness_input) if fitness_input else 70
+            
+            work_rate_input = input(f"Work Rate [50]: ").strip()
+            work_rate = int(work_rate_input) if work_rate_input else 50
+            
+            pressure_input = input(f"Pressure Handling [60]: ").strip()
+            pressure_handling = int(pressure_input) if pressure_input else 60
+            
+            # Select temperament
+            print("\nTemperament types:")
+            temp_types = list(TemperamentType)
+            for i, temp in enumerate(temp_types, 1):
+                print(f"{i}. {temp.value.replace('_', ' ').title()}")
+            
+            temp_idx = int(input("Select temperament [2]: ") or "2") - 1
+            if temp_idx < 0 or temp_idx >= len(temp_types):
+                temperament = TemperamentType.CONSISTENT
+            else:
+                temperament = temp_types[temp_idx]
+            
+            # Validate extended attributes
+            extended_attrs = [natural_fitness, work_rate, pressure_handling]
+            if any(a < 0 or a > 100 for a in extended_attrs):
+                print("Extended attributes must be between 0 and 100!")
+                return None
+            
+        except ValueError:
+            print("Invalid input! Using defaults for extended attributes.")
+            age = 25
+            natural_fitness = 70
+            work_rate = 50
+            pressure_handling = 60
+            temperament = TemperamentType.CONSISTENT
+        
+        # Generate reasonable defaults for remaining extended attributes
+        player = Player(
             name=name,
             position=position,
             goalkeeping=goalkeeping,
@@ -178,20 +309,25 @@ class PlayerManager:
             passing=passing,
             dribbling=dribbling,
             shooting=shooting,
-            physical=physical
+            physical=physical,
+            age=age,
+            natural_fitness=natural_fitness,
+            work_rate=work_rate,
+            pressure_handling=pressure_handling,
+            temperament=temperament,
+            # Generate reasonable defaults for other extended attributes
+            injury_proneness=random.randint(20, 50),
+            concentration=random.randint(45, 75),
+            determination=random.randint(40, 80),
+            composure=random.randint(40, 75),
+            leadership=random.randint(20, 60) if age > 25 else random.randint(10, 40),
+            preferred_foot=random.choice(["left", "right"])
         )
+        
+        return player
     
     def generate_player_pool(self, count: int, ensure_all_positions: bool = True) -> List[Player]:
-        """
-        Generate a pool of random players.
-        
-        Args:
-            count: Number of players to generate
-            ensure_all_positions: If True, ensures at least 2 per position
-        
-        Returns:
-            List of generated players
-        """
+        """Generate a pool of random players with extended attributes."""
         players = []
         
         if ensure_all_positions:
@@ -225,16 +361,74 @@ class PlayerManager:
         return sorted(self.players, key=lambda p: p.overall_rating(), reverse=True)[:count]
     
     def display_player_stats(self, player: Player) -> None:
-        """Display detailed player statistics."""
-        print(f"\n{'='*50}")
+        """Display detailed player statistics with extended attributes."""
+        print(f"\n{'='*70}")
         print(f"Name: {player.name}")
         print(f"Position: {player.position.value}")
+        print(f"Age: {player.age}")
         print(f"Overall Rating: {player.overall_rating():.0f}")
-        print(f"\nAttributes:")
-        print(f"  Goalkeeping: {player.goalkeeping}")
-        print(f"  Defending:   {player.defending}")
-        print(f"  Passing:     {player.passing}")
-        print(f"  Dribbling:   {player.dribbling}")
-        print(f"  Shooting:    {player.shooting}")
-        print(f"  Physical:    {player.physical}")
-        print(f"{'='*50}")
+        print(f"Temperament: {player.temperament.value.replace('_', ' ').title()}")
+        print(f"Preferred Foot: {player.preferred_foot.title()}")
+        
+        print(f"\nCore Attributes:")
+        print(f"  Goalkeeping: {player.goalkeeping:3d}")
+        print(f"  Defending:   {player.defending:3d}")
+        print(f"  Passing:     {player.passing:3d}")
+        print(f"  Dribbling:   {player.dribbling:3d}")
+        print(f"  Shooting:    {player.shooting:3d}")
+        print(f"  Physical:    {player.physical:3d}")
+        
+        print(f"\nPhysical & Mental:")
+        print(f"  Natural Fitness:   {player.natural_fitness:3d}")
+        print(f"  Work Rate:         {player.work_rate:3d}")
+        print(f"  Injury Proneness:  {player.injury_proneness:3d}")
+        print(f"  Pressure Handling: {player.pressure_handling:3d}")
+        print(f"  Concentration:     {player.concentration:3d}")
+        print(f"  Determination:     {player.determination:3d}")
+        print(f"  Composure:         {player.composure:3d}")
+        print(f"  Leadership:        {player.leadership:3d}")
+        
+        print(f"\nCurrent Status:")
+        print(f"  Stamina:     {player.current_stamina:5.1f}%")
+        print(f"  Form Rating: {player.form.base_form:5.1f}/10")
+        print(f"  Confidence:  {player.form.confidence:5.1f}%")
+        
+        print(f"{'='*70}")
+    
+    def get_players_by_fitness_status(self) -> Dict[str, List[Player]]:
+        """Group players by their fitness status."""
+        categories = {
+            "Fully Fit": [],      # 90%+ stamina
+            "Good Shape": [],     # 70-89% stamina
+            "Tired": [],          # 50-69% stamina
+            "Exhausted": []       # <50% stamina
+        }
+        
+        for player in self.players:
+            if player.current_stamina >= 90:
+                categories["Fully Fit"].append(player)
+            elif player.current_stamina >= 70:
+                categories["Good Shape"].append(player)
+            elif player.current_stamina >= 50:
+                categories["Tired"].append(player)
+            else:
+                categories["Exhausted"].append(player)
+        
+        return categories
+    
+    def rest_all_players(self, hours: float = 24):
+        """Apply rest recovery to all players."""
+        from performance_system import RecoverySystem
+        recovery_system = RecoverySystem()
+        
+        print(f"\nApplying {hours} hours of rest to all players...")
+        recovered_count = 0
+        
+        for player in self.players:
+            old_stamina = player.current_stamina
+            recovery_system.calculate_recovery(player, hours, "full_rest")
+            if player.current_stamina > old_stamina:
+                recovered_count += 1
+        
+        self.save_players()
+        print(f"✅ {recovered_count} players recovered stamina")
