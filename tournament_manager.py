@@ -465,6 +465,91 @@ class TournamentManager:
                             next_round.matches[match_index].away_team = winners[i + 1]
                         match_index += 1
     
+    def _generate_match_preview(self, home_team_name: str, away_team_name: str) -> str:
+        """Generate a descriptive match preview phrase based on team stats."""
+        home_team = self.team_manager.find_team_by_name(home_team_name)
+        away_team = self.team_manager.find_team_by_name(away_team_name)
+        
+        if not home_team or not away_team:
+            return f"{home_team_name} vs {away_team_name}"
+        
+        # Calculate strength difference
+        elo_diff = abs(home_team.elo_rating - away_team.elo_rating)
+        strength_diff = abs(home_team.compute_strength() - away_team.compute_strength())
+        
+        # Determine stronger team
+        if home_team.elo_rating > away_team.elo_rating:
+            stronger_team, weaker_team = home_team, away_team
+        elif away_team.elo_rating > home_team.elo_rating:
+            stronger_team, weaker_team = away_team, home_team
+        else:
+            stronger_team = weaker_team = None
+        
+        # Consider streaks (hot/cold streaks affect perception)
+        home_hot_streak = home_team.streak_count >= 3
+        away_hot_streak = away_team.streak_count >= 3
+        home_cold_streak = home_team.streak_count <= -3
+        away_cold_streak = away_team.streak_count <= -3
+        
+        # Generate preview based on various factors
+        if elo_diff < 50 and strength_diff < 5:
+            if home_hot_streak and not away_hot_streak:
+                return f"{home_team.name} riding momentum vs {away_team.name}"
+            elif away_hot_streak and not home_hot_streak:
+                return f"{away_team.name} on fire vs {home_team.name}"
+            elif home_hot_streak and away_hot_streak:
+                return f"Clash of titans: {home_team.name} vs {away_team.name}"
+            else:
+                return f"Evenly matched contest: {home_team.name} vs {away_team.name}"
+        
+        elif elo_diff < 100 and strength_diff < 10:
+            if stronger_team == home_team:
+                if home_cold_streak:
+                    return f"Struggling {home_team.name} face {away_team.name}"
+                elif away_hot_streak:
+                    return f"{home_team.name} vs red-hot {away_team.name}"
+                else:
+                    return f"{home_team.name} slight favourites vs {away_team.name}"
+            else:
+                if away_cold_streak:
+                    return f"{home_team.name} vs out-of-form {away_team.name}"
+                elif home_hot_streak:
+                    return f"In-form {home_team.name} vs {away_team.name}"
+                else:
+                    return f"{home_team.name} vs favoured {away_team.name}"
+        
+        elif elo_diff < 200:
+            if stronger_team == home_team:
+                if away_hot_streak:
+                    return f"{home_team.name} vs dangerous {away_team.name}"
+                elif home_cold_streak:
+                    return f"Underperforming {home_team.name} vs {away_team.name}"
+                else:
+                    return f"Strong {home_team.name} vs {away_team.name}"
+            else:
+                if home_hot_streak:
+                    return f"Confident {home_team.name} vs {away_team.name}"
+                elif away_cold_streak:
+                    return f"{home_team.name} vs struggling giants {away_team.name}"
+                else:
+                    return f"{home_team.name} vs powerful {away_team.name}"
+        
+        else:  # Large difference (200+ Elo)
+            if stronger_team == home_team:
+                if away_hot_streak:
+                    return f"Giants {home_team.name} vs resilient {away_team.name}"
+                elif home_cold_streak:
+                    return f"Faltering {home_team.name} vs underdogs {away_team.name}"
+                else:
+                    return f"Dominant {home_team.name} vs brave {away_team.name}"
+            else:
+                if home_hot_streak:
+                    return f"Giant-killers {home_team.name} vs {away_team.name}"
+                elif away_cold_streak:
+                    return f"Underdogs {home_team.name} vs wounded {away_team.name}"
+                else:
+                    return f"David vs Goliath: {home_team.name} vs {away_team.name}"
+
     def get_tournament_bracket_display(self, tournament: Tournament) -> str:
         """Generate a visual representation of the tournament bracket."""
         lines = []
@@ -514,7 +599,8 @@ class TournamentManager:
                     if home == "TBD" or away == "TBD":
                         lines.append(f"   {j}. {home} vs {away}")
                     else:
-                        lines.append(f"   {j}. {home} vs {away} (⏳ Pending)")
+                        preview = self._generate_match_preview(home, away)
+                        lines.append(f"   {j}. {preview} (⏳ Pending)")
             lines.append("")
         
         return "\n".join(lines)

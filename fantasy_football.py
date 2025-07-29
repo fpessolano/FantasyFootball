@@ -1449,7 +1449,8 @@ class FantasyFootballApp:
                     self._display_tournament_progress(tournament)
                     
                     print(f"\n{'─' * 70}")
-                    print(f"⚽ MATCH {match_num}/{len(current_round.matches)}: {match.home_team} vs {match.away_team}")
+                    match_preview = self.tournament_manager._generate_match_preview(match.home_team, match.away_team)
+                    print(f"⚽ MATCH {match_num}/{len(current_round.matches)}: {match_preview}")
                     print(f"📍 {current_round.round_name}")
                     print(f"{'─' * 70}")
                     

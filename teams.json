@@ -3,8 +3,8 @@
     "name": "Milan",
     "formation": "4-4-2",
     "style": "WIDE",
-    "elo_rating": 1483.4653279545425,
-    "streak_count": -1,
+    "elo_rating": 1484.7113725946397,
+    "streak_count": 0,
     "team_momentum": -67.63267728,
     "players": [
       {
@@ -27,8 +27,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.2828821006493982,
-        "form_base": 5.116126202747756,
+        "current_stamina": 0.20569312109213794,
+        "form_base": 5.106159305664825,
         "form_confidence": 0
       },
       {
@@ -51,8 +51,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.12713989958292995,
-        "form_base": 5.118492083267883,
+        "current_stamina": 0.08851848690058509,
+        "form_base": 5.109297275431447,
         "form_confidence": 0
       },
       {
@@ -75,8 +75,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.8341237335529493,
-        "form_base": 5.11284852004001,
+        "current_stamina": 0.6432032965086202,
+        "form_base": 5.1148295069562275,
         "form_confidence": 0
       },
       {
@@ -99,8 +99,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.00040409352045575896,
-        "form_base": 5.013469576724547,
+        "current_stamina": 0.0002058615411428082,
+        "form_base": 5.011102737455337,
         "form_confidence": 0
       },
       {
@@ -123,8 +123,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.00022924395729426666,
-        "form_base": 5.037834480893397,
+        "current_stamina": 0.0001132451689903279,
+        "form_base": 5.057892972522606,
         "form_confidence": 0
       },
       {
@@ -147,8 +147,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.007074724482457029,
-        "form_base": 5.061042740529754,
+        "current_stamina": 0.004210429733178102,
+        "form_base": 5.044172600211029,
         "form_confidence": 0
       },
       {
@@ -171,8 +171,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.0017187475774149545,
-        "form_base": 5.06377501477113,
+        "current_stamina": 0.000947227462005132,
+        "form_base": 5.072970058539421,
         "form_confidence": 0
       },
       {
@@ -195,8 +195,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.0010471432668618427,
-        "form_base": 5.404643997981001,
+        "current_stamina": 0.0005617715188838106,
+        "form_base": 5.340586890990629,
         "form_confidence": 0
       },
       {
@@ -219,8 +219,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 1.670866650723324e-06,
-        "form_base": 5.121481268718039,
+        "current_stamina": 6.317790075563548e-07,
+        "form_base": 5.114857698729145,
         "form_confidence": 0
       },
       {
@@ -243,8 +243,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.024089237217882625,
-        "form_base": 5.900947812126299,
+        "current_stamina": 0.015322842002450925,
+        "form_base": 5.752697821388685,
         "form_confidence": 0
       },
       {
@@ -267,8 +267,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.12516122813511454,
-        "form_base": 5.052056093626892,
+        "current_stamina": 0.08706668045433691,
+        "form_base": 5.0544639550421975,
         "form_confidence": 0
       }
     ]
@@ -277,9 +277,9 @@
     "name": "Manchester City",
     "formation": "3-5-2",
     "style": "ATTACKING",
-    "elo_rating": 1483.2491697463217,
-    "streak_count": 0,
-    "team_momentum": -65.0132,
+    "elo_rating": 1484.0098373419446,
+    "streak_count": -1,
+    "team_momentum": -73.9134397344,
     "players": [
       {
         "name": "GK_1981",
@@ -301,8 +301,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 3.9885204685836797,
-        "form_base": 5.062634265151651,
+        "current_stamina": 2.854265023036149,
+        "form_base": 5.008185084873835,
         "form_confidence": 0
       },
       {
@@ -325,8 +325,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.494209595175842,
-        "form_base": 4.886639094204998,
+        "current_stamina": 0.2847136995566615,
+        "form_base": 4.874481215474161,
         "form_confidence": 0
       },
       {
@@ -349,8 +349,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.08122683325068265,
-        "form_base": 5.045525704016522,
+        "current_stamina": 0.03879321225360254,
+        "form_base": 4.923261344272847,
         "form_confidence": 0
       },
       {
@@ -373,8 +373,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.11881527035896088,
-        "form_base": 5.089170980501991,
+        "current_stamina": 0.05903119795964354,
+        "form_base": 5.0703671188051755,
         "form_confidence": 0
       },
       {
@@ -397,8 +397,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.01211240518595424,
-        "form_base": 4.595114118236328,
+        "current_stamina": 0.004747442880105303,
+        "form_base": 4.751757484834272,
         "form_confidence": 0
       },
       {
@@ -421,8 +421,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 3.0913362552763185e-06,
-        "form_base": 5.115124385391575,
+        "current_stamina": 5.131841873104856e-07,
+        "form_base": 5.1129911352181034,
         "form_confidence": 0
       },
       {
@@ -445,8 +445,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.04701030204951885,
-        "form_base": 5.060008165587185,
+        "current_stamina": 0.021212140996336663,
+        "form_base": 5.020229989655836,
         "form_confidence": 0
       },
       {
@@ -469,8 +469,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 4.534573344895389e-05,
-        "form_base": 5.041086234769969,
+        "current_stamina": 9.948892271498992e-06,
+        "form_base": 5.072330018694693,
         "form_confidence": 0
       },
       {
@@ -493,8 +493,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.0005470921642910774,
-        "form_base": 5.643219461293093,
+        "current_stamina": 0.00015545432910419379,
+        "form_base": 5.46355068085272,
         "form_confidence": 0
       },
       {
@@ -517,8 +517,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.002680559370644901,
-        "form_base": 5.122358720417769,
+        "current_stamina": 0.0008983301138928779,
+        "form_base": 5.082026430771293,
         "form_confidence": 0
       },
       {
@@ -541,8 +541,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.001920212134221461,
-        "form_base": 5.260358996729491,
+        "current_stamina": 0.0006216061851930071,
+        "form_base": 5.54967751455093,
         "form_confidence": 0
       }
     ]
@@ -551,9 +551,9 @@
     "name": "Celtics",
     "formation": "3-5-2",
     "style": "WIDE",
-    "elo_rating": 1526.983518128333,
-    "streak_count": -1,
-    "team_momentum": -85.82858582249713,
+    "elo_rating": 1534.4858550786973,
+    "streak_count": 0,
+    "team_momentum": -81.74471434744771,
     "players": [
       {
         "name": "GK_8061",
@@ -575,8 +575,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 5.1233742583303234,
-        "form_base": 5.228082074329519,
+        "current_stamina": 3.5192582140502306,
+        "form_base": 5.113193205147619,
         "form_confidence": 0
       },
       {
@@ -599,8 +599,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.20591432743978974,
-        "form_base": 4.980398250645724,
+        "current_stamina": 0.09422120164039494,
+        "form_base": 5.014193399244788,
         "form_confidence": 0
       },
       {
@@ -623,8 +623,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.1278489540679547,
-        "form_base": 5.0572679331227,
+        "current_stamina": 0.05508029722003721,
+        "form_base": 5.004257720690557,
         "form_confidence": 0
       },
       {
@@ -647,8 +647,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.01897746528493528,
-        "form_base": 4.942932272324309,
+        "current_stamina": 0.006424234221011544,
+        "form_base": 4.991975221411008,
         "form_confidence": 0
       },
       {
@@ -671,8 +671,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.0002477188478915065,
-        "form_base": 5.124880981944517,
+        "current_stamina": 4.845832304778431e-05,
+        "form_base": 5.038408291954841,
         "form_confidence": 0
       },
       {
@@ -695,8 +695,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.0012187656321069414,
-        "form_base": 5.061286659696877,
+        "current_stamina": 0.0002916046117059191,
+        "form_base": 5.09620601636027,
         "form_confidence": 0
       },
       {
@@ -719,8 +719,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.006680899347420924,
-        "form_base": 4.919537710518114,
+        "current_stamina": 0.001982020661694874,
+        "form_base": 4.936457223019776,
         "form_confidence": 0
       },
       {
@@ -743,8 +743,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.0005718847366125147,
-        "form_base": 5.05053684422682,
+        "current_stamina": 0.00012435000462077193,
+        "form_base": 5.052686071044613,
         "form_confidence": 0
       },
       {
@@ -767,8 +767,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.00927596314215221,
-        "form_base": 5.103964885880233,
+        "current_stamina": 0.002868449830549825,
+        "form_base": 5.084851651646494,
         "form_confidence": 0
       },
       {
@@ -791,8 +791,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.04829900760422396,
-        "form_base": 5.444558778774138,
+        "current_stamina": 0.01839930214332061,
+        "form_base": 5.256792336194726,
         "form_confidence": 0
       },
       {
@@ -815,9 +815,9 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.042026865676703405,
-        "form_base": 5.765999366894521,
-        "form_confidence": 5
+        "current_stamina": 0.01573092495090296,
+        "form_base": 5.501208349739554,
+        "form_confidence": 0
       }
     ]
   },
@@ -825,9 +825,9 @@
     "name": "Richmond",
     "formation": "4-4-2",
     "style": "ATTACKING",
-    "elo_rating": 1503.440419423479,
-    "streak_count": 1,
-    "team_momentum": -62.70759358824462,
+    "elo_rating": 1503.1404778498131,
+    "streak_count": 0,
+    "team_momentum": -69.29344171647972,
     "players": [
       {
         "name": "Matteo Pex",
@@ -849,8 +849,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 1.2380677412900591,
-        "form_base": 5.107826791277014,
+        "current_stamina": 1.0098100749339938,
+        "form_base": 5.074042111487284,
         "form_confidence": 0
       },
       {
@@ -873,8 +873,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.21307932529689322,
-        "form_base": 5.076788336618613,
+        "current_stamina": 0.1601669390076368,
+        "form_base": 5.049535896717956,
         "form_confidence": 0
       },
       {
@@ -897,8 +897,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.3693472009681244,
-        "form_base": 5.140098328489613,
+        "current_stamina": 0.2848082696400693,
+        "form_base": 5.122559497932312,
         "form_confidence": 0
       },
       {
@@ -921,8 +921,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.0001771187747708398,
-        "form_base": 5.074695299189478,
+        "current_stamina": 9.579519845430912e-05,
+        "form_base": 5.069896088454617,
         "form_confidence": 0
       },
       {
@@ -945,8 +945,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.009758668270471565,
-        "form_base": 5.139323602173163,
+        "current_stamina": 0.006357336954301212,
+        "form_base": 5.134296058764171,
         "form_confidence": 0
       },
       {
@@ -969,8 +969,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.0006664129171485191,
-        "form_base": 5.056705648382094,
+        "current_stamina": 0.00038329307176508307,
+        "form_base": 4.9463768411540086,
         "form_confidence": 0
       },
       {
@@ -993,8 +993,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 2.0146684704498052e-05,
-        "form_base": 5.106222719918035,
+        "current_stamina": 9.85069959254531e-06,
+        "form_base": 5.11695475367301,
         "form_confidence": 0
       },
       {
@@ -1017,8 +1017,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.0004245884762904331,
-        "form_base": 5.086999746796353,
+        "current_stamina": 0.00023914964465919985,
+        "form_base": 5.046939617756774,
         "form_confidence": 0
       },
       {
@@ -1041,8 +1041,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 2.5838555578276458e-05,
-        "form_base": 4.770556073734787,
+        "current_stamina": 1.2780483027418793e-05,
+        "form_base": 4.833688949332424,
         "form_confidence": 0
       },
       {
@@ -1065,9 +1065,9 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.07628021330656087,
-        "form_base": 5.780915468475686,
-        "form_confidence": 5
+        "current_stamina": 0.05466884742721191,
+        "form_base": 5.654123509201037,
+        "form_confidence": 0
       },
       {
         "name": "ST_1964",
@@ -1089,8 +1089,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.005834130394044697,
-        "form_base": 5.367594745770003,
+        "current_stamina": 0.0037110124094456988,
+        "form_base": 5.28377002472441,
         "form_confidence": 0
       }
     ]
@@ -1099,9 +1099,9 @@
     "name": "Leeds United",
     "formation": "4-3-3",
     "style": "BALANCED",
-    "elo_rating": 1493.0162550149046,
-    "streak_count": -2,
-    "team_momentum": -87.07868590023912,
+    "elo_rating": 1494.2194201523685,
+    "streak_count": 0,
+    "team_momentum": -98.0,
     "players": [
       {
         "name": "Test Team 1_Player_1",
@@ -1123,8 +1123,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 14.228815465466639,
-        "form_base": 5.631664228851493,
+        "current_stamina": 9.465843717688896,
+        "form_base": 5.430872955152478,
         "form_confidence": 0
       },
       {
@@ -1147,8 +1147,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 2.0152995996470873,
-        "form_base": 5.46528063388683,
+        "current_stamina": 0.891001736869974,
+        "form_base": 5.318393054815955,
         "form_confidence": 0
       },
       {
@@ -1171,8 +1171,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 2.0152995996470873,
-        "form_base": 5.489279601046761,
+        "current_stamina": 0.891001736869974,
+        "form_base": 5.302741026991006,
         "form_confidence": 0
       },
       {
@@ -1195,8 +1195,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.2841203835417713,
-        "form_base": 5.484359930332977,
+        "current_stamina": 0.08339596162568913,
+        "form_base": 5.315180375579339,
         "form_confidence": 0
       },
       {
@@ -1219,8 +1219,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.2841203835417713,
-        "form_base": 5.469521334574372,
+        "current_stamina": 0.08339596162568913,
+        "form_base": 5.356376593100375,
         "form_confidence": 0
       },
       {
@@ -1243,8 +1243,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.1477209052929962,
-        "form_base": 5.507834101254666,
+        "current_stamina": 0.03781695775978798,
+        "form_base": 5.356412838048566,
         "form_confidence": 0
       },
       {
@@ -1267,8 +1267,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.1477209052929962,
-        "form_base": 5.398753678818208,
+        "current_stamina": 0.03781695775978798,
+        "form_base": 5.284252530006971,
         "form_confidence": 0
       },
       {
@@ -1291,8 +1291,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.1477209052929962,
-        "form_base": 5.420181322172766,
+        "current_stamina": 0.03781695775978798,
+        "form_base": 5.320934891596461,
         "form_confidence": 0
       },
       {
@@ -1315,8 +1315,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.20488031522973635,
-        "form_base": 5.716165916223326,
+        "current_stamina": 0.056162971446242785,
+        "form_base": 5.513070811467297,
         "form_confidence": 0
       },
       {
@@ -1339,8 +1339,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.20488031522973635,
-        "form_base": 5.444895865232731,
+        "current_stamina": 0.056162971446242785,
+        "form_base": 5.304788996559637,
         "form_confidence": 0
       },
       {
@@ -1363,8 +1363,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 1.049423630069027,
-        "form_base": 5.566868529342992,
+        "current_stamina": 0.40480002359986944,
+        "form_base": 5.415256272631901,
         "form_confidence": 0
       }
     ]
@@ -1373,9 +1373,9 @@
     "name": "Taranto",
     "formation": "4-3-3",
     "style": "BALANCED",
-    "elo_rating": 1518.0513206529765,
-    "streak_count": 1,
-    "team_momentum": -3.864008440034777,
+    "elo_rating": 1507.9544707424877,
+    "streak_count": -1,
+    "team_momentum": -23.38672827123408,
     "players": [
       {
         "name": "Test Team 2_Player_1",
@@ -1397,8 +1397,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 9.35811062553199,
-        "form_base": 5.5073827789924685,
+        "current_stamina": 7.74552388608479,
+        "form_base": 5.45598315091006,
         "form_confidence": 0
       },
       {
@@ -1421,8 +1421,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.8707685260430158,
-        "form_base": 5.254298461921575,
+        "current_stamina": 0.5962637577128781,
+        "form_base": 5.232666142306725,
         "form_confidence": 0
       },
       {
@@ -1445,8 +1445,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.8707685260430158,
-        "form_base": 5.400329808749275,
+        "current_stamina": 0.5962637577128781,
+        "form_base": 5.34387150215332,
         "form_confidence": 0
       },
       {
@@ -1469,8 +1469,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.0805620782982529,
-        "form_base": 5.3630173980758835,
+        "current_stamina": 0.04561933019402661,
+        "form_base": 5.291618888878601,
         "form_confidence": 0
       },
       {
@@ -1493,8 +1493,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.0805620782982529,
-        "form_base": 5.311603562759599,
+        "current_stamina": 0.04561933019402661,
+        "form_base": 5.260109074142722,
         "form_confidence": 0
       },
       {
@@ -1517,8 +1517,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.036390257969574735,
-        "form_base": 5.367714499940411,
+        "current_stamina": 0.019339937169706254,
+        "form_base": 5.309824644139382,
         "form_confidence": 0
       },
       {
@@ -1541,8 +1541,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.036390257969574735,
-        "form_base": 5.2857802319115,
+        "current_stamina": 0.019339937169706254,
+        "form_base": 5.2389008026037915,
         "form_confidence": 0
       },
       {
@@ -1565,8 +1565,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.036390257969574735,
-        "form_base": 5.314753827439245,
+        "current_stamina": 0.019339937169706254,
+        "form_base": 5.244912530909431,
         "form_confidence": 0
       },
       {
@@ -1589,9 +1589,9 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.05414927500181752,
-        "form_base": 5.621043671189144,
-        "form_confidence": -0.3401034104143661
+        "current_stamina": 0.029705672707741052,
+        "form_base": 5.50246756609043,
+        "form_confidence": 0
       },
       {
         "name": "Test Team 2_Player_10",
@@ -1613,8 +1613,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.05414927500181752,
-        "form_base": 5.287090917263231,
+        "current_stamina": 0.029705672707741052,
+        "form_base": 5.221643002715986,
         "form_confidence": 0
       },
       {
@@ -1637,8 +1637,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.3940841519788884,
-        "form_base": 5.490961938804262,
+        "current_stamina": 0.2533028405177983,
+        "form_base": 5.415141780104642,
         "form_confidence": 0
       }
     ]
@@ -1647,9 +1647,9 @@
     "name": "Chelsea",
     "formation": "3-5-2",
     "style": "ATTACKING",
-    "elo_rating": 1514.6863049027377,
-    "streak_count": -1,
-    "team_momentum": 3.421554737260794,
+    "elo_rating": 1524.1941343079734,
+    "streak_count": 0,
+    "team_momentum": 18.05312364251558,
     "players": [
       {
         "name": "Test Team 3_Player_1",
@@ -1671,9 +1671,9 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 13.552602593738687,
-        "form_base": 5.532261681324437,
-        "form_confidence": 0.9788337096415773
+        "current_stamina": 7.462355064546049,
+        "form_base": 5.346712644926857,
+        "form_confidence": 0
       },
       {
         "name": "Test Team 3_Player_2",
@@ -1695,8 +1695,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 1.8277919698132443,
-        "form_base": 5.434350784363058,
+        "current_stamina": 0.5533518759952258,
+        "form_base": 5.217001961594925,
         "form_confidence": 0
       },
       {
@@ -1719,8 +1719,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 1.8277919698132443,
-        "form_base": 5.5689895730053145,
+        "current_stamina": 0.5533518759952258,
+        "form_base": 5.372435105619811,
         "form_confidence": 0
       },
       {
@@ -1743,8 +1743,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.24530188442343095,
-        "form_base": 5.414395056108993,
+        "current_stamina": 0.04077197564561393,
+        "form_base": 5.249214595964549,
         "form_confidence": 0
       },
       {
@@ -1767,8 +1767,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.24530188442343095,
-        "form_base": 5.491001929935709,
+        "current_stamina": 0.04077197564561393,
+        "form_base": 5.304930633167071,
         "form_confidence": 0
       },
       {
@@ -1791,9 +1791,9 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 2.2265891816174292,
-        "form_base": 5.78756146807818,
-        "form_confidence": 9.368898253525337
+        "current_stamina": 0.4408803961187053,
+        "form_base": 5.52129218494418,
+        "form_confidence": 0
       },
       {
         "name": "CM_6471",
@@ -1815,9 +1815,9 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 3.561214976923611,
-        "form_base": 5.544604051164979,
-        "form_confidence": 2.4627495605119663
+        "current_stamina": 0.8611767026387493,
+        "form_base": 5.289217887898026,
+        "form_confidence": 0
       },
       {
         "name": "Test Team 3_Player_8",
@@ -1839,8 +1839,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.1254537469145965,
-        "form_base": 5.515535600185899,
+        "current_stamina": 0.017068611337447984,
+        "form_base": 5.715818633829588,
         "form_confidence": 0
       },
       {
@@ -1863,8 +1863,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.17543733757983185,
-        "form_base": 5.417934277157258,
+        "current_stamina": 0.026382662203316906,
+        "form_base": 5.317054891124888,
         "form_confidence": 0
       },
       {
@@ -1887,8 +1887,8 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 0.17543733757983185,
-        "form_base": 5.481190644304686,
+        "current_stamina": 0.026382662203316906,
+        "form_base": 5.259877426592606,
         "form_confidence": 0
       },
       {
@@ -1911,9 +1911,9 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 10.534511247062259,
-        "form_base": 6.371259357779579,
-        "form_confidence": 22.79244050929021
+        "current_stamina": 4.041976618265314,
+        "form_base": 5.8532392911199596,
+        "form_confidence": 0
       }
     ]
   },
@@ -1921,8 +1921,8 @@
     "name": "Wrexham",
     "formation": "4-3-3",
     "style": "BALANCED",
-    "elo_rating": 1477.1076841767049,
-    "streak_count": -2,
+    "elo_rating": 1467.2844319320754,
+    "streak_count": -3,
     "team_momentum": -98.0,
     "players": [
       {
@@ -1945,9 +1945,9 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 30.02992491689369,
-        "form_base": 6.1383214619243445,
-        "form_confidence": 25.296737469998156
+        "current_stamina": 24.583287529942936,
+        "form_base": 5.9735000150672795,
+        "form_confidence": 17.296737469998156
       },
       {
         "name": "Test Team 4_Player_2",
@@ -1969,9 +1969,9 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 8.991442018177919,
-        "form_base": 5.896745334320659,
-        "form_confidence": 9.734318885402956
+        "current_stamina": 6.022691729067806,
+        "form_base": 5.761424134201892,
+        "form_confidence": 1.7343188854029563
       },
       {
         "name": "Test Team 4_Player_3",
@@ -1993,9 +1993,9 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 8.991442018177919,
-        "form_base": 5.4981832909092905,
-        "form_confidence": 9.545645106477984
+        "current_stamina": 6.022691729067806,
+        "form_base": 5.4005009912088635,
+        "form_confidence": 1.5456451064779841
       },
       {
         "name": "Test Team 4_Player_4",
@@ -2017,9 +2017,9 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 2.684222197425052,
-        "form_base": 5.7872075969699015,
-        "form_confidence": 9.687763783054244
+        "current_stamina": 1.4704290835159757,
+        "form_base": 5.663788324087501,
+        "form_confidence": 1.687763783054244
       },
       {
         "name": "Test Team 4_Player_5",
@@ -2041,9 +2041,9 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 2.684222197425052,
-        "form_base": 5.802057009722884,
-        "form_confidence": 9.650504353719064
+        "current_stamina": 1.4704290835159757,
+        "form_base": 5.683100979074924,
+        "form_confidence": 1.6505043537190645
       },
       {
         "name": "Test Team 4_Player_6",
@@ -2065,9 +2065,9 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 1.7927835951663194,
-        "form_base": 5.785470384739022,
-        "form_confidence": 9.751140962119209
+        "current_stamina": 0.9183209012609899,
+        "form_base": 5.642736892399043,
+        "form_confidence": 1.7511409621192087
       },
       {
         "name": "Test Team 4_Player_7",
@@ -2089,9 +2089,9 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 1.7927835951663194,
-        "form_base": 5.8484741290797215,
-        "form_confidence": 9.80593294894257
+        "current_stamina": 0.9183209012609899,
+        "form_base": 5.443177796741113,
+        "form_confidence": 1.8059329489425693
       },
       {
         "name": "Test Team 4_Player_8",
@@ -2113,9 +2113,9 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 1.7927835951663194,
-        "form_base": 5.859248886589157,
-        "form_confidence": 9.785544945454504
+        "current_stamina": 0.9183209012609899,
+        "form_base": 5.7465977956833125,
+        "form_confidence": 1.7855449454545038
       },
       {
         "name": "Test Team 4_Player_9",
@@ -2137,9 +2137,9 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 2.1937702328237796,
-        "form_base": 5.558005166023698,
-        "form_confidence": 9.810638133929373
+        "current_stamina": 1.1620911694535816,
+        "form_base": 5.495815076194911,
+        "form_confidence": 1.8106381339293733
       },
       {
         "name": "Test Team 4_Player_10",
@@ -2161,9 +2161,9 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 2.1937702328237796,
-        "form_base": 5.831200514303112,
-        "form_confidence": 9.846055969098742
+        "current_stamina": 1.1620911694535816,
+        "form_base": 5.723360593743908,
+        "form_confidence": 1.8460559690987424
       },
       {
         "name": "Test Team 4_Player_11",
@@ -2185,9 +2185,9 @@
         "temperament": "consistent",
         "preferred_foot": "right",
         "age": 25,
-        "current_stamina": 6.011307534910272,
-        "form_base": 5.846566549421183,
-        "form_confidence": 17.239624094164867
+        "current_stamina": 3.765666629515055,
+        "form_base": 5.717074363293826,
+        "form_confidence": 9.239624094164867
       }
     ]
   }
