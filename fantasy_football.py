@@ -1606,15 +1606,15 @@ class FantasyFootballApp:
         """Settings submenu."""
         while True:
             self.clear_screen()
-            print("=" * 60)
-            print("SETTINGS")
-            print("=" * 60)
-            print(f"\n1. Toggle Momentum (Currently: {'🔥 ON' if self.match_engine.use_momentum else '❄️ OFF'})")
-            print(f"2. Toggle Detailed Simulation (Currently: {'📊 ON' if self.match_engine.detailed_sim else '⚡ OFF'})")
-            print("3. Reset All Data")
-            print("4. View System Info")
+            print("=" * 70)
+            print("⚙️  SETTINGS")
+            print("=" * 70)
+            print(f"\n1. Toggle Enhanced Match Simulation (Currently: {'📊 ON' if self.match_engine.detailed_sim else '⚡ OFF'})")
+            print(f"2. Toggle Penalty Shootout Details (Currently: {'🥅 ON' if self.match_engine.show_penalty_details else '⚡ OFF'})")
+            print(f"3. Toggle Detailed Statistics Table (Currently: {'📊 ON' if self.match_engine.show_detailed_stats else '⚡ OFF'})")
+            print("4. Reset All Data")
+            print("5. View System Info")
             print("0. Back to Main Menu")
-            print("\n" + "=" * 60)
             
             choice = input("\nEnter choice: ").strip()
             
