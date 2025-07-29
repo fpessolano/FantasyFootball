@@ -10,6 +10,14 @@ import random
 from typing import List, Optional, Dict
 from models import Player, Position, TemperamentType
 
+# Import faker name generator with fallback
+try:
+    from name_generator import InternationalNameGenerator
+    FAKER_AVAILABLE = True
+except ImportError:
+    FAKER_AVAILABLE = False
+    print("⚠️  Name generator not available. Run: python dependency_checker.py")
+
 
 class PlayerManager:
     """Enhanced player manager with extended attributes and migration support."""
@@ -17,6 +25,13 @@ class PlayerManager:
     def __init__(self, filename: str = "players.json"):
         self.filename = filename
         self.players: List[Player] = []
+        
+        # Initialize name generator if available
+        if FAKER_AVAILABLE:
+            self.name_generator = InternationalNameGenerator()
+        else:
+            self.name_generator = None
+        
         self.load_players()
     
     def load_players(self) -> None:
@@ -90,25 +105,63 @@ class PlayerManager:
         self.players.append(player)
         self.save_players()
     
+    def _generate_realistic_name(self, nationality: Optional[str] = None) -> Dict[str, str]:
+        """Generate a realistic name and nationality using faker."""
+        if self.name_generator is None:
+            # Fallback to generic names if faker not available
+            generic_names = [
+                "John Smith", "Mike Johnson", "David Brown", "Chris Wilson", 
+                "Alex Davis", "Matt Miller", "Steve Garcia", "Paul Rodriguez",
+                "Mark Martinez", "Tom Anderson", "Dan Thomas", "Joe Jackson"
+            ]
+            return {
+                'full_name': random.choice(generic_names),
+                'nationality': 'Unknown'
+            }
+        
+        if nationality:
+            # Try to find locale for specific nationality
+            locale_map = {
+                'Brazilian': 'pt_BR', 'Spanish': 'es_ES', 'French': 'fr_FR',
+                'German': 'de_DE', 'Italian': 'it_IT', 'Portuguese': 'pt_PT',
+                'British': 'en_GB', 'American': 'en_US', 'Dutch': 'nl_NL',
+                'Russian': 'ru_RU', 'Polish': 'pl_PL', 'Swedish': 'sv_SE',
+                'Norwegian': 'no_NO', 'Danish': 'da_DK', 'Finnish': 'fi_FI',
+                'Japanese': 'ja_JP', 'Korean': 'ko_KR', 'Chinese': 'zh_CN',
+                'Turkish': 'tr_TR', 'Greek': 'el_GR', 'Hebrew': 'he_IL'
+            }
+            locale = locale_map.get(nationality, 'en_US')
+            return self.name_generator.generate_name(locale)
+        else:
+            # Generate random international name
+            return self.name_generator.generate_random_name()
+    
     def create_random_player(self, position: Optional[Position] = None, 
                            name_prefix: Optional[str] = None) -> Player:
         """Create a random player with extended attributes."""
         if position is None:
             position = random.choice(list(Position))
         
+        # Generate realistic name and nationality
         if name_prefix is None:
-            name = f"{position.name}_{random.randint(1000, 9999)}"
+            name_data = self._generate_realistic_name()
+            name = name_data['full_name']
+            nationality = name_data['nationality']
         else:
+            # If name prefix specified, use it with realistic nationality
+            name_data = self._generate_realistic_name()
             name = f"{name_prefix}_{random.randint(100, 999)}"
+            nationality = name_data['nationality']
         
         # Generate core attributes based on position
         core_attrs = self._generate_position_attributes(position)
         
-        # Generate extended attributes
+        # Generate extended attributes  
         player = Player(
             name=name,
             position=position,
             **core_attrs,
+            nationality=nationality,
             # Physical/Mental attributes
             natural_fitness=random.randint(40, 95),
             work_rate=random.randint(30, 90),
@@ -215,6 +268,11 @@ class PlayerManager:
             print("Name cannot be empty!")
             return None
         
+        # Select nationality
+        nationality = input("Enter nationality [Unknown]: ").strip()
+        if not nationality:
+            nationality = "Unknown"
+        
         # Select position
         print("\nAvailable positions:")
         positions = list(Position)
@@ -310,6 +368,7 @@ class PlayerManager:
             dribbling=dribbling,
             shooting=shooting,
             physical=physical,
+            nationality=nationality,
             age=age,
             natural_fitness=natural_fitness,
             work_rate=work_rate,
@@ -330,14 +389,13 @@ class PlayerManager:
         """Generate a pool of random players with extended attributes."""
         players = []
         
-        if ensure_all_positions:
-            # Ensure at least 2 players per position
+        if ensure_all_positions and count >= len(list(Position)):
+            # Ensure at least 1 player per position if we have enough slots
             positions = list(Position)
             for pos in positions:
                 players.append(self.create_random_player(pos))
-                players.append(self.create_random_player(pos))
             
-            # Fill remaining slots randomly
+            # Fill remaining slots randomly  
             while len(players) < count:
                 players.append(self.create_random_player())
         else:
@@ -359,6 +417,106 @@ class PlayerManager:
     def get_top_players(self, count: int = 10) -> List[Player]:
         """Get top players by overall rating."""
         return sorted(self.players, key=lambda p: p.overall_rating(), reverse=True)[:count]
+    
+    def create_player_by_nationality(self, position: Optional[Position] = None, 
+                                   nationality: str = "Brazilian") -> Player:
+        """Create a player with a specific nationality."""
+        if position is None:
+            position = random.choice(list(Position))
+        
+        # Generate name for specific nationality
+        name_data = self._generate_realistic_name(nationality)
+        
+        # Generate core attributes based on position
+        core_attrs = self._generate_position_attributes(position)
+        
+        player = Player(
+            name=name_data['full_name'],
+            position=position,
+            **core_attrs,
+            nationality=name_data['nationality'],
+            # Physical/Mental attributes
+            natural_fitness=random.randint(40, 95),
+            work_rate=random.randint(30, 90),
+            injury_proneness=random.randint(10, 60),
+            pressure_handling=random.randint(30, 90),
+            concentration=random.randint(40, 85),
+            determination=random.randint(30, 90),
+            composure=random.randint(35, 85),
+            leadership=random.randint(10, 80),
+            temperament=random.choice(list(TemperamentType)),
+            preferred_foot=random.choice(["left", "right", "both"]),
+            age=random.randint(18, 35)
+        )
+        
+        # Age-based adjustments (same as create_random_player)
+        if player.age < 22:
+            player.natural_fitness = min(95, player.natural_fitness + 5)
+            player.injury_proneness = max(10, player.injury_proneness - 10)
+        elif player.age > 30:
+            player.natural_fitness = max(40, player.natural_fitness - 10)
+            player.injury_proneness = min(60, player.injury_proneness + 15)
+        
+        return player
+    
+    def generate_international_squad(self, count: int = 25) -> List[Player]:
+        """Generate a diverse international squad with players from various nationalities."""
+        players = []
+        
+        # Major football nations with rough distribution
+        nationality_weights = [
+            ('Brazilian', 0.15),
+            ('Spanish', 0.12),
+            ('French', 0.12), 
+            ('German', 0.10),
+            ('Italian', 0.10),
+            ('British', 0.08),
+            ('Portuguese', 0.08),
+            ('Dutch', 0.06),
+            ('American', 0.05),
+            ('Polish', 0.04),
+            ('Russian', 0.04),
+            ('Swedish', 0.03),
+            ('Norwegian', 0.03)
+        ]
+        
+        # Generate players with weighted nationality distribution
+        for _ in range(count):
+            nationality = random.choices(
+                [n for n, _ in nationality_weights],
+                weights=[w for _, w in nationality_weights],
+                k=1
+            )[0]
+            players.append(self.create_player_by_nationality(None, nationality))
+        
+        return players
+    
+    def generate_national_team(self, nationality: str = "Brazilian", count: int = 23) -> List[Player]:
+        """Generate a national team with players all from the same country."""
+        players = []
+        
+        # Ensure at least 1 player per position for core positions
+        essential_positions = [Position.GK, Position.CB, Position.CM, Position.ST]
+        for pos in essential_positions:
+            players.append(self.create_player_by_nationality(pos, nationality))
+        
+        # Add more players to reach desired count
+        while len(players) < count:
+            players.append(self.create_player_by_nationality(None, nationality))
+        
+        return players
+    
+    def find_players_by_nationality(self, nationality: str) -> List[Player]:
+        """Find all players with a specific nationality."""
+        return [p for p in self.players if p.nationality.lower() == nationality.lower()]
+    
+    def get_nationality_distribution(self) -> Dict[str, int]:
+        """Get distribution of nationalities in the player database."""
+        distribution = {}
+        for player in self.players:
+            nationality = player.nationality
+            distribution[nationality] = distribution.get(nationality, 0) + 1
+        return distribution
     
     def display_player_stats(self, player: Player) -> None:
         """Display detailed player statistics with extended attributes."""

@@ -39,7 +39,7 @@ class FantasyFootballApp:
     def display_menu(self):
         """Display the main menu."""
         print("\n" + "="*60)
-        print("Welcome to FANTASY FOOTBALL MANAGER v2.0.2")
+        print("Welcome to FANTASY FOOTBALL MANAGER v2.1.0")
         print("="*60)
         print("\n1. Player Management")
         print("2. Team Management")
@@ -1677,7 +1677,7 @@ class FantasyFootballApp:
     def run(self):
         """Main application loop."""
         # self.clear_screen()
-        # print("Welcome to Fantasy Football Manager v2.0.2!")
+        # print("Welcome to Fantasy Football Manager v2.1.0!")
         # self.pause()
         
         try:

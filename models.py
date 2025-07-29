@@ -120,6 +120,9 @@ class Player:
     shooting: int
     physical: int
     
+    # Player nationality (with default for backward compatibility)
+    nationality: str = "Unknown"
+    
     # Extended attributes (0-100)
     natural_fitness: int = 70      # Base stamina and recovery rate
     work_rate: int = 50           # How quickly player gets tired
@@ -152,6 +155,7 @@ class Player:
         return {
             "name": self.name,
             "position": self.position.name,
+            "nationality": self.nationality,
             "goalkeeping": self.goalkeeping,
             "defending": self.defending,
             "passing": self.passing,
@@ -182,6 +186,7 @@ class Player:
         player = cls(
             name=data["name"],
             position=Position[data["position"]],
+            nationality=data.get("nationality", "Unknown"),  # Handle legacy data
             goalkeeping=data["goalkeeping"],
             defending=data["defending"],
             passing=data["passing"],
@@ -235,6 +240,34 @@ class Player:
         self.is_sent_off = False       # NEW: Reset red card status
         self.yellow_cards = 0          # NEW: Reset yellow cards
         # Don't reset stamina here - it should carry over between matches
+    
+    def get_display_name(self) -> str:
+        """Get player name with nationality for display."""
+        if self.nationality != "Unknown":
+            return f"{self.name} ({self.nationality})"
+        return self.name
+    
+    def get_nationality_flag(self) -> str:
+        """Get nationality with flag emoji where possible."""
+        flag_map = {
+            'American': '🇺🇸', 'British': '🇬🇧', 'English': '🇬🇧',
+            'French': '🇫🇷', 'German': '🇩🇪', 'Italian': '🇮🇹',
+            'Spanish': '🇪🇸', 'Portuguese': '🇵🇹', 'Brazilian': '🇧🇷',
+            'Dutch': '🇳🇱', 'Belgian': '🇧🇪', 'Swedish': '🇸🇪',
+            'Norwegian': '🇳🇴', 'Danish': '🇩🇰', 'Finnish': '🇫🇮',
+            'Polish': '🇵🇱', 'Russian': '🇷🇺', 'Ukrainian': '🇺🇦',
+            'Czech': '🇨🇿', 'Slovak': '🇸🇰', 'Hungarian': '🇭🇺',
+            'Croatian': '🇭🇷', 'Serbian': '🇷🇸', 'Greek': '🇬🇷',
+            'Turkish': '🇹🇷', 'Japanese': '🇯🇵', 'Korean': '🇰🇷',
+            'Chinese': '🇨🇳', 'Argentine': '🇦🇷', 'Mexican': '🇲🇽',
+            'Colombian': '🇨🇴', 'Chilean': '🇨🇱', 'Peruvian': '🇵🇪'
+        }
+        flag = flag_map.get(self.nationality, '🌍')
+        return f"{flag} {self.nationality}"
+    
+    def __str__(self) -> str:
+        """String representation of player."""
+        return f"{self.get_display_name()} - {self.position.name} (OVR: {self.overall_rating():.0f})"
 
 
 @dataclass
@@ -462,6 +495,44 @@ class Team:
                 lines.append(f"  {p.name} ({p.position.name}) - Red Card")
         
         return "\n".join(lines)
+    
+    def get_nationality_distribution(self) -> Dict[str, int]:
+        """Get distribution of nationalities in the team."""
+        distribution = {}
+        for player in self.players:
+            nationality = player.nationality
+            distribution[nationality] = distribution.get(nationality, 0) + 1
+        return distribution
+    
+    def get_most_common_nationality(self) -> str:
+        """Get the most common nationality in the team."""
+        distribution = self.get_nationality_distribution()
+        if not distribution:
+            return "Unknown"
+        return max(distribution.items(), key=lambda x: x[1])[0]
+    
+    def is_international_team(self) -> bool:
+        """Check if team has players from multiple nationalities."""
+        return len(self.get_nationality_distribution()) > 1
+    
+    def get_international_summary(self) -> str:
+        """Get a summary of the team's international composition."""
+        distribution = self.get_nationality_distribution()
+        if len(distribution) <= 1:
+            nationality = list(distribution.keys())[0] if distribution else "Unknown"
+            return f"Domestic team ({nationality})"
+        
+        # Sort by count, descending
+        sorted_nationalities = sorted(distribution.items(), key=lambda x: x[1], reverse=True)
+        summary_parts = []
+        for nationality, count in sorted_nationalities[:3]:  # Show top 3
+            summary_parts.append(f"{nationality}: {count}")
+        
+        if len(sorted_nationalities) > 3:
+            others = sum(count for _, count in sorted_nationalities[3:])
+            summary_parts.append(f"Others: {others}")
+        
+        return f"International team ({', '.join(summary_parts)})"
 
 
 # Position groupings for team building
@@ -522,6 +593,56 @@ FORMATIONS = {
         Position.LWB: 1,
         Position.RWB: 1,
         Position.CM: 3,
+        Position.ST: 2
+    },
+    "3-4-3": {
+        Position.GK: 1,
+        Position.CB: 3,
+        Position.LM: 1,
+        Position.RM: 1,
+        Position.CM: 2,
+        Position.LW: 1,
+        Position.RW: 1,
+        Position.ST: 1
+    },
+    "4-1-4-1": {
+        Position.GK: 1,
+        Position.CB: 2,
+        Position.LB: 1,
+        Position.RB: 1,
+        Position.DM: 1,
+        Position.LM: 1,
+        Position.RM: 1,
+        Position.CM: 2,
+        Position.ST: 1
+    },
+    "4-5-1": {
+        Position.GK: 1,
+        Position.CB: 2,
+        Position.LB: 1,
+        Position.RB: 1,
+        Position.LM: 1,
+        Position.RM: 1,
+        Position.CM: 3,
+        Position.ST: 1
+    },
+    "3-4-2-1": {
+        Position.GK: 1,
+        Position.CB: 3,
+        Position.LM: 1,
+        Position.RM: 1,
+        Position.CM: 2,
+        Position.AM: 2,
+        Position.ST: 1
+    },
+    "4-1-2-1-2": {
+        Position.GK: 1,
+        Position.CB: 2,
+        Position.LB: 1,
+        Position.RB: 1,
+        Position.DM: 1,
+        Position.CM: 2,
+        Position.AM: 1,
         Position.ST: 2
     }
 }

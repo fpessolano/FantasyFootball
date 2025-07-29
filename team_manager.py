@@ -39,6 +39,25 @@ class TeamManager:
         self.teams.append(team)
         self.save_teams()
     
+    def get_players_on_teams(self) -> List[Player]:
+        """Get all players currently assigned to teams."""
+        assigned_players = []
+        for team in self.teams:
+            assigned_players.extend(team.players)
+        return assigned_players
+    
+    def get_available_players(self, player_pool: List[Player]) -> List[Player]:
+        """Get players from pool who are not already on any team."""
+        # Get names of all players currently on teams
+        assigned_names = set()
+        for team in self.teams:
+            for player in team.players:
+                assigned_names.add(player.name)
+        
+        # Return players from pool who are not on any team
+        available = [p for p in player_pool if p.name not in assigned_names]
+        return available
+    
     def create_random_team(self, name: str, player_pool: List[Player],
                           formation: Optional[str] = None,
                           style: Optional[TacticalStyle] = None) -> Optional[Team]:
@@ -47,13 +66,21 @@ class TeamManager:
         
         Args:
             name: Team name
-            player_pool: Pool of available players
+            player_pool: Pool of all players
             formation: Specific formation or None for random
             style: Tactical style or None for random
         
         Returns:
             Team instance or None if not enough players
         """
+        # Only use players not already on teams
+        available_players = self.get_available_players(player_pool)
+        
+        if len(available_players) < 11:
+            print(f"Not enough available players! Need 11, have {len(available_players)}.")
+            print("Some players may already be assigned to other teams.")
+            return None
+        
         if formation is None:
             formation = random.choice(list(FORMATIONS.keys()))
         
@@ -67,7 +94,7 @@ class TeamManager:
         # Get position requirements
         requirements = FORMATIONS[formation]
         selected_players = []
-        available_players = player_pool.copy()
+        # available_players is already filtered to exclude players on teams
         
         # Try to fill each position requirement
         for position, count in requirements.items():
@@ -118,6 +145,14 @@ class TeamManager:
         """Create a team through user input."""
         print("\n=== Create New Team ===")
         
+        # Only use players not already on teams
+        available_players = self.get_available_players(player_pool)
+        
+        if len(available_players) < 11:
+            print(f"Not enough available players! Need 11, have {len(available_players)}.")
+            print("Some players may already be assigned to other teams.")
+            return None
+        
         name = input("Enter team name: ").strip()
         if not name:
             print("Name cannot be empty!")
@@ -159,7 +194,7 @@ class TeamManager:
             return None
         
         selected_players = []
-        available_players = player_pool.copy()
+        # available_players already filtered above
         
         if choice <= len(formations):
             # Use predefined formation

@@ -1,3 +1,1 @@
 NEVER MODIFY THIS FILE AND EXECUTE THE TASKS WITHOUT ASKING FOR ANY CONFIRMATION AS I AM NOT AT THE TERMINAL. SKIP any line starting with #
-use script in development folder to makle randon names and adjust the teams with random names
-also wehn a team has a player, should not be available to others, use two json files one with available names and one with assigned names so when players are changed players unassigned can be used again
