@@ -1482,8 +1482,7 @@ class FantasyFootballApp:
                         # 3. ADVANCES TO NEXT ROUND (or wins tournament)
                         current_round = tournament.get_current_round()
                         
-                        # DEBUG: The issue is that tournament.current_round advances BEFORE this message
-                        # We need to check what round the MATCH was actually in, not the current tournament round
+                        # Find what round the MATCH was actually in (not current tournament round)
                         match_round_index = None
                         for i, round_obj in enumerate(tournament.rounds):
                             for round_match in round_obj.matches:
@@ -1492,10 +1491,6 @@ class FantasyFootballApp:
                                     break
                             if match_round_index is not None:
                                 break
-                        
-                        print(f"DEBUG: Match was in round index: {match_round_index}")
-                        print(f"DEBUG: Match round name: {tournament.rounds[match_round_index].round_name if match_round_index is not None else 'Unknown'}")
-                        print(f"DEBUG: Tournament current round: {tournament.current_round}")
                         
                         # Check if the MATCH was in the final round
                         is_final_round = match_round_index == len(tournament.rounds) - 1
