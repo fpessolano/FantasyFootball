@@ -1481,7 +1481,11 @@ class FantasyFootballApp:
                         
                         # 3. ADVANCES TO NEXT ROUND (or wins tournament)
                         current_round = tournament.get_current_round()
-                        if current_round and current_round.round_name.lower() == "final":
+                        
+                        # Check if this is the final round (last round in tournament)
+                        is_final_round = tournament.current_round == len(tournament.rounds) - 1
+                        
+                        if is_final_round:
                             print(f"\n🏆 {result_match.winner} wins the tournament!")
                         else:
                             next_round_name = tournament.rounds[tournament.current_round + 1].round_name if tournament.current_round + 1 < len(tournament.rounds) else "Final"
