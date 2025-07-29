@@ -1472,8 +1472,6 @@ class FantasyFootballApp:
                         print(f"🏠 {match.home_team} (Elo: {home_team_obj.elo_rating:.0f}) - {home_status}")
                         print(f"✈️  {match.away_team} (Elo: {away_team_obj.elo_rating:.0f}) - {away_status}")
                     
-                    self.pause("Press Enter to simulate match...")
-                    
                     # Simulate the match
                     match_result = self.tournament_manager.simulate_tournament_match(
                         tournament, match.match_id, self.match_engine
