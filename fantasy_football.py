@@ -1618,17 +1618,24 @@ class FantasyFootballApp:
             
             choice = input("\nEnter choice: ").strip()
             
-            if choice == "1":
-                self.match_engine.use_momentum = not self.match_engine.use_momentum
-                status = "🔥 ENABLED" if self.match_engine.use_momentum else "❄️ DISABLED"
-                print(f"\nMomentum system {status}!")
-                self.pause()
-            elif choice == "2":
+            if choice == "0":
+                break
+            elif choice == "1":
                 self.match_engine.detailed_sim = not self.match_engine.detailed_sim
                 status = "📊 ENABLED" if self.match_engine.detailed_sim else "⚡ DISABLED"
                 print(f"\nDetailed simulation {status}!")
                 self.pause()
+            elif choice == "2":
+                self.match_engine.show_penalty_details = not self.match_engine.show_penalty_details
+                status = "🥅 ENABLED" if self.match_engine.show_penalty_details else "⚡ DISABLED"
+                print(f"\nPenalty shootout event details {status}!")
+                self.pause()
             elif choice == "3":
+                self.match_engine.show_detailed_stats = not self.match_engine.show_detailed_stats
+                status = "📊 ENABLED" if self.match_engine.show_detailed_stats else "⚡ DISABLED"
+                print(f"\nDetailed statistics table {status}!")
+                self.pause()
+            elif choice == "4":
                 confirm = input("\n⚠️  Delete all players and teams? This cannot be undone! (y/N): ").strip().lower()
                 if confirm == 'y':
                     self.player_manager.players = []
@@ -1639,11 +1646,9 @@ class FantasyFootballApp:
                 else:
                     print("\nOperation cancelled.")
                 self.pause()
-            elif choice == "4":
+            elif choice == "5":
                 self.show_system_info()
                 self.pause()
-            elif choice == "0":
-                break
             else:
                 print("Invalid choice!")
                 self.pause()
