@@ -179,7 +179,7 @@ class TournamentManager:
             if len(penalty_result) > 1 and penalty_result[1]:
                 penalty_events = penalty_result[1]
                 # Convert penalty events to MatchEvent objects and add to result
-                from models import MatchEvent
+                from match_engine import MatchEvent
                 for penalty_event in penalty_events:
                     result.events.append(MatchEvent(
                         minute=penalty_event["minute"],
