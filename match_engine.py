@@ -658,3 +658,30 @@ class MatchEngine:
     def display_match_result(self, result: MatchResult) -> None:
         """Display match result (compatibility method)."""
         self.display_enhanced_match_result(result)
+    
+    def load_settings(self):
+        """Load settings from file."""
+        try:
+            import json
+            with open(self.settings_file, 'r') as f:
+                settings = json.load(f)
+                self.detailed_sim = settings.get('detailed_sim', True)
+                self.show_penalty_details = settings.get('show_penalty_details', True)
+                self.show_detailed_stats = settings.get('show_detailed_stats', True)
+        except (FileNotFoundError, json.JSONDecodeError):
+            # Use defaults if file doesn't exist or is corrupted
+            pass
+    
+    def save_settings(self):
+        """Save settings to file."""
+        try:
+            import json
+            settings = {
+                'detailed_sim': self.detailed_sim,
+                'show_penalty_details': self.show_penalty_details,
+                'show_detailed_stats': self.show_detailed_stats
+            }
+            with open(self.settings_file, 'w') as f:
+                json.dump(settings, f, indent=2)
+        except Exception as e:
+            print(f"Warning: Could not save settings: {e}")
