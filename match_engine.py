@@ -48,6 +48,8 @@ class MatchEngine:
         self.show_penalty_details = True  # Toggle for penalty shootout event details
         self.show_detailed_stats = True  # Toggle for detailed statistics table only
         self.performance_manager = PlayerPerformanceManager()
+        self.settings_file = "settings.json"
+        self.load_settings()
     
     def simulate_match(self, home_team: Team, away_team: Team, 
                       match_importance: str = "normal") -> MatchResult:

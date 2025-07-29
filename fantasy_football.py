@@ -1617,16 +1617,19 @@ class FantasyFootballApp:
                 break
             elif choice == "1":
                 self.match_engine.detailed_sim = not self.match_engine.detailed_sim
+                self.match_engine.save_settings()
                 status = "📊 ENABLED" if self.match_engine.detailed_sim else "⚡ DISABLED"
                 print(f"\nDetailed simulation {status}!")
                 self.pause()
             elif choice == "2":
                 self.match_engine.show_penalty_details = not self.match_engine.show_penalty_details
+                self.match_engine.save_settings()
                 status = "🥅 ENABLED" if self.match_engine.show_penalty_details else "⚡ DISABLED"
                 print(f"\nPenalty shootout event details {status}!")
                 self.pause()
             elif choice == "3":
                 self.match_engine.show_detailed_stats = not self.match_engine.show_detailed_stats
+                self.match_engine.save_settings()
                 status = "📊 ENABLED" if self.match_engine.show_detailed_stats else "⚡ DISABLED"
                 print(f"\nDetailed statistics table {status}!")
                 self.pause()
