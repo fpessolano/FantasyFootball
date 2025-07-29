@@ -1482,13 +1482,28 @@ class FantasyFootballApp:
                         # 3. ADVANCES TO NEXT ROUND (or wins tournament)
                         current_round = tournament.get_current_round()
                         
-                        # Check if this is the final round (last round in tournament)
-                        is_final_round = tournament.current_round == len(tournament.rounds) - 1
+                        # DEBUG: The issue is that tournament.current_round advances BEFORE this message
+                        # We need to check what round the MATCH was actually in, not the current tournament round
+                        match_round_index = None
+                        for i, round_obj in enumerate(tournament.rounds):
+                            for round_match in round_obj.matches:
+                                if round_match.match_id == match.match_id:
+                                    match_round_index = i
+                                    break
+                            if match_round_index is not None:
+                                break
+                        
+                        print(f"DEBUG: Match was in round index: {match_round_index}")
+                        print(f"DEBUG: Match round name: {tournament.rounds[match_round_index].round_name if match_round_index is not None else 'Unknown'}")
+                        print(f"DEBUG: Tournament current round: {tournament.current_round}")
+                        
+                        # Check if the MATCH was in the final round
+                        is_final_round = match_round_index == len(tournament.rounds) - 1
                         
                         if is_final_round:
                             print(f"\n🏆 {result_match.winner} wins the tournament!")
                         else:
-                            next_round_name = tournament.rounds[tournament.current_round + 1].round_name if tournament.current_round + 1 < len(tournament.rounds) else "Final"
+                            next_round_name = tournament.rounds[match_round_index + 1].round_name if match_round_index is not None and match_round_index + 1 < len(tournament.rounds) else "Final"
                             print(f"\n🏆 {result_match.winner} advances to the {next_round_name}!")
                         
                         # 4. ENHANCED MATCH STATISTICS (without header since we already showed it)
