@@ -577,7 +577,7 @@ class FantasyFootballApp:
         if not team:
             return
         
-        confirm = input(f"\nDelete team '{team.name}'? (y/n): ").strip().lower()
+        confirm = input(f"\nDelete team '{team.name}'? (y/N): ").strip().lower()
         if confirm == 'y':
             self.team_manager.teams.remove(team)
             self.team_manager.save_teams()
@@ -1284,8 +1284,8 @@ class FantasyFootballApp:
             self.current_tournament = tournament
             
             # Ask if user wants to start immediately
-            start_now = input("\nStart tournament now? (y/n): ").strip().lower()
-            if start_now == 'y':
+            start_now = input("\nStart tournament now? (Y/n): ").strip().lower()
+            if not start_now.startswith('n'):
                 # Clear screen before starting tournament
                 self.clear_screen()
                 # print("=" * 70)
@@ -1629,7 +1629,7 @@ class FantasyFootballApp:
                 print(f"\nDetailed simulation {status}!")
                 self.pause()
             elif choice == "3":
-                confirm = input("\n⚠️  Delete all players and teams? This cannot be undone! (y/n): ").strip().lower()
+                confirm = input("\n⚠️  Delete all players and teams? This cannot be undone! (y/N): ").strip().lower()
                 if confirm == 'y':
                     self.player_manager.players = []
                     self.player_manager.save_players()
