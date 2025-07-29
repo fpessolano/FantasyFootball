@@ -22,6 +22,7 @@ htmlcov/
 *.swp
 *.swo
 *~
+.claude/
 
 # Environment
 .env

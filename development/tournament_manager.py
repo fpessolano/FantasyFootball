@@ -8,7 +8,7 @@ Module for creating and managing knockout tournaments in the Fantasy Football sy
 import math
 import random
 from typing import List, Optional, Tuple
-from models import Tournament, TournamentRound, TournamentMatch, Team, Position
+from models import Tournament, TournamentRound, TournamentMatch, Team
 from team_manager import TeamManager
 from player_manager import PlayerManager
 
@@ -171,23 +171,9 @@ class TournamentManager:
             target_match.winner = target_match.away_team
         else:
             # Handle draws in knockout - simulate penalty shootout
-            penalty_result = self._simulate_penalty_shootout(
+            target_match.winner = self._simulate_penalty_shootout(
                 home_team_obj, away_team_obj, target_match
             )
-            target_match.winner = penalty_result[0]
-            # Add penalty events to the match result
-            if len(penalty_result) > 1 and penalty_result[1]:
-                penalty_events = penalty_result[1]
-                # Convert penalty events to MatchEvent objects and add to result
-                from models import MatchEvent
-                for penalty_event in penalty_events:
-                    result.events.append(MatchEvent(
-                        minute=penalty_event["minute"],
-                        event_type=penalty_event["event_type"],
-                        team=penalty_event["team"],
-                        player=penalty_event["player"],
-                        description=penalty_event["description"]
-                    ))
         
         # Update Elo ratings
         self.team_manager.update_team_elo(
@@ -203,209 +189,8 @@ class TournamentManager:
         return (target_match, result)
     
     def _simulate_penalty_shootout(self, home_team: Team, away_team: Team, 
-                                 match: TournamentMatch) -> Tuple[str, List]:
-        """Enhanced penalty shootout with individual player mechanics."""
-        
-        # Get penalty takers (best shooters who aren't sent off)
-        home_takers = self._select_penalty_takers(home_team)
-        away_takers = self._select_penalty_takers(away_team)
-        
-        # Get goalkeepers
-        home_gk = self._get_goalkeeper(home_team)
-        away_gk = self._get_goalkeeper(away_team)
-        
-        if not home_takers or not away_takers or not home_gk or not away_gk:
-            # Fallback to simple system if can't find players
-            return self._simple_penalty_fallback(home_team, away_team, match)
-        
-        home_score = away_score = 0
-        penalty_events = []
-        penalty_round = 1
-        
-        # Regular 5-penalty phase
-        for round_num in range(1, 6):
-            # Home team penalty
-            home_result = self._simulate_individual_penalty(
-                home_takers[(round_num-1) % len(home_takers)], 
-                away_gk, 
-                "penalty_shootout",
-                penalty_round
-            )
-            
-            if home_result["scored"]:
-                home_score += 1
-            
-            penalty_events.append({
-                "minute": 90 + round_num,
-                "event_type": "penalty",
-                "team": home_team.name,
-                "player": home_result["taker"],
-                "description": home_result["description"]
-            })
-            
-            # Away team penalty  
-            away_result = self._simulate_individual_penalty(
-                away_takers[(round_num-1) % len(away_takers)],
-                home_gk,
-                "penalty_shootout", 
-                penalty_round
-            )
-            
-            if away_result["scored"]:
-                away_score += 1
-                
-            penalty_events.append({
-                "minute": 90 + round_num,
-                "event_type": "penalty", 
-                "team": away_team.name,
-                "player": away_result["taker"],
-                "description": away_result["description"]
-            })
-            
-            penalty_round += 1
-        
-        # Sudden death if tied
-        sudden_death_round = 1
-        while home_score == away_score:
-            # Home penalty
-            taker_idx = (4 + sudden_death_round - 1) % len(home_takers)
-            home_result = self._simulate_individual_penalty(
-                home_takers[taker_idx], away_gk, "sudden_death", sudden_death_round + 5
-            )
-            
-            if home_result["scored"]:
-                home_score += 1
-                
-            penalty_events.append({
-                "minute": 90 + 5 + sudden_death_round,
-                "event_type": "penalty",
-                "team": home_team.name, 
-                "player": home_result["taker"],
-                "description": f"[Sudden Death] {home_result['description']}"
-            })
-            
-            # Away penalty (only if home scored or to equalize)
-            if home_result["scored"] or home_score == away_score:
-                taker_idx = (4 + sudden_death_round - 1) % len(away_takers)
-                away_result = self._simulate_individual_penalty(
-                    away_takers[taker_idx], home_gk, "sudden_death", sudden_death_round + 5
-                )
-                
-                if away_result["scored"]:
-                    away_score += 1
-                    
-                penalty_events.append({
-                    "minute": 90 + 5 + sudden_death_round,
-                    "event_type": "penalty",
-                    "team": away_team.name,
-                    "player": away_result["taker"], 
-                    "description": f"[Sudden Death] {away_result['description']}"
-                })
-            
-            sudden_death_round += 1
-            
-            # Safety break
-            if sudden_death_round > 10:
-                break
-        
-        # Update match description to show penalty result
-        winner = home_team.name if home_score > away_score else away_team.name
-        match.home_score = f"{match.home_score} ({home_score})"
-        match.away_score = f"{match.away_score} ({away_score})"
-        
-        return winner, penalty_events
-    
-    def _select_penalty_takers(self, team: Team) -> List:
-        """Select best penalty takers from available players."""
-        available = team.get_available_players()
-        
-        # Sort by penalty-taking ability (shooting + composure + pressure_handling)
-        def penalty_skill(player):
-            base_skill = player.shooting
-            mental_bonus = (getattr(player, 'composure', 70) + getattr(player, 'pressure_handling', 70)) / 200 * 20  # Up to 20 point bonus
-            return base_skill + mental_bonus
-        
-        sorted_takers = sorted(available, key=penalty_skill, reverse=True)
-        return sorted_takers[:10]  # Top 10 potential takers
-
-    def _simulate_individual_penalty(self, taker, goalkeeper, situation: str, round_num: int) -> dict:
-        """Simulate individual penalty with detailed outcomes."""
-        
-        # Calculate penalty skill vs goalkeeper skill
-        penalty_skill = (taker.shooting * 0.6 + 
-                        taker.physical * 0.2 +  # For power
-                        (getattr(taker, 'composure', 70) + getattr(taker, 'pressure_handling', 70)) / 2 * 0.2)
-        
-        gk_skill = (goalkeeper.goalkeeping * 0.7 +
-                   getattr(goalkeeper, 'concentration', 70) * 0.15 +
-                   getattr(goalkeeper, 'pressure_handling', 70) * 0.15)
-        
-        # Base success rate influenced by skill difference
-        base_success = 0.75  # 75% base rate
-        skill_modifier = (penalty_skill - gk_skill) / 100 * 0.3  # ±30% based on skill difference
-        final_success_rate = max(0.4, min(0.95, base_success + skill_modifier))
-        
-        # Pressure increases with round number and situation
-        pressure_factor = 1.0
-        if situation == "sudden_death":
-            pressure_factor = 1.3
-        elif round_num >= 4:  # Late in regular penalties
-            pressure_factor = 1.1
-        
-        # Apply pressure to success rate
-        pressure_adjusted_rate = final_success_rate / pressure_factor
-        
-        # Determine outcome
-        roll = random.random()
-        
-        if roll < pressure_adjusted_rate:
-            # Goal!
-            return {
-                "scored": True,
-                "taker": taker.name,
-                "description": f"{taker.name} scores! ({goalkeeper.name} dives the wrong way)"
-            }
-        else:
-            # Miss or save - determine which
-            miss_vs_save_threshold = gk_skill / (gk_skill + penalty_skill)
-            
-            if random.random() < miss_vs_save_threshold:
-                # Goalkeeper save
-                save_descriptions = [
-                    f"{goalkeeper.name} makes a brilliant save!",
-                    f"{goalkeeper.name} guesses correctly and saves!",
-                    f"{goalkeeper.name} tips it over the bar!",
-                    f"{goalkeeper.name} dives and pushes it wide!"
-                ]
-                return {
-                    "scored": False,
-                    "taker": taker.name,
-                    "description": f"{taker.name} penalty: {random.choice(save_descriptions)}"
-                }
-            else:
-                # Penalty miss
-                miss_descriptions = [
-                    f"{taker.name} blazes it over the bar!",
-                    f"{taker.name} hits the post!",
-                    f"{taker.name} shoots wide!",
-                    f"{taker.name} scuffs the penalty!"
-                ]
-                return {
-                    "scored": False, 
-                    "taker": taker.name,
-                    "description": random.choice(miss_descriptions)
-                }
-
-    def _get_goalkeeper(self, team: Team):
-        """Get the team's goalkeeper."""
-        available = team.get_available_players()
-        for player in available:
-            if player.position == Position.GK:
-                return player
-        return None
-
-    def _simple_penalty_fallback(self, home_team: Team, away_team: Team, match) -> Tuple[str, List]:
-        """Fallback to simple penalty system if enhanced system fails."""
+                                 match: TournamentMatch) -> str:
+        """Simulate penalty shootout for drawn matches."""
         # Simple penalty simulation based on team shooting ability
         home_shooting = sum(p.shooting for p in home_team.players) / len(home_team.players)
         away_shooting = sum(p.shooting for p in away_team.players) / len(away_team.players)
@@ -435,7 +220,7 @@ class TournamentManager:
         match.home_score = f"{match.home_score} ({home_penalties})"
         match.away_score = f"{match.away_score} ({away_penalties})"
         
-        return winner, []
+        return winner
     
     def _setup_next_round(self, tournament: Tournament):
         """Set up the next round with winners from current round."""

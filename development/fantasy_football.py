@@ -39,7 +39,7 @@ class FantasyFootballApp:
     def display_menu(self):
         """Display the main menu."""
         print("\n" + "="*60)
-        print("Welcome to FANTASY FOOTBALL MANAGER v2.0.2")
+        print("FANTASY FOOTBALL MANAGER v2.0")
         print("="*60)
         print("\n1. Player Management")
         print("2. Team Management")
@@ -1288,10 +1288,10 @@ class FantasyFootballApp:
             if start_now == 'y':
                 # Clear screen before starting tournament
                 self.clear_screen()
-                # print("=" * 70)
-                # print(f"🚀 STARTING TOURNAMENT: {tournament_name.upper()}")
-                # print("=" * 70)
-                # self.pause("Press Enter to begin...")
+                print("=" * 70)
+                print(f"🚀 STARTING TOURNAMENT: {tournament_name.upper()}")
+                print("=" * 70)
+                self.pause("Press Enter to begin...")
                 self._simulate_tournament(tournament)
             
         except Exception as e:
@@ -1458,19 +1458,8 @@ class FantasyFootballApp:
                     away_team_obj = self.team_manager.find_team_by_name(match.away_team)
                     
                     if home_team_obj and away_team_obj:
-                        # Determine favorite based on Elo rating
-                        if home_team_obj.elo_rating > away_team_obj.elo_rating:
-                            home_status = "⭐ FAVORITE"
-                            away_status = "UNDERDOG"
-                        elif away_team_obj.elo_rating > home_team_obj.elo_rating:
-                            home_status = "UNDERDOG"
-                            away_status = "⭐ FAVORITE"
-                        else:
-                            home_status = "EVEN"
-                            away_status = "EVEN"
-                        
-                        print(f"🏠 {match.home_team} (Elo: {home_team_obj.elo_rating:.0f}) - {home_status}")
-                        print(f"✈️  {match.away_team} (Elo: {away_team_obj.elo_rating:.0f}) - {away_status}")
+                        print(f"🏠 {match.home_team} (Elo: {home_team_obj.elo_rating:.0f})")
+                        print(f"✈️  {match.away_team} (Elo: {away_team_obj.elo_rating:.0f})")
                     
                     self.pause("Press Enter to simulate match...")
                     
@@ -1482,89 +1471,26 @@ class FantasyFootballApp:
                     if match_result:
                         result_match, full_result = match_result
                         
+                        # Display enhanced match result like in single match mode (keep on same screen)
                         print()  # Just add some spacing
-                        print("="*80)
-                        print(f"TOURNAMENT MATCH RESULT: {result_match.home_team} vs {result_match.away_team}")
-                        print("="*80)
+                        self.match_engine.display_enhanced_match_result(full_result)
                         
-                        # 1. FINAL SCORE
-                        print(f"\nFINAL SCORE: {result_match.home_team} {full_result.home_score} - "
-                              f"{full_result.away_score} {result_match.away_team}")
-                        
-                        # 2. PENALTY SHOOTOUT RESULT (if applicable)
+                        # Show penalty shootout info if applicable
                         if "(" in str(result_match.home_score):
                             print(f"\n🥅 PENALTY SHOOTOUT RESULT:")
                             print(f"   {result_match.home_team} {result_match.home_score} - "
                                   f"{result_match.away_score} {result_match.away_team}")
                             print(f"   🏆 Winner on penalties: {result_match.winner}")
                         
-                        # 3. ADVANCES TO NEXT ROUND
                         print(f"\n🏆 {result_match.winner} advances to the next round!")
                         
-                        # 4. ENHANCED MATCH STATISTICS (without header since we already showed it)
-                        print(f"\n{'='*80}")
-                        print("ENHANCED MATCH STATISTICS")
-                        print(f"{'='*80}")
-                        
-                        # Events - separate regular match events from penalty events
-                        regular_events = []
-                        penalty_events = []
-                        
-                        for event in full_result.events:
-                            if event.event_type == "penalty":
-                                penalty_events.append(event)
-                            else:
-                                regular_events.append(event)
-                        
-                        if regular_events:
-                            print("\nMATCH EVENTS:")
-                            for event in regular_events:
-                                if event.event_type == "goal":
-                                    emoji = "⚽"
-                                elif event.event_type == "yellow_card":
-                                    emoji = "🟨"
-                                elif event.event_type == "red_card":
-                                    emoji = "🟥"
-                                elif event.event_type == "match_abandoned":
-                                    emoji = "🚫"
-                                else:
-                                    emoji = "📝"
-                                print(f"{event.minute}' {emoji} {event.team} - {event.description}")
-                        
-                        if penalty_events:
-                            print("\nPENALTY SHOOTOUT EVENTS:")
-                            for event in penalty_events:
-                                emoji = "🥅"
-                                print(f"{event.minute}' {emoji} {event.team} - {event.description}")
-                        
-                        # Statistics table
-                        print("\nMATCH STATISTICS:")
-                        print(f"{'Stat':<25} {full_result.home_team:<20} {full_result.away_team:<20}")
-                        print("-" * 65)
-                        
-                        home_stats = full_result.stats[full_result.home_team]
-                        away_stats = full_result.stats[full_result.away_team]
-                        
-                        print(f"{'Possession':<25} {home_stats['possession']:<20.1f}% "
-                              f"{away_stats['possession']:<20.1f}%")
-                        print(f"{'Expected Goals':<25} {home_stats['expected_goals']:<20.1f} "
-                              f"{away_stats['expected_goals']:<20.1f}")
-                        print(f"{'Shots':<25} {home_stats['shots']:<20.0f} "
-                              f"{away_stats['shots']:<20.0f}")
-                        print(f"{'Shots on Target':<25} {home_stats['shots_on_target']:<20.0f} "
-                              f"{away_stats['shots_on_target']:<20.0f}")
-                        print(f"{'Pass Accuracy':<25} {home_stats['pass_accuracy']:<20.1f}% "
-                              f"{away_stats['pass_accuracy']:<20.1f}%")
-                        print(f"{'Team Rating':<25} {home_stats['team_rating']:<20.1f} "
-                              f"{away_stats['team_rating']:<20.1f}")
-                        print(f"{'Players Available':<25} {home_stats['players_available']:<20.0f} "
-                              f"{away_stats['players_available']:<20.0f}")
-                        print(f"{'Average Stamina':<25} {home_stats['average_stamina']:<20.1f}% "
-                              f"{away_stats['average_stamina']:<20.1f}%")
-                        print(f"{'Team Momentum':<25} {home_stats['momentum']:<20.1f} "
-                              f"{away_stats['momentum']:<20.1f}")
-                        
-                        print("="*80)
+                        # Show updated Elo ratings
+                        home_team_obj = self.team_manager.find_team_by_name(result_match.home_team)
+                        away_team_obj = self.team_manager.find_team_by_name(result_match.away_team)
+                        if home_team_obj and away_team_obj:
+                            print(f"\n📊 Updated Elo Ratings:")
+                            print(f"   {home_team_obj.name}: {home_team_obj.elo_rating:.0f}")
+                            print(f"   {away_team_obj.name}: {away_team_obj.elo_rating:.0f}")
                         
                         # Always show pause prompt after each match, including the last one
                         if match_num < len(current_round.matches):
@@ -1675,9 +1601,9 @@ class FantasyFootballApp:
     
     def run(self):
         """Main application loop."""
-        # self.clear_screen()
-        # print("Welcome to Fantasy Football Manager v2.0.2!")
-        # self.pause()
+        self.clear_screen()
+        print("Welcome to Fantasy Football Manager v2.0!")
+        self.pause()
         
         try:
             while True:
