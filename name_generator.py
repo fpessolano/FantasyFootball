@@ -29,6 +29,8 @@ class InternationalNameGenerator:
         'Sr.', 'Sra.', 'Srta.', 'Dr.', 'Dra.',
         # Portuguese
         'Sr.', 'Sra.', 'Dr.', 'Dra.',
+        # Turkish  
+        'Av.', 'Dr.', 'Prof.', 'Doç.', 'Yrd. Doç.', 'Arş. Gör.', 'Öğr. Gör.',
         # Persian (common honorifics)
         'جناب', 'آقای', 'خانم', 'دکتر',
         # Arabic

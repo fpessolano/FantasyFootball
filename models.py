@@ -10,7 +10,7 @@ from typing import List, Dict, Tuple, Optional
 from dataclasses import dataclass, field
 import json
 import math
-from collections import deque
+from collections import deque, defaultdict
 
 
 class Position(Enum):
@@ -105,6 +105,131 @@ class PlayerForm:
 
 
 @dataclass
+class PlayerStats:
+    """
+    Comprehensive player statistics tracking.
+    Tracks both career totals and per-tournament stats.
+    """
+    # Career totals
+    career_matches: int = 0
+    career_minutes: int = 0
+    career_goals: int = 0
+    career_assists: int = 0
+    career_saves: int = 0
+    career_clean_sheets: int = 0
+    career_yellow_cards: int = 0
+    career_red_cards: int = 0
+    career_motm: int = 0  # Man of the Match awards
+    
+    # Advanced stats
+    career_shots: int = 0
+    career_shots_on_target: int = 0
+    career_passes: int = 0
+    career_passes_completed: int = 0
+    career_tackles: int = 0
+    career_tackles_won: int = 0
+    career_interceptions: int = 0
+    career_dribbles: int = 0
+    career_dribbles_successful: int = 0
+    career_fouls_committed: int = 0
+    career_fouls_suffered: int = 0
+    
+    # Per-tournament tracking (tournament_name -> stats)
+    tournament_stats: Dict[str, Dict[str, int]] = field(default_factory=dict)
+    
+    def add_tournament_stat(self, tournament: str, stat_name: str, value: int = 1):
+        """Add to a specific tournament stat."""
+        if tournament not in self.tournament_stats:
+            self.tournament_stats[tournament] = defaultdict(int)
+        self.tournament_stats[tournament][stat_name] += value
+    
+    def get_tournament_stat(self, tournament: str, stat_name: str) -> int:
+        """Get a specific tournament stat."""
+        return self.tournament_stats.get(tournament, {}).get(stat_name, 0)
+    
+    def get_goals_per_game(self) -> float:
+        """Calculate career goals per game."""
+        return self.career_goals / self.career_matches if self.career_matches > 0 else 0.0
+    
+    def get_assists_per_game(self) -> float:
+        """Calculate career assists per game."""
+        return self.career_assists / self.career_matches if self.career_matches > 0 else 0.0
+    
+    def get_pass_accuracy(self) -> float:
+        """Calculate career pass accuracy percentage."""
+        return (self.career_passes_completed / self.career_passes * 100) if self.career_passes > 0 else 0.0
+    
+    def get_tackle_success_rate(self) -> float:
+        """Calculate career tackle success rate percentage."""
+        return (self.career_tackles_won / self.career_tackles * 100) if self.career_tackles > 0 else 0.0
+    
+    def get_shot_accuracy(self) -> float:
+        """Calculate career shot accuracy percentage."""
+        return (self.career_shots_on_target / self.career_shots * 100) if self.career_shots > 0 else 0.0
+    
+    def get_dribble_success_rate(self) -> float:
+        """Calculate career dribble success rate percentage."""
+        return (self.career_dribbles_successful / self.career_dribbles * 100) if self.career_dribbles > 0 else 0.0
+    
+    def to_dict(self) -> Dict:
+        """Convert to dictionary for JSON serialization."""
+        return {
+            'career_matches': self.career_matches,
+            'career_minutes': self.career_minutes,
+            'career_goals': self.career_goals,
+            'career_assists': self.career_assists,
+            'career_saves': self.career_saves,
+            'career_clean_sheets': self.career_clean_sheets,
+            'career_yellow_cards': self.career_yellow_cards,
+            'career_red_cards': self.career_red_cards,
+            'career_motm': self.career_motm,
+            'career_shots': self.career_shots,
+            'career_shots_on_target': self.career_shots_on_target,
+            'career_passes': self.career_passes,
+            'career_passes_completed': self.career_passes_completed,
+            'career_tackles': self.career_tackles,
+            'career_tackles_won': self.career_tackles_won,
+            'career_interceptions': self.career_interceptions,
+            'career_dribbles': self.career_dribbles,
+            'career_dribbles_successful': self.career_dribbles_successful,
+            'career_fouls_committed': self.career_fouls_committed,
+            'career_fouls_suffered': self.career_fouls_suffered,
+            'tournament_stats': dict(self.tournament_stats)
+        }
+    
+    @classmethod
+    def from_dict(cls, data: Dict) -> 'PlayerStats':
+        """Create PlayerStats from dictionary."""
+        tournament_stats = {}
+        for tournament, stats in data.get('tournament_stats', {}).items():
+            tournament_stats[tournament] = defaultdict(int, stats)
+        
+        return cls(
+            career_matches=data.get('career_matches', 0),
+            career_minutes=data.get('career_minutes', 0),
+            career_goals=data.get('career_goals', 0),
+            career_assists=data.get('career_assists', 0),
+            career_saves=data.get('career_saves', 0),
+            career_clean_sheets=data.get('career_clean_sheets', 0),
+            career_yellow_cards=data.get('career_yellow_cards', 0),
+            career_red_cards=data.get('career_red_cards', 0),
+            career_motm=data.get('career_motm', 0),
+            career_shots=data.get('career_shots', 0),
+            career_shots_on_target=data.get('career_shots_on_target', 0),
+            career_passes=data.get('career_passes', 0),
+            career_passes_completed=data.get('career_passes_completed', 0),
+            career_tackles=data.get('career_tackles', 0),
+            career_tackles_won=data.get('career_tackles_won', 0),
+            career_interceptions=data.get('career_interceptions', 0),
+            career_dribbles=data.get('career_dribbles', 0),
+            career_dribbles_successful=data.get('career_dribbles_successful', 0),
+            career_fouls_committed=data.get('career_fouls_committed', 0),
+            career_fouls_suffered=data.get('career_fouls_suffered', 0),
+            tournament_stats=tournament_stats
+        )
+
+
+@dataclass
 class Player:
     """
     Enhanced player with fatigue, form, and extended attributes.
@@ -150,6 +275,9 @@ class Player:
     # Form tracking
     form: PlayerForm = field(default_factory=PlayerForm)
     
+    # Statistics tracking
+    stats: PlayerStats = field(default_factory=PlayerStats)
+    
     def to_dict(self) -> Dict:
         """Convert player to dictionary for JSON serialization."""
         return {
@@ -176,7 +304,9 @@ class Player:
             "current_stamina": self.current_stamina,
             # Form data is reset each time for simplicity
             "form_base": self.form.base_form,
-            "form_confidence": self.form.confidence
+            "form_confidence": self.form.confidence,
+            # Statistics data
+            "stats": self.stats.to_dict()
         }
     
     @classmethod
@@ -212,6 +342,10 @@ class Player:
             player.form.base_form = data["form_base"]
         if "form_confidence" in data:
             player.form.confidence = data["form_confidence"]
+        
+        # Restore stats data if available
+        if "stats" in data:
+            player.stats = PlayerStats.from_dict(data["stats"])
             
         return player
     

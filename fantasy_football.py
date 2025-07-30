@@ -8,12 +8,14 @@ Main application for the Fantasy Football simulation system.
 
 import os
 import sys
+import random
 from typing import Optional, List
 from models import Position, TacticalStyle
 from player_manager import PlayerManager
 from team_manager import TeamManager
 from match_engine import MatchEngine
 from tournament_manager import TournamentManager
+from player_statistics import PlayerStatisticsManager
 
 
 class FantasyFootballApp:
@@ -24,6 +26,7 @@ class FantasyFootballApp:
         self.team_manager = TeamManager()
         self.match_engine = MatchEngine()
         self.tournament_manager = TournamentManager(self.team_manager, self.player_manager)
+        self.stats_manager = PlayerStatisticsManager()
     
     def clear_screen(self):
         """Clear the terminal screen."""
@@ -48,8 +51,9 @@ class FantasyFootballApp:
         print("5. Play Multiple Matches (Random Teams)")
         print("6. Tournament Mode")
         print("7. View Rankings")
-        print("8. Quick Play (Random Teams)")
-        print("9. Settings")
+        print("8. Player Statistics & Leaderboards")
+        print("9. Quick Play (Random Teams)")
+        print("10. Settings")
         print("0. Exit")
         print("\n" + "="*60)
     
@@ -105,9 +109,13 @@ class FantasyFootballApp:
             print("\n1. View All Teams")
             print("2. Create Random Team")
             print("3. Create Manual Team")
-            print("4. View Team Details")
-            print("5. Modify Team")
-            print("6. Delete Team")
+            print("4. Create National Team")
+            print("5. Create Mixed Nationality Team")
+            print("6. Create Continental Team")
+            print("7. View Team Details")
+            print("8. Modify Team")
+            print("9. Delete Team")
+            print("10. Check Nationality Availability")
             print("0. Back to Main Menu")
             print("\n" + "=" * 60)
             
@@ -123,13 +131,25 @@ class FantasyFootballApp:
                 self.create_manual_team()
                 self.pause()
             elif choice == "4":
-                self.view_team_details()
+                self.create_national_team()
                 self.pause()
             elif choice == "5":
-                self.modify_team()
+                self.create_mixed_nationality_team()
                 self.pause()
             elif choice == "6":
+                self.create_continental_team()
+                self.pause()
+            elif choice == "7":
+                self.view_team_details()
+                self.pause()
+            elif choice == "8":
+                self.modify_team()
+                self.pause()
+            elif choice == "9":
                 self.delete_team()
+                self.pause()
+            elif choice == "10":
+                self.check_nationality_availability()
                 self.pause()
             elif choice == "0":
                 break
@@ -178,9 +198,34 @@ class FantasyFootballApp:
             except ValueError:
                 pass
         
-        name_prefix = input("Name prefix (or Enter for default): ").strip() or None
+        # Nationality selection
+        print("\nSelect nationality (or Enter for random):")
+        available_nationalities = [
+            'Brazilian', 'Spanish', 'French', 'German', 'Italian', 'Portuguese',
+            'British', 'American', 'Dutch', 'Russian', 'Polish', 'Swedish',
+            'Norwegian', 'Danish', 'Finnish', 'Japanese', 'Korean', 'Chinese',
+            'Turkish', 'Greek', 'Hebrew'
+        ]
         
-        player = self.player_manager.create_random_player(position, name_prefix)
+        for i, nat in enumerate(available_nationalities, 1):
+            print(f"{i:2}. {nat}")
+        
+        nat_choice = input("\nEnter nationality choice (or Enter for random): ").strip()
+        
+        nationality = None
+        if nat_choice:
+            try:
+                idx = int(nat_choice) - 1
+                if 0 <= idx < len(available_nationalities):
+                    nationality = available_nationalities[idx]
+            except ValueError:
+                pass
+        
+        if nationality:
+            player = self.player_manager.create_player_by_nationality(position, nationality)
+        else:
+            player = self.player_manager.create_random_player(position)
+        
         self.player_manager.add_player(player)
         
         print(f"\nCreated player:")
@@ -212,19 +257,201 @@ class FantasyFootballApp:
         print(f"\nGenerated {len(players)} players successfully!")
     
     def search_players(self):
-        """Search for players."""
-        search_term = input("Enter player name (partial): ").strip()
-        if not search_term:
-            return
+        """Search for players with multiple criteria."""
+        print("\n=== Player Search ===")
+        print("1. Search by Name")
+        print("2. Search by Nationality")
+        print("3. Search by Position")
+        print("4. Advanced Search (Multiple Criteria)")
         
-        found = self.player_manager.find_players_by_name(search_term)
-        if not found:
-            print("No players found!")
-            return
+        try:
+            choice = int(input("Select search type (1-4): "))
+        except ValueError:
+            choice = 1
         
-        print(f"\nFound {len(found)} players:")
-        for player in found:
-            print(f"  {player.name} ({player.position.name}) - OVR: {player.overall_rating():.0f}")
+        if choice == 1:
+            # Search by name (existing functionality)
+            search_term = input("Enter player name (partial): ").strip()
+            if not search_term:
+                return
+            
+            found = self.player_manager.find_players_by_name(search_term)
+            if not found:
+                print("No players found!")
+                return
+            
+            print(f"\nFound {len(found)} players:")
+            for player in found:
+                print(f"  {player.name} ({player.position.name}) - {player.nationality} - OVR: {player.overall_rating():.0f}")
+        
+        elif choice == 2:
+            # Search by nationality
+            distribution = self.player_manager.get_nationality_distribution()
+            print("\n=== Available Nationalities ===")
+            sorted_nationalities = sorted(distribution.items())
+            for i, (nationality, count) in enumerate(sorted_nationalities, 1):
+                print(f"{i:2}. {nationality}: {count} players")
+            
+            nationality_input = input("\nEnter nationality (name or number): ").strip()
+            if not nationality_input:
+                return
+            
+            # Check if input is a number
+            nationality = None
+            try:
+                choice_num = int(nationality_input)
+                if 1 <= choice_num <= len(sorted_nationalities):
+                    nationality = sorted_nationalities[choice_num - 1][0]
+                else:
+                    print(f"Invalid number! Please choose 1-{len(sorted_nationalities)}")
+                    return
+            except ValueError:
+                # Input is a nationality name
+                nationality = nationality_input
+            
+            found = self.player_manager.find_players_by_nationality(nationality)
+            if not found:
+                print(f"No {nationality} players found!")
+                return
+            
+            print(f"\nFound {len(found)} {nationality} players:")
+            # Group by position
+            from collections import defaultdict
+            by_position = defaultdict(list)
+            for player in found:
+                by_position[player.position.name].append(player)
+            
+            for position, players in sorted(by_position.items()):
+                print(f"\n  {position} ({len(players)}):")
+                for player in sorted(players, key=lambda p: p.overall_rating(), reverse=True):
+                    print(f"    {player.name} - OVR: {player.overall_rating():.0f}")
+        
+        elif choice == 3:
+            # Search by position
+            from models import Position
+            positions = [pos.name for pos in Position]
+            print("\n=== Available Positions ===")
+            for i, pos in enumerate(positions, 1):
+                print(f"{i:2}. {pos}")
+            
+            try:
+                pos_choice = int(input("Select position (number): "))
+                if 1 <= pos_choice <= len(positions):
+                    position_name = positions[pos_choice - 1]
+                else:
+                    print("Invalid choice!")
+                    return
+            except ValueError:
+                print("Invalid input!")
+                return
+            
+            found = [p for p in self.player_manager.players if p.position.name == position_name]
+            if not found:
+                print(f"No {position_name} players found!")
+                return
+            
+            # Sort by rating
+            found.sort(key=lambda p: p.overall_rating(), reverse=True)
+            
+            print(f"\nFound {len(found)} {position_name} players:")
+            for player in found[:20]:  # Show top 20
+                print(f"  {player.name} ({player.nationality}) - OVR: {player.overall_rating():.0f}")
+        
+        elif choice == 4:
+            # Advanced search with multiple criteria
+            print("\n=== Advanced Search ===")
+            print("Enter criteria (leave empty to skip):")
+            
+            # Get search criteria
+            name_filter = input("Name contains: ").strip().lower()
+            
+            # Show available nationalities
+            distribution = self.player_manager.get_nationality_distribution()
+            print("\nAvailable Nationalities:")
+            sorted_nationalities = sorted(distribution.items())
+            for i, (nationality, count) in enumerate(sorted_nationalities, 1):
+                print(f"{i:2}. {nationality}: {count} players")
+            
+            nationality_input = input("\nNationality (name or number, or Enter to skip): ").strip()
+            nationality_filter = ""
+            if nationality_input:
+                try:
+                    choice_num = int(nationality_input)
+                    if 1 <= choice_num <= len(sorted_nationalities):
+                        nationality_filter = sorted_nationalities[choice_num - 1][0]
+                    else:
+                        print(f"Invalid number! Using text search.")
+                        nationality_filter = nationality_input
+                except ValueError:
+                    nationality_filter = nationality_input
+            
+            # Show available positions
+            print("\nAvailable Positions:")
+            positions = list(Position)
+            for i, pos in enumerate(positions, 1):
+                print(f"{i:2}. {pos.name}")
+            
+            position_input = input("\nPosition (name or number, or Enter to skip): ").strip()
+            position_filter = ""
+            if position_input:
+                try:
+                    choice_num = int(position_input)
+                    if 1 <= choice_num <= len(positions):
+                        position_filter = positions[choice_num - 1].name
+                    else:
+                        print(f"Invalid number! Using text search.")
+                        position_filter = position_input.upper()
+                except ValueError:
+                    position_filter = position_input.upper()
+            
+            try:
+                min_rating = input("Minimum overall rating: ").strip()
+                min_rating = float(min_rating) if min_rating else 0
+            except ValueError:
+                min_rating = 0
+            
+            try:
+                max_rating = input("Maximum overall rating: ").strip()
+                max_rating = float(max_rating) if max_rating else 100
+            except ValueError:
+                max_rating = 100
+            
+            # Apply filters
+            found = []
+            for player in self.player_manager.players:
+                # Name filter
+                if name_filter and name_filter not in player.name.lower():
+                    continue
+                
+                # Nationality filter
+                if nationality_filter and nationality_filter.lower() != player.nationality.lower():
+                    continue
+                
+                # Position filter
+                if position_filter and position_filter != player.position.name:
+                    continue
+                
+                # Rating filter
+                rating = player.overall_rating()
+                if not (min_rating <= rating <= max_rating):
+                    continue
+                
+                found.append(player)
+            
+            if not found:
+                print("No players match the criteria!")
+                return
+            
+            # Sort by rating
+            found.sort(key=lambda p: p.overall_rating(), reverse=True)
+            
+            print(f"\nFound {len(found)} players matching criteria:")
+            for player in found[:30]:  # Show top 30
+                print(f"  {player.name} ({player.nationality}) - {player.position.name} - OVR: {player.overall_rating():.0f}")
+        
+        else:
+            print("Invalid choice!")
+            return
     
     def view_top_players(self):
         """View top players by rating."""
@@ -284,6 +511,270 @@ class FantasyFootballApp:
             print(team.summary())
             print("\nTeam created successfully!")
     
+    def create_national_team(self):
+        """Create a team with players all from the same nationality."""
+        if len(self.player_manager.players) < 11:
+            print("\nNot enough players! Generate more players first.")
+            return
+        
+        # Show available nationalities
+        distribution = self.player_manager.get_nationality_distribution()
+        print("\n=== Available Nationalities ===")
+        for i, (nationality, count) in enumerate(sorted(distribution.items()), 1):
+            print(f"{i:2}. {nationality}: {count} players")
+        
+        nationality = input("\nEnter nationality: ").strip()
+        if not nationality:
+            print("Nationality cannot be empty!")
+            return
+        
+        # Check if national team is possible
+        can_create, reason = self.team_manager.can_create_national_team(nationality, self.player_manager.players)
+        
+        create_missing = False
+        if not can_create:
+            print(f"\n❌ Cannot create national team: {reason}")
+            
+            # Ask if user wants to create missing players
+            response = input("\nWould you like to create missing players to complete the team? (y/n): ").strip().lower()
+            if response in ['y', 'yes']:
+                create_missing = True
+                print("✅ Will create missing players as needed.")
+            else:
+                return
+        
+        name = input(f"Enter team name [{nationality} FC]: ").strip()
+        if not name:
+            name = f"{nationality} FC"
+        
+        # Select formation
+        formations = list(self.team_manager.FORMATIONS.keys()) if hasattr(self.team_manager, 'FORMATIONS') else ["4-3-3"]
+        print("\nAvailable formations:")
+        for i, formation in enumerate(formations, 1):
+            print(f"{i}. {formation}")
+        
+        try:
+            choice = int(input("Select formation (number): "))
+            if 1 <= choice <= len(formations):
+                formation = formations[choice - 1]
+            else:
+                formation = "4-3-3"
+        except ValueError:
+            formation = "4-3-3"
+        
+        team = self.team_manager.create_national_team(name, nationality, self.player_manager.players, formation, None, create_missing)
+        
+        if team:
+            self.team_manager.add_team(team)
+            print(f"\n✅ {nationality} national team created successfully!")
+            print(team.summary())
+        else:
+            print(f"\n❌ Failed to create {nationality} national team.")
+    
+    def create_mixed_nationality_team(self):
+        """Create a team with a specific mix of nationalities."""
+        if len(self.player_manager.players) < 11:
+            print("\nNot enough players! Generate more players first.")
+            return
+        
+        # Show available nationalities with IDs
+        distribution = self.player_manager.get_nationality_distribution()
+        print("\n=== Available Nationalities ===")
+        sorted_nationalities = sorted(distribution.items())
+        for i, (nationality, count) in enumerate(sorted_nationalities, 1):
+            print(f"{i:2}. {nationality}: {count} players")
+        
+        name = input("\nEnter team name: ").strip()
+        if not name:
+            print("Team name cannot be empty!")
+            return
+        
+        print("\nSpecify nationality requirements (minimum players per nationality)")
+        print("Format: 'ID:count ID:count' (e.g., '12:4 11:3 17:2') or leave empty to finish")
+        print("Example: 2:5 12:3 (Brazilian:5 German:3)")
+        
+        nationality_mix = {}
+        while True:
+            req = input("Enter requirement (or press Enter to finish): ").strip()
+            if not req:
+                break
+            
+            # Parse space-separated ID:count pairs
+            pairs = req.split()
+            added_any = False
+            
+            for pair in pairs:
+                try:
+                    parts = pair.split(':')
+                    if len(parts) == 2:
+                        nat_id = int(parts[0].strip())
+                        count = int(parts[1].strip())
+                        
+                        # Validate nationality ID
+                        if 1 <= nat_id <= len(sorted_nationalities):
+                            nationality = sorted_nationalities[nat_id - 1][0]
+                            if count > 0:
+                                nationality_mix[nationality] = count
+                                print(f"✅ Added: {nationality} (ID {nat_id}) - {count} players")
+                                added_any = True
+                            else:
+                                print(f"Count must be positive for ID {nat_id}!")
+                        else:
+                            print(f"Invalid nationality ID: {nat_id}! Use 1-{len(sorted_nationalities)}")
+                    else:
+                        print(f"Invalid format in '{pair}'! Use 'ID:Count'")
+                except ValueError:
+                    print(f"Invalid format in '{pair}'! Use numbers only (e.g., '12:4')")
+            
+            if not added_any and req:
+                print("No valid requirements added. Try format: '12:4 17:3' (ID:count pairs)")
+        
+        if not nationality_mix:
+            print("No nationality requirements specified!")
+            return
+        
+        # Select formation
+        from models import FORMATIONS
+        formations = list(FORMATIONS.keys())
+        print("\nAvailable formations:")
+        for i, formation in enumerate(formations, 1):
+            print(f"{i}. {formation}")
+        
+        try:
+            choice = int(input("Select formation (number): "))
+            if 1 <= choice <= len(formations):
+                formation = formations[choice - 1]
+            else:
+                formation = "4-3-3"
+        except ValueError:
+            formation = "4-3-3"
+        
+        # First try without creating missing players
+        team = self.team_manager.create_mixed_nationality_team(name, nationality_mix, self.player_manager.players, formation)
+        
+        if not team:
+            # Ask if user wants to create missing players
+            response = input("\nWould you like to create missing players to complete the team? (y/n): ").strip().lower()
+            if response in ['y', 'yes']:
+                print("✅ Will create missing players as needed.")
+                team = self.team_manager.create_mixed_nationality_team(name, nationality_mix, self.player_manager.players, formation, None, True)
+        
+        if team:
+            self.team_manager.add_team(team)
+            print(f"\n✅ Mixed nationality team '{name}' created successfully!")
+            print(team.summary())
+        else:
+            print(f"\n❌ Failed to create mixed nationality team.")
+    
+    def create_continental_team(self):
+        """Create a team with minimum players from a specific continent."""
+        if len(self.player_manager.players) < 11:
+            print("\nNot enough players! Generate more players first.")
+            return
+        
+        continents = ["Europe", "Americas", "Asia"]
+        print("\n=== Available Continents ===")
+        print("1. Europe (23 countries)")
+        print("2. Americas (2 countries)")  
+        print("3. Asia (3 countries)")
+        
+        try:
+            choice = int(input("Select continent (1-3): "))
+            if 1 <= choice <= 3:
+                continent = continents[choice - 1]
+            else:
+                print("Invalid choice!")
+                return
+        except ValueError:
+            print("Invalid input!")
+            return
+        
+        name = input(f"\nEnter team name [{continent} FC]: ").strip()
+        if not name:
+            name = f"{continent} FC"
+        
+        try:
+            min_players = int(input(f"Minimum players from {continent} (1-11): "))
+            if not 1 <= min_players <= 11:
+                print("Must be between 1 and 11!")
+                return
+        except ValueError:
+            print("Invalid number!")
+            return
+        
+        # Select formation
+        from models import FORMATIONS
+        formations = list(FORMATIONS.keys())
+        print("\nAvailable formations:")
+        for i, formation in enumerate(formations, 1):
+            print(f"{i}. {formation}")
+        
+        try:
+            choice = int(input("Select formation (number): "))
+            if 1 <= choice <= len(formations):
+                formation = formations[choice - 1]
+            else:
+                formation = "4-3-3"
+        except ValueError:
+            formation = "4-3-3"
+        
+        # First try without creating missing players
+        team = self.team_manager.create_continental_team(name, continent, min_players, self.player_manager.players, formation)
+        
+        if not team:
+            # Ask if user wants to create missing players
+            response = input("\nWould you like to create missing players to complete the team? (y/n): ").strip().lower()
+            if response in ['y', 'yes']:
+                print("✅ Will create missing players as needed.")
+                team = self.team_manager.create_continental_team(name, continent, min_players, self.player_manager.players, formation, None, True)
+        
+        if team:
+            self.team_manager.add_team(team)
+            print(f"\n✅ Continental team '{name}' created successfully!")
+            print(team.summary())
+        else:
+            print(f"\n❌ Failed to create continental team.")
+    
+    def check_nationality_availability(self):
+        """Check availability of players by nationality for team creation."""
+        print("\n=== Nationality Availability Analysis ===")
+        
+        # Get availability data
+        availability = self.team_manager.get_nationality_availability(self.player_manager.players)
+        
+        if not availability:
+            print("No players available!")
+            return
+        
+        # Show overall nationality distribution
+        print("\n📊 Available Players by Nationality:")
+        nationality_totals = {}
+        for nat, positions in availability.items():
+            nationality_totals[nat] = sum(positions.values())
+        
+        # Sort by total players
+        sorted_nationalities = sorted(nationality_totals.items(), key=lambda x: x[1], reverse=True)
+        
+        for nat, total in sorted_nationalities:
+            print(f"   {nat:15}: {total:2} players")
+        
+        # Check which nationalities can form complete teams
+        print("\n⚽ National Team Feasibility (4-3-3 formation):")
+        for nationality, _ in sorted_nationalities[:10]:  # Check top 10
+            can_create, reason = self.team_manager.can_create_national_team(nationality, self.player_manager.players, "4-3-3")
+            status = "✅" if can_create else "❌"
+            print(f"   {status} {nationality:15}: {reason}")
+        
+        # Show detailed position breakdown for selected nationality
+        print(f"\nFor detailed position breakdown, enter a nationality:")
+        selected = input("Nationality (or press Enter to skip): ").strip()
+        
+        if selected and selected in availability:
+            print(f"\n🔍 {selected} Position Breakdown:")
+            positions = availability[selected]
+            for pos, count in sorted(positions.items()):
+                print(f"   {pos:3}: {count} players")
+    
     def view_team_details(self):
         """View detailed team information."""
         team = self._select_team_by_number("Select team to view")
@@ -332,7 +823,9 @@ class FantasyFootballApp:
                 print("2. Change Formation")
                 print("3. Change Tactical Style")
                 print("4. Replace Player")
-                print("5. View Current Team")
+                print("5. Modify by Nationality")
+                print("6. View Current Team")
+                print("7. View Team Nationality Analysis")
                 print("0. Back")
                 print("\n" + "=" * 60)
                 
@@ -347,8 +840,12 @@ class FantasyFootballApp:
                 elif choice == "4":
                     self._replace_team_player(team)
                 elif choice == "5":
+                    self._modify_team_by_nationality(team)
+                elif choice == "6":
                     print(team.summary())
                     self.pause()
+                elif choice == "7":
+                    self._view_team_nationality_analysis(team)
                 elif choice == "0":
                     break
                 else:
@@ -571,6 +1068,286 @@ class FantasyFootballApp:
         
         self.pause()
     
+    def _modify_team_by_nationality(self, team):
+        """Modify team based on nationality requirements."""
+        print(f"\n=== Modify {team.name} by Nationality ===")
+        print("1. Replace players of specific nationality")
+        print("2. Add minimum players from nationality")
+        print("3. Balance nationality distribution")
+        print("4. Convert to national team")
+        
+        try:
+            choice = int(input("Select modification type (1-4): "))
+        except ValueError:
+            print("Invalid input!")
+            self.pause()
+            return
+        
+        if choice == 1:
+            self._replace_players_by_nationality(team)
+        elif choice == 2:
+            self._add_nationality_quota(team)
+        elif choice == 3:
+            self._balance_nationality_mix(team)
+        elif choice == 4:
+            self._convert_to_national_team(team)
+        else:
+            print("Invalid choice!")
+            self.pause()
+    
+    def _replace_players_by_nationality(self, team):
+        """Replace all players of a specific nationality."""
+        # Show current nationality distribution
+        nationality_count = {}
+        for player in team.players:
+            nat = player.nationality
+            nationality_count[nat] = nationality_count.get(nat, 0) + 1
+        
+        print(f"\nCurrent nationality distribution in {team.name}:")
+        for nat, count in sorted(nationality_count.items()):
+            print(f"  {nat}: {count} players")
+        
+        old_nationality = input("\nEnter nationality to replace: ").strip()
+        if not old_nationality:
+            return
+        
+        # Find players to replace
+        players_to_replace = [p for p in team.players if p.nationality.lower() == old_nationality.lower()]
+        if not players_to_replace:
+            print(f"No {old_nationality} players found in team!")
+            self.pause()
+            return
+        
+        new_nationality = input(f"Enter new nationality to replace {old_nationality} with: ").strip()
+        if not new_nationality:
+            return
+        
+        # Get available players from new nationality
+        available = self.team_manager.get_available_players(self.player_manager.players)
+        available_new_nat = [p for p in available if p.nationality.lower() == new_nationality.lower()]
+        
+        if len(available_new_nat) < len(players_to_replace):
+            print(f"Not enough {new_nationality} players available! Need {len(players_to_replace)}, have {len(available_new_nat)}")
+            self.pause()
+            return
+        
+        # Sort by rating
+        available_new_nat.sort(key=lambda p: p.overall_rating(), reverse=True)
+        
+        print(f"\nReplacing {len(players_to_replace)} {old_nationality} players with {new_nationality} players:")
+        
+        # Replace players one by one, trying to match positions
+        for old_player in players_to_replace:
+            # Try to find same position first
+            same_position = [p for p in available_new_nat if p.position == old_player.position]
+            if same_position:
+                new_player = same_position[0]
+                available_new_nat.remove(new_player)
+            else:
+                # Use best available
+                new_player = available_new_nat.pop(0)
+            
+            # Replace in team
+            team.players.remove(old_player)
+            team.players.append(new_player)
+            
+            print(f"  {old_player.name} ({old_player.position.name}) → {new_player.name} ({new_player.position.name})")
+        
+        # Save changes
+        self.team_manager.save_teams()
+        print(f"\n✅ Successfully replaced {old_nationality} players with {new_nationality} players!")
+        self.pause()
+    
+    def _add_nationality_quota(self, team):
+        """Add minimum players from specific nationality."""
+        nationality = input("Enter nationality to add: ").strip()
+        if not nationality:
+            return
+        
+        try:
+            min_count = int(input(f"Minimum {nationality} players needed: "))
+            if min_count < 1 or min_count > 11:
+                print("Must be between 1 and 11!")
+                self.pause()
+                return
+        except ValueError:
+            print("Invalid number!")
+            self.pause()
+            return
+        
+        # Count current players from nationality
+        current_count = sum(1 for p in team.players if p.nationality.lower() == nationality.lower())
+        
+        if current_count >= min_count:
+            print(f"Team already has {current_count} {nationality} players (need {min_count})")
+            self.pause()
+            return
+        
+        needed = min_count - current_count
+        print(f"Need to add {needed} more {nationality} players")
+        
+        # Get available players
+        available = self.team_manager.get_available_players(self.player_manager.players)
+        available_nat = [p for p in available if p.nationality.lower() == nationality.lower()]
+        
+        if len(available_nat) < needed:
+            print(f"Not enough {nationality} players available! Need {needed}, have {len(available_nat)}")
+            self.pause()
+            return
+        
+        # Sort by rating
+        available_nat.sort(key=lambda p: p.overall_rating(), reverse=True)
+        
+        # Replace lowest rated players with new nationality players
+        team.players.sort(key=lambda p: p.overall_rating())
+        
+        print(f"\nReplacing {needed} lowest rated players with {nationality} players:")
+        for i in range(needed):
+            old_player = team.players.pop(0)  # Remove lowest rated
+            new_player = available_nat[i]
+            team.players.append(new_player)
+            
+            print(f"  {old_player.name} ({old_player.nationality}) → {new_player.name} ({new_player.nationality})")
+        
+        # Save changes
+        self.team_manager.save_teams()
+        print(f"\n✅ Successfully added {nationality} players to meet quota!")
+        self.pause()
+    
+    def _balance_nationality_mix(self, team):
+        """Balance nationality distribution in the team."""
+        print("This feature would redistribute players to create a more balanced nationality mix.")
+        print("Implementation would analyze current distribution and suggest optimal changes.")
+        print("For now, use other nationality modification options.")
+        self.pause()
+    
+    def _convert_to_national_team(self, team):
+        """Convert team to single nationality."""
+        nationality = input("Enter nationality for national team: ").strip()
+        if not nationality:
+            return
+        
+        # Check if enough players available
+        can_create, reason = self.team_manager.can_create_national_team(nationality, self.player_manager.players, team.formation)
+        if not can_create:
+            print(f"\nCannot convert to {nationality} national team: {reason}")
+            self.pause()
+            return
+        
+        confirm = input(f"Convert {team.name} to {nationality} national team? This will replace ALL players (y/N): ").strip().lower()
+        if confirm != 'y':
+            return
+        
+        # Get available players of nationality
+        available = self.team_manager.get_available_players(self.player_manager.players)
+        available_nat = [p for p in available if p.nationality.lower() == nationality.lower()]
+        
+        # Also include current players of that nationality
+        current_nat = [p for p in team.players if p.nationality.lower() == nationality.lower()]
+        available_nat.extend(current_nat)
+        
+        # Create new squad
+        from models import FORMATIONS
+        requirements = FORMATIONS[team.formation]
+        new_players = []
+        
+        for position, count in requirements.items():
+            # Find players for this position
+            candidates = [p for p in available_nat if p.position == position and p not in new_players]
+            
+            # If not enough, try compatible positions
+            if len(candidates) < count:
+                # Add compatibility logic here if needed
+                pass
+            
+            # Sort by rating and select best
+            candidates.sort(key=lambda p: p.overall_rating(), reverse=True)
+            for i in range(min(count, len(candidates))):
+                new_players.append(candidates[i])
+        
+        if len(new_players) < 11:
+            print(f"Could not find enough {nationality} players for all positions!")
+            self.pause()
+            return
+        
+        # Replace all players
+        old_players = team.players.copy()
+        team.players = new_players
+        
+        # Update team name
+        old_name = team.name
+        team.name = f"{nationality} {old_name}"
+        
+        # Save changes
+        self.team_manager.save_teams()
+        
+        print(f"\n✅ Successfully converted {old_name} to {nationality} national team!")
+        print(f"New team name: {team.name}")
+        print(f"All {len(new_players)} players are now {nationality}")
+        self.pause()
+    
+    def _view_team_nationality_analysis(self, team):
+        """Show detailed nationality analysis for the team."""
+        print(f"\n=== Nationality Analysis: {team.name} ===")
+        
+        # Count by nationality
+        nationality_count = {}
+        position_by_nationality = {}
+        
+        for player in team.players:
+            nat = player.nationality
+            pos = player.position.name
+            
+            nationality_count[nat] = nationality_count.get(nat, 0) + 1
+            
+            if nat not in position_by_nationality:
+                position_by_nationality[nat] = []
+            position_by_nationality[nat].append(pos)
+        
+        # Show nationality distribution
+        print(f"\n📊 Nationality Distribution ({len(team.players)} players):")
+        sorted_nats = sorted(nationality_count.items(), key=lambda x: x[1], reverse=True)
+        
+        for nat, count in sorted_nats:
+            percentage = (count / len(team.players)) * 100
+            positions = ', '.join(sorted(set(position_by_nationality[nat])))
+            print(f"   {nat:15}: {count:2} players ({percentage:4.1f}%) - {positions}")
+        
+        # Show diversity metrics
+        print(f"\n🌍 Diversity Metrics:")
+        print(f"   Total nationalities: {len(nationality_count)}")
+        print(f"   Most common: {sorted_nats[0][0]} ({sorted_nats[0][1]} players)")
+        print(f"   Diversity score: {len(nationality_count)}/11 ({len(nationality_count)/11*100:.1f}%)")
+        
+        # Show continent distribution
+        continental_nationalities = {
+            "Europe": ["British", "French", "German", "Italian", "Spanish", "Portuguese", "Polish", 
+                      "Dutch", "Swedish", "Norwegian", "Danish", "Finnish", "Czech", "Hungarian", 
+                      "Romanian", "Croatian", "Slovenian", "Estonian", "Latvian", "Lithuanian", 
+                      "Slovak", "Icelandic", "Irish"],
+            "Americas": ["American", "Brazilian"],
+            "Asia": ["Turkish", "Indonesian", "Filipino"]
+        }
+        
+        continent_count = {"Europe": 0, "Americas": 0, "Asia": 0, "Other": 0}
+        for nat, count in nationality_count.items():
+            assigned = False
+            for continent, countries in continental_nationalities.items():
+                if nat in countries:
+                    continent_count[continent] += count
+                    assigned = True
+                    break
+            if not assigned:
+                continent_count["Other"] += count
+        
+        print(f"\n🌏 Continental Distribution:")
+        for continent, count in continent_count.items():
+            if count > 0:
+                percentage = (count / len(team.players)) * 100
+                print(f"   {continent:10}: {count:2} players ({percentage:4.1f}%)")
+        
+        self.pause()
+
     def delete_team(self):
         """Delete a team."""
         team = self._select_team_by_number("Select team to delete")
@@ -1098,6 +1875,9 @@ class FantasyFootballApp:
             print("\n1. Create New Tournament")
             print("2. Continue Existing Tournament")
             print("3. View Tournament Bracket")
+            print("4. Show Tournament List")
+            print("5. Rename Tournament")
+            print("6. Delete Tournament")
             print("0. Back to Main Menu")
             print("\n" + "=" * 70)
             
@@ -1112,6 +1892,13 @@ class FantasyFootballApp:
             elif choice == "3":
                 self.view_tournament_bracket()
                 self.pause()
+            elif choice == "4":
+                self.show_tournament_list()
+                self.pause()
+            elif choice == "5":
+                self.rename_tournament()
+            elif choice == "6":
+                self.delete_tournament()
             elif choice == "0":
                 break
             else:
@@ -1589,6 +2376,9 @@ class FantasyFootballApp:
         
         # Tournament finished
         if tournament.completed:
+            # Save completed tournament to history
+            self.save_completed_tournament(tournament)
+            
             self.clear_screen()
             print("\n" + "🏆" * 20)
             print(f"TOURNAMENT COMPLETED: {tournament.name}")
@@ -1598,6 +2388,498 @@ class FantasyFootballApp:
             print("\nFinal Bracket:")
             print(self.tournament_manager.get_tournament_bracket_display(tournament))
     
+    def save_completed_tournament(self, tournament):
+        """Save a completed tournament to tournament history."""
+        import json
+        import os
+        from datetime import datetime
+        
+        tournament_data = {
+            'name': tournament.name,
+            'winner': tournament.winner,
+            'date': datetime.now().strftime('%Y-%m-%d %H:%M'),
+            'teams': tournament.teams.copy(),
+            'teams_count': len(tournament.teams)
+        }
+        
+        # Load existing tournaments
+        tournaments_file = 'tournament_history.json'
+        saved_tournaments = []
+        
+        if os.path.exists(tournaments_file):
+            try:
+                with open(tournaments_file, 'r') as f:
+                    saved_tournaments = json.load(f)
+            except:
+                saved_tournaments = []
+        
+        # Add new tournament
+        saved_tournaments.append(tournament_data)
+        
+        # Save back to file
+        try:
+            with open(tournaments_file, 'w') as f:
+                json.dump(saved_tournaments, f, indent=2)
+        except Exception as e:
+            print(f"Warning: Could not save tournament history: {e}")
+    
+    def show_tournament_list(self):
+        """Show list of all tournaments with their winners."""
+        import json
+        import os
+        
+        # Load completed tournaments from history
+        tournaments_file = 'tournament_history.json'
+        completed_tournaments = []
+        
+        if os.path.exists(tournaments_file):
+            try:
+                with open(tournaments_file, 'r') as f:
+                    completed_tournaments = json.load(f)
+            except:
+                completed_tournaments = []
+        
+        print("\n🏆 TOURNAMENT HISTORY")
+        print("="*60)
+        
+        if completed_tournaments:
+            print(f"\n✅ COMPLETED TOURNAMENTS ({len(completed_tournaments)}):")
+            for i, tournament in enumerate(completed_tournaments, 1):
+                name = tournament.get('name', 'Unknown Tournament')
+                winner = tournament.get('winner', 'Unknown Winner')
+                date = tournament.get('date', 'Unknown Date')
+                teams_count = tournament.get('teams_count', 'Unknown')
+                
+                # Get top scorer for this tournament from player stats
+                top_scorer = None
+                max_goals = 0
+                for player in self.player_manager.players:
+                    goals = player.stats.get_tournament_stat(name, 'goals')
+                    if goals > max_goals:
+                        max_goals = goals
+                        top_scorer = player.name
+                
+                print(f"{i:2}. {name}")
+                print(f"    🥇 Winner: {winner}")
+                print(f"    📅 Date: {date}")
+                print(f"    👥 Teams: {teams_count}")
+                if top_scorer and max_goals > 0:
+                    print(f"    ⚽ Top scorer: {top_scorer} ({max_goals} goals)")
+                else:
+                    print(f"    ⚽ Top scorer: No goals recorded")
+                print()
+        else:
+            print("\n📭 No completed tournaments found!")
+            print("Complete your first tournament to see it listed here.")
+    
+    def statistics_menu(self):
+        """Player statistics and leaderboards menu."""
+        while True:
+            self.clear_screen()
+            print("\n📊 PLAYER STATISTICS & LEADERBOARDS")
+            print("="*50)
+            print("\n1. Career Statistics Report")
+            print("2. Tournament Statistics Report")
+            print("3. Top Goal Scorers")
+            print("4. Top Assist Providers")
+            print("5. Clean Sheet Leaders")
+            print("6. Most Appearances")
+            print("7. Efficiency Leaders")
+            print("8. Individual Player Stats")
+            print("0. Back to Main Menu")
+            
+            choice = input("\nEnter choice: ").strip()
+            
+            if choice == "1":
+                self.stats_manager.generate_full_report(self.player_manager.players)
+                self.pause()
+            elif choice == "2":
+                self.tournament_statistics_report()
+            elif choice == "3":
+                self.show_top_scorers()
+            elif choice == "4":
+                self.show_top_assisters()
+            elif choice == "5":
+                self.show_clean_sheet_leaders()
+            elif choice == "6":
+                self.show_most_appearances()
+            elif choice == "7":
+                self.show_efficiency_leaders()
+            elif choice == "8":
+                self.show_individual_player_stats()
+            elif choice == "0":
+                break
+            else:
+                print("Invalid choice!")
+                self.pause()
+    
+    def tournament_statistics_report(self):
+        """Show tournament-specific statistics."""
+        tournaments = set()
+        for player in self.player_manager.players:
+            tournaments.update(player.stats.tournament_stats.keys())
+        
+        if not tournaments:
+            print("\nNo tournament data available yet!")
+            self.pause()
+            return
+        
+        print("\nAvailable tournaments:")
+        tournament_list = sorted(tournaments)
+        for i, tournament in enumerate(tournament_list, 1):
+            print(f"{i}. {tournament}")
+        
+        try:
+            choice = int(input("\nSelect tournament: "))
+            if 1 <= choice <= len(tournament_list):
+                selected_tournament = tournament_list[choice - 1]
+                self.stats_manager.generate_full_report(self.player_manager.players, selected_tournament)
+            else:
+                print("Invalid choice!")
+        except ValueError:
+            print("Invalid input!")
+        
+        self.pause()
+    
+    def show_top_scorers(self):
+        """Show top goal scorers."""
+        top_scorers = self.stats_manager.get_top_scorers(self.player_manager.players, 15)
+        self.stats_manager.print_leaderboard("Top Goal Scorers (Career)", top_scorers, "goals")
+        self.pause()
+    
+    def show_top_assisters(self):
+        """Show top assist providers."""
+        top_assisters = self.stats_manager.get_top_assisters(self.player_manager.players, 15)
+        self.stats_manager.print_leaderboard("Top Assist Providers (Career)", top_assisters, "assists")
+        self.pause()
+    
+    def show_clean_sheet_leaders(self):
+        """Show clean sheet leaders."""
+        gk_players = [p for p in self.player_manager.players if p.position.name == 'GK']
+        clean_sheet_leaders = self.stats_manager.get_clean_sheet_leaders(gk_players, 10)
+        self.stats_manager.print_leaderboard("Clean Sheet Leaders (Goalkeepers)", clean_sheet_leaders, "clean sheets")
+        self.pause()
+    
+    def show_most_appearances(self):
+        """Show players with most appearances."""
+        most_appearances = self.stats_manager.get_most_appearances(self.player_manager.players, 15)
+        self.stats_manager.print_leaderboard("Most Match Appearances (Career)", most_appearances, "matches")
+        self.pause()
+    
+    def show_efficiency_leaders(self):
+        """Show efficiency leaders."""
+        efficiency_leaders = self.stats_manager.get_efficiency_leaders(self.player_manager.players, 15)
+        self.stats_manager.print_leaderboard("Efficiency Leaders (Career)", efficiency_leaders, "rating", "{:.1f}")
+        self.pause()
+    
+    def show_individual_player_stats(self):
+        """Show detailed stats for a specific player."""
+        if not self.player_manager.players:
+            print("\nNo players available!")
+            self.pause()
+            return
+        
+        # Search for player
+        search_term = input("\nEnter player name (partial): ").strip()
+        if not search_term:
+            return
+        
+        found = self.player_manager.find_players_by_name(search_term)
+        if not found:
+            print("No players found!")
+            self.pause()
+            return
+        
+        if len(found) == 1:
+            player = found[0]
+        else:
+            print(f"\nFound {len(found)} players:")
+            for i, player in enumerate(found, 1):
+                print(f"{i}. {player.name} ({player.position.name}) - {player.nationality}")
+            
+            try:
+                choice = int(input("\nSelect player: "))
+                if 1 <= choice <= len(found):
+                    player = found[choice - 1]
+                else:
+                    print("Invalid choice!")
+                    self.pause()
+                    return
+            except ValueError:
+                print("Invalid input!")
+                self.pause()
+                return
+        
+        # Display player stats
+        print(f"\n📊 DETAILED STATISTICS - {player.name}")
+        print("="*50)
+        print(f"Position: {player.position.name}")
+        print(f"Nationality: {player.nationality}")
+        print(f"Overall Rating: {player.overall_rating():.1f}")
+        
+        stats = self.stats_manager.get_player_detailed_stats(player)
+        
+        print(f"\n🏆 CAREER STATISTICS:")
+        print(f"  Matches Played: {stats['matches']}")
+        print(f"  Minutes Played: {stats['minutes']}")
+        print(f"  Goals: {stats['goals']}")
+        print(f"  Assists: {stats['assists']}")
+        print(f"  Goals per Game: {stats['goals_per_game']:.2f}")
+        print(f"  Assists per Game: {stats['assists_per_game']:.2f}")
+        
+        if player.position.name == 'GK':
+            print(f"  Saves: {stats['saves']}")
+            print(f"  Clean Sheets: {stats['clean_sheets']}")
+        
+        print(f"\n⚡ PERFORMANCE METRICS:")
+        print(f"  Efficiency Rating: {stats['efficiency_rating']:.1f}")
+        print(f"  Pass Accuracy: {stats['pass_accuracy']:.1f}%")
+        
+        print(f"\n🟨 DISCIPLINE RECORD:")
+        print(f"  Yellow Cards: {stats['yellow_cards']}")
+        print(f"  Red Cards: {stats['red_cards']}")
+        print(f"  Man of Match Awards: {stats['motm']}")
+        
+        # Show tournament stats if any
+        if player.stats.tournament_stats:
+            print(f"\n🏆 TOURNAMENT BREAKDOWN:")
+            for tournament, t_stats in player.stats.tournament_stats.items():
+                goals = t_stats.get('goals', 0)
+                assists = t_stats.get('assists', 0)
+                matches = t_stats.get('matches', 0)
+                if matches > 0:
+                    print(f"  {tournament}: {matches} matches, {goals} goals, {assists} assists")
+        
+        self.pause()
+    
+    def reset_all_statistics(self):
+        """Reset all player and team statistics to creation values."""
+        print("\n🔄 RESET ALL STATISTICS")
+        print("="*50)
+        print("\nThis will reset:")
+        print("• All player career statistics (matches, goals, assists, etc.)")
+        print("• All team statistics (ELO ratings, streaks)")
+        print("• Player form and fatigue will be restored to full")
+        print("\n⚠️  This action cannot be undone!")
+        
+        confirm = input("\nAre you sure you want to reset all statistics? (y/N): ").strip().lower()
+        if confirm != 'y':
+            print("\nOperation cancelled.")
+            self.pause()
+            return
+        
+        # Reset all player statistics
+        for player in self.player_manager.players:
+            # Reset career stats
+            player.stats.career_matches = 0
+            player.stats.career_minutes = 0
+            player.stats.career_goals = 0
+            player.stats.career_assists = 0
+            player.stats.career_saves = 0
+            player.stats.career_clean_sheets = 0
+            player.stats.career_yellow_cards = 0
+            player.stats.career_red_cards = 0
+            player.stats.career_motm = 0
+            player.stats.career_passes = 0
+            player.stats.career_passes_completed = 0
+            player.stats.career_shots = 0
+            player.stats.career_shots_on_target = 0
+            
+            # Clear tournament stats but keep the structure
+            player.stats.tournament_stats.clear()
+            
+            # Reset player form and fatigue
+            player.current_stamina = 100.0
+            player.form = 7.0  # Reset to neutral form
+            player.yellow_cards = 0
+            player.is_sent_off = False
+        
+        # Reset all team statistics
+        for team in self.team_manager.teams:
+            # Reset ELO rating to default
+            team.elo_rating = 1200  # Default ELO rating
+            team.streak_count = 0   # Reset win/loss streak
+            team.streak_type = None # Clear streak type
+            team.team_momentum = 0  # Reset team momentum
+        
+        # Save changes
+        self.player_manager.save_players()
+        self.team_manager.save_teams()
+        
+        print("\n✅ All statistics have been reset!")
+        print("• Player career stats reset to 0")  
+        print("• Team ELO ratings reset to 1200")
+        print("• Team streaks reset to 0")
+        print("• Player form and stamina restored to 100%")
+        self.pause()
+    
+    def rename_tournament(self):
+        """Rename an existing tournament."""
+        import json
+        import os
+        
+        # Get tournaments from both player stats and tournament history
+        stat_tournaments = set()
+        for player in self.player_manager.players:
+            stat_tournaments.update(player.stats.tournament_stats.keys())
+        
+        # Load tournament history
+        tournaments_file = 'tournament_history.json'
+        completed_tournaments = []
+        if os.path.exists(tournaments_file):
+            try:
+                with open(tournaments_file, 'r') as f:
+                    completed_tournaments = json.load(f)
+            except:
+                completed_tournaments = []
+        
+        history_tournaments = {t.get('name', '') for t in completed_tournaments}
+        all_tournaments = stat_tournaments.union(history_tournaments)
+        
+        if not all_tournaments:
+            print("\n❌ No tournaments found!")
+            self.pause()
+            return
+        
+        print("\n📝 RENAME TOURNAMENT")
+        print("="*50)
+        print("\nAvailable tournaments:")
+        tournament_list = sorted(all_tournaments)
+        for i, tournament in enumerate(tournament_list, 1):
+            status = ""
+            if tournament in history_tournaments:
+                status += " [Completed]"
+            if tournament in stat_tournaments:
+                status += " [Has Stats]"
+            print(f"{i}. {tournament}{status}")
+        
+        try:
+            choice = int(input("\nSelect tournament to rename: "))
+            if not (1 <= choice <= len(tournament_list)):
+                print("Invalid choice!")
+                self.pause()
+                return
+                
+            old_name = tournament_list[choice - 1]
+            new_name = input(f"\nEnter new name for '{old_name}': ").strip()
+            
+            if not new_name:
+                print("Tournament name cannot be empty!")
+                self.pause()
+                return
+                
+            if new_name in all_tournaments:
+                print(f"Tournament '{new_name}' already exists!")
+                self.pause()
+                return
+            
+            # Rename in player stats
+            if old_name in stat_tournaments:
+                for player in self.player_manager.players:
+                    if old_name in player.stats.tournament_stats:
+                        player.stats.tournament_stats[new_name] = player.stats.tournament_stats[old_name].copy()
+                        del player.stats.tournament_stats[old_name]
+                self.player_manager.save_players()
+            
+            # Rename in tournament history
+            if old_name in history_tournaments:
+                for tournament in completed_tournaments:
+                    if tournament.get('name') == old_name:
+                        tournament['name'] = new_name
+                try:
+                    with open(tournaments_file, 'w') as f:
+                        json.dump(completed_tournaments, f, indent=2)
+                except Exception as e:
+                    print(f"Warning: Could not update tournament history: {e}")
+            
+            print(f"\n✅ Tournament renamed from '{old_name}' to '{new_name}'!")
+            
+        except ValueError:
+            print("Invalid input!")
+        
+        self.pause()
+    
+    def delete_tournament(self):
+        """Delete a tournament from history and statistics."""
+        import json
+        import os
+        
+        # Get tournaments from both player stats and tournament history
+        stat_tournaments = set()
+        for player in self.player_manager.players:
+            stat_tournaments.update(player.stats.tournament_stats.keys())
+        
+        # Load tournament history
+        tournaments_file = 'tournament_history.json'
+        completed_tournaments = []
+        if os.path.exists(tournaments_file):
+            try:
+                with open(tournaments_file, 'r') as f:
+                    completed_tournaments = json.load(f)
+            except:
+                completed_tournaments = []
+        
+        history_tournaments = {t.get('name', '') for t in completed_tournaments}
+        all_tournaments = stat_tournaments.union(history_tournaments)
+        
+        if not all_tournaments:
+            print("\n❌ No tournaments found!")
+            self.pause()
+            return
+        
+        print("\n🗑️  DELETE TOURNAMENT")
+        print("="*50)
+        print("\nThis will remove the tournament from history and statistics.")
+        print("⚠️  Player career statistics will NOT be affected.")
+        print("\nAvailable tournaments:")
+        tournament_list = sorted(all_tournaments)
+        for i, tournament in enumerate(tournament_list, 1):
+            status = ""
+            if tournament in history_tournaments:
+                status += " [Completed]"
+            if tournament in stat_tournaments:
+                status += " [Has Stats]"
+            print(f"{i}. {tournament}{status}")
+        
+        try:
+            choice = int(input("\nSelect tournament to delete: "))
+            if not (1 <= choice <= len(tournament_list)):
+                print("Invalid choice!")
+                self.pause()
+                return
+                
+            tournament_name = tournament_list[choice - 1]
+            
+            confirm = input(f"\nAre you sure you want to delete '{tournament_name}'? (y/N): ").strip().lower()
+            if confirm != 'y':
+                print("Operation cancelled.")
+                self.pause()
+                return
+            
+            # Remove from player stats
+            if tournament_name in stat_tournaments:
+                for player in self.player_manager.players:
+                    if tournament_name in player.stats.tournament_stats:
+                        del player.stats.tournament_stats[tournament_name]
+                self.player_manager.save_players()
+            
+            # Remove from tournament history
+            if tournament_name in history_tournaments:
+                completed_tournaments = [t for t in completed_tournaments if t.get('name') != tournament_name]
+                try:
+                    with open(tournaments_file, 'w') as f:
+                        json.dump(completed_tournaments, f, indent=2)
+                except Exception as e:
+                    print(f"Warning: Could not update tournament history: {e}")
+            
+            print(f"\n✅ Tournament '{tournament_name}' has been deleted!")
+            print("📊 Career statistics remain unchanged.")
+            
+        except ValueError:
+            print("Invalid input!")
+        
+        self.pause()
+
     def settings_menu(self):
         """Settings submenu."""
         while True:
@@ -1607,6 +2889,7 @@ class FantasyFootballApp:
             print("=" * 70)
             print(f"\n1. Toggle Penalty Shootout Details (Currently: {'🥅 ON' if self.match_engine.show_penalty_details else '⚡ OFF'})")
             print(f"2. Toggle Detailed Statistics Table (Currently: {'📊 ON' if self.match_engine.show_detailed_stats else '⚡ OFF'})")
+            print("3. Reset All Statistics")
             print("4. Reset All Data")
             print("5. View System Info")
             print("0. Back to Main Menu")
@@ -1627,14 +2910,68 @@ class FantasyFootballApp:
                 status = "📊 ENABLED" if self.match_engine.show_detailed_stats else "⚡ DISABLED"
                 print(f"\nDetailed statistics table {status}!")
                 self.pause()
+            elif choice == "3":
+                self.reset_all_statistics()
             elif choice == "4":
-                confirm = input("\n⚠️  Delete all players and teams? This cannot be undone! (y/N): ").strip().lower()
+                print("\n🗑️  RESET ALL GAME DATA (EXCEPT PLAYERS)")
+                print("="*50)
+                print("\nThis will delete:")
+                print("• All teams and their formations/tactics")
+                print("• All tournament history and winners")
+                print("• All player statistics (career and tournament)")
+                print("• Team ELO ratings and streaks")
+                print("\nThis will KEEP:")
+                print("• All players and their attributes")
+                print("• Player names, positions, nationalities, ratings")
+                
+                confirm = input("\n⚠️  Delete all game data except players? This cannot be undone! (y/N): ").strip().lower()
                 if confirm == 'y':
-                    self.player_manager.players = []
-                    self.player_manager.save_players()
+                    # Delete all teams
                     self.team_manager.teams = []
                     self.team_manager.save_teams()
-                    print("\n🗑️  All data has been reset!")
+                    
+                    # Reset all player statistics but keep the players themselves
+                    for player in self.player_manager.players:
+                        # Reset career stats
+                        player.stats.career_matches = 0
+                        player.stats.career_minutes = 0
+                        player.stats.career_goals = 0
+                        player.stats.career_assists = 0
+                        player.stats.career_saves = 0
+                        player.stats.career_clean_sheets = 0
+                        player.stats.career_yellow_cards = 0
+                        player.stats.career_red_cards = 0
+                        player.stats.career_motm = 0
+                        player.stats.career_passes = 0
+                        player.stats.career_passes_completed = 0
+                        player.stats.career_shots = 0
+                        player.stats.career_shots_on_target = 0
+                        
+                        # Clear tournament stats
+                        player.stats.tournament_stats.clear()
+                        
+                        # Reset player state
+                        player.current_stamina = 100.0
+                        player.form = 7.0
+                        player.yellow_cards = 0
+                        player.is_sent_off = False
+                    
+                    self.player_manager.save_players()
+                    
+                    # Delete tournament history file
+                    import os
+                    tournament_history_file = 'tournament_history.json'
+                    if os.path.exists(tournament_history_file):
+                        try:
+                            os.remove(tournament_history_file)
+                        except Exception as e:
+                            print(f"Warning: Could not delete tournament history: {e}")
+                    
+                    print("\n🗑️  All game data has been reset!")
+                    print("✅ Players preserved with original attributes")
+                    print("✅ Teams deleted - you can create new teams")
+                    print("✅ Statistics reset to 0")
+                    print("✅ Tournament history cleared")
                 else:
                     print("\nOperation cancelled.")
                 self.pause()
@@ -1705,9 +3042,11 @@ class FantasyFootballApp:
                     self.view_all_teams()
                     self.pause()
                 elif choice == "8":
+                    self.statistics_menu()
+                elif choice == "9":
                     self.quick_play()
                     self.pause()
-                elif choice == "9":
+                elif choice == "10":
                     self.settings_menu()
                 elif choice == "0":
                     self.clear_screen()

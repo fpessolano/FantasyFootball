@@ -60,7 +60,9 @@ class TeamManager:
     
     def create_random_team(self, name: str, player_pool: List[Player],
                           formation: Optional[str] = None,
-                          style: Optional[TacticalStyle] = None) -> Optional[Team]:
+                          style: Optional[TacticalStyle] = None,
+                          create_missing: bool = False,
+                          nationality: Optional[str] = None) -> Optional[Team]:
         """
         Create a random team from available players.
         
@@ -76,7 +78,7 @@ class TeamManager:
         # Only use players not already on teams
         available_players = self.get_available_players(player_pool)
         
-        if len(available_players) < 11:
+        if len(available_players) < 11 and not create_missing:
             print(f"Not enough available players! Need 11, have {len(available_players)}.")
             print("Some players may already be assigned to other teams.")
             return None
@@ -123,8 +125,28 @@ class TeamManager:
                                      if p.position == Position.CM and p not in candidates])
             
             if len(candidates) < count:
-                print(f"Not enough players for position {position.name} (need {count}, have {len(candidates)})")
-                return None
+                if create_missing and nationality:
+                    # Create missing players for this position and nationality
+                    missing_count = count - len(candidates)
+                    print(f"Creating {missing_count} new {nationality} {position.name} players...")
+                    
+                    # Import PlayerManager to create players
+                    from player_manager import PlayerManager
+                    temp_pm = PlayerManager('players.json')  # Use existing player file
+                    
+                    for _ in range(missing_count):
+                        new_player = temp_pm.create_player_by_nationality(position, nationality)
+                        # Ensure nationality is set correctly in case of fallback
+                        new_player.nationality = nationality
+                        temp_pm.add_player(new_player)  # Add to database
+                        candidates.append(new_player)
+                        available_players.append(new_player)
+                        print(f"  Created: {new_player.name} ({position.name}) - {nationality}")
+                else:
+                    print(f"Not enough players for position {position.name} (need {count}, have {len(candidates)})")
+                    if nationality:
+                        print(f"Tip: You can create missing players by allowing player generation")
+                    return None
             
             # Select best players for position
             candidates.sort(key=lambda p: p.overall_rating(), reverse=True)
@@ -286,6 +308,272 @@ class TeamManager:
             return None
         
         return team
+    
+    def create_national_team(self, name: str, nationality: str, player_pool: List[Player],
+                           formation: Optional[str] = None,
+                           style: Optional[TacticalStyle] = None,
+                           create_missing: bool = False) -> Optional[Team]:
+        """
+        Create a team with players all from the same nationality.
+        
+        Args:
+            name: Team name
+            nationality: Target nationality (e.g., "Brazilian", "German")
+            player_pool: Pool of all players
+            formation: Specific formation or None for random
+            style: Tactical style or None for random
+            create_missing: Whether to create new players if not enough available
+        
+        Returns:
+            Team instance or None if not enough players of that nationality
+        """
+        # Filter for players of the specified nationality
+        nationality_players = [p for p in player_pool if p.nationality.lower() == nationality.lower()]
+        available_players = self.get_available_players(nationality_players)
+        
+        if len(available_players) < 11:
+            if create_missing:
+                print(f"Only {len(available_players)} available {nationality} players. Will create missing players as needed.")
+            else:
+                print(f"Not enough available {nationality} players! Need 11, have {len(available_players)}.")
+                print(f"Tip: You can allow creation of missing players to complete the team.")
+                return None
+        else:
+            print(f"Creating {nationality} national team with {len(available_players)} available players")
+        
+        return self.create_random_team(name, available_players, formation, style, create_missing, nationality)
+    
+    def create_mixed_nationality_team(self, name: str, nationality_mix: Dict[str, int], 
+                                    player_pool: List[Player],
+                                    formation: Optional[str] = None,
+                                    style: Optional[TacticalStyle] = None,
+                                    create_missing: bool = False) -> Optional[Team]:
+        """
+        Create a team with a specific mix of nationalities.
+        
+        Args:
+            name: Team name
+            nationality_mix: Dict of nationality -> minimum count (e.g., {"Brazilian": 5, "German": 3})
+            player_pool: Pool of all players
+            formation: Specific formation or None for random
+            style: Tactical style or None for random
+        
+        Returns:
+            Team instance or None if requirements cannot be met
+        """
+        if formation is None:
+            formation = random.choice(list(FORMATIONS.keys()))
+        if style is None:
+            style = random.choice(list(TacticalStyle))
+        
+        # Check if formation is valid
+        if formation not in FORMATIONS:
+            print(f"Unknown formation: {formation}")
+            return None
+        
+        # Get available players
+        available_players = self.get_available_players(player_pool)
+        
+        # Check if we have enough players of each nationality
+        for nationality, min_count in nationality_mix.items():
+            nat_players = [p for p in available_players if p.nationality.lower() == nationality.lower()]
+            if len(nat_players) < min_count:
+                if create_missing:
+                    # Create missing players for this nationality
+                    missing_count = min_count - len(nat_players)
+                    print(f"Creating {missing_count} new {nationality} players...")
+                    
+                    # Import PlayerManager to create players
+                    from player_manager import PlayerManager
+                    temp_pm = PlayerManager('players.json')
+                    
+                    for _ in range(missing_count):
+                        # Create random position player of this nationality
+                        new_player = temp_pm.create_player_by_nationality(None, nationality)
+                        # Ensure nationality is set correctly in case of fallback
+                        new_player.nationality = nationality
+                        temp_pm.add_player(new_player)  # Add to database
+                        available_players.append(new_player)
+                        print(f"  Created: {new_player.name} ({new_player.position.name}) - {nationality}")
+                else:
+                    print(f"Not enough {nationality} players! Need {min_count}, have {len(nat_players)}.")
+                    print(f"Tip: You can allow creation of missing players to complete the team.")
+                    return None
+        
+        # Select players according to nationality requirements
+        selected_players = []
+        remaining_players = available_players.copy()
+        
+        # First, select required players from each nationality
+        for nationality, min_count in nationality_mix.items():
+            nat_players = [p for p in remaining_players if p.nationality.lower() == nationality.lower()]
+            
+            # Sort by overall rating and select best
+            nat_players.sort(key=lambda p: p.overall_rating(), reverse=True)
+            
+            for i in range(min_count):
+                selected_players.append(nat_players[i])
+                remaining_players.remove(nat_players[i])
+        
+        # Fill remaining positions with any available players
+        total_required = sum(FORMATIONS[formation].values())
+        remaining_slots = total_required - len(selected_players)
+        
+        if remaining_slots > 0:
+            # Sort remaining players by rating and fill positions
+            remaining_players.sort(key=lambda p: p.overall_rating(), reverse=True)
+            for i in range(min(remaining_slots, len(remaining_players))):
+                selected_players.append(remaining_players[i])
+        
+        if len(selected_players) < total_required:
+            print(f"Could not fill all positions! Have {len(selected_players)}, need {total_required}")
+            return None
+        
+        # Create the team
+        team = Team(
+            name=name,
+            formation=formation,
+            players=selected_players,
+            style=style
+        )
+        
+        # Remove selected players from available pool
+        for player in selected_players:
+            if player in available_players:
+                available_players.remove(player)
+        
+        print(f"✅ Created {name} with nationality mix:")
+        nationality_count = {}
+        for player in selected_players:
+            nat = player.nationality
+            nationality_count[nat] = nationality_count.get(nat, 0) + 1
+        
+        for nat, count in sorted(nationality_count.items()):
+            print(f"   {nat}: {count} players")
+        
+        return team
+    
+    def create_continental_team(self, name: str, continent: str, min_players: int,
+                              player_pool: List[Player], 
+                              formation: Optional[str] = None,
+                              style: Optional[TacticalStyle] = None,
+                              create_missing: bool = False) -> Optional[Team]:
+        """
+        Create a team with minimum number of players from a specific continent.
+        
+        Args:
+            name: Team name
+            continent: Target continent ("Europe", "Americas", "Asia", etc.)
+            min_players: Minimum number of players from that continent
+            player_pool: Pool of all players
+            formation: Specific formation or None for random
+            style: Tactical style or None for random
+        
+        Returns:
+            Team instance or None if requirements cannot be met
+        """
+        # Define continental mappings
+        continental_nationalities = {
+            "Europe": ["British", "French", "German", "Italian", "Spanish", "Portuguese", "Polish", 
+                      "Dutch", "Swedish", "Norwegian", "Danish", "Finnish", "Czech", "Hungarian", 
+                      "Romanian", "Croatian", "Slovenian", "Estonian", "Latvian", "Lithuanian", 
+                      "Slovak", "Icelandic", "Irish"],
+            "Americas": ["American", "Brazilian"],
+            "Asia": ["Turkish", "Indonesian", "Filipino"],
+            "All": []  # Special case for any nationality
+        }
+        
+        if continent not in continental_nationalities:
+            print(f"Unknown continent: {continent}. Available: {list(continental_nationalities.keys())}")
+            return None
+        
+        # Get available players
+        available_players = self.get_available_players(player_pool)
+        
+        # Filter players from the specified continent
+        if continent == "All":
+            continental_players = available_players
+        else:
+            target_nationalities = continental_nationalities[continent]
+            continental_players = [p for p in available_players 
+                                 if p.nationality in target_nationalities]
+        
+        if len(continental_players) < min_players:
+            if create_missing:
+                print(f"Only {len(continental_players)} available {continent} players. Will create missing players as needed.")
+            else:
+                print(f"Not enough {continent} players! Need {min_players}, have {len(continental_players)}.")
+                print(f"Tip: You can allow creation of missing players to complete the team.")
+                return None
+        
+        # Create mixed team with continental requirement
+        nationality_mix = {}
+        
+        # Count current continental players and ensure minimum
+        continental_count = {}
+        for player in continental_players[:min_players]:
+            nat = player.nationality
+            continental_count[nat] = continental_count.get(nat, 0) + 1
+        
+        # Set the minimum requirements
+        for nat, count in continental_count.items():
+            nationality_mix[nat] = count
+        
+        print(f"Creating {continent} team with at least {min_players} players from the continent")
+        return self.create_mixed_nationality_team(name, nationality_mix, player_pool, formation, style, create_missing)
+    
+    def get_nationality_availability(self, player_pool: List[Player]) -> Dict[str, Dict[str, int]]:
+        """
+        Get availability of players by nationality and position.
+        
+        Returns:
+            Dict of nationality -> position -> count
+        """
+        available_players = self.get_available_players(player_pool)
+        
+        availability = {}
+        for player in available_players:
+            nationality = player.nationality
+            position = player.position.name
+            
+            if nationality not in availability:
+                availability[nationality] = {}
+            
+            if position not in availability[nationality]:
+                availability[nationality][position] = 0
+                
+            availability[nationality][position] += 1
+        
+        return availability
+    
+    def can_create_national_team(self, nationality: str, player_pool: List[Player], 
+                               formation: str = "4-3-3") -> Tuple[bool, str]:
+        """
+        Check if a national team can be created for the given nationality.
+        
+        Returns:
+            (can_create, reason)
+        """
+        if formation not in FORMATIONS:
+            return False, f"Unknown formation: {formation}"
+        
+        requirements = FORMATIONS[formation]
+        availability = self.get_nationality_availability(player_pool)
+        
+        if nationality not in availability:
+            return False, f"No {nationality} players available"
+        
+        nat_availability = availability[nationality]
+        
+        # Check each position requirement
+        for position, needed in requirements.items():
+            pos_name = position.name
+            available = nat_availability.get(pos_name, 0)
+            
+            if available < needed:
+                return False, f"Not enough {nationality} {pos_name}s: need {needed}, have {available}"
+        
+        return True, f"Can create {nationality} team with {formation}"
     
     def find_team_by_name(self, name: str) -> Optional[Team]:
         """Find a team by name."""

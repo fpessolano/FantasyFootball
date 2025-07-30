@@ -508,7 +508,7 @@ class PlayerManager:
     
     def find_players_by_nationality(self, nationality: str) -> List[Player]:
         """Find all players with a specific nationality."""
-        return [p for p in self.players if p.nationality.lower() == nationality.lower()]
+        return [p for p in self.players if p.nationality.lower().strip() == nationality.lower().strip()]
     
     def get_nationality_distribution(self) -> Dict[str, int]:
         """Get distribution of nationalities in the player database."""

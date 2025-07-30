@@ -8,10 +8,11 @@ Enhanced match engine with fatigue, form, and performance tracking.
 import random
 import math
 from typing import Tuple, List, Dict, Optional
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 from models import Team, Player, Position, TacticalStyle
 from performance_system import PlayerPerformanceManager
+from player_statistics import PlayerStatisticsManager
 
 
 @dataclass
@@ -37,6 +38,9 @@ class MatchResult:
     # Enhanced stats
     fatigue_impact: Dict[str, float]  # Team -> average fatigue impact
     momentum_changes: List[Tuple[int, str, float]]  # (minute, team, momentum_change)
+    # Player lists for statistics tracking
+    home_team_players: List[str] = field(default_factory=list)
+    away_team_players: List[str] = field(default_factory=list)
 
 
 class MatchEngine:
@@ -47,11 +51,105 @@ class MatchEngine:
         self.show_penalty_details = True  # Toggle for penalty shootout event details
         self.show_detailed_stats = True  # Toggle for detailed statistics table only
         self.performance_manager = PlayerPerformanceManager()
+        self.stats_manager = PlayerStatisticsManager()
         self.settings_file = "settings.json"
         self.load_settings()
     
+    def update_player_statistics(self, match_result: MatchResult, tournament: str = None):
+        """Update player statistics based on match result."""
+        # Update stats for all players who participated
+        all_players = []
+        
+        # Collect home team players
+        from player_manager import PlayerManager
+        temp_pm = PlayerManager('players.json')
+        
+        for player_name in match_result.home_team_players:
+            player = next((p for p in temp_pm.players if p.name == player_name), None)
+            if player:
+                all_players.append((player, 'home'))
+        
+        for player_name in match_result.away_team_players:
+            player = next((p for p in temp_pm.players if p.name == player_name), None)
+            if player:
+                all_players.append((player, 'away'))
+        
+        # Update basic match stats for all players
+        for player, team_type in all_players:
+            stats_update = {
+                'matches': 1,
+                'minutes': 90  # Simplified - assume all players played full match
+            }
+            
+            # Count goals and assists from events
+            goals = 0
+            assists = 0
+            yellow_cards = 0
+            red_cards = 0
+            
+            for event in match_result.events:
+                if event.player == player.name:
+                    if event.event_type == 'goal':
+                        goals += 1
+                    elif event.event_type == 'yellow_card':
+                        yellow_cards += 1
+                    elif event.event_type == 'red_card':
+                        red_cards += 1
+            
+            # Add event-based stats
+            if goals > 0:
+                stats_update['goals'] = goals
+            if assists > 0:
+                stats_update['assists'] = assists
+            if yellow_cards > 0:
+                stats_update['yellow_cards'] = yellow_cards
+            if red_cards > 0:
+                stats_update['red_cards'] = red_cards
+            
+            # Check for clean sheet (goalkeepers only)
+            if player.position.name == 'GK':
+                opponent_goals = match_result.away_score if team_type == 'home' else match_result.home_score
+                if opponent_goals == 0:
+                    stats_update['clean_sheets'] = 1
+            
+            # Add some estimated advanced stats based on position and performance
+            if player.position.name == 'GK':
+                # Estimate saves based on opponent shots
+                estimated_saves = random.randint(2, 8)
+                stats_update['saves'] = estimated_saves
+            else:
+                # Estimate passes based on position
+                if player.position.name in ['CM', 'DM', 'AM']:
+                    estimated_passes = random.randint(40, 80)
+                    estimated_completed = int(estimated_passes * random.uniform(0.75, 0.95))
+                else:
+                    estimated_passes = random.randint(20, 50)
+                    estimated_completed = int(estimated_passes * random.uniform(0.70, 0.90))
+                
+                stats_update['passes'] = estimated_passes
+                stats_update['passes_completed'] = estimated_completed
+                
+                # Estimate shots for attacking players
+                if player.position.name in ['ST', 'LW', 'RW', 'AM']:
+                    if goals > 0:
+                        estimated_shots = goals + random.randint(1, 4)
+                        estimated_on_target = goals + random.randint(0, 2)
+                    else:
+                        estimated_shots = random.randint(0, 3)
+                        estimated_on_target = random.randint(0, estimated_shots)
+                    
+                    if estimated_shots > 0:
+                        stats_update['shots'] = estimated_shots
+                        stats_update['shots_on_target'] = estimated_on_target
+            
+            # Update the player's statistics
+            self.stats_manager.update_match_stats(player, stats_update, tournament)
+        
+        # Save updated player data back to file
+        temp_pm.save_players()
+    
     def simulate_match(self, home_team: Team, away_team: Team, 
-                      match_importance: str = "normal") -> MatchResult:
+                      match_importance: str = "normal", tournament: str = None) -> MatchResult:
         """Simulate a match with enhanced performance tracking."""
         
         # Reset players for new match
@@ -216,13 +314,18 @@ class MatchEngine:
                                     home_team.name: home_fatigue_impact,
                                     away_team.name: away_fatigue_impact
                                 },
-                                momentum_changes=momentum_changes
+                                momentum_changes=momentum_changes,
+                                home_team_players=[p.name for p in home_team.players],
+                                away_team_players=[p.name for p in away_team.players]
                             )
                             
                             # Process end-of-match for all players
                             for p in home_team.players + away_team.players:
                                 match_rating = self._calculate_match_rating(p, match_events, home_score, away_score)
                                 self.performance_manager.end_match_processing(p, match_rating)
+                            
+                            # Update player statistics
+                            self.update_player_statistics(match_result, tournament)
                             
                             return match_result
                         
@@ -258,13 +361,18 @@ class MatchEngine:
                 home_team.name: home_fatigue_impact,
                 away_team.name: away_fatigue_impact
             },
-            momentum_changes=momentum_changes
+            momentum_changes=momentum_changes,
+            home_team_players=[p.name for p in home_team.players],
+            away_team_players=[p.name for p in away_team.players]
         )
         
         # Process end-of-match for all players
         for player in home_team.players + away_team.players:
             match_rating = self._calculate_match_rating(player, match_events, home_score, away_score)
             self.performance_manager.end_match_processing(player, match_rating)
+        
+        # Update player statistics
+        self.update_player_statistics(match_result, tournament)
         
         return match_result
     

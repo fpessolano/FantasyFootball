@@ -157,7 +157,7 @@ class TournamentManager:
             return None
         
         # Simulate the match
-        result = engine.simulate_match(home_team_obj, away_team_obj, "important_match")
+        result = engine.simulate_match(home_team_obj, away_team_obj, "important_match", tournament.name)
         
         # Update match with results
         target_match.home_score = result.home_score

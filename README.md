@@ -1,6 +1,6 @@
-# Fantasy Football Manager v2.1.0
+# Fantasy Football Manager v2.2.0
 
-A comprehensive football simulation game featuring realistic international player management, team building, and advanced match simulation with tournament modes.
+A comprehensive football simulation game featuring realistic international player management, team building, advanced match simulation with tournament modes, and comprehensive player statistics tracking.
 
 ## 🎮 **What is this?**
 
@@ -9,7 +9,8 @@ Fantasy Football Manager is a terminal-based football (soccer) simulation game w
 - Build and manage teams with tactical formations  
 - Simulate realistic matches with advanced statistics
 - Run knockout tournaments with penalty shootouts
-- Track team performance with Elo ratings
+- Track comprehensive player and team statistics
+- Manage tournament history with winners tracking
 
 ## 🚀 **Quick Start**
 
@@ -68,19 +69,34 @@ python3 fantasy_football.py
 - **Cultural Diversity**: Each nationality has authentic naming patterns
 - **Clean Names**: No titles or honorifics, professional football player names
 
-### **Enhanced Penalty System** ⭐
+### **Enhanced Penalty System**
 - **Individual Player Skills**: Penalty takers vs goalkeepers
 - **Realistic Success Rates**: 40-95% based on skill difference
 - **Pressure Situations**: Sudden death penalties are harder
 - **Detailed Outcomes**: Saves, misses, and goals with player names
+
+### **Player Statistics System** ⭐ NEW v2.2.0
+- **Career Statistics**: Comprehensive tracking of goals, assists, matches, cards
+- **Tournament-Specific Stats**: Per-tournament performance tracking
+- **Advanced Metrics**: Pass accuracy, shots on target, clean sheets, efficiency ratings
+- **Leaderboards**: Top scorers, assist providers, most appearances, clean sheet leaders
+- **Individual Player Analysis**: Detailed statistics view with career and tournament breakdowns
+
+### **Tournament Management** ⭐ NEW v2.2.0
+- **Tournament History**: Automatic tracking of completed tournaments with winners
+- **Tournament Operations**: Rename and delete tournaments from centralized menu
+- **Winner Tracking**: Every completed tournament shows its champion
+- **Statistics Integration**: Tournament results automatically update player statistics
+- **Data Management**: Clean separation of tournament history and player career stats
 
 ## 🏆 **Game Modes**
 
 - **Single Match**: Quick one-off games
 - **Multiple Matches**: Series between same teams
 - **Random Matches**: Generated teams with performance tracking
-- **Tournament Mode**: Knockout competitions with brackets
+- **Tournament Mode**: Knockout competitions with brackets and winner tracking
 - **Quick Play**: Instant action with random teams
+- **Statistics Analysis**: Comprehensive player and tournament statistics tracking
 
 ## 📊 **Performance Tracking**
 
@@ -88,7 +104,9 @@ python3 fantasy_football.py
 - **Streak Effects**: Winning/losing streaks affect performance
 - **Form Tracking**: Player performance over recent matches
 - **Team Momentum**: Match events influence team performance
-- **Detailed Statistics**: Comprehensive match analysis
+- **Player Career Statistics**: Goals, assists, matches, cards, efficiency ratings
+- **Tournament Statistics**: Per-tournament performance tracking with leaderboards
+- **Advanced Analytics**: Pass accuracy, shots conversion, clean sheet tracking
 
 ## 🛠️ **Utilities**
 
