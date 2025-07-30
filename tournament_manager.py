@@ -560,6 +560,11 @@ class TournamentManager:
         if tournament.completed:
             lines.append(f"\n🥇 CHAMPION: {tournament.winner}")
             lines.append(f"🎉 Tournament completed!")
+            
+            # Add top scorer information
+            top_scorer_info = self._get_tournament_top_scorer(tournament.name)
+            if top_scorer_info:
+                lines.append(f"⚽ Top scorer: {top_scorer_info}")
         else:
             current = tournament.get_current_round()
             if current:
@@ -625,3 +630,27 @@ class TournamentManager:
                 self.team_manager.add_team(team)
         
         return teams
+    
+    def _get_tournament_top_scorer(self, tournament_name: str) -> str:
+        """Get the top scorer information for a tournament."""
+        # Reload player data to ensure we have the latest statistics
+        self.player_manager.load_players()
+        
+        top_scorer = None
+        max_goals = 0
+        players_with_goals = 0
+        
+        for player in self.player_manager.players:
+            goals = player.stats.get_tournament_stat(tournament_name, 'goals')
+            if goals > 0:
+                players_with_goals += 1
+            if goals > max_goals:
+                max_goals = goals
+                top_scorer = player.name
+        
+        if top_scorer and max_goals > 0:
+            return f"{top_scorer} ({max_goals} goals)"
+        elif players_with_goals == 0:
+            return "No goals scored"
+        else:
+            return "No goals recorded"

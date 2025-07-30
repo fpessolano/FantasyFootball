@@ -2428,6 +2428,9 @@ class FantasyFootballApp:
         import json
         import os
         
+        # Reload player data to ensure we have the latest statistics
+        self.player_manager.load_players()
+        
         # Load completed tournaments from history
         tournaments_file = 'tournament_history.json'
         completed_tournaments = []
@@ -2453,11 +2456,22 @@ class FantasyFootballApp:
                 # Get top scorer for this tournament from player stats
                 top_scorer = None
                 max_goals = 0
+                players_with_stats = 0
+                all_tournament_names = set()
+                
                 for player in self.player_manager.players:
+                    # Collect all tournament names this player has stats for
+                    all_tournament_names.update(player.stats.tournament_stats.keys())
+                    
                     goals = player.stats.get_tournament_stat(name, 'goals')
+                    if name in player.stats.tournament_stats:
+                        players_with_stats += 1
                     if goals > max_goals:
                         max_goals = goals
                         top_scorer = player.name
+                
+                # Check if the tournament name exists in player stats at all
+                tournament_found_in_stats = name in all_tournament_names
                 
                 print(f"{i:2}. {name}")
                 print(f"    🥇 Winner: {winner}")
@@ -2465,8 +2479,17 @@ class FantasyFootballApp:
                 print(f"    👥 Teams: {teams_count}")
                 if top_scorer and max_goals > 0:
                     print(f"    ⚽ Top scorer: {top_scorer} ({max_goals} goals)")
+                elif tournament_found_in_stats:
+                    if players_with_stats > 0:
+                        print(f"    ⚽ Top scorer: No goals scored ({players_with_stats} players tracked)")
+                    else:
+                        print(f"    ⚽ Top scorer: Tournament found but no player records")
                 else:
-                    print(f"    ⚽ Top scorer: No goals recorded")
+                    # Tournament was played before statistics system was implemented
+                    available_tournaments = ", ".join(sorted(all_tournament_names)) if all_tournament_names else "None"
+                    print(f"    ⚽ Top scorer: Tournament predates statistics system")
+                    if len(all_tournament_names) <= 3:  # Only show if list is short
+                        print(f"    📊 Available stats: {available_tournaments}")
                 print()
         else:
             print("\n📭 No completed tournaments found!")

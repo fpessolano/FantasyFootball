@@ -1,4 +1,4 @@
-# Fantasy Football Manager v2.2.0
+# Fantasy Football Manager v2.2.1
 
 A comprehensive football simulation game featuring realistic international player management, team building, advanced match simulation with tournament modes, and comprehensive player statistics tracking.
 
@@ -88,6 +88,12 @@ python3 fantasy_football.py
 - **Winner Tracking**: Every completed tournament shows its champion
 - **Statistics Integration**: Tournament results automatically update player statistics
 - **Data Management**: Clean separation of tournament history and player career stats
+
+### **Enhanced Tournament Display** ⭐ NEW v2.2.1
+- **Top Scorer Integration**: Tournament bracket display now shows top scorer information
+- **Improved Statistics Reliability**: Fixed tournament statistics display issues
+- **Real-time Data Loading**: Tournament lists always show current player statistics
+- **Enhanced Data Management**: Improved "Reset All Data" to preserve players while clearing game data
 
 ## 🏆 **Game Modes**
 

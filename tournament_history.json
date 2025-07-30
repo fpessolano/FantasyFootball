@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Summer Feast",
+    "winner": "Chelsea",
+    "date": "2025-07-30 08:51",
+    "teams": [
+      "Wrexham",
+      "Pisa",
+      "Taranto",
+      "Chelsea",
+      "Richmond",
+      "Leeds United",
+      "Manchester City",
+      "Celtics"
+    ],
+    "teams_count": 8
+  },
+  {
+    "name": "Fastyron",
+    "winner": "Manchester City",
+    "date": "2025-07-30 08:56",
+    "teams": [
+      "Richmond",
+      "Wrexham",
+      "Manchester City",
+      "Taranto"
+    ],
+    "teams_count": 4
+  },
+  {
+    "name": "123",
+    "winner": "Celtics",
+    "date": "2025-07-30 08:59",
+    "teams": [
+      "Wrexham",
+      "Pisa",
+      "Milan",
+      "Celtics",
+      "Richmond",
+      "Manchester City",
+      "Leeds United",
+      "Chelsea"
+    ],
+    "teams_count": 8
+  },
+  {
+    "name": "234",
+    "winner": "Chelsea",
+    "date": "2025-07-30 09:04",
+    "teams": [
+      "Chelsea",
+      "Wrexham",
+      "Milan",
+      "Richmond"
+    ],
+    "teams_count": 4
+  }
+]

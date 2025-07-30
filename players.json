@@ -72,12 +72,12 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
-      "career_saves": 0,
-      "career_clean_sheets": 0,
+      "career_saves": 28,
+      "career_clean_sheets": 3,
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
@@ -92,7 +92,30 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "saves": 6
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "saves": 5
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "clean_sheets": 2,
+          "saves": 9
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "clean_sheets": 1,
+          "saves": 8
+        }
+      }
     }
   },
   {
@@ -120,8 +143,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -131,8 +154,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 221,
+      "career_passes_completed": 171,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -140,7 +163,32 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 43,
+          "passes_completed": 37
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 32,
+          "passes_completed": 23
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 77,
+          "passes_completed": 57
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 69,
+          "passes_completed": 54
+        }
+      }
     }
   },
   {
@@ -168,8 +216,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -179,8 +227,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 157,
+      "career_passes_completed": 129,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -188,7 +236,32 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 43,
+          "passes_completed": 37
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 43,
+          "passes_completed": 35
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 48,
+          "passes_completed": 40
+        },
+        "234": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 23,
+          "passes_completed": 17
+        }
+      }
     }
   },
   {
@@ -216,8 +289,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 1,
-      "career_minutes": 90,
+      "career_matches": 3,
+      "career_minutes": 270,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -227,8 +300,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 49,
-      "career_passes_completed": 41,
+      "career_passes": 140,
+      "career_passes_completed": 108,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -236,7 +309,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 42,
+          "passes_completed": 33
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 49,
+          "passes_completed": 34
+        }
+      }
     }
   },
   {
@@ -360,9 +446,9 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
-      "career_goals": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
+      "career_goals": 1,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
@@ -371,8 +457,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 165,
+      "career_passes_completed": 136,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -380,7 +466,33 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "goals": 1,
+          "passes": 28,
+          "passes_completed": 24
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 47,
+          "passes_completed": 38
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 45,
+          "passes_completed": 37
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 45,
+          "passes_completed": 37
+        }
+      }
     }
   },
   {
@@ -552,19 +664,19 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
-      "career_goals": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
+      "career_goals": 1,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
       "career_yellow_cards": 0,
-      "career_red_cards": 0,
+      "career_red_cards": 1,
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 236,
+      "career_passes_completed": 188,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -572,7 +684,22 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 117,
+          "passes_completed": 90
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "goals": 1,
+          "red_cards": 1,
+          "passes": 119,
+          "passes_completed": 98
+        }
+      }
     }
   },
   {
@@ -648,19 +775,19 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 1,
-      "career_minutes": 90,
+      "career_matches": 3,
+      "career_minutes": 270,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
-      "career_yellow_cards": 0,
+      "career_yellow_cards": 1,
       "career_red_cards": 0,
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 52,
-      "career_passes_completed": 49,
+      "career_passes": 158,
+      "career_passes_completed": 133,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -668,7 +795,21 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "yellow_cards": 1,
+          "passes": 59,
+          "passes_completed": 44
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 47,
+          "passes_completed": 40
+        }
+      }
     }
   },
   {
@@ -888,19 +1029,19 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
-      "career_yellow_cards": 0,
+      "career_yellow_cards": 1,
       "career_red_cards": 0,
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 200,
+      "career_passes_completed": 160,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -908,7 +1049,27 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 119,
+          "passes_completed": 93,
+          "yellow_cards": 1
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 30,
+          "passes_completed": 24
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 51,
+          "passes_completed": 43
+        }
+      }
     }
   },
   {
@@ -1128,8 +1289,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 3,
-      "career_minutes": 270,
+      "career_matches": 5,
+      "career_minutes": 450,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -1139,8 +1300,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 121,
-      "career_passes_completed": 87,
+      "career_passes": 214,
+      "career_passes_completed": 162,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -1160,6 +1321,18 @@
           "minutes": 90,
           "passes": 42,
           "passes_completed": 31
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 49,
+          "passes_completed": 40
+        },
+        "234": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 44,
+          "passes_completed": 35
         }
       }
     }
@@ -1669,9 +1842,9 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
-      "career_goals": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
+      "career_goals": 1,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
@@ -1680,8 +1853,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 248,
+      "career_passes_completed": 193,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -1689,7 +1862,27 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 125,
+          "passes_completed": 98,
+          "goals": 1
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 42,
+          "passes_completed": 30
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 81,
+          "passes_completed": 65
+        }
+      }
     }
   },
   {
@@ -1717,19 +1910,19 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
-      "career_goals": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
+      "career_goals": 1,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 0,
-      "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_shots": 9,
+      "career_shots_on_target": 4,
+      "career_passes": 153,
+      "career_passes_completed": 118,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -1737,7 +1930,25 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 46,
+          "passes_completed": 34,
+          "shots": 3,
+          "shots_on_target": 1
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "goals": 1,
+          "passes": 107,
+          "passes_completed": 84,
+          "shots": 6,
+          "shots_on_target": 3
+        }
+      }
     }
   },
   {
@@ -1765,8 +1976,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 3,
-      "career_minutes": 270,
+      "career_matches": 5,
+      "career_minutes": 450,
       "career_goals": 1,
       "career_assists": 0,
       "career_saves": 0,
@@ -1774,10 +1985,10 @@
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 7,
+      "career_shots": 12,
       "career_shots_on_target": 3,
-      "career_passes": 107,
-      "career_passes_completed": 83,
+      "career_passes": 174,
+      "career_passes_completed": 135,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -1802,6 +2013,22 @@
           "passes_completed": 40,
           "shots": 5,
           "shots_on_target": 2
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 30,
+          "passes_completed": 23,
+          "shots": 3,
+          "shots_on_target": 0
+        },
+        "234": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 37,
+          "passes_completed": 29,
+          "shots": 2,
+          "shots_on_target": 0
         }
       }
     }
@@ -1879,8 +2106,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -1888,10 +2115,10 @@
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 0,
-      "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_shots": 8,
+      "career_shots_on_target": 6,
+      "career_passes": 153,
+      "career_passes_completed": 115,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -1899,7 +2126,24 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 59,
+          "passes_completed": 41,
+          "shots": 2,
+          "shots_on_target": 1
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 94,
+          "passes_completed": 74,
+          "shots": 6,
+          "shots_on_target": 5
+        }
+      }
     }
   },
   {
@@ -2071,8 +2315,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -2082,8 +2326,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 234,
+      "career_passes_completed": 203,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -2091,7 +2335,32 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 73,
+          "passes_completed": 61
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 50,
+          "passes_completed": 44
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 45,
+          "passes_completed": 40
+        },
+        "234": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 66,
+          "passes_completed": 58
+        }
+      }
     }
   },
   {
@@ -2119,12 +2388,12 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
-      "career_saves": 0,
-      "career_clean_sheets": 0,
+      "career_saves": 31,
+      "career_clean_sheets": 5,
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
@@ -2139,7 +2408,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "clean_sheets": 2,
+          "saves": 19
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "clean_sheets": 3,
+          "saves": 12
+        }
+      }
     }
   },
   {
@@ -2215,8 +2497,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 1,
-      "career_minutes": 90,
+      "career_matches": 3,
+      "career_minutes": 270,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -2226,8 +2508,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 47,
-      "career_passes_completed": 38,
+      "career_passes": 111,
+      "career_passes_completed": 87,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -2235,7 +2517,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 37,
+          "passes_completed": 27
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 27,
+          "passes_completed": 22
+        }
+      }
     }
   },
   {
@@ -2263,19 +2558,19 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
-      "career_yellow_cards": 0,
-      "career_red_cards": 0,
+      "career_yellow_cards": 2,
+      "career_red_cards": 2,
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 199,
+      "career_passes_completed": 160,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -2283,7 +2578,24 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "yellow_cards": 1,
+          "red_cards": 1,
+          "passes": 107,
+          "passes_completed": 92
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 92,
+          "passes_completed": 68,
+          "yellow_cards": 1,
+          "red_cards": 1
+        }
+      }
     }
   },
   {
@@ -2503,8 +2815,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -2514,8 +2826,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 233,
+      "career_passes_completed": 182,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -2523,7 +2835,32 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 34,
+          "passes_completed": 23
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 44,
+          "passes_completed": 33
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 64,
+          "passes_completed": 51
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 91,
+          "passes_completed": 75
+        }
+      }
     }
   },
   {
@@ -2647,8 +2984,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -2658,8 +2995,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 128,
+      "career_passes_completed": 95,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -2667,7 +3004,32 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 23,
+          "passes_completed": 17
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 39,
+          "passes_completed": 32
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 34,
+          "passes_completed": 23
+        },
+        "234": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 32,
+          "passes_completed": 23
+        }
+      }
     }
   },
   {
@@ -2743,8 +3105,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -2754,8 +3116,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 198,
+      "career_passes_completed": 153,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -2763,7 +3125,32 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 43,
+          "passes_completed": 37
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 21,
+          "passes_completed": 16
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 78,
+          "passes_completed": 56
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 56,
+          "passes_completed": 44
+        }
+      }
     }
   },
   {
@@ -3031,8 +3418,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -3040,10 +3427,10 @@
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 0,
-      "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_shots": 9,
+      "career_shots_on_target": 3,
+      "career_passes": 404,
+      "career_passes_completed": 350,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -3051,7 +3438,32 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 217,
+          "passes_completed": 189,
+          "shots": 4,
+          "shots_on_target": 1
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 69,
+          "passes_completed": 55,
+          "shots": 2,
+          "shots_on_target": 2
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 118,
+          "passes_completed": 106,
+          "shots": 3,
+          "shots_on_target": 0
+        }
+      }
     }
   },
   {
@@ -3079,19 +3491,19 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
-      "career_yellow_cards": 0,
+      "career_yellow_cards": 1,
       "career_red_cards": 0,
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 205,
+      "career_passes_completed": 156,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -3099,7 +3511,27 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 91,
+          "passes_completed": 67
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "yellow_cards": 1,
+          "passes": 40,
+          "passes_completed": 28
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 74,
+          "passes_completed": 61
+        }
+      }
     }
   },
   {
@@ -3223,9 +3655,9 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
-      "career_goals": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
+      "career_goals": 1,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
@@ -3234,8 +3666,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 367,
+      "career_passes_completed": 315,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -3243,7 +3675,33 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 55,
+          "passes_completed": 48
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 75,
+          "passes_completed": 68
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 144,
+          "passes_completed": 126
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "goals": 1,
+          "passes": 93,
+          "passes_completed": 73
+        }
+      }
     }
   },
   {
@@ -3271,8 +3729,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -3282,8 +3740,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 221,
+      "career_passes_completed": 179,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -3291,7 +3749,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 110,
+          "passes_completed": 88
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 111,
+          "passes_completed": 91
+        }
+      }
     }
   },
   {
@@ -3511,8 +3982,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -3522,8 +3993,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 217,
+      "career_passes_completed": 167,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -3531,7 +4002,32 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 45,
+          "passes_completed": 35
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 33,
+          "passes_completed": 23
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 72,
+          "passes_completed": 57
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 67,
+          "passes_completed": 52
+        }
+      }
     }
   },
   {
@@ -3703,8 +4199,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 3,
-      "career_minutes": 270,
+      "career_matches": 5,
+      "career_minutes": 450,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -3714,8 +4210,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 89,
-      "career_passes_completed": 68,
+      "career_passes": 156,
+      "career_passes_completed": 125,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -3735,6 +4231,18 @@
           "minutes": 90,
           "passes": 23,
           "passes_completed": 17
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 44,
+          "passes_completed": 39
+        },
+        "234": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 23,
+          "passes_completed": 18
         }
       }
     }
@@ -3812,8 +4320,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -3823,8 +4331,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 129,
+      "career_passes_completed": 98,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -3832,7 +4340,32 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 46,
+          "passes_completed": 39
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 30,
+          "passes_completed": 22
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 21,
+          "passes_completed": 15
+        },
+        "234": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 32,
+          "passes_completed": 22
+        }
+      }
     }
   },
   {
@@ -4004,8 +4537,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -4015,8 +4548,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 396,
+      "career_passes_completed": 335,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -4024,7 +4557,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 180,
+          "passes_completed": 147
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 216,
+          "passes_completed": 188
+        }
+      }
     }
   },
   {
@@ -4052,9 +4598,9 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
-      "career_goals": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
+      "career_goals": 1,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
@@ -4063,8 +4609,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 210,
+      "career_passes_completed": 175,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -4072,7 +4618,21 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 69,
+          "passes_completed": 55
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 141,
+          "passes_completed": 120,
+          "goals": 1
+        }
+      }
     }
   },
   {
@@ -4100,12 +4660,12 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 2,
-      "career_minutes": 180,
+      "career_matches": 8,
+      "career_minutes": 720,
       "career_goals": 0,
       "career_assists": 0,
-      "career_saves": 4,
-      "career_clean_sheets": 1,
+      "career_saves": 25,
+      "career_clean_sheets": 6,
       "career_yellow_cards": 1,
       "career_red_cards": 0,
       "career_motm": 0,
@@ -4132,6 +4692,24 @@
           "minutes": 90,
           "yellow_cards": 1,
           "saves": 2
+        },
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "clean_sheets": 2,
+          "saves": 9
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "clean_sheets": 2,
+          "saves": 5
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "clean_sheets": 1,
+          "saves": 7
         }
       }
     }
@@ -4257,19 +4835,19 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
-      "career_goals": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
+      "career_goals": 3,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 0,
-      "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_shots": 16,
+      "career_shots_on_target": 10,
+      "career_passes": 162,
+      "career_passes_completed": 126,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -4277,7 +4855,34 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "goals": 1,
+          "passes": 84,
+          "passes_completed": 65,
+          "shots": 9,
+          "shots_on_target": 6
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 28,
+          "passes_completed": 21,
+          "shots": 1,
+          "shots_on_target": 1
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "goals": 2,
+          "passes": 50,
+          "passes_completed": 40,
+          "shots": 6,
+          "shots_on_target": 3
+        }
+      }
     }
   },
   {
@@ -4833,19 +5438,19 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
-      "career_yellow_cards": 0,
+      "career_yellow_cards": 1,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 0,
-      "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_shots": 3,
+      "career_shots_on_target": 2,
+      "career_passes": 184,
+      "career_passes_completed": 149,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -4853,7 +5458,39 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 48,
+          "passes_completed": 38,
+          "shots": 1,
+          "shots_on_target": 1
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "yellow_cards": 1,
+          "passes": 45,
+          "passes_completed": 37,
+          "shots": 1,
+          "shots_on_target": 0
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 43,
+          "passes_completed": 33
+        },
+        "234": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 48,
+          "passes_completed": 41,
+          "shots": 1,
+          "shots_on_target": 1
+        }
+      }
     }
   },
   {
@@ -5361,13 +5998,13 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
-      "career_saves": 0,
-      "career_clean_sheets": 0,
-      "career_yellow_cards": 0,
+      "career_saves": 32,
+      "career_clean_sheets": 6,
+      "career_yellow_cards": 1,
       "career_red_cards": 0,
       "career_motm": 0,
       "career_shots": 0,
@@ -5381,7 +6018,27 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "clean_sheets": 3,
+          "saves": 15
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "clean_sheets": 1,
+          "saves": 5
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "clean_sheets": 2,
+          "saves": 12,
+          "yellow_cards": 1
+        }
+      }
     }
   },
   {
@@ -5457,8 +6114,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 2,
-      "career_minutes": 180,
+      "career_matches": 8,
+      "career_minutes": 720,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -5468,8 +6125,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 69,
-      "career_passes_completed": 52,
+      "career_passes": 292,
+      "career_passes_completed": 230,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -5489,6 +6146,24 @@
           "minutes": 90,
           "passes": 44,
           "passes_completed": 33
+        },
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 77,
+          "passes_completed": 63
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 84,
+          "passes_completed": 67
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 62,
+          "passes_completed": 48
         }
       }
     }
@@ -5614,8 +6289,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 3,
-      "career_minutes": 270,
+      "career_matches": 5,
+      "career_minutes": 450,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -5625,8 +6300,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 88,
-      "career_passes_completed": 67,
+      "career_passes": 156,
+      "career_passes_completed": 125,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -5646,6 +6321,18 @@
           "minutes": 90,
           "passes": 25,
           "passes_completed": 17
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 25,
+          "passes_completed": 21
+        },
+        "234": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 43,
+          "passes_completed": 37
         }
       }
     }
@@ -5675,8 +6362,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 1,
-      "career_minutes": 90,
+      "career_matches": 3,
+      "career_minutes": 270,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -5686,8 +6373,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 50,
-      "career_passes_completed": 38,
+      "career_passes": 124,
+      "career_passes_completed": 96,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -5695,7 +6382,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 46,
+          "passes_completed": 36
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 28,
+          "passes_completed": 22
+        }
+      }
     }
   },
   {
@@ -5723,8 +6423,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 3,
-      "career_minutes": 270,
+      "career_matches": 5,
+      "career_minutes": 450,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -5734,8 +6434,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 215,
-      "career_passes_completed": 175,
+      "career_passes": 322,
+      "career_passes_completed": 261,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -5755,6 +6455,18 @@
           "minutes": 90,
           "passes": 78,
           "passes_completed": 66
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 64,
+          "passes_completed": 51
+        },
+        "234": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 43,
+          "passes_completed": 35
         }
       }
     }
@@ -6360,19 +7072,19 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
       "career_yellow_cards": 0,
-      "career_red_cards": 0,
+      "career_red_cards": 1,
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 215,
+      "career_passes_completed": 178,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -6380,7 +7092,21 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 60,
+          "passes_completed": 55
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 155,
+          "passes_completed": 123,
+          "red_cards": 1
+        }
+      }
     }
   },
   {
@@ -6408,8 +7134,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -6419,8 +7145,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 199,
+      "career_passes_completed": 149,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -6428,7 +7154,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 92,
+          "passes_completed": 66
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 107,
+          "passes_completed": 83
+        }
+      }
     }
   },
   {
@@ -6456,8 +7195,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 2,
-      "career_minutes": 180,
+      "career_matches": 8,
+      "career_minutes": 720,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -6467,8 +7206,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 92,
-      "career_passes_completed": 66,
+      "career_passes": 275,
+      "career_passes_completed": 210,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -6488,6 +7227,24 @@
           "minutes": 90,
           "passes": 49,
           "passes_completed": 36
+        },
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 78,
+          "passes_completed": 65
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 56,
+          "passes_completed": 42
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 49,
+          "passes_completed": 37
         }
       }
     }
@@ -6709,8 +7466,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 3,
-      "career_minutes": 270,
+      "career_matches": 5,
+      "career_minutes": 450,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -6720,8 +7477,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 98,
-      "career_passes_completed": 73,
+      "career_passes": 157,
+      "career_passes_completed": 118,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -6737,6 +7494,18 @@
           "passes_completed": 31
         },
         "Test Tournament 2": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 24,
+          "passes_completed": 17
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 35,
+          "passes_completed": 28
+        },
+        "234": {
           "matches": 1,
           "minutes": 90,
           "passes": 24,
@@ -6914,12 +7683,12 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 3,
-      "career_minutes": 270,
+      "career_matches": 5,
+      "career_minutes": 450,
       "career_goals": 0,
       "career_assists": 0,
-      "career_saves": 8,
-      "career_clean_sheets": 0,
+      "career_saves": 13,
+      "career_clean_sheets": 1,
       "career_yellow_cards": 1,
       "career_red_cards": 0,
       "career_motm": 0,
@@ -6942,6 +7711,17 @@
           "saves": 3
         },
         "Test Tournament 2": {
+          "matches": 1,
+          "minutes": 90,
+          "saves": 2
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "clean_sheets": 1,
+          "saves": 3
+        },
+        "234": {
           "matches": 1,
           "minutes": 90,
           "saves": 2
@@ -7022,8 +7802,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 1,
-      "career_minutes": 90,
+      "career_matches": 3,
+      "career_minutes": 270,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -7033,8 +7813,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 39,
-      "career_passes_completed": 34,
+      "career_passes": 119,
+      "career_passes_completed": 92,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -7042,7 +7822,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 43,
+          "passes_completed": 32
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 37,
+          "passes_completed": 26
+        }
+      }
     }
   },
   {
@@ -7406,8 +8199,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -7417,8 +8210,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 123,
+      "career_passes_completed": 94,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -7426,7 +8219,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 32,
+          "passes_completed": 25
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 91,
+          "passes_completed": 69
+        }
+      }
     }
   },
   {
@@ -7550,8 +8356,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -7559,10 +8365,10 @@
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 0,
+      "career_shots": 7,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 371,
+      "career_passes_completed": 298,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -7570,7 +8376,24 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 175,
+          "passes_completed": 147,
+          "shots": 6,
+          "shots_on_target": 0
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 196,
+          "passes_completed": 151,
+          "shots": 1,
+          "shots_on_target": 0
+        }
+      }
     }
   },
   {
@@ -7646,8 +8469,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 1,
-      "career_minutes": 90,
+      "career_matches": 3,
+      "career_minutes": 270,
       "career_goals": 1,
       "career_assists": 0,
       "career_saves": 0,
@@ -7655,10 +8478,10 @@
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 4,
+      "career_shots": 7,
       "career_shots_on_target": 3,
-      "career_passes": 35,
-      "career_passes_completed": 26,
+      "career_passes": 94,
+      "career_passes_completed": 74,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -7666,7 +8489,22 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 27,
+          "passes_completed": 20,
+          "shots": 3,
+          "shots_on_target": 0
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 32,
+          "passes_completed": 28
+        }
+      }
     }
   },
   {
@@ -7742,8 +8580,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 3,
-      "career_minutes": 270,
+      "career_matches": 5,
+      "career_minutes": 450,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -7753,8 +8591,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 173,
-      "career_passes_completed": 149,
+      "career_passes": 287,
+      "career_passes_completed": 253,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -7774,6 +8612,18 @@
           "minutes": 90,
           "passes": 58,
           "passes_completed": 53
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 68,
+          "passes_completed": 64
+        },
+        "234": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 46,
+          "passes_completed": 40
         }
       }
     }
@@ -8043,8 +8893,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -8054,8 +8904,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 247,
+      "career_passes_completed": 201,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -8063,7 +8913,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 116,
+          "passes_completed": 100
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 131,
+          "passes_completed": 101
+        }
+      }
     }
   },
   {
@@ -8187,8 +9050,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -8198,8 +9061,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 155,
+      "career_passes_completed": 125,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -8207,7 +9070,32 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 47,
+          "passes_completed": 39
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 37,
+          "passes_completed": 27
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 40,
+          "passes_completed": 34
+        },
+        "234": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 31,
+          "passes_completed": 25
+        }
+      }
     }
   },
   {
@@ -8283,8 +9171,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -8294,8 +9182,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 208,
+      "career_passes_completed": 154,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -8303,7 +9191,26 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 126,
+          "passes_completed": 94
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 33,
+          "passes_completed": 23
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 49,
+          "passes_completed": 37
+        }
+      }
     }
   },
   {
@@ -8331,8 +9238,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 3,
-      "career_minutes": 270,
+      "career_matches": 5,
+      "career_minutes": 450,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -8342,8 +9249,8 @@
       "career_motm": 0,
       "career_shots": 3,
       "career_shots_on_target": 3,
-      "career_passes": 114,
-      "career_passes_completed": 90,
+      "career_passes": 178,
+      "career_passes_completed": 136,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -8365,6 +9272,18 @@
           "passes_completed": 29,
           "shots": 3,
           "shots_on_target": 3
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 41,
+          "passes_completed": 29
+        },
+        "234": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 23,
+          "passes_completed": 17
         }
       }
     }
@@ -8442,8 +9361,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -8453,8 +9372,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 116,
+      "career_passes_completed": 90,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -8462,7 +9381,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 65,
+          "passes_completed": 51
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 51,
+          "passes_completed": 39
+        }
+      }
     }
   },
   {
@@ -8730,8 +9662,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -8739,10 +9671,10 @@
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 0,
-      "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_shots": 8,
+      "career_shots_on_target": 4,
+      "career_passes": 139,
+      "career_passes_completed": 106,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -8750,7 +9682,24 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 27,
+          "passes_completed": 19,
+          "shots": 2,
+          "shots_on_target": 1
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 112,
+          "passes_completed": 87,
+          "shots": 6,
+          "shots_on_target": 3
+        }
+      }
     }
   },
   {
@@ -8778,8 +9727,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -8789,8 +9738,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 346,
+      "career_passes_completed": 292,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -8798,7 +9747,32 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 57,
+          "passes_completed": 49
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 55,
+          "passes_completed": 46
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 91,
+          "passes_completed": 73
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 143,
+          "passes_completed": 124
+        }
+      }
     }
   },
   {
@@ -8874,8 +9848,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 2,
-      "career_minutes": 180,
+      "career_matches": 8,
+      "career_minutes": 720,
       "career_goals": 2,
       "career_assists": 0,
       "career_saves": 0,
@@ -8883,10 +9857,10 @@
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 8,
-      "career_shots_on_target": 4,
-      "career_passes": 100,
-      "career_passes_completed": 88,
+      "career_shots": 23,
+      "career_shots_on_target": 11,
+      "career_passes": 479,
+      "career_passes_completed": 408,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -8912,6 +9886,30 @@
           "passes_completed": 51,
           "shots": 3,
           "shots_on_target": 2
+        },
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 133,
+          "passes_completed": 107,
+          "shots": 6,
+          "shots_on_target": 4
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 115,
+          "passes_completed": 99,
+          "shots": 4,
+          "shots_on_target": 2
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 131,
+          "passes_completed": 114,
+          "shots": 5,
+          "shots_on_target": 1
         }
       }
     }
@@ -9133,8 +10131,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -9144,8 +10142,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 108,
+      "career_passes_completed": 81,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -9153,7 +10151,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 46,
+          "passes_completed": 34
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 62,
+          "passes_completed": 47
+        }
+      }
     }
   },
   {
@@ -9373,8 +10384,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -9382,10 +10393,10 @@
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 0,
-      "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_shots": 8,
+      "career_shots_on_target": 1,
+      "career_passes": 125,
+      "career_passes_completed": 97,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -9393,7 +10404,24 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 38,
+          "passes_completed": 30,
+          "shots": 2,
+          "shots_on_target": 1
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 87,
+          "passes_completed": 67,
+          "shots": 6,
+          "shots_on_target": 0
+        }
+      }
     }
   },
   {
@@ -9469,19 +10497,19 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 2,
-      "career_minutes": 180,
-      "career_goals": 0,
+      "career_matches": 8,
+      "career_minutes": 720,
+      "career_goals": 1,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 3,
-      "career_shots_on_target": 1,
-      "career_passes": 74,
-      "career_passes_completed": 64,
+      "career_shots": 12,
+      "career_shots_on_target": 4,
+      "career_passes": 291,
+      "career_passes_completed": 237,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -9505,6 +10533,29 @@
           "passes_completed": 40,
           "shots": 2,
           "shots_on_target": 1
+        },
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 71,
+          "passes_completed": 57,
+          "shots": 5,
+          "shots_on_target": 2
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 73,
+          "passes_completed": 59,
+          "goals": 1,
+          "shots": 4,
+          "shots_on_target": 1
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 73,
+          "passes_completed": 57
         }
       }
     }
@@ -9582,8 +10633,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -9593,8 +10644,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 217,
+      "career_passes_completed": 184,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -9602,7 +10653,32 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 40,
+          "passes_completed": 33
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 46,
+          "passes_completed": 35
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 69,
+          "passes_completed": 63
+        },
+        "234": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 62,
+          "passes_completed": 53
+        }
+      }
     }
   },
   {
@@ -9966,8 +11042,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -9977,8 +11053,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 198,
+      "career_passes_completed": 153,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -9986,7 +11062,32 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 47,
+          "passes_completed": 35
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 36,
+          "passes_completed": 26
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 47,
+          "passes_completed": 38
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 68,
+          "passes_completed": 54
+        }
+      }
     }
   },
   {
@@ -10110,8 +11211,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -10119,10 +11220,10 @@
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 0,
-      "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_shots": 9,
+      "career_shots_on_target": 7,
+      "career_passes": 135,
+      "career_passes_completed": 108,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -10130,7 +11231,40 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 29,
+          "passes_completed": 23,
+          "shots": 1,
+          "shots_on_target": 0
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 43,
+          "passes_completed": 36,
+          "shots": 3,
+          "shots_on_target": 3
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 28,
+          "passes_completed": 24,
+          "shots": 2,
+          "shots_on_target": 1
+        },
+        "234": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 35,
+          "passes_completed": 25,
+          "shots": 3,
+          "shots_on_target": 3
+        }
+      }
     }
   },
   {
@@ -10350,8 +11484,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -10359,10 +11493,10 @@
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 0,
-      "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_shots": 8,
+      "career_shots_on_target": 2,
+      "career_passes": 176,
+      "career_passes_completed": 135,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -10370,7 +11504,40 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 21,
+          "passes_completed": 16,
+          "shots": 2,
+          "shots_on_target": 1
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 37,
+          "passes_completed": 28,
+          "shots": 1,
+          "shots_on_target": 0
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 57,
+          "passes_completed": 40,
+          "shots": 1,
+          "shots_on_target": 0
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 61,
+          "passes_completed": 51,
+          "shots": 4,
+          "shots_on_target": 1
+        }
+      }
     }
   },
   {
@@ -10446,8 +11613,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -10457,8 +11624,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 118,
+      "career_passes_completed": 90,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -10466,7 +11633,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 50,
+          "passes_completed": 38
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 68,
+          "passes_completed": 52
+        }
+      }
     }
   },
   {
@@ -10590,8 +11770,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -10601,8 +11781,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 142,
+      "career_passes_completed": 103,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -10610,7 +11790,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 34,
+          "passes_completed": 25
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 108,
+          "passes_completed": 78
+        }
+      }
     }
   },
   {
@@ -10638,8 +11831,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -10649,8 +11842,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 227,
+      "career_passes_completed": 172,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -10658,7 +11851,32 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 44,
+          "passes_completed": 34
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 68,
+          "passes_completed": 51
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 62,
+          "passes_completed": 47
+        },
+        "234": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 53,
+          "passes_completed": 40
+        }
+      }
     }
   },
   {
@@ -11262,8 +12480,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 3,
-      "career_minutes": 270,
+      "career_matches": 5,
+      "career_minutes": 450,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -11273,8 +12491,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 97,
-      "career_passes_completed": 74,
+      "career_passes": 159,
+      "career_passes_completed": 125,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -11294,6 +12512,18 @@
           "minutes": 90,
           "passes": 24,
           "passes_completed": 17
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 33,
+          "passes_completed": 28
+        },
+        "234": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 29,
+          "passes_completed": 23
         }
       }
     }
@@ -11515,8 +12745,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 3,
-      "career_minutes": 270,
+      "career_matches": 5,
+      "career_minutes": 450,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -11526,8 +12756,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 109,
-      "career_passes_completed": 80,
+      "career_passes": 182,
+      "career_passes_completed": 136,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -11547,6 +12777,18 @@
           "minutes": 90,
           "passes": 39,
           "passes_completed": 28
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 38,
+          "passes_completed": 31
+        },
+        "234": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 35,
+          "passes_completed": 25
         }
       }
     }
@@ -11912,8 +13154,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 1,
-      "career_minutes": 90,
+      "career_matches": 3,
+      "career_minutes": 270,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -11923,8 +13165,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 21,
-      "career_passes_completed": 18,
+      "career_passes": 106,
+      "career_passes_completed": 84,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -11932,7 +13174,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 45,
+          "passes_completed": 36
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 40,
+          "passes_completed": 30
+        }
+      }
     }
   },
   {
@@ -11960,8 +13215,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -11971,8 +13226,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 152,
+      "career_passes_completed": 113,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -11980,7 +13235,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 58,
+          "passes_completed": 45
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 94,
+          "passes_completed": 68
+        }
+      }
     }
   },
   {
@@ -12056,8 +13324,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -12067,8 +13335,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 240,
+      "career_passes_completed": 204,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -12076,7 +13344,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 71,
+          "passes_completed": 62
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 169,
+          "passes_completed": 142
+        }
+      }
     }
   },
   {
@@ -12344,12 +13625,12 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
-      "career_saves": 0,
-      "career_clean_sheets": 0,
+      "career_saves": 24,
+      "career_clean_sheets": 3,
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
@@ -12364,7 +13645,19 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "saves": 8
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "clean_sheets": 3,
+          "saves": 16
+        }
+      }
     }
   },
   {
@@ -12440,8 +13733,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 2,
-      "career_minutes": 180,
+      "career_matches": 8,
+      "career_minutes": 720,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -12451,8 +13744,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 86,
-      "career_passes_completed": 66,
+      "career_passes": 320,
+      "career_passes_completed": 261,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -12472,6 +13765,24 @@
           "minutes": 90,
           "passes": 41,
           "passes_completed": 31
+        },
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 79,
+          "passes_completed": 69
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 69,
+          "passes_completed": 56
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 86,
+          "passes_completed": 70
         }
       }
     }
@@ -12501,8 +13812,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -12512,8 +13823,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 200,
+      "career_passes_completed": 156,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -12521,7 +13832,26 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 97,
+          "passes_completed": 72
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 27,
+          "passes_completed": 20
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 76,
+          "passes_completed": 64
+        }
+      }
     }
   },
   {
@@ -12693,8 +14023,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -12704,8 +14034,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 158,
+      "career_passes_completed": 117,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -12713,7 +14043,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 48,
+          "passes_completed": 38
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 110,
+          "passes_completed": 79
+        }
+      }
     }
   },
   {
@@ -12837,8 +14180,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 2,
-      "career_minutes": 180,
+      "career_matches": 8,
+      "career_minutes": 720,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -12848,8 +14191,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 142,
-      "career_passes_completed": 125,
+      "career_passes": 507,
+      "career_passes_completed": 421,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -12869,6 +14212,24 @@
           "minutes": 90,
           "passes": 73,
           "passes_completed": 65
+        },
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 132,
+          "passes_completed": 107
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 107,
+          "passes_completed": 82
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 126,
+          "passes_completed": 107
         }
       }
     }
@@ -12898,9 +14259,9 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
-      "career_goals": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
+      "career_goals": 1,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
@@ -12909,8 +14270,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 300,
+      "career_passes_completed": 247,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -12918,7 +14279,27 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 150,
+          "passes_completed": 121
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 60,
+          "passes_completed": 51
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 90,
+          "passes_completed": 75,
+          "goals": 1
+        }
+      }
     }
   },
   {
@@ -13618,8 +14999,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -13627,10 +15008,10 @@
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 0,
-      "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_shots": 11,
+      "career_shots_on_target": 5,
+      "career_passes": 224,
+      "career_passes_completed": 176,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -13638,7 +15019,40 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 44,
+          "passes_completed": 34,
+          "shots": 3,
+          "shots_on_target": 3
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 38,
+          "passes_completed": 26,
+          "shots": 3,
+          "shots_on_target": 0
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 71,
+          "passes_completed": 60,
+          "shots": 2,
+          "shots_on_target": 1
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 71,
+          "passes_completed": 56,
+          "shots": 3,
+          "shots_on_target": 1
+        }
+      }
     }
   },
   {
@@ -13666,19 +15080,19 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 2,
-      "career_minutes": 180,
-      "career_goals": 0,
+      "career_matches": 8,
+      "career_minutes": 720,
+      "career_goals": 1,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 3,
-      "career_shots_on_target": 1,
-      "career_passes": 68,
-      "career_passes_completed": 51,
+      "career_shots": 11,
+      "career_shots_on_target": 6,
+      "career_passes": 276,
+      "career_passes_completed": 206,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -13700,6 +15114,31 @@
           "minutes": 90,
           "passes": 40,
           "passes_completed": 29,
+          "shots": 2,
+          "shots_on_target": 1
+        },
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "goals": 1,
+          "passes": 58,
+          "passes_completed": 41,
+          "shots": 5,
+          "shots_on_target": 4
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 79,
+          "passes_completed": 61,
+          "shots": 1,
+          "shots_on_target": 0
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 71,
+          "passes_completed": 53,
           "shots": 2,
           "shots_on_target": 1
         }
@@ -14019,8 +15458,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -14030,8 +15469,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 125,
+      "career_passes_completed": 95,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -14039,7 +15478,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 28,
+          "passes_completed": 23
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 97,
+          "passes_completed": 72
+        }
+      }
     }
   },
   {
@@ -14067,8 +15519,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 2,
-      "career_minutes": 180,
+      "career_matches": 8,
+      "career_minutes": 720,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -14078,8 +15530,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 93,
-      "career_passes_completed": 73,
+      "career_passes": 324,
+      "career_passes_completed": 248,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -14099,6 +15551,24 @@
           "minutes": 90,
           "passes": 50,
           "passes_completed": 41
+        },
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 70,
+          "passes_completed": 52
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 80,
+          "passes_completed": 64
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 81,
+          "passes_completed": 59
         }
       }
     }
@@ -14416,8 +15886,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -14427,8 +15897,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 232,
+      "career_passes_completed": 184,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -14436,7 +15906,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 115,
+          "passes_completed": 95
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 117,
+          "passes_completed": 89
+        }
+      }
     }
   },
   {
@@ -14464,8 +15947,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -14475,8 +15958,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 345,
+      "career_passes_completed": 297,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -14484,7 +15967,26 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 176,
+          "passes_completed": 146
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 42,
+          "passes_completed": 38
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 127,
+          "passes_completed": 113
+        }
+      }
     }
   },
   {
@@ -14608,8 +16110,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 1,
-      "career_minutes": 90,
+      "career_matches": 3,
+      "career_minutes": 270,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -14619,8 +16121,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 38,
-      "career_passes_completed": 29,
+      "career_passes": 112,
+      "career_passes_completed": 88,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -14628,7 +16130,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 24,
+          "passes_completed": 16
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 50,
+          "passes_completed": 43
+        }
+      }
     }
   },
   {
@@ -15184,19 +16699,19 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
-      "career_goals": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
+      "career_goals": 2,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 0,
-      "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_shots": 13,
+      "career_shots_on_target": 8,
+      "career_passes": 211,
+      "career_passes_completed": 178,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -15204,7 +16719,33 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "goals": 2,
+          "passes": 120,
+          "passes_completed": 104,
+          "shots": 6,
+          "shots_on_target": 3
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 32,
+          "passes_completed": 27,
+          "shots": 2,
+          "shots_on_target": 1
+        },
+        "234": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 59,
+          "passes_completed": 47,
+          "shots": 5,
+          "shots_on_target": 4
+        }
+      }
     }
   },
   {
@@ -15232,19 +16773,19 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
-      "career_yellow_cards": 0,
+      "career_yellow_cards": 1,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 0,
-      "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_shots": 7,
+      "career_shots_on_target": 6,
+      "career_passes": 190,
+      "career_passes_completed": 147,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -15252,7 +16793,25 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 94,
+          "passes_completed": 77,
+          "shots": 4,
+          "shots_on_target": 3
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 96,
+          "passes_completed": 70,
+          "shots": 3,
+          "shots_on_target": 3,
+          "yellow_cards": 1
+        }
+      }
     }
   },
   {
@@ -15280,8 +16839,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -15289,10 +16848,10 @@
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 0,
-      "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_shots": 5,
+      "career_shots_on_target": 4,
+      "career_passes": 150,
+      "career_passes_completed": 122,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -15300,7 +16859,38 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 35,
+          "passes_completed": 24,
+          "shots": 3,
+          "shots_on_target": 3
+        },
+        "Fastyron": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 43,
+          "passes_completed": 36,
+          "shots": 1,
+          "shots_on_target": 0
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 49,
+          "passes_completed": 44
+        },
+        "234": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 23,
+          "passes_completed": 18,
+          "shots": 1,
+          "shots_on_target": 1
+        }
+      }
     }
   },
   {
@@ -15520,12 +17110,12 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
-      "career_saves": 0,
-      "career_clean_sheets": 0,
+      "career_saves": 22,
+      "career_clean_sheets": 2,
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
@@ -15540,7 +17130,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "saves": 12,
+          "clean_sheets": 1
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "clean_sheets": 1,
+          "saves": 10
+        }
+      }
     }
   },
   {
@@ -15568,19 +17171,19 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 2,
-      "career_minutes": 180,
+      "career_matches": 8,
+      "career_minutes": 720,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
-      "career_yellow_cards": 0,
+      "career_yellow_cards": 1,
       "career_red_cards": 0,
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 72,
-      "career_passes_completed": 60,
+      "career_passes": 308,
+      "career_passes_completed": 257,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -15600,6 +17203,25 @@
           "minutes": 90,
           "passes": 45,
           "passes_completed": 39
+        },
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 87,
+          "passes_completed": 74,
+          "yellow_cards": 1
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 80,
+          "passes_completed": 67
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 69,
+          "passes_completed": 56
         }
       }
     }
@@ -15629,8 +17251,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -15640,8 +17262,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 224,
+      "career_passes_completed": 177,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -15649,7 +17271,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 103,
+          "passes_completed": 83
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 121,
+          "passes_completed": 94
+        }
+      }
     }
   },
   {
@@ -15677,8 +17312,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 1,
-      "career_minutes": 90,
+      "career_matches": 3,
+      "career_minutes": 270,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -15688,8 +17323,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 31,
-      "career_passes_completed": 26,
+      "career_passes": 116,
+      "career_passes_completed": 86,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -15697,7 +17332,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 46,
+          "passes_completed": 33
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 39,
+          "passes_completed": 27
+        }
+      }
     }
   },
   {
@@ -15965,8 +17613,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 2,
-      "career_minutes": 180,
+      "career_matches": 8,
+      "career_minutes": 720,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -15976,8 +17624,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 85,
-      "career_passes_completed": 74,
+      "career_passes": 476,
+      "career_passes_completed": 408,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -15997,6 +17645,24 @@
           "minutes": 90,
           "passes": 41,
           "passes_completed": 35
+        },
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 110,
+          "passes_completed": 92
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 129,
+          "passes_completed": 107
+        },
+        "123": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 152,
+          "passes_completed": 135
         }
       }
     }
@@ -16026,8 +17692,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -16037,8 +17703,8 @@
       "career_motm": 0,
       "career_shots": 0,
       "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_passes": 239,
+      "career_passes_completed": 204,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -16046,7 +17712,20 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 120,
+          "passes_completed": 102
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 119,
+          "passes_completed": 102
+        }
+      }
     }
   },
   {
@@ -16458,8 +18137,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 1,
-      "career_minutes": 90,
+      "career_matches": 3,
+      "career_minutes": 270,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -16467,10 +18146,10 @@
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 0,
-      "career_shots_on_target": 0,
-      "career_passes": 45,
-      "career_passes_completed": 39,
+      "career_shots": 2,
+      "career_shots_on_target": 1,
+      "career_passes": 159,
+      "career_passes_completed": 129,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -16478,7 +18157,22 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 70,
+          "passes_completed": 53,
+          "shots": 2,
+          "shots_on_target": 1
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 44,
+          "passes_completed": 37
+        }
+      }
     }
   },
   {
@@ -16746,19 +18440,19 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
-      "career_goals": 0,
+      "career_matches": 6,
+      "career_minutes": 540,
+      "career_goals": 1,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 0,
-      "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_shots": 5,
+      "career_shots_on_target": 4,
+      "career_passes": 214,
+      "career_passes_completed": 165,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -16766,7 +18460,25 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 3,
+          "minutes": 270,
+          "goals": 1,
+          "passes": 98,
+          "passes_completed": 76,
+          "shots": 3,
+          "shots_on_target": 3
+        },
+        "123": {
+          "matches": 3,
+          "minutes": 270,
+          "passes": 116,
+          "passes_completed": 89,
+          "shots": 2,
+          "shots_on_target": 1
+        }
+      }
     }
   },
   {
@@ -16794,19 +18506,19 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
-      "career_goals": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
+      "career_goals": 2,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 0,
-      "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_shots": 7,
+      "career_shots_on_target": 3,
+      "career_passes": 149,
+      "career_passes_completed": 115,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -16814,7 +18526,25 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "goals": 2,
+          "passes": 83,
+          "passes_completed": 69,
+          "shots": 6,
+          "shots_on_target": 3
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 66,
+          "passes_completed": 46,
+          "shots": 1,
+          "shots_on_target": 0
+        }
+      }
     }
   },
   {
@@ -16842,19 +18572,19 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 0,
-      "career_minutes": 0,
-      "career_goals": 0,
+      "career_matches": 4,
+      "career_minutes": 360,
+      "career_goals": 1,
       "career_assists": 0,
       "career_saves": 0,
       "career_clean_sheets": 0,
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 0,
-      "career_shots_on_target": 0,
-      "career_passes": 0,
-      "career_passes_completed": 0,
+      "career_shots": 7,
+      "career_shots_on_target": 5,
+      "career_passes": 143,
+      "career_passes_completed": 111,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -16862,7 +18592,25 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 2,
+          "minutes": 180,
+          "passes": 80,
+          "passes_completed": 61,
+          "shots": 3,
+          "shots_on_target": 3
+        },
+        "Fastyron": {
+          "matches": 2,
+          "minutes": 180,
+          "goals": 1,
+          "passes": 63,
+          "passes_completed": 50,
+          "shots": 4,
+          "shots_on_target": 2
+        }
+      }
     }
   },
   {
@@ -17322,8 +19070,8 @@
     "form_base": 7.0,
     "form_confidence": 50.0,
     "stats": {
-      "career_matches": 1,
-      "career_minutes": 90,
+      "career_matches": 3,
+      "career_minutes": 270,
       "career_goals": 0,
       "career_assists": 0,
       "career_saves": 0,
@@ -17331,10 +19079,10 @@
       "career_yellow_cards": 0,
       "career_red_cards": 0,
       "career_motm": 0,
-      "career_shots": 0,
+      "career_shots": 3,
       "career_shots_on_target": 0,
-      "career_passes": 49,
-      "career_passes_completed": 39,
+      "career_passes": 126,
+      "career_passes_completed": 98,
       "career_tackles": 0,
       "career_tackles_won": 0,
       "career_interceptions": 0,
@@ -17342,7 +19090,24 @@
       "career_dribbles_successful": 0,
       "career_fouls_committed": 0,
       "career_fouls_suffered": 0,
-      "tournament_stats": {}
+      "tournament_stats": {
+        "Summer Feast": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 37,
+          "passes_completed": 29,
+          "shots": 1,
+          "shots_on_target": 0
+        },
+        "123": {
+          "matches": 1,
+          "minutes": 90,
+          "passes": 40,
+          "passes_completed": 30,
+          "shots": 2,
+          "shots_on_target": 0
+        }
+      }
     }
   },
   {
