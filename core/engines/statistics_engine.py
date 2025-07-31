@@ -7,7 +7,7 @@ Handles player statistics tracking, rankings, and leaderboards.
 """
 
 from typing import List, Dict, Tuple, Optional
-from models import Player, Position
+from core.models import Player, Position
 from collections import defaultdict
 
 

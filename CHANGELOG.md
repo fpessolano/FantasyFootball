@@ -1,6 +1,39 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.3.0] - 2025-07-31
+
+### 🏗️ Major Architecture Refactor
+- **Modular Design**: Complete separation of concerns with clean architecture
+  - **Interface Layer**: Dedicated menu classes (`PlayerMenu`, `TeamMenu`, `MatchMenu`, etc.)
+  - **Service Layer**: Business logic handlers (`PlayerService`, `TeamService`, etc.)
+  - **Core Layer**: Game logic managers and engines
+- **New Entry Point**: Modern `ffm.py` launcher replacing monolithic `fantasy_football.py`
+- **Improved Navigation**: Switch-case menu routing with consistent interface patterns
+
+### 🎮 Enhanced User Experience
+- **Unified CLI Interface**: Consistent menu system across all game features
+- **Better Error Handling**: Graceful exception handling with user-friendly messages
+- **Signal Management**: Improved Ctrl+C handling throughout the application
+- **Menu Constants**: Centralized menu definitions for consistency
+
+### 🔧 Code Quality Improvements
+- **Clean Imports**: Proper module separation with `core.` prefixed imports
+- **Type Safety**: Better type hints and parameter validation
+- **Maintainability**: Modular structure for easier testing and maintenance
+- **Performance**: Optimized menu rendering and state management
+
+### 🗂️ Project Organization
+- **Structured Directories**: Clear separation of interface, service, and core components
+- **Legacy Cleanup**: Removed obsolete files while preserving functionality
+- **Documentation**: Updated README with new architecture and launch instructions
+- **Version Consistency**: Unified version numbering across all components
+
+### 🔄 Migration Notes
+- **New Launch Command**: Use `python3 ffm.py` instead of `python3 fantasy_football.py`
+- **Same Functionality**: All game features preserved with improved architecture
+- **Data Compatibility**: Existing save files and game data remain fully compatible
+
 ## [2.0.3] - 2025-07-29
 
 ### 🔧 Settings Cleanup

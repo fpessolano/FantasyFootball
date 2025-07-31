@@ -8,14 +8,14 @@ Module for creating and managing teams in the Fantasy Football system.
 import json
 import random
 from typing import List, Optional, Dict, Tuple
-from models import Team, Player, Position, TacticalStyle, FORMATIONS, POSITION_GROUPS
-from player_manager import PlayerManager
+from core.models import Team, Player, Position, TacticalStyle, FORMATIONS, POSITION_GROUPS
+from core.managers.player_manager import PlayerManager
 
 
 class TeamManager:
     """Manages team creation, loading, and saving."""
     
-    def __init__(self, filename: str = "teams.json"):
+    def __init__(self, filename: str = "data/teams.json"):
         self.filename = filename
         self.teams: List[Team] = []
         self.load_teams()
@@ -132,7 +132,7 @@ class TeamManager:
                     
                     # Import PlayerManager to create players
                     from player_manager import PlayerManager
-                    temp_pm = PlayerManager('players.json')  # Use existing player file
+                    temp_pm = PlayerManager('data/players.json')  # Use existing player file
                     
                     for _ in range(missing_count):
                         new_player = temp_pm.create_player_by_nationality(position, nationality)
@@ -385,7 +385,7 @@ class TeamManager:
                     
                     # Import PlayerManager to create players
                     from player_manager import PlayerManager
-                    temp_pm = PlayerManager('players.json')
+                    temp_pm = PlayerManager('data/players.json')
                     
                     for _ in range(missing_count):
                         # Create random position player of this nationality

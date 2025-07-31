@@ -53,8 +53,4 @@ build/
 .dockerignore
 
 # Project specific
-data/
-legacy/saves_json/
-legacy/test_gamesaves
-legacy/migration_test_db
-legacy/data.dat
+legacy/

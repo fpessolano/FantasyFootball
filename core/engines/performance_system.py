@@ -8,7 +8,7 @@ Multi-model system for handling player fatigue, form, momentum, and pressure eff
 import math
 import random
 from typing import Dict, List, Optional, Tuple
-from models import Player, Position, TemperamentType
+from core.models import Player, Position, TemperamentType
 
 
 class FatigueModel:

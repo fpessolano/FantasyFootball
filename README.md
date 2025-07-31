@@ -1,4 +1,4 @@
-# Fantasy Football Manager v2.2.1
+# Fantasy Football Manager v2.3.0
 
 A comprehensive football simulation game featuring realistic international player management, team building, advanced match simulation with tournament modes, and comprehensive player statistics tracking.
 
@@ -25,7 +25,7 @@ python dependency_checker.py
 
 ### **Run the Game**
 ```bash
-python3 fantasy_football.py
+python3 ffm.py
 ```
 
 ### **First Steps**
@@ -94,6 +94,13 @@ python3 fantasy_football.py
 - **Improved Statistics Reliability**: Fixed tournament statistics display issues
 - **Real-time Data Loading**: Tournament lists always show current player statistics
 - **Enhanced Data Management**: Improved "Reset All Data" to preserve players while clearing game data
+
+### **Modular Architecture** ⭐ NEW v2.3.0
+- **Clean Architecture**: Complete separation of interface, service, and core layers
+- **Interface Layer**: Dedicated menu classes for each game feature
+- **Service Layer**: Business logic separation for maintainable code
+- **Core Managers**: Centralized game logic with proper dependency management
+- **Modern Entry Point**: New `ffm.py` launcher with improved CLI interface
 
 ## 🏆 **Game Modes**
 

@@ -10,9 +10,9 @@ import math
 from typing import Tuple, List, Dict, Optional
 from dataclasses import dataclass, field
 from datetime import datetime
-from models import Team, Player, Position, TacticalStyle
-from performance_system import PlayerPerformanceManager
-from player_statistics import PlayerStatisticsManager
+from core.models import Team, Player, Position, TacticalStyle
+from core.engines.performance_system import PlayerPerformanceManager
+from core.engines.statistics_engine import PlayerStatisticsManager
 
 
 @dataclass
@@ -52,7 +52,7 @@ class MatchEngine:
         self.show_detailed_stats = True  # Toggle for detailed statistics table only
         self.performance_manager = PlayerPerformanceManager()
         self.stats_manager = PlayerStatisticsManager()
-        self.settings_file = "settings.json"
+        self.settings_file = "data/settings.json"
         self.load_settings()
     
     def update_player_statistics(self, match_result: MatchResult, tournament: str = None):
@@ -61,8 +61,8 @@ class MatchEngine:
         all_players = []
         
         # Collect home team players
-        from player_manager import PlayerManager
-        temp_pm = PlayerManager('players.json')
+        from core.managers.player_manager import PlayerManager
+        temp_pm = PlayerManager('data/players.json')
         
         for player_name in match_result.home_team_players:
             player = next((p for p in temp_pm.players if p.name == player_name), None)

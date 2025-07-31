@@ -8,9 +8,9 @@ Module for creating and managing knockout tournaments in the Fantasy Football sy
 import math
 import random
 from typing import List, Optional, Tuple
-from models import Tournament, TournamentRound, TournamentMatch, Team, Position
-from team_manager import TeamManager
-from player_manager import PlayerManager
+from core.models import Tournament, TournamentRound, TournamentMatch, Team, Position
+from core.managers.team_manager import TeamManager
+from core.managers.player_manager import PlayerManager
 
 
 class TournamentManager:

@@ -8,11 +8,11 @@ Module for creating and managing players with extended attributes.
 import json
 import random
 from typing import List, Optional, Dict
-from models import Player, Position, TemperamentType
+from core.models import Player, Position, TemperamentType
 
 # Import faker name generator with fallback
 try:
-    from name_generator import InternationalNameGenerator
+    from core.generators.name_generator import InternationalNameGenerator
     FAKER_AVAILABLE = True
 except ImportError:
     FAKER_AVAILABLE = False
@@ -22,7 +22,7 @@ except ImportError:
 class PlayerManager:
     """Enhanced player manager with extended attributes and migration support."""
     
-    def __init__(self, filename: str = "players.json"):
+    def __init__(self, filename: str = "data/players.json"):
         self.filename = filename
         self.players: List[Player] = []
         
