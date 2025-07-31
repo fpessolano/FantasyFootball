@@ -470,7 +470,7 @@ class PlayerManager:
             ('French', 0.12), 
             ('German', 0.10),
             ('Italian', 0.10),
-            ('British', 0.08),
+            ('English', 0.08),
             ('Portuguese', 0.08),
             ('Dutch', 0.06),
             ('American', 0.05),

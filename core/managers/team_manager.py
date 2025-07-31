@@ -131,7 +131,7 @@ class TeamManager:
                     print(f"Creating {missing_count} new {nationality} {position.name} players...")
                     
                     # Import PlayerManager to create players
-                    from player_manager import PlayerManager
+                    from core.managers.player_manager import PlayerManager
                     temp_pm = PlayerManager('data/players.json')  # Use existing player file
                     
                     for _ in range(missing_count):
@@ -384,7 +384,7 @@ class TeamManager:
                     print(f"Creating {missing_count} new {nationality} players...")
                     
                     # Import PlayerManager to create players
-                    from player_manager import PlayerManager
+                    from core.managers.player_manager import PlayerManager
                     temp_pm = PlayerManager('data/players.json')
                     
                     for _ in range(missing_count):

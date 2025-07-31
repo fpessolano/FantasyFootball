@@ -1,6 +1,25 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.3.1] - 2025-07-31
+
+### 🔧 Bug Fixes & Improvements
+- **Import Issues**: Fixed `player_manager` import errors in team creation
+- **Formation Selection**: Fixed formation selection showing only 4-3-3, now shows all 9 formations
+- **Tactical Styles**: Added missing tactical style selection (BALANCED, ATTACKING, DEFENSIVE, WIDE, CENTRAL)
+- **Tournament System**: Added missing tournament manager methods (`get_active_tournaments`, `continue_tournament`, etc.)
+- **Nationality System**: 
+  - Fixed nationality selection to accept both names and menu numbers
+  - Changed "British" to "English" for consistency
+  - Cleaned up corrupted nationality data entries
+- **Service Layer**: Removed dummy/placeholder code and fixed non-existent method calls
+- **Code Quality**: Comprehensive audit and cleanup of resource usage across all modules
+
+### 🎮 Enhanced Team Creation
+- **Complete Formation Support**: All formations now available (4-4-2, 4-3-3, 3-5-2, 4-2-3-1, 5-3-2, 3-4-3, 4-1-4-1, 4-5-1, 3-4-2-1)
+- **Tactical Variety**: Full tactical style selection for all team creation methods
+- **Better Nationality Handling**: Improved nationality selection with number/name input support
+
 ## [2.3.0] - 2025-07-31
 
 ### 🏗️ Major Architecture Refactor

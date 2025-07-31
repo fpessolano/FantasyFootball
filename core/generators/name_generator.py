@@ -46,7 +46,7 @@ class InternationalNameGenerator:
         # Locales that use Latin alphabet (readable names)
         self.latin_locales = {
             'en_US': 'American',
-            'en_GB': 'British', 
+            'en_GB': 'English', 
             'fr_FR': 'French',
             'de_DE': 'German',
             'it_IT': 'Italian',

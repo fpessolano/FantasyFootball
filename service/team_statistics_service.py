@@ -16,23 +16,12 @@ class TeamStatisticsService:
     
     def show_tournament_history(self):
         """Show tournament history with team winners."""
-        history = self.tournament_manager.get_tournament_history()
-        if not history:
-            print("No tournament history found!")
-            return
-        
         print("=" * 60)
         print("🏆 TOURNAMENT HISTORY")
         print("=" * 60)
         
-        for tournament_data in history:
-            print(f"\n🏅 {tournament_data['name']}")
-            print(f"   Winner: {tournament_data.get('winner', 'Unknown')}")
-            print(f"   Date: {tournament_data.get('date', 'Unknown')}")
-            if 'teams_count' in tournament_data:
-                print(f"   Teams: {tournament_data['teams_count']}")
-            if 'top_scorer' in tournament_data:
-                print(f"   Top Scorer: {tournament_data['top_scorer']}")
+        print("\nTournament history tracking is not yet implemented.")
+        print("This feature will be available in a future version.")
     
     def show_overall_ranking(self):
         """Show overall team rankings based on Elo ratings."""

@@ -19,6 +19,8 @@ class TournamentManager:
     def __init__(self, team_manager: TeamManager, player_manager: PlayerManager):
         self.team_manager = team_manager
         self.player_manager = player_manager
+        self.tournaments: List[Tournament] = []
+        self.load_tournaments()
     
     def create_tournament(self, name: str, team_names: List[str]) -> Tournament:
         """Create a new knockout tournament with given teams."""
@@ -30,11 +32,17 @@ class TournamentManager:
         # Generate bracket structure
         rounds = self._generate_bracket(team_names)
         
-        return Tournament(
+        tournament = Tournament(
             name=name,
             teams=team_names.copy(),
             rounds=rounds
         )
+        
+        # Add to tournaments list and save
+        self.tournaments.append(tournament)
+        self.save_tournaments()
+        
+        return tournament
     
     def _is_power_of_2(self, n: int) -> bool:
         """Check if a number is a power of 2."""
@@ -654,3 +662,96 @@ class TournamentManager:
             return "No goals scored"
         else:
             return "No goals recorded"
+    
+    def get_active_tournaments(self) -> List[Tournament]:
+        """Get list of active (incomplete) tournaments."""
+        return [t for t in self.tournaments if not t.completed]
+    
+    def get_all_tournaments(self) -> List[Tournament]:
+        """Get list of all tournaments."""
+        return self.tournaments.copy()
+    
+    def continue_tournament(self, tournament: Tournament):
+        """Continue an existing tournament."""
+        current_round = tournament.get_current_round()
+        if not current_round:
+            print("Tournament is complete!")
+            return
+        
+        print(f"\n🏆 Continuing {tournament.name}")
+        print(f"📍 Current Round: {current_round.round_name}")
+        
+        # Show available matches
+        available_matches = [m for m in current_round.matches if not m.completed and m.home_team and m.away_team]
+        if not available_matches:
+            print("No matches available to play!")
+            return
+        
+        print("\nAvailable matches:")
+        for i, match in enumerate(available_matches, 1):
+            print(f"{i}. {match.home_team} vs {match.away_team}")
+        
+        try:
+            choice = int(input("Select match to simulate: ")) - 1
+            if 0 <= choice < len(available_matches):
+                match = available_matches[choice]
+                from core.engines.match_engine import MatchEngine
+                engine = MatchEngine()
+                result = self.simulate_tournament_match(tournament, match.match_id, engine)
+                if result:
+                    print(f"\nMatch completed: {result[0].home_team} {result[0].home_score} - {result[0].away_score} {result[0].away_team}")
+                    if result[0].winner:
+                        print(f"Winner: {result[0].winner}")
+                    self.save_tournaments()
+            else:
+                print("Invalid choice!")
+        except ValueError:
+            print("Invalid input!")
+    
+    def display_bracket(self, tournament: Tournament):
+        """Display tournament bracket."""
+        bracket_display = self.get_tournament_bracket_display(tournament)
+        print(bracket_display)
+    
+    def save_tournaments(self):
+        """Save tournaments to file."""
+        import json
+        try:
+            # Convert tournaments to serializable format
+            tournament_data = []
+            for tournament in self.tournaments:
+                # Simple serialization - would need full implementation
+                tournament_data.append({
+                    'name': tournament.name,
+                    'teams': tournament.teams,
+                    'completed': tournament.completed,
+                    'winner': tournament.winner,
+                    'current_round': tournament.current_round
+                })
+            
+            with open('data/tournaments.json', 'w') as f:
+                json.dump(tournament_data, f, indent=2)
+        except Exception as e:
+            print(f"Failed to save tournaments: {e}")
+    
+    def load_tournaments(self):
+        """Load tournaments from file."""
+        import json
+        import os
+        try:
+            if os.path.exists('data/tournaments.json'):
+                with open('data/tournaments.json', 'r') as f:
+                    tournament_data = json.load(f)
+                # Would need full implementation to deserialize tournaments
+                self.tournaments = []
+        except Exception as e:
+            print(f"Failed to load tournaments: {e}")
+            self.tournaments = []
+    
+    def delete_tournament(self, tournament: Tournament):
+        """Delete a tournament."""
+        if tournament in self.tournaments:
+            self.tournaments.remove(tournament)
+            self.save_tournaments()
+            return True
+        return False

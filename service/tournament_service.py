@@ -64,7 +64,8 @@ class TournamentService:
         
         # Create tournament
         try:
-            tournament = self.tournament_manager.create_tournament(tournament_name, selected_teams)
+            team_names = [team.name for team in selected_teams]
+            tournament = self.tournament_manager.create_tournament(tournament_name, team_names)
             if tournament:
                 print(f"\n✅ Tournament '{tournament_name}' created successfully!")
                 print(f"Teams: {num_teams}")

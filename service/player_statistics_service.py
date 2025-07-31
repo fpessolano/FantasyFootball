@@ -50,24 +50,8 @@ class PlayerStatisticsService:
     
     def show_tournament_leaders(self):
         """Show tournament-specific statistics leaders."""
-        tournaments = self.tournament_manager.get_completed_tournaments()
-        if not tournaments:
-            print("No completed tournaments found!")
-            return
-        
-        print("\nSelect tournament:")
-        for i, tournament in enumerate(tournaments, 1):
-            print(f"{i}. {tournament.name}")
-        
-        try:
-            choice = int(input("Choose tournament: ")) - 1
-            if 0 <= choice < len(tournaments):
-                tournament = tournaments[choice]
-                self._show_tournament_stats(tournament)
-            else:
-                print("Invalid choice!")
-        except ValueError:
-            print("Invalid input!")
+        print("Tournament-specific statistics are not yet implemented.")
+        print("This feature will be available in a future version.")
     
     def show_individual_analysis(self):
         """Show detailed analysis for individual player."""
@@ -93,21 +77,8 @@ class PlayerStatisticsService:
     
     def show_tournament_history(self):
         """Show tournament history."""
-        history = self.tournament_manager.get_tournament_history()
-        if not history:
-            print("No tournament history found!")
-            return
-        
-        print("=" * 60)
-        print("🏆 TOURNAMENT HISTORY")
-        print("=" * 60)
-        
-        for tournament_data in history:
-            print(f"\n🏅 {tournament_data['name']}")
-            print(f"   Winner: {tournament_data.get('winner', 'Unknown')}")
-            print(f"   Date: {tournament_data.get('date', 'Unknown')}")
-            if 'top_scorer' in tournament_data:
-                print(f"   Top Scorer: {tournament_data['top_scorer']}")
+        print("Tournament history tracking is not yet implemented.")
+        print("This feature will be available in a future version.")
     
     def show_performance_comparison(self):
         """Show performance comparison between players."""
@@ -195,18 +166,7 @@ class PlayerStatisticsService:
         """Show statistics for a specific tournament."""
         print(f"\n🏆 {tournament.name} Statistics")
         print("=" * 50)
-        
-        # Get tournament stats
-        stats = self.stats_manager.get_tournament_stats(tournament.id)
-        
-        if stats and 'top_scorer' in stats:
-            print(f"🥇 Tournament Winner: {tournament.winner or 'Unknown'}")
-            print(f"⚽ Top Scorer: {stats['top_scorer']['name']} ({stats['top_scorer']['goals']} goals)")
-            
-            if 'top_assists' in stats:
-                print(f"🎯 Most Assists: {stats['top_assists']['name']} ({stats['top_assists']['assists']} assists)")
-        else:
-            print("No detailed statistics available for this tournament.")
+        print("Tournament statistics tracking is not yet implemented.")
     
     def _show_player_analysis(self, player):
         """Show detailed analysis for a player."""

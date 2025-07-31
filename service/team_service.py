@@ -123,13 +123,27 @@ class TeamService:
         # Show available nationalities
         distribution = self.player_manager.get_nationality_distribution()
         print("\n=== Available Nationalities ===")
-        for i, (nationality, count) in enumerate(sorted(distribution.items()), 1):
+        sorted_nationalities = sorted(distribution.items())
+        for i, (nationality, count) in enumerate(sorted_nationalities, 1):
             print(f"{i:2}. {nationality}: {count} players")
         
-        nationality = input("\nEnter nationality: ").strip()
-        if not nationality:
+        nationality_input = input("\nEnter nationality (name or number): ").strip()
+        if not nationality_input:
             print("Nationality cannot be empty!")
             return
+        
+        # Check if input is a number
+        nationality = None
+        try:
+            choice_num = int(nationality_input)
+            if 1 <= choice_num <= len(sorted_nationalities):
+                nationality = sorted_nationalities[choice_num - 1][0]
+            else:
+                print(f"Invalid choice! Please select 1-{len(sorted_nationalities)}")
+                return
+        except ValueError:
+            # Input is a nationality name
+            nationality = nationality_input
         
         # Check if national team is possible
         can_create, reason = self.team_manager.can_create_national_team(nationality, self.player_manager.players)
@@ -151,7 +165,8 @@ class TeamService:
             name = f"{nationality} FC"
         
         # Select formation
-        formations = list(self.team_manager.FORMATIONS.keys()) if hasattr(self.team_manager, 'FORMATIONS') else ["4-3-3"]
+        from core.models import FORMATIONS
+        formations = list(FORMATIONS.keys())
         print("\nAvailable formations:")
         for i, formation in enumerate(formations, 1):
             print(f"{i}. {formation}")
@@ -165,7 +180,23 @@ class TeamService:
         except ValueError:
             formation = "4-3-3"
         
-        team = self.team_manager.create_national_team(name, nationality, self.player_manager.players, formation, None, create_missing)
+        # Select tactical style
+        from core.models import TacticalStyle
+        styles = list(TacticalStyle)
+        print("\nAvailable tactical styles:")
+        for i, style in enumerate(styles, 1):
+            print(f"{i}. {style.name}")
+        
+        try:
+            choice = int(input("Select tactical style (number): "))
+            if 1 <= choice <= len(styles):
+                tactical_style = styles[choice - 1]
+            else:
+                tactical_style = TacticalStyle.BALANCED
+        except ValueError:
+            tactical_style = TacticalStyle.BALANCED
+        
+        team = self.team_manager.create_national_team(name, nationality, self.player_manager.players, formation, tactical_style, create_missing)
         
         if team:
             self.team_manager.add_team(team)
@@ -237,7 +268,7 @@ class TeamService:
             return
         
         # Select formation
-        from models import FORMATIONS
+        from core.models import FORMATIONS
         formations = list(FORMATIONS.keys())
         print("\nAvailable formations:")
         for i, formation in enumerate(formations, 1):
@@ -252,15 +283,31 @@ class TeamService:
         except ValueError:
             formation = "4-3-3"
         
+        # Select tactical style
+        from core.models import TacticalStyle
+        styles = list(TacticalStyle)
+        print("\nAvailable tactical styles:")
+        for i, style in enumerate(styles, 1):
+            print(f"{i}. {style.name}")
+        
+        try:
+            choice = int(input("Select tactical style (number): "))
+            if 1 <= choice <= len(styles):
+                tactical_style = styles[choice - 1]
+            else:
+                tactical_style = TacticalStyle.BALANCED
+        except ValueError:
+            tactical_style = TacticalStyle.BALANCED
+        
         # First try without creating missing players
-        team = self.team_manager.create_mixed_nationality_team(name, nationality_mix, self.player_manager.players, formation)
+        team = self.team_manager.create_mixed_nationality_team(name, nationality_mix, self.player_manager.players, formation, tactical_style)
         
         if not team:
             # Ask if user wants to create missing players
             response = input("\nWould you like to create missing players to complete the team? (y/n): ").strip().lower()
             if response in ['y', 'yes']:
                 print("✅ Will create missing players as needed.")
-                team = self.team_manager.create_mixed_nationality_team(name, nationality_mix, self.player_manager.players, formation, None, True)
+                team = self.team_manager.create_mixed_nationality_team(name, nationality_mix, self.player_manager.players, formation, tactical_style, True)
         
         if team:
             self.team_manager.add_team(team)
@@ -306,7 +353,7 @@ class TeamService:
             return
         
         # Select formation
-        from models import FORMATIONS
+        from core.models import FORMATIONS
         formations = list(FORMATIONS.keys())
         print("\nAvailable formations:")
         for i, formation in enumerate(formations, 1):
@@ -321,15 +368,31 @@ class TeamService:
         except ValueError:
             formation = "4-3-3"
         
+        # Select tactical style
+        from core.models import TacticalStyle
+        styles = list(TacticalStyle)
+        print("\nAvailable tactical styles:")
+        for i, style in enumerate(styles, 1):
+            print(f"{i}. {style.name}")
+        
+        try:
+            choice = int(input("Select tactical style (number): "))
+            if 1 <= choice <= len(styles):
+                tactical_style = styles[choice - 1]
+            else:
+                tactical_style = TacticalStyle.BALANCED
+        except ValueError:
+            tactical_style = TacticalStyle.BALANCED
+        
         # First try without creating missing players
-        team = self.team_manager.create_continental_team(name, continent, min_players, self.player_manager.players, formation)
+        team = self.team_manager.create_continental_team(name, continent, min_players, self.player_manager.players, formation, tactical_style)
         
         if not team:
             # Ask if user wants to create missing players
             response = input("\nWould you like to create missing players to complete the team? (y/n): ").strip().lower()
             if response in ['y', 'yes']:
                 print("✅ Will create missing players as needed.")
-                team = self.team_manager.create_continental_team(name, continent, min_players, self.player_manager.players, formation, None, True)
+                team = self.team_manager.create_continental_team(name, continent, min_players, self.player_manager.players, formation, tactical_style, True)
         
         if team:
             self.team_manager.add_team(team)
