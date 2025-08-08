@@ -58,7 +58,7 @@ class FantasyFootballManager:
                 # Display main menu and get user choice
                 choice = self.cli.display_menu_and_select(
                     MAIN_MENU, 
-                    "FANTASY FOOTBALL MANAGER v2.3.1"
+                    "FANTASY FOOTBALL MANAGER v2.3.2"
                 )
                 
                 # Handle user choice
