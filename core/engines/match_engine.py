@@ -7,6 +7,7 @@ Enhanced match engine with fatigue, form, and performance tracking.
 
 import random
 import math
+from pathlib import Path
 from typing import Tuple, List, Dict, Optional
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -52,7 +53,7 @@ class MatchEngine:
         self.show_detailed_stats = True  # Toggle for detailed statistics table only
         self.performance_manager = PlayerPerformanceManager()
         self.stats_manager = PlayerStatisticsManager()
-        self.settings_file = "data/settings.json"
+        self.settings_file = Path("data/settings.json")
         self.load_settings()
     
     def update_player_statistics(self, match_result: MatchResult, tournament: str = None):
@@ -518,18 +519,19 @@ class MatchEngine:
             effective_attrs = self.performance_manager.get_effective_attributes(player)
             
             # Position-based scoring likelihood
-            if player.position in [Position.ST]:
-                weight = 4.0
-            elif player.position in [Position.LW, Position.RW, Position.AM]:
-                weight = 2.5
-            elif player.position in [Position.CM, Position.LM, Position.RM]:
-                weight = 1.5
-            elif player.position in [Position.DM, Position.LB, Position.RB, Position.LWB, Position.RWB, Position.WB]:
-                weight = 0.8
-            elif player.position in [Position.CB, Position.SW]:
-                weight = 0.5
-            else:  # GK
-                weight = 0.1
+            match player.position:
+                case pos if pos in [Position.ST]:
+                    weight = 4.0
+                case pos if pos in [Position.LW, Position.RW, Position.AM]:
+                    weight = 2.5
+                case pos if pos in [Position.CM, Position.LM, Position.RM]:
+                    weight = 1.5
+                case pos if pos in [Position.DM, Position.LB, Position.RB, Position.LWB, Position.RWB, Position.WB]:
+                    weight = 0.8
+                case pos if pos in [Position.CB, Position.SW]:
+                    weight = 0.5
+                case _:  # GK
+                    weight = 0.1
             
             # Adjust by effective shooting ability and form
             shooting_factor = effective_attrs['shooting'] / 100

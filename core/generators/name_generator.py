@@ -133,18 +133,12 @@ class InternationalNameGenerator:
             
         # Split name into parts
         parts = name.split()
-        cleaned_parts = []
-        
-        for part in parts:
-            # Remove titles that match exactly or are at the beginning
-            is_title = False
-            for title in self.TITLES_TO_REMOVE:
-                if part == title or part.startswith(title):
-                    is_title = True
-                    break
-            
-            if not is_title:
-                cleaned_parts.append(part)
+        # Filter out titles using list comprehension with any()
+        cleaned_parts = [
+            part for part in parts 
+            if not any(part == title or part.startswith(title) 
+                      for title in self.TITLES_TO_REMOVE)
+        ]
         
         # Join back and clean up extra spaces
         cleaned_name = ' '.join(cleaned_parts).strip()

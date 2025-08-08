@@ -18,7 +18,7 @@ MAIN_MENU = [
 ]
 
 PLAYER_MENU = [
-    "View All Players",
+    # "View All Players",
     "Create Random Player",
     "Create Manual Player",
     "Generate Player Pool",
@@ -44,8 +44,8 @@ TEAM_MENU = [
 MATCH_MENU = [
     "Play Single Match",
     "Play Multiple Matches",
-    "Play Multiple Matches (Random Teams)",
-    "Quick Play (Random Teams)",
+    "Play Random Match",
+    "Play Multiple Random Matches",
     "Back to Main Menu"
 ]
 

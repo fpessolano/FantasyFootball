@@ -142,20 +142,25 @@ class PlayerStatisticsService:
                 print("Filename cannot be empty!")
                 return
             
-            if choice == 1:
-                self.stats_manager.export_career_stats(f"{filename}.csv")
-                print(f"Career statistics exported to {filename}.csv")
-            elif choice == 2:
-                self.stats_manager.export_tournament_stats(f"{filename}.csv")
-                print(f"Tournament statistics exported to {filename}.csv")
-            elif choice == 3:
-                self.stats_manager.export_player_profiles(f"{filename}.json")
-                print(f"Player profiles exported to {filename}.json")
-            elif choice == 4:
-                self.stats_manager.export_complete_dataset(f"{filename}.json")
-                print(f"Complete dataset exported to {filename}.json")
-            else:
-                print("Invalid choice!")
+            match choice:
+                case 1:
+                    self.stats_manager.export_career_stats(f"{filename}.csv")
+                    print(f"Career statistics exported to {filename}.csv")
+                case 2:
+                    self.stats_manager.export_tournament_stats(f"{filename}.csv")
+                    print(f"Tournament statistics exported to {filename}.csv")
+                case 3:
+                    from pathlib import Path
+                    json_file = Path(filename).with_suffix('.json')
+                    self.stats_manager.export_player_profiles(json_file)
+                    print(f"Player profiles exported to {json_file}")
+                case 4:
+                    from pathlib import Path
+                    json_file = Path(filename).with_suffix('.json')
+                    self.stats_manager.export_complete_dataset(json_file)
+                    print(f"Complete dataset exported to {json_file}")
+                case _:
+                    print("Invalid choice!")
         
         except ValueError:
             print("Invalid input!")

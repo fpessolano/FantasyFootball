@@ -42,21 +42,38 @@ class PlayerMenu:
     
     def _handle_choice(self, choice):
         """Handle menu choice by calling appropriate service method."""
-        if choice == 0:  # View All Players
-            self.player_service.view_all_players()
-            input("\nPress Enter to continue...")
-        elif choice == 1:  # Create Random Player
-            self.player_service.create_random_player()
-            input("\nPress Enter to continue...")
-        elif choice == 2:  # Create Manual Player
-            self.player_service.create_manual_player()
-            input("\nPress Enter to continue...")
-        elif choice == 3:  # Generate Player Pool
-            self.player_service.generate_player_pool()
-            input("\nPress Enter to continue...")
-        elif choice == 4:  # Search Players
-            self.player_service.search_players()
-            input("\nPress Enter to continue...")
-        elif choice == 5:  # View Top Players
-            self.player_service.view_top_players()
-            input("\nPress Enter to continue...")
+        # if choice == 0:  # View All Players
+        #     self.player_service.view_all_players()
+        #     input("\nPress Enter to continue...")
+        # elif choice == 1:  # Create Random Player
+        #     self.player_service.create_random_player()
+        #     input("\nPress Enter to continue...")
+        # elif choice == 2:  # Create Manual Player
+        #     self.player_service.create_manual_player()
+        #     input("\nPress Enter to continue...")
+        # elif choice == 3:  # Generate Player Pool
+        #     self.player_service.generate_player_pool()
+        #     input("\nPress Enter to continue...")
+        # elif choice == 4:  # Search Players
+        #     self.player_service.search_players()
+        #     input("\nPress Enter to continue...")
+        # elif choice == 5:  # View Top Players
+        #     self.player_service.view_top_players()
+        #     input("\nPress Enter to continue...")
+
+        match choice:
+            case 0:  # Create Random Player
+                self.player_service.create_random_player()
+                input("\nPress Enter to continue...")
+            case 1:  # Create Manual Player
+                self.player_service.create_manual_player()
+                input("\nPress Enter to continue...")
+            case 2:  # Generate Player Pool
+                self.player_service.generate_player_pool()
+                input("\nPress Enter to continue...")
+            case 3:  # Search Players
+                self.player_service.search_players()
+                input("\nPress Enter to continue...")
+            case 4:  # View Top Players
+                self.player_service.view_top_players()
+                input("\nPress Enter to continue...")

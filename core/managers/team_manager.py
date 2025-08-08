@@ -7,6 +7,7 @@ Module for creating and managing teams in the Fantasy Football system.
 
 import json
 import random
+from pathlib import Path
 from typing import List, Optional, Dict, Tuple
 from core.models import Team, Player, Position, TacticalStyle, FORMATIONS, POSITION_GROUPS
 from core.managers.player_manager import PlayerManager
@@ -15,8 +16,8 @@ from core.managers.player_manager import PlayerManager
 class TeamManager:
     """Manages team creation, loading, and saving."""
     
-    def __init__(self, filename: str = "data/teams.json"):
-        self.filename = filename
+    def __init__(self, filename: Path | str = Path("data/teams.json")):
+        self.filename = Path(filename)
         self.teams: List[Team] = []
         self.load_teams()
     
@@ -175,9 +176,11 @@ class TeamManager:
             print("Some players may already be assigned to other teams.")
             return None
         
-        name = input("Enter team name: ").strip()
+        name = input("Enter team name (or 'q' to go back): ").strip()
         if not name:
             print("Name cannot be empty!")
+            return None
+        if name.lower() in ['q', 'quit', 'back']:
             return None
         
         # Select formation
@@ -191,7 +194,11 @@ class TeamManager:
         print(f"{len(formations) + 1}. Custom (select 11 players manually)")
         
         try:
-            choice = int(input("Select formation (number): "))
+            formation_input = input("Select formation (number, or 'q' to go back): ").strip()
+            if formation_input.lower() in ['q', 'quit', 'back']:
+                return None
+            
+            choice = int(formation_input)
             if choice < 1 or choice > len(formations) + 1:
                 print("Invalid choice!")
                 return None
@@ -443,10 +450,8 @@ class TeamManager:
                 available_players.remove(player)
         
         print(f"✅ Created {name} with nationality mix:")
-        nationality_count = {}
-        for player in selected_players:
-            nat = player.nationality
-            nationality_count[nat] = nationality_count.get(nat, 0) + 1
+        from collections import Counter
+        nationality_count = Counter(player.nationality for player in selected_players)
         
         for nat, count in sorted(nationality_count.items()):
             print(f"   {nat}: {count} players")

@@ -87,9 +87,11 @@ class TeamService:
             print("\nNot enough players! Generate more players first.")
             return
         
-        name = input("Enter team name: ").strip()
+        name = input("Enter team name (or 'q' to go back): ").strip()
         if not name:
             print("Name cannot be empty!")
+            return
+        if name.lower() in ['q', 'quit', 'back']:
             return
         
         team = self.team_manager.create_random_team(
@@ -127,9 +129,11 @@ class TeamService:
         for i, (nationality, count) in enumerate(sorted_nationalities, 1):
             print(f"{i:2}. {nationality}: {count} players")
         
-        nationality_input = input("\nEnter nationality (name or number): ").strip()
+        nationality_input = input("\nEnter nationality (name or number, or 'q' to go back): ").strip()
         if not nationality_input:
             print("Nationality cannot be empty!")
+            return
+        if nationality_input.lower() in ['q', 'quit', 'back']:
             return
         
         # Check if input is a number
@@ -153,14 +157,18 @@ class TeamService:
             print(f"\n❌ Cannot create national team: {reason}")
             
             # Ask if user wants to create missing players
-            response = input("\nWould you like to create missing players to complete the team? (y/n): ").strip().lower()
-            if response in ['y', 'yes']:
+            response = input("\nWould you like to create missing players to complete the team? (y/n, or 'q' to go back): ").strip().lower()
+            if response in ['q', 'quit', 'back']:
+                return
+            elif response in ['y', 'yes']:
                 create_missing = True
                 print("✅ Will create missing players as needed.")
             else:
                 return
         
-        name = input(f"Enter team name [{nationality} FC]: ").strip()
+        name = input(f"Enter team name [{nationality} FC] (or 'q' to go back): ").strip()
+        if name.lower() in ['q', 'quit', 'back']:
+            return
         if not name:
             name = f"{nationality} FC"
         
@@ -172,7 +180,11 @@ class TeamService:
             print(f"{i}. {formation}")
         
         try:
-            choice = int(input("Select formation (number): "))
+            formation_input = input("Select formation (number, or 'q' to go back): ").strip()
+            if formation_input.lower() in ['q', 'quit', 'back']:
+                return
+            
+            choice = int(formation_input)
             if 1 <= choice <= len(formations):
                 formation = formations[choice - 1]
             else:
@@ -188,7 +200,11 @@ class TeamService:
             print(f"{i}. {style.name}")
         
         try:
-            choice = int(input("Select tactical style (number): "))
+            style_input = input("Select tactical style (number, or 'q' to go back): ").strip()
+            if style_input.lower() in ['q', 'quit', 'back']:
+                return
+            
+            choice = int(style_input)
             if 1 <= choice <= len(styles):
                 tactical_style = styles[choice - 1]
             else:
@@ -218,9 +234,11 @@ class TeamService:
         for i, (nationality, count) in enumerate(sorted_nationalities, 1):
             print(f"{i:2}. {nationality}: {count} players")
         
-        name = input("\nEnter team name: ").strip()
+        name = input("\nEnter team name (or 'q' to go back): ").strip()
         if not name:
             print("Team name cannot be empty!")
+            return
+        if name.lower() in ['q', 'quit', 'back']:
             return
         
         print("\nSpecify nationality requirements (minimum players per nationality)")
@@ -229,9 +247,11 @@ class TeamService:
         
         nationality_mix = {}
         while True:
-            req = input("Enter requirement (or press Enter to finish): ").strip()
+            req = input("Enter requirement (or press Enter to finish, 'q' to go back): ").strip()
             if not req:
                 break
+            if req.lower() in ['q', 'quit', 'back']:
+                return
             
             # Parse space-separated ID:count pairs
             pairs = req.split()
@@ -275,7 +295,11 @@ class TeamService:
             print(f"{i}. {formation}")
         
         try:
-            choice = int(input("Select formation (number): "))
+            formation_input = input("Select formation (number, or 'q' to go back): ").strip()
+            if formation_input.lower() in ['q', 'quit', 'back']:
+                return
+            
+            choice = int(formation_input)
             if 1 <= choice <= len(formations):
                 formation = formations[choice - 1]
             else:
@@ -291,7 +315,11 @@ class TeamService:
             print(f"{i}. {style.name}")
         
         try:
-            choice = int(input("Select tactical style (number): "))
+            style_input = input("Select tactical style (number, or 'q' to go back): ").strip()
+            if style_input.lower() in ['q', 'quit', 'back']:
+                return
+            
+            choice = int(style_input)
             if 1 <= choice <= len(styles):
                 tactical_style = styles[choice - 1]
             else:
@@ -329,7 +357,11 @@ class TeamService:
         print("3. Asia (3 countries)")
         
         try:
-            choice = int(input("Select continent (1-3): "))
+            continent_input = input("Select continent (1-3, or 'q' to go back): ").strip()
+            if continent_input.lower() in ['q', 'quit', 'back']:
+                return
+            
+            choice = int(continent_input)
             if 1 <= choice <= 3:
                 continent = continents[choice - 1]
             else:
@@ -339,12 +371,18 @@ class TeamService:
             print("Invalid input!")
             return
         
-        name = input(f"\nEnter team name [{continent} FC]: ").strip()
+        name = input(f"\nEnter team name [{continent} FC] (or 'q' to go back): ").strip()
+        if name.lower() in ['q', 'quit', 'back']:
+            return
         if not name:
             name = f"{continent} FC"
         
         try:
-            min_players = int(input(f"Minimum players from {continent} (1-11): "))
+            min_input = input(f"Minimum players from {continent} (1-11, or 'q' to go back): ").strip()
+            if min_input.lower() in ['q', 'quit', 'back']:
+                return
+            
+            min_players = int(min_input)
             if not 1 <= min_players <= 11:
                 print("Must be between 1 and 11!")
                 return
@@ -360,7 +398,11 @@ class TeamService:
             print(f"{i}. {formation}")
         
         try:
-            choice = int(input("Select formation (number): "))
+            formation_input = input("Select formation (number, or 'q' to go back): ").strip()
+            if formation_input.lower() in ['q', 'quit', 'back']:
+                return
+            
+            choice = int(formation_input)
             if 1 <= choice <= len(formations):
                 formation = formations[choice - 1]
             else:
@@ -376,7 +418,11 @@ class TeamService:
             print(f"{i}. {style.name}")
         
         try:
-            choice = int(input("Select tactical style (number): "))
+            style_input = input("Select tactical style (number, or 'q' to go back): ").strip()
+            if style_input.lower() in ['q', 'quit', 'back']:
+                return
+            
+            choice = int(style_input)
             if 1 <= choice <= len(styles):
                 tactical_style = styles[choice - 1]
             else:
@@ -502,8 +548,10 @@ class TeamService:
         if not team:
             return
         
-        confirm = input(f"\nDelete team '{team.name}'? (y/N): ").strip().lower()
-        if confirm == 'y':
+        confirm = input(f"\nDelete team '{team.name}'? (y/N, or 'q' to go back): ").strip().lower()
+        if confirm.lower() in ['q', 'quit', 'back']:
+            return
+        elif confirm == 'y':
             self.team_manager.teams.remove(team)
             self.team_manager.save_teams()
             print("Team deleted!")
@@ -519,7 +567,11 @@ class TeamService:
             print(f"{i}. {team.name}")
         
         try:
-            choice = int(input(f"\n{prompt} (1-{len(self.team_manager.teams)}): ").strip())
+            team_input = input(f"\n{prompt} (1-{len(self.team_manager.teams)}, or 'q' to go back): ").strip()
+            if team_input.lower() in ['q', 'quit', 'back']:
+                return None
+            
+            choice = int(team_input)
             if not (1 <= choice <= len(self.team_manager.teams)):
                 print("Invalid choice!")
                 return None

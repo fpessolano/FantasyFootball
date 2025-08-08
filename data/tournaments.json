@@ -1,0 +1,18 @@
+[
+  {
+    "name": "123",
+    "teams": [
+      "Milan",
+      "Pisa",
+      "Taranto",
+      "Wrexham",
+      "Leeds United",
+      "Celtics",
+      "Manchester City",
+      "Chelsea"
+    ],
+    "completed": true,
+    "winner": "Manchester City",
+    "current_round": 2
+  }
+]

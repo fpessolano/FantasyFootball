@@ -37,13 +37,17 @@ class PlayerService:
     def create_random_player(self):
         """Create a random player."""
         print("\nCreate Random Player")
-        print("Select position (or 0 for random):")
+        print("Select position (or 0 for random, 'q' to go back):")
         
         positions = list(Position)
         for i, pos in enumerate(positions, 1):
             print(f"{i}. {pos.name}")
         
         choice = input("\nEnter choice: ").strip()
+        
+        # Check for back/quit option
+        if choice.lower() in ['q', 'quit', 'back']:
+            return
         
         position = None
         if choice != "0":
@@ -66,7 +70,11 @@ class PlayerService:
         for i, nat in enumerate(available_nationalities, 1):
             print(f"{i:2}. {nat}")
         
-        nat_choice = input("\nEnter nationality choice (or Enter for random): ").strip()
+        nat_choice = input("\nEnter nationality choice (or Enter for random, 'q' to go back): ").strip()
+        
+        # Check for back/quit option
+        if nat_choice.lower() in ['q', 'quit', 'back']:
+            return
         
         nationality = None
         if nat_choice:
@@ -89,6 +97,7 @@ class PlayerService:
     
     def create_manual_player(self):
         """Create a player manually."""
+        print("\nCreate Manual Player (type 'q' at any time to go back)")
         player = self.player_manager.create_manual_player()
         if player:
             self.player_manager.add_player(player)
@@ -98,7 +107,11 @@ class PlayerService:
     def generate_player_pool(self):
         """Generate multiple random players."""
         try:
-            count = int(input("How many players to generate? "))
+            user_input = input("How many players to generate? (or 'q' to go back): ").strip()
+            if user_input.lower() in ['q', 'quit', 'back']:
+                return
+            
+            count = int(user_input)
             if count < 1:
                 print("Count must be positive!")
                 return
@@ -119,16 +132,19 @@ class PlayerService:
         print("2. Search by Nationality")
         print("3. Search by Position")
         print("4. Advanced Search (Multiple Criteria)")
+        print("0. Go Back")
         
         try:
-            choice = int(input("Select search type (1-4): "))
+            choice = int(input("Select search type (0-4): "))
+            if choice == 0:
+                return
         except ValueError:
             choice = 1
         
         if choice == 1:
             # Search by name
-            search_term = input("Enter player name (partial): ").strip()
-            if not search_term:
+            search_term = input("Enter player name (partial, or 'q' to go back): ").strip()
+            if not search_term or search_term.lower() in ['q', 'quit', 'back']:
                 return
             
             found = self.player_manager.find_players_by_name(search_term)
@@ -148,8 +164,8 @@ class PlayerService:
             for i, (nationality, count) in enumerate(sorted_nationalities, 1):
                 print(f"{i:2}. {nationality}: {count} players")
             
-            nationality_input = input("\nEnter nationality (name or number): ").strip()
-            if not nationality_input:
+            nationality_input = input("\nEnter nationality (name or number, or 'q' to go back): ").strip()
+            if not nationality_input or nationality_input.lower() in ['q', 'quit', 'back']:
                 return
             
             # Check if input is a number
@@ -172,10 +188,14 @@ class PlayerService:
             
             print(f"\nFound {len(found)} {nationality} players:")
             # Group by position
-            from collections import defaultdict
-            by_position = defaultdict(list)
-            for player in found:
-                by_position[player.position.name].append(player)
+            from itertools import groupby
+            by_position = {
+                position: list(group) 
+                for position, group in groupby(
+                    sorted(found, key=lambda p: p.position.name), 
+                    key=lambda p: p.position.name
+                )
+            }
             
             for position, players in sorted(by_position.items()):
                 print(f"\n  {position} ({len(players)}):")
@@ -190,7 +210,11 @@ class PlayerService:
                 print(f"{i:2}. {pos}")
             
             try:
-                pos_choice = int(input("Select position (number): "))
+                pos_input = input("Select position (number, or 'q' to go back): ").strip()
+                if pos_input.lower() in ['q', 'quit', 'back']:
+                    return
+                
+                pos_choice = int(pos_input)
                 if 1 <= pos_choice <= len(positions):
                     position_name = positions[pos_choice - 1]
                 else:
@@ -205,11 +229,12 @@ class PlayerService:
                 print(f"No {position_name} players found!")
                 return
             
-            # Sort by rating
-            found.sort(key=lambda p: p.overall_rating(), reverse=True)
+            # Get top 20 players by rating using heapq for better performance
+            import heapq
+            top_players = heapq.nlargest(20, found, key=lambda p: p.overall_rating())
             
-            print(f"\nFound {len(found)} {position_name} players:")
-            for player in found[:20]:  # Show top 20
+            print(f"\nFound {len(found)} {position_name} players (showing top 20):")
+            for player in top_players:
                 print(f"  {player.name} ({player.nationality}) - OVR: {player.overall_rating():.0f}")
         
         elif choice == 4:
@@ -297,11 +322,12 @@ class PlayerService:
                 print("No players match the criteria!")
                 return
             
-            # Sort by rating
-            found.sort(key=lambda p: p.overall_rating(), reverse=True)
+            # Get top 30 players by rating using heapq for better performance
+            import heapq
+            top_players = heapq.nlargest(30, found, key=lambda p: p.overall_rating())
             
-            print(f"\nFound {len(found)} players matching criteria:")
-            for player in found[:30]:  # Show top 30
+            print(f"\nFound {len(found)} players matching criteria (showing top 30):")
+            for player in top_players:
                 print(f"  {player.name} ({player.nationality}) - {player.position.name} - OVR: {player.overall_rating():.0f}")
         
         else:
@@ -311,7 +337,10 @@ class PlayerService:
     def view_top_players(self):
         """View top players by rating."""
         try:
-            count = int(input("How many top players to show? [10]: ") or "10")
+            user_input = input("How many top players to show? [10] (or 'q' to go back): ").strip()
+            if user_input.lower() in ['q', 'quit', 'back']:
+                return
+            count = int(user_input or "10")
         except ValueError:
             count = 10
         

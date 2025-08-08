@@ -7,6 +7,7 @@ Module for creating and managing players with extended attributes.
 
 import json
 import random
+from pathlib import Path
 from typing import List, Optional, Dict
 from core.models import Player, Position, TemperamentType
 
@@ -22,8 +23,8 @@ except ImportError:
 class PlayerManager:
     """Enhanced player manager with extended attributes and migration support."""
     
-    def __init__(self, filename: str = "data/players.json"):
-        self.filename = filename
+    def __init__(self, filename: Path | str = Path("data/players.json")):
+        self.filename = Path(filename)
         self.players: List[Player] = []
         
         # Initialize name generator if available
@@ -263,13 +264,19 @@ class PlayerManager:
         """Create a player through user input with extended attributes."""
         print("\n=== Create New Player ===")
         
+        # name = input("Enter player name (or 'q' to go back): ").strip()
         name = input("Enter player name: ").strip()
         if not name:
             print("Name cannot be empty!")
             return None
+        if name.lower() in ['q', 'quit', 'back']:
+            return None
         
         # Select nationality
+        # nationality = input("Enter nationality [Unknown] (or 'q' to go back): ").strip()
         nationality = input("Enter nationality [Unknown]: ").strip()
+        if nationality.lower() in ['q', 'quit', 'back']:
+            return None
         if not nationality:
             nationality = "Unknown"
         
@@ -280,7 +287,12 @@ class PlayerManager:
             print(f"{i}. {pos.name} - {pos.value}")
         
         try:
-            pos_idx = int(input("Select position (number): ")) - 1
+            # pos_input = input("Select position (number, or 'q' to go back): ").strip()
+            pos_input = input("Select position: ").strip()
+            if pos_input.lower() in ['q', 'quit', 'back']:
+                return None
+            
+            pos_idx = int(pos_input) - 1
             if pos_idx < 0 or pos_idx >= len(positions):
                 print("Invalid position selection!")
                 return None
@@ -512,11 +524,8 @@ class PlayerManager:
     
     def get_nationality_distribution(self) -> Dict[str, int]:
         """Get distribution of nationalities in the player database."""
-        distribution = {}
-        for player in self.players:
-            nationality = player.nationality
-            distribution[nationality] = distribution.get(nationality, 0) + 1
-        return distribution
+        from collections import Counter
+        return dict(Counter(player.nationality for player in self.players))
     
     def display_player_stats(self, player: Player) -> None:
         """Display detailed player statistics with extended attributes."""

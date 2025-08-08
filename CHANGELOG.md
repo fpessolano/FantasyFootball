@@ -1,6 +1,22 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.3.2] - 2025-08-08
+
+### 🔧 Code Improvements & Maintenance
+- **Code Structure**: Restructured elif statements to match statements where appropriate
+- **System Updates**: Updated match engine, performance system, and statistics engine
+- **Data Management**: Updated player and team data structures
+- **Interface Enhancements**: Improved menu systems and user interface components
+- **Service Layer**: Enhanced service layer functionality across all modules
+- **Tournament System**: Improvements to tournament management and data handling
+
+### 🏗️ Technical Updates
+- **Modern Python**: Continued migration to modern Python patterns and syntax
+- **Code Quality**: General code cleanup and optimization
+- **Data Persistence**: Enhanced JSON data handling and structure
+- **Error Handling**: Improved error handling across all components
+
 ## [2.3.1] - 2025-07-31
 
 ### 🔧 Bug Fixes & Improvements

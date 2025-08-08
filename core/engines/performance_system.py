@@ -48,16 +48,17 @@ class FatigueModel:
     def calculate_multi_phase_fatigue(self, player: Player, match_time: float, base_intensity: float) -> float:
         """Multi-phase fatigue with different rates per match period."""
         # Determine current phase multiplier
-        if match_time <= 15:      # Fresh start
-            phase_multiplier = 0.8
-        elif match_time <= 45:    # First half progression
-            phase_multiplier = 1.0
-        elif match_time <= 60:    # Post-halftime adjustment
-            phase_multiplier = 1.2
-        elif match_time <= 75:    # Second half fatigue
-            phase_multiplier = 1.4
-        else:                     # Final exhaustion
-            phase_multiplier = 1.8
+        match match_time:
+            case t if t <= 15:      # Fresh start
+                phase_multiplier = 0.8
+            case t if t <= 45:    # First half progression
+                phase_multiplier = 1.0
+            case t if t <= 60:    # Post-halftime adjustment
+                phase_multiplier = 1.2
+            case t if t <= 75:    # Second half fatigue
+                phase_multiplier = 1.4
+            case _:                     # Final exhaustion
+                phase_multiplier = 1.8
         
         # Calculate fatigue with phase adjustment
         base_rate = 0.8 * (1 - player.natural_fitness / 150)  # Base rate 0.27 to 0.8

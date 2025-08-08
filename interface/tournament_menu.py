@@ -42,21 +42,22 @@ class TournamentMenu:
     
     def _handle_choice(self, choice):
         """Handle menu choice by calling appropriate service method."""
-        if choice == 0:  # Create New Tournament
-            self.tournament_service.create_tournament()
-            input("\nPress Enter to continue...")
-        elif choice == 1:  # Continue Existing Tournament
-            self.tournament_service.continue_tournament()
-            input("\nPress Enter to continue...")
-        elif choice == 2:  # View Tournament Bracket
-            self.tournament_service.view_tournament_bracket()
-            input("\nPress Enter to continue...")
-        elif choice == 3:  # Show Tournament List
-            self.tournament_service.show_tournament_list()
-            input("\nPress Enter to continue...")
-        elif choice == 4:  # Rename Tournament
-            self.tournament_service.rename_tournament()
-            input("\nPress Enter to continue...")
-        elif choice == 5:  # Delete Tournament
-            self.tournament_service.delete_tournament()
-            input("\nPress Enter to continue...")
+        match choice:
+            case 0:  # Create New Tournament
+                self.tournament_service.create_tournament()
+                input("\nPress Enter to continue...")
+            case 1:  # Continue Existing Tournament
+                self.tournament_service.continue_tournament()
+                input("\nPress Enter to continue...")
+            case 2:  # View Tournament Bracket
+                self.tournament_service.view_tournament_bracket()
+                input("\nPress Enter to continue...")
+            case 3:  # Show Tournament List
+                self.tournament_service.show_tournament_list()
+                input("\nPress Enter to continue...")
+            case 4:  # Rename Tournament
+                self.tournament_service.rename_tournament()
+                input("\nPress Enter to continue...")
+            case 5:  # Delete Tournament
+                self.tournament_service.delete_tournament()
+                input("\nPress Enter to continue...")

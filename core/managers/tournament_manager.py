@@ -5,8 +5,10 @@ Tournament Manager
 Module for creating and managing knockout tournaments in the Fantasy Football system.
 """
 
+import json
 import math
 import random
+from pathlib import Path
 from typing import List, Optional, Tuple
 from core.models import Tournament, TournamentRound, TournamentMatch, Team, Position
 from core.managers.team_manager import TeamManager
@@ -125,18 +127,19 @@ class TournamentManager:
         for i in range(num_rounds):
             teams_in_round = num_teams // (2 ** i)
             
-            if teams_in_round == 2:
-                names.append("Final")
-            elif teams_in_round == 4:
-                names.append("Semi-Final")
-            elif teams_in_round == 8:
-                names.append("Quarter-Final")
-            elif teams_in_round == 16:
-                names.append("Round of 16")
-            elif teams_in_round == 32:
-                names.append("Round of 32")
-            else:
-                names.append(f"Round {i + 1}")
+            match teams_in_round:
+                case 2:
+                    names.append("Final")
+                case 4:
+                    names.append("Semi-Final")
+                case 8:
+                    names.append("Quarter-Final")
+                case 16:
+                    names.append("Round of 16")
+                case 32:
+                    names.append("Round of 32")
+                case _:
+                    names.append(f"Round {i + 1}")
         
         return names
     
@@ -561,13 +564,12 @@ class TournamentManager:
     def get_tournament_bracket_display(self, tournament: Tournament) -> str:
         """Generate a visual representation of the tournament bracket."""
         lines = []
-        lines.append(f"\n{'='*70}")
         lines.append(f"🏆 {tournament.name.upper()} - TOURNAMENT BRACKET")
-        lines.append(f"{'='*70}")
+        lines.append(f"{'='*60}")
         
         if tournament.completed:
-            lines.append(f"\n🥇 CHAMPION: {tournament.winner}")
-            lines.append(f"🎉 Tournament completed!")
+            lines.append(f"\n🥇 CHAMPION: {tournament.winner}!")
+            lines.append(f"🎉 Tournament completed!\n")
             
             # Add top scorer information
             top_scorer_info = self._get_tournament_top_scorer(tournament.name)
@@ -729,7 +731,8 @@ class TournamentManager:
                     'current_round': tournament.current_round
                 })
             
-            with open('data/tournaments.json', 'w') as f:
+            tournaments_file = Path('data/tournaments.json')
+            with tournaments_file.open('w') as f:
                 json.dump(tournament_data, f, indent=2)
         except Exception as e:
             print(f"Failed to save tournaments: {e}")
@@ -739,8 +742,9 @@ class TournamentManager:
         import json
         import os
         try:
-            if os.path.exists('data/tournaments.json'):
-                with open('data/tournaments.json', 'r') as f:
+            tournaments_file = Path('data/tournaments.json')
+            if tournaments_file.exists():
+                with tournaments_file.open('r') as f:
                     tournament_data = json.load(f)
                 # Would need full implementation to deserialize tournaments
                 self.tournaments = []
@@ -755,3 +759,42 @@ class TournamentManager:
             self.save_tournaments()
             return True
         return False
+    
+    def _advance_to_next_round(self, tournament: Tournament, current_round):
+        """Advance tournament to next round after current round is complete."""
+        # Mark current round as completed
+        current_round.completed = True
+        
+        # Get winners from current round
+        winners = []
+        for match in current_round.matches:
+            if match.completed and match.winner:
+                winners.append(match.winner)
+            elif match.home_team and match.home_team.startswith('BYE'):
+                winners.append(match.away_team)
+            elif match.away_team and match.away_team.startswith('BYE'):
+                winners.append(match.home_team)
+        
+        # Check if tournament is complete
+        if len(winners) == 1:
+            tournament.winner = winners[0]
+            tournament.completed = True
+            print(f"\n🏆 TOURNAMENT COMPLETE!")
+            print(f"Winner: {tournament.winner}")
+            self.save_tournaments()
+            return
+        
+        # Advance to next round
+        tournament.current_round += 1
+        if tournament.current_round < len(tournament.rounds):
+            next_round = tournament.rounds[tournament.current_round]
+            
+            # Set up matches for next round
+            match_index = 0
+            for i in range(0, len(winners), 2):
+                if match_index < len(next_round.matches) and i + 1 < len(winners):
+                    next_round.matches[match_index].home_team = winners[i]
+                    next_round.matches[match_index].away_team = winners[i + 1]
+                    match_index += 1
+        
+        self.save_tournaments()

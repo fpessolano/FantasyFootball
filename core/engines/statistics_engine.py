@@ -53,50 +53,47 @@ class PlayerStatisticsManager:
         Returns:
             List of (player, goals) tuples sorted by goals descending
         """
-        scorers = []
-        for player in players:
-            if tournament:
-                goals = player.stats.get_tournament_stat(tournament, 'goals')
-            else:
-                goals = player.stats.career_goals
-            
-            if goals > 0:
-                scorers.append((player, goals))
+        import heapq
         
-        scorers.sort(key=lambda x: x[1], reverse=True)
-        return scorers[:limit]
+        # Build list of (player, goals) tuples with list comprehension
+        scorers = [
+            (player, player.stats.get_tournament_stat(tournament, 'goals') if tournament else player.stats.career_goals)
+            for player in players
+        ]
+        
+        # Filter valid scorers and use heapq for efficient top-K selection
+        valid_scorers = [(player, goals) for player, goals in scorers if goals > 0]
+        return heapq.nlargest(limit, valid_scorers, key=lambda x: x[1])
     
     def get_top_assisters(self, players: List[Player], limit: int = 10,
                          tournament: Optional[str] = None) -> List[Tuple[Player, int]]:
         """Get top assist providers."""
-        assisters = []
-        for player in players:
-            if tournament:
-                assists = player.stats.get_tournament_stat(tournament, 'assists')
-            else:
-                assists = player.stats.career_assists
-            
-            if assists > 0:
-                assisters.append((player, assists))
+        import heapq
         
-        assisters.sort(key=lambda x: x[1], reverse=True)
-        return assisters[:limit]
+        # Build list of (player, assists) tuples with list comprehension
+        assisters = [
+            (player, player.stats.get_tournament_stat(tournament, 'assists') if tournament else player.stats.career_assists)
+            for player in players
+        ]
+        
+        # Filter valid assisters and use heapq for efficient top-K selection
+        valid_assisters = [(player, assists) for player, assists in assisters if assists > 0]
+        return heapq.nlargest(limit, valid_assisters, key=lambda x: x[1])
     
     def get_clean_sheet_leaders(self, players: List[Player], limit: int = 10,
                                tournament: Optional[str] = None) -> List[Tuple[Player, int]]:
         """Get players with most clean sheets (typically goalkeepers)."""
-        leaders = []
-        for player in players:
-            if tournament:
-                clean_sheets = player.stats.get_tournament_stat(tournament, 'clean_sheets')
-            else:
-                clean_sheets = player.stats.career_clean_sheets
-            
-            if clean_sheets > 0:
-                leaders.append((player, clean_sheets))
+        import heapq
         
-        leaders.sort(key=lambda x: x[1], reverse=True)
-        return leaders[:limit]
+        # Build list of (player, clean_sheets) tuples with list comprehension
+        leaders = [
+            (player, player.stats.get_tournament_stat(tournament, 'clean_sheets') if tournament else player.stats.career_clean_sheets)
+            for player in players
+        ]
+        
+        # Filter valid leaders and use heapq for efficient top-K selection
+        valid_leaders = [(player, clean_sheets) for player, clean_sheets in leaders if clean_sheets > 0]
+        return heapq.nlargest(limit, valid_leaders, key=lambda x: x[1])
     
     def get_most_disciplined(self, players: List[Player], limit: int = 10,
                            tournament: Optional[str] = None) -> List[Tuple[Player, int]]:
@@ -190,7 +187,7 @@ class PlayerStatisticsManager:
         return efficiency_list[:limit]
     
     def print_leaderboard(self, title: str, leaderboard: List[Tuple[Player, any]], 
-                         stat_name: str, format_value: str = "{}"):
+                         stat_name: str, format_spec: str = ""):
         """
         Print a formatted leaderboard.
         
@@ -198,7 +195,7 @@ class PlayerStatisticsManager:
             title: Title of the leaderboard
             leaderboard: List of (player, value) tuples
             stat_name: Name of the statistic being displayed
-            format_value: Format string for the value (e.g., "{:.1f}" for floats)
+            format_spec: Format specification for the value (e.g., ".1f" for floats)
         """
         print(f"\n🏆 {title}")
         print("=" * 50)
@@ -208,7 +205,11 @@ class PlayerStatisticsManager:
             return
         
         for i, (player, value) in enumerate(leaderboard, 1):
-            formatted_value = format_value.format(value)
+            # Use f-string formatting directly instead of .format()
+            if format_spec:
+                formatted_value = f"{value:{format_spec}}"
+            else:
+                formatted_value = str(value)
             print(f"{i:2}. {player.name:<25} ({player.nationality}) - {formatted_value} {stat_name}")
     
     def generate_full_report(self, players: List[Player], tournament: Optional[str] = None):
@@ -237,7 +238,7 @@ class PlayerStatisticsManager:
         
         # Efficiency leaders
         efficiency_leaders = self.get_efficiency_leaders(players, 10, tournament)
-        self.print_leaderboard("Efficiency Leaders", efficiency_leaders, "rating", "{:.1f}")
+        self.print_leaderboard("Efficiency Leaders", efficiency_leaders, "rating", ".1f")
         
         # Most disciplined
         most_disciplined = self.get_most_disciplined(players, 10, tournament)

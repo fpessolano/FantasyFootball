@@ -42,15 +42,41 @@ class MatchMenu:
     
     def _handle_choice(self, choice):
         """Handle menu choice by calling appropriate service method."""
-        if choice == 0:  # Play Single Match
-            self.match_service.play_single_match()
-            input("\nPress Enter to continue...")
-        elif choice == 1:  # Play Multiple Matches
-            self.match_service.play_multiple_matches()
-            input("\nPress Enter to continue...")
-        elif choice == 2:  # Play Multiple Matches (Random Teams)
-            self.match_service.play_multiple_random_matches()
-            input("\nPress Enter to continue...")
-        elif choice == 3:  # Quick Play (Random Teams)
-            self.match_service.quick_play()
-            input("\nPress Enter to continue...")
+        match choice:
+            case 0:  # Play Single Match
+                home_team, away_team = self.match_service.select_teams(random_selection=False, create_teams=False)
+                if home_team and away_team:
+                    self.match_service.run_matches(home_team, away_team, num_matches=1, match_title="SINGLE MATCH")
+                input("\nPress Enter to continue...")
+                
+            case 1:  # Play Multiple Matches
+                home_team, away_team = self.match_service.select_teams(random_selection=False, create_teams=False)
+                if home_team and away_team:
+                    try:
+                        num_matches = int(input("\nHow many matches to simulate? [5]: ") or "5")
+                        if num_matches > 1:
+                            self.match_service.run_matches(home_team, away_team, num_matches=num_matches, match_title="MULTIPLE MATCHES")
+                        else:
+                            print("Number of matches must greater than 1!")
+                    except ValueError:
+                        print("Invalid number!")
+                input("\nPress Enter to continue...")
+                
+            case 2:  # Play Random Match
+                home_team, away_team = self.match_service.select_teams(random_selection=True, create_teams=False)
+                if home_team and away_team:
+                    self.match_service.run_matches(home_team, away_team, num_matches=1, match_title="RANDOM MATCH")
+                input("\nPress Enter to continue...")
+                
+            case 3:  # Play Multiple Random Matches
+                home_team, away_team = self.match_service.select_teams(random_selection=False, create_teams=True)
+                if home_team and away_team:
+                    try:
+                        num_matches = int(input("\nHow many matches to simulate? [5]: ") or "5")
+                        if num_matches > 1:
+                            self.match_service.run_matches(home_team, away_team, num_matches=num_matches, match_title="MULTIPLE MATCHES WITH NEW TEAMS")
+                        else:
+                            print("Number of matches must greater than 1!")
+                    except ValueError:
+                        print("Invalid number!")
+                input("\nPress Enter to continue...")

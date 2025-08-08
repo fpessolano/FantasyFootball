@@ -42,24 +42,25 @@ class SettingsMenu:
     
     def _handle_choice(self, choice):
         """Handle menu choice by calling appropriate service method."""
-        if choice == 0:  # Match Engine Settings
-            self.settings_service.match_engine_settings()
-            input("\nPress Enter to continue...")
-        elif choice == 1:  # Display Settings
-            self.settings_service.display_settings()
-            input("\nPress Enter to continue...")
-        elif choice == 2:  # Data Management
-            self.settings_service.data_management()
-            input("\nPress Enter to continue...")
-        elif choice == 3:  # Performance Settings
-            self.settings_service.performance_settings()
-            input("\nPress Enter to continue...")
-        elif choice == 4:  # Reset All Data
-            self.settings_service.reset_all_data()
-            input("\nPress Enter to continue...")
-        elif choice == 5:  # Export Game Data
-            self.settings_service.export_game_data()
-            input("\nPress Enter to continue...")
-        elif choice == 6:  # Import Game Data
-            self.settings_service.import_game_data()
-            input("\nPress Enter to continue...")
+        match choice:
+            case 0:  # Match Engine Settings
+                self.settings_service.match_engine_settings()
+                input("\nPress Enter to continue...")
+            case 1:  # Display Settings
+                self.settings_service.display_settings()
+                input("\nPress Enter to continue...")
+            case 2:  # Data Management
+                self.settings_service.data_management()
+                input("\nPress Enter to continue...")
+            case 3:  # Performance Settings
+                self.settings_service.performance_settings()
+                input("\nPress Enter to continue...")
+            case 4:  # Reset All Data
+                self.settings_service.reset_all_data()
+                input("\nPress Enter to continue...")
+            case 5:  # Export Game Data
+                self.settings_service.export_game_data()
+                input("\nPress Enter to continue...")
+            case 6:  # Import Game Data
+                self.settings_service.import_game_data()
+                input("\nPress Enter to continue...")

@@ -351,21 +351,22 @@ class Player:
     
     def overall_rating(self) -> float:
         """Calculate overall player rating based on position."""
-        if self.position == Position.GK:
-            return (self.goalkeeping * 0.5 + self.defending * 0.2 + 
-                    self.physical * 0.2 + self.passing * 0.1)
-        elif self.position in [Position.CB, Position.SW, Position.LB, Position.RB]:
-            return (self.defending * 0.4 + self.physical * 0.3 + 
-                    self.passing * 0.2 + self.dribbling * 0.1)
-        elif self.position in [Position.CM, Position.DM, Position.WB, Position.LWB, Position.RWB]:
-            return (self.passing * 0.3 + self.defending * 0.2 + 
-                    self.physical * 0.2 + self.dribbling * 0.2 + self.shooting * 0.1)
-        elif self.position in [Position.AM, Position.LM, Position.RM]:
-            return (self.passing * 0.3 + self.dribbling * 0.3 + 
-                    self.shooting * 0.2 + self.physical * 0.1 + self.defending * 0.1)
-        else:  # ST, LW, RW
-            return (self.shooting * 0.35 + self.dribbling * 0.25 + 
-                    self.physical * 0.2 + self.passing * 0.15 + self.defending * 0.05)
+        match self.position:
+            case Position.GK:
+                return (self.goalkeeping * 0.5 + self.defending * 0.2 + 
+                        self.physical * 0.2 + self.passing * 0.1)
+            case pos if pos in [Position.CB, Position.SW, Position.LB, Position.RB]:
+                return (self.defending * 0.4 + self.physical * 0.3 + 
+                        self.passing * 0.2 + self.dribbling * 0.1)
+            case pos if pos in [Position.CM, Position.DM, Position.WB, Position.LWB, Position.RWB]:
+                return (self.passing * 0.3 + self.defending * 0.2 + 
+                        self.physical * 0.2 + self.dribbling * 0.2 + self.shooting * 0.1)
+            case pos if pos in [Position.AM, Position.LM, Position.RM]:
+                return (self.passing * 0.3 + self.dribbling * 0.3 + 
+                        self.shooting * 0.2 + self.physical * 0.1 + self.defending * 0.1)
+            case _:  # ST, LW, RW
+                return (self.shooting * 0.35 + self.dribbling * 0.25 + 
+                        self.physical * 0.2 + self.passing * 0.15 + self.defending * 0.05)
     
     def reset_match_state(self):
         """Reset player state for a new match."""
@@ -476,18 +477,19 @@ class Team:
     
     def _get_numerical_disadvantage_penalty(self, available_players: int) -> float:
         """Calculate performance penalty for having fewer than 11 players."""
-        if available_players >= 11:
-            return 1.0  # No penalty
-        elif available_players == 10:
-            return 0.85  # 15% penalty for 10 players
-        elif available_players == 9:
-            return 0.70  # 30% penalty for 9 players
-        elif available_players == 8:
-            return 0.55  # 45% penalty for 8 players
-        elif available_players == 7:
-            return 0.40  # 60% penalty for 7 players
-        else:
-            return 0.25  # 75% penalty for very few players
+        match available_players:
+            case n if n >= 11:
+                return 1.0  # No penalty
+            case 10:
+                return 0.85  # 15% penalty for 10 players
+            case 9:
+                return 0.70  # 30% penalty for 9 players
+            case 8:
+                return 0.55  # 45% penalty for 8 players
+            case 7:
+                return 0.40  # 60% penalty for 7 players
+            case _:
+                return 0.25  # 75% penalty for very few players
     
     def compute_strength(self) -> float:
         """Compute overall team strength."""
@@ -632,11 +634,8 @@ class Team:
     
     def get_nationality_distribution(self) -> Dict[str, int]:
         """Get distribution of nationalities in the team."""
-        distribution = {}
-        for player in self.players:
-            nationality = player.nationality
-            distribution[nationality] = distribution.get(nationality, 0) + 1
-        return distribution
+        from collections import Counter
+        return dict(Counter(player.nationality for player in self.players))
     
     def get_most_common_nationality(self) -> str:
         """Get the most common nationality in the team."""

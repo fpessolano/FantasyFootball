@@ -42,21 +42,22 @@ class PlayerStatisticsMenu:
     
     def _handle_choice(self, choice):
         """Handle menu choice by calling appropriate service method."""
-        if choice == 0:  # Career Statistics Leaders
-            self.player_statistics_service.show_career_leaders()
-            input("\nPress Enter to continue...")
-        elif choice == 1:  # Tournament Statistics Leaders
-            self.player_statistics_service.show_tournament_leaders()
-            input("\nPress Enter to continue...")
-        elif choice == 2:  # Individual Player Analysis
-            self.player_statistics_service.show_individual_analysis()
-            input("\nPress Enter to continue...")
-        elif choice == 3:  # Tournament History
-            self.player_statistics_service.show_tournament_history()
-            input("\nPress Enter to continue...")
-        elif choice == 4:  # Player Performance Comparison
-            self.player_statistics_service.show_performance_comparison()
-            input("\nPress Enter to continue...")
-        elif choice == 5:  # Export Statistics
-            self.player_statistics_service.export_statistics()
-            input("\nPress Enter to continue...")
+        match choice:
+            case 0:  # Career Statistics Leaders
+                self.player_statistics_service.show_career_leaders()
+                input("\nPress Enter to continue...")
+            case 1:  # Tournament Statistics Leaders
+                self.player_statistics_service.show_tournament_leaders()
+                input("\nPress Enter to continue...")
+            case 2:  # Individual Player Analysis
+                self.player_statistics_service.show_individual_analysis()
+                input("\nPress Enter to continue...")
+            case 3:  # Tournament History
+                self.player_statistics_service.show_tournament_history()
+                input("\nPress Enter to continue...")
+            case 4:  # Player Performance Comparison
+                self.player_statistics_service.show_performance_comparison()
+                input("\nPress Enter to continue...")
+            case 5:  # Export Statistics
+                self.player_statistics_service.export_statistics()
+                input("\nPress Enter to continue...")
